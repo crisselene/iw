@@ -17,6 +17,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
         registration.setSendTimeLimit(15 * 1000).setSendBufferSizeLimit(512 * 1024);
     }
+    //Para ver si funciona
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
