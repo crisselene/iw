@@ -32,6 +32,7 @@ public class User implements Transferable<User.Transfer> {
     public enum Role {
         USER,			// normal users 
         ADMIN,          // admin users
+        EMPLEADO
     }
 
     @Id
@@ -65,6 +66,16 @@ public class User implements Transferable<User.Transfer> {
     public boolean hasRole(Role role) {
         String roleName = role.name();
         return Arrays.asList(roles.split(",")).contains(roleName);
+    }
+
+    public boolean hasAnyRole(Role... rolesToComprobate) {
+        for(Role r : rolesToComprobate)//recorre la lista de roles a comprobar si tiene el usuario
+        {
+            String roleName = r.name();
+            if(Arrays.asList(roles.split(",")).contains(roleName)) //si alguno de los roles, coincide con alguno de los roles del usuario, entonces true
+                return true;
+        }
+        return false;
     }
 
     @Getter
