@@ -23,35 +23,35 @@
                     <ul class="navbar-nav ms-auto">
                         <th:block th:if="${session.u}">
                             <li th:if="${session.u.hasRole('ADMIN')}" class="nav-item mx-3">
-                                <a class="nav-link"  th:href="@{/admin/}">Administrar</a>
+                                <a class="nav-link"  th:href="@{/admin/}">Administrar📍</a>
                             </li>
                             <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/carta}">Carta
+                                <a class="nav-link" th:href="@{/carta}">Carta📖
                                 </a>
                             </li>
 
                             <li th:if="${session.u.hasAnyRole('USER', 'EMPLEADO', 'ADMIN')}" class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/reservarMesa}">Reservar Mesa
+                                <a class="nav-link" th:href="@{/reservarMesa}">Reservar Mesa🗓️
                                 </a>
                             </li>
 
                             <li th:if="${session.u.hasRole('USER')}" class="nav-item mx-2">
-                                <a class="nav-link"   th:href="@{/hacerPedido}">Hacer pedido
+                                <a class="nav-link"   th:href="@{/hacerPedido}">Hacer pedido🛍️
                                 </a>
                             </li>
 
                             <li th:if="${session.u.hasAnyRole('USER', 'EMPLEADO', 'ADMIN')}" class="nav-item mx-2">
-                                <a class="nav-link"  th:href="@{/verReservas}">Ver Reservas
+                                <a class="nav-link"  th:href="@{/verReservas}">Ver Reservas🕰️
                                 </a>
                             </li>
 
                             <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/pedidos}">Pedidos
+                                <a class="nav-link" th:href="@{/pedidos}">Pedidos🛒
                                 </a>
                             </li>
 
                             <li th:if="${session.u.hasRole('ADMIN')}" class="nav-item mx-2">
-                                <a class="nav-link"  th:href="@{/configuracion}">Configuracion
+                                <a class="nav-link"  th:href="@{/configuracion}">Configuracion⚙️
                                 </a>
                             </li>
 
@@ -69,19 +69,18 @@
                             </li>
                             <li class="nav-item align-self-center">
                                 <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">logout</button>
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Logout🚪</button>
                                 </form>
                             </li>
                         </th:block>
                         <th:block th:unless="${session.u}">
 
                             <li class="nav-item mx-2">
-                                <a class="nav-link"  th:href="@{/carta}">Carta
-                                </a>
+                                <a class="nav-link"  th:href="@{/carta}">Carta📖</a>
                             </li>
 
                             <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/login}" href="/login">Login</a>
+                                <a class="nav-link" th:href="@{/login}" href="/login">Login🔑</a>
                             </li>
                             <!--/*
                                 Esto es un comentario "thymeleaf" - no se verá en el HTML
@@ -93,14 +92,14 @@
                                 <form class="d-flex" th:action="@{/login}" method="post">
                                     <input type="hidden" name="username" value="a">
                                     <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Admin</button>
                                 </form>
                             </li>
                             <li class="nav-item debug align-self-center" th:if="${application.debug}">
                                 <form class="d-flex" th:action="@{/login}" method="post">
                                     <input type="hidden" name="username" value="b">
                                     <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">UserB</button>
                                 </form>
                             </li>
                         </th:block>
