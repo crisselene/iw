@@ -16,6 +16,51 @@
         
     </main>
 
+    <div class="container">
+        <div class="row" style="margin-top: 5%;"> <!-- margen relativo del 5% de la pantalla para mas responsibilidad -->
+            <div class="col-md-5" style="background-color: rgb(187, 187, 223); padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%;">
+                <form id="paramsRestaurante" th:action="@{/carta}">
+                    <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
+                    <input type="number" id="maxPedidosHora" style="width:15%"> <!-- creo q el 15% es respecto al padre?-->
+                    <br>
+                    <label for="inicioReservas">Intervalo de horas posibles para reservar(00-23h):&nbsp;</label>
+                    <input type="number" id="inicioReservas" min="00" max="23" style="width:10%; margin-top: 5%;">
+                    &nbsp;a&nbsp;
+                    <input type="number" id="finalReservas"  min="00" max="23" style="width:10%; margin-top: 5%;"> <!-- aqui no haria falta margin top pq ya esta en el otro input-->
+                    <br>
+                    <label for="maxReservas">Número máximo de reservas:&nbsp;</label>
+                    <input type="number" id="maxReservas" style="width:15%; margin-top: 5%;">
+                    <br>
+                    <button type="submit" class="btn btn-primary" style="margin-top:5%">Guardar</button>
+                </form>
+            </div>
+            <div class="col-md-6 offset-1" style="background-color:aquamarine">
+                <h2>Lista de empleados</h2>
+                <!-- La lista de empleados se crearía con un th:each recorriendo el array de empleados cuando tengamos modelo y datos -->
+                <div class="row">
+                    <div class="col-md-8" style="background-color: bisque;  margin-left:5%; margin-bottom: 2%;">
+                        Pedro Martinez
+                        <button type="button" class="btn btn-outline-primary btn-sm" >❌</button>
+
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8" style="background-color: bisque; margin-left: 5%; margin-bottom: 2%;">
+                        Eros Guerrero Soso
+                        <button type="button" class="btn btn-outline-primary btn-sm" >❌</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8" style="background-color: bisque; margin-left: 5%; margin-bottom: 2%;">
+                        Alberto Asturiana
+                        <button type="button" class="btn btn-outline-primary btn-sm" >❌</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 
