@@ -9,23 +9,37 @@
 
 <style type="text/css">
     h1 {color:aqua}
+
  .comida {
      padding: 20px;
      border-radius: 100px;
+    }
+.caja{
+    border: 1px solid #ddd;
+    border-radius: 10px;  
+    max-width: 100%;
+}
+.caja:hover {
+box-shadow: 0 0 2px 1px rgba(4, 6, 7, 0.5);
+}
 
- }
 </style>
 
 <body class="d-flex flex-column h-100" >
     <header th:replace="fragments/nav.html :: nav"></header>
-    <main class="flex-shrink-0">
+    <main class="flex-shrink-0"  >
         <div class="container">
             <h1 class="mt-5">Insertar aquí nombre del plato</h1>
         
-            <div class="py-5 position-absolute bottom-0 row ">
-   
-                        <img src="img/comidaDefault.jpg" height=400 class="comida" >
-                        <aside>Descripción de la comida</aside>
+            <div class="caja" >
+   <section >
+       <div>
+        <img src="img/comidaDefault.jpg" height=400  class="comida" >
+        <aside>Descripción de la comida</aside>
+       </div>
+    
+   </section>
+                        
                         <div class="reset"></div>
 
             </div> 
