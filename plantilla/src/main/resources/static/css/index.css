@@ -62,7 +62,9 @@
   .button:hover{
     color:#D9B1AD;
   }
-  
+  header{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+  }
 
   html{
     font-size: 100%;
