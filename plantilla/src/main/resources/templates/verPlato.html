@@ -6,7 +6,17 @@
     <title>IW: Perfil</title>
 </head>
 
-<body class="d-flex flex-column h-100">
+
+<style type="text/css">
+    h1 {color:aqua}
+ .comida {
+     padding: 20px;
+     border-radius: 100px;
+
+ }
+</style>
+
+<body class="d-flex flex-column h-100" >
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="flex-shrink-0">
         <div class="container">
@@ -14,7 +24,7 @@
         
             <div class="py-5 position-absolute bottom-0 row ">
    
-                        <img src="img/comidaDefault.jpg" height="400">
+                        <img src="img/comidaDefault.jpg" height=400 class="comida" >
                         <aside>Descripción de la comida</aside>
                         <div class="reset"></div>
 
