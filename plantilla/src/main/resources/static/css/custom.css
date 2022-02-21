@@ -19,6 +19,124 @@
     border-bottom: 1px solid gray;
 }
 
+
+/* Eros prueba css para index */
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,600&display=swap');
+:root{
+  --red:#a6bd95;
+}
+*{
+    font-family: 'Josefin Sans', sans-serif;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    outline: none; border:none;
+    text-decoration: none;
+    transition:all .2s linear;
+  }
+
+  .heading{
+    text-align: center;
+    font-size: 3.5rem;
+    padding:1rem;
+    color:#36384C;
+  }
+  
+  .heading span{
+    color:var(--red);
+  }
+  /*
+  .btn{
+    display: inline-block;
+    padding:.8rem 3rem;
+    border:.2rem solid #36384C;
+    color:#36384C;
+    background-color: #849974;
+    cursor: pointer;
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    margin-top: 1rem;
+  }
+  
+  .btn::before{
+    content: '';
+    position: absolute;
+    top:0; right: 0;
+    width:0%;
+    height:100%;
+    background:var(--red);
+    transition: .3s linear;
+    z-index: -1;
+  }
+  
+  .btn:hover::before{
+    width:100%;
+    left: 0;
+  }
+  
+  .btn:hover{
+    color:#628177;
+  }
+  */
+  
+  html{
+    font-size: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body{
+    background:#E9DCCD;
+  }
+
+.home{
+  display: flex;
+  flex-wrap: wrap;
+  gap:1.5rem;
+  min-height: 100vh;
+  align-items: center;
+  background:url(../img/home-bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.home .content{
+  flex:1 1 40rem;
+  padding-top: 6.5rem;
+}
+
+.home .content h3{
+  font-size: 5rem;
+  color:#36384C;
+}
+
+.home .content p{
+  font-size: 1.7rem;
+  color:#36384C;
+  padding:1rem 0;
+}
+.home .image{
+  flex:1 1 40rem;
+}
+
+.home .image img{
+  width:50%;
+  padding:1rem;
+  animation:float 3s linear infinite;
+}
+
+@keyframes float{
+  0%, 100%{
+    transform: translateY(0rem);
+  }
+  50%{
+    transform: translateY(3rem);
+  }
+}
 /* loader Eros */
 .loader-container{
    position: fixed;
