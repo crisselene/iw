@@ -10,6 +10,8 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
+
+
         <div class="container">
             <h1 class="mt-5">Esta es la carta</h1>
         </div>
@@ -63,7 +65,9 @@
             <div class="col-md-3">
                 <img th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" alt="logo IW" width="96" height="96">
                 <br>
-                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Primeros</button>
+                <form th:action = "@{/cartaPlatosCategoria}" method="get">
+                    <button type="submit" name="catElegida" value="burguers" class="btn btn-primary" style="margin-top: 10px;">Burguers</button> <!--revisar esta linea-->
+                </form> 
             </div>
             <div class="col-md-3">
                 <img th:src="@{/img/s-img-1.jpg}" src="/img/s-img-1.jpg" alt="logo IW" width="96" height="96">
