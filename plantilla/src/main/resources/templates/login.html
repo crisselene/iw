@@ -12,21 +12,21 @@
     <main class="flex-shrink-0">
         <div class="container">
             <form class="form-signin" method="post" th:action="@{/login}">
-                <h2 class="form-signin-heading">Please sign in</h2>
+                <h2 class="form-signin-heading">Inicie sesión</h2>
                 <p>
-                    <label for="username" class="visually-hidden">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="required">
+                    <label for="username" class="visually-hidden">username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required="required">
                 </p>
                 <p>
-                    <label for="password" class="visually-hidden">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="required">
+                    <label for="password" class="visually-hidden">password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required="required">
                 </p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar sesión</button>
             </form>
         </div>
     </main>
 
-    <th:block th:replace="fragments/footer.html :: footer" />
-</body>
 
+</body>
+<th:block th:replace="fragments/footer.html :: footer" />
 </html>

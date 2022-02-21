@@ -6,25 +6,43 @@
     <title>IW: Perfil</title>
 </head>
 
-<body class="d-flex flex-column h-100">
-    <header th:replace="fragments/nav.html :: nav"></header>
 
-    <main class="flex-shrink-0">
+<style type="text/css">
+    h1 {color:aqua}
+
+ .comida {
+     padding: 20px;
+     border-radius: 100px;
+    }
+.caja{
+    border: 1px solid #ddd;
+    border-radius: 10px;  
+    max-width: 100%;
+}
+.caja:hover {
+box-shadow: 0 0 2px 1px rgba(4, 6, 7, 0.5);
+}
+
+</style>
+
+<body class="d-flex flex-column h-100" >
+    <header th:replace="fragments/nav.html :: nav"></header>
+    <main class="flex-shrink-0"  >
         <div class="container">
-            <h1 class="mt-5">Insertar aquí nombre del <span th:text="${user.username}"> plato</span></h1>
-            <!-- para enviar mensajes; algo feo -->
-            <div class="py-5 position-absolute bottom-0 row ">
-                <form th:action="@{/user/__${user.id}__/msg}" method="POST">
-                    
-                        <img src="/plantilla/src/main/resources/static/img/comidaDefault.jpg" width="300">
-                        <aside>Descripción de la comida</aside>
-                        <div class="reset"></div>
-                  
+            <h1 class="mt-5">Insertar aquí nombre del plato</h1>
+        
+            <div class="caja" >
+   <section >
+       <div>
+        <img src="img/comidaDefault.jpg" height=400  class="comida" >
+        <aside>Descripción de la comida</aside>
+       </div>
+    
+   </section>
                         
-                   
-                    
-                </form>
-            </div>
+                        <div class="reset"></div>
+
+            </div> 
         </div>
     </main>
 

@@ -4,14 +4,16 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es</title>
+    <link rel="stylesheet" href="css/index.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
+    <!-- ¿Puedo borrarlo? -->
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">¿Tienes hambre?</h1>
+            <h1 class="mt-5"></h1>
         </div>
     </main>
 
@@ -22,7 +24,7 @@
     <div class="content">
         <h3>RESTAURANT.ES</h3>
         <p>Todo lo que necesitas para disfrutar la gastronomía</p>
-        <a href="carta" class="btn">Empezar</a>
+        <a href="carta" class="button">Empezar</a>
     </div>
 
     <div class="image">
@@ -33,11 +35,74 @@
 
 <!-- Erosito termina el home -->
 
+
+<!-- Que somos empieza  -->
+
+<section class="speciality" id="speciality">
+
+    <h1 class="heading"> ¿Quiénes <span>somos</span> ?</h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <img href="carta" class="image" src="img/s-img-1.jpg" alt="">
+            <div class="content">
+                <img src="img/s-1.png" alt="">
+                <h3>Carta</h3>
+                <p>Consulta la carta del restaurante desde nuestra página</p>
+            </div>
+        </div>
+        <div class="box">
+            <img class="image" src="img/s-img-2.jpg" alt="">
+            <div class="content">
+                <img src="img/s-2.png" alt="">
+                <h3>Detalles sobre los platos</h3>
+                <p>Mira de cerca ese trozo de pizza que tanto te llamó la atención.</p>
+            </div>
+        </div>
+        <div class="box">
+            <img class="image" src="img/s-img-3.jpg" alt="">
+            <div class="content">
+                <img src="img/s-3.png" alt="">
+                <h3>Pedir comida</h3>
+                <p>¿Algún capricho de última hora? ¿No te apetece cocinar? Pide comida en nuestra web.</p>
+            </div>
+        </div>
+        <div class="box">
+            <img class="image" src="img/s-img-4.jpg" alt="">
+            <div class="content">
+                <img src="img/s-4.png" alt="">
+                <h3>Reservar mesa</h3>
+                <p>¿Un cumpleaños? ¿No te apetece hacer cola? En nuestra web gestionamos tu reserva.</p>
+            </div>
+        </div>
+        <div class="box">
+            <img class="image" src="img/s-img-5.jpg" alt="">
+            <div class="content">
+                <img src="img/s-5.png" alt="">
+                <h3>Dudas</h3>
+                <p>Usa nuestro canal de asitencia 24h. vía chat.</p>
+            </div>
+        </div>
+        <div class="box">
+            <img class="image" src="img/s-img-6.jpg" alt="">
+            <div class="content">
+                <img src="img/s-6.png" alt="">
+                <h3>Y más</h3>
+                <p>Estamos en constante actualización.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Que somos termina -->
+
+
     <!-- Pie de pagina -->
     <th:block th:replace="fragments/footer.html :: footer" />
 
-<!-- scroll to top button  -->
-<a href="#home" class="fas fa-angle-up" id="scroll-top"></a>
 
     <!-- Eros carga entre paginas -->
 <div class="loader-container">
@@ -47,7 +112,7 @@
     
     
     <!-- custom js Eros  -->
-    <script src="js/custom.js"></script>
+    <script src="js/index.js"></script>
     
 </body>
 </html>
