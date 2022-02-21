@@ -43,6 +43,11 @@ public class RootController {
         return "hacerPedido";
     }
 
+    @GetMapping("verPlato")
+    public String verPlato(Model model) {
+        return "verPlato";
+    }
+
   /*  @GetMapping("verReservas")
     public String verReservas(Model model) {
         return "verReservas";
