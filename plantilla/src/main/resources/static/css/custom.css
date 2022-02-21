@@ -19,5 +19,9 @@
     border-bottom: 1px solid gray;
 }
 
+*::selection{
+  background:var(--red);
+  color: #E9DCCD
+}
 
 
