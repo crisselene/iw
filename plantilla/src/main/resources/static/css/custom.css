@@ -1,8 +1,10 @@
 /* usa este fichero para personalizar tus vistas */
-
+:root{
+  --red:#783848;
+}
 .iwthumb {
-    height: 64px;
-    width: 64px;
+    height: 32px;
+    width: 32px;
 }
 
 .errTable tr>td:first-child {
