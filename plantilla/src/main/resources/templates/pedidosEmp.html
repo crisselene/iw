@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Pedidos</title>
+    <link rel="stylesheet" href="css/pedidosemp.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -11,12 +12,21 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">Pagina pedidos desde punto de vista empleados/propietario</h1>
+            <h3 class="mt-5">Pagina pedidos desde punto de vista empleados/propietario</h3>
         </div>
-        
+        <h1>Pedidos</h1>
+        <form id="form">
+            <ul class="pedidos" id="pedidos">
+                <li>Arroz con pollo: Av. Séneca 12</li>
+                <li>Chicken nuggets: C/ Judas Salvamoros</li>
+                <li class="completed">Sopa caliente x2: C/Norte polo</li>
+            </ul>
+        </form>
+        <small>Click izquierdo para marcar pedido como finalizado. <br> Click derecho para eliminarlo de la lista</small>
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script src="js/pedidosEmp.js"></script>
 </body>
 
 </html>
