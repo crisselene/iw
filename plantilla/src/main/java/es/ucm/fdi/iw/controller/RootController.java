@@ -29,9 +29,14 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("carta")
-    public String carta(Model model) {
-        return "carta";
+    @GetMapping("cartaCategorias")
+    public String cartacategorias(Model model) {
+        return "cartaCategorias";
+    }
+
+    @GetMapping("cartaPlatosCategoria")
+    public String cartaPlatosCategoria(Model model) {
+        return "cartaPlatosCategoria";
     }
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {

@@ -8,42 +8,42 @@
 
 
 <style type="text/css">
-    h1 {color:aqua}
+    h1 {color:rgb(122, 14, 14)}
 
  .comida {
-     padding: 20px;
-     border-radius: 100px;
+    border-radius: 100px;
+    background:url(../img/home-bg.jpg) no-repeat;
+    max-width: 400px;
+    max-height: 400px;
+    float:left;
     }
+
 .caja{
     border: 1px solid #ddd;
     border-radius: 10px;  
     max-width: 100%;
+    margin: 40px;
+    padding: 20px;
+    background-color:rgba(169, 128, 128, 0.24);
+    overflow: auto;
 }
-.caja:hover {
-box-shadow: 0 0 2px 1px rgba(4, 6, 7, 0.5);
+
+.fondo{
+    background:url(../img/home-bg.jpg) no-repeat;
 }
 
 </style>
 
-<body class="d-flex flex-column h-100" >
+<body class="fondo" >
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="flex-shrink-0"  >
-        <div class="container">
-            <h1 class="mt-5">Insertar aquí nombre del plato</h1>
-        
+        <div class="degradado">
             <div class="caja" >
-   <section >
-       <div>
-        <img src="img/comidaDefault.jpg" height=400  class="comida" >
-        <aside>Descripción de la comida</aside>
-       </div>
-    
-   </section>
-                        
-                        <div class="reset"></div>
-
+                        <h1 class="mt-5">Insertar aquí nombre del plato</h1>
+                        <img src="img/comidaDefault.jpg"  class="comida" >
+                        <aside>Descripción de la comida</aside>
             </div> 
-        </div>
+        <div class="reset"></div>
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />

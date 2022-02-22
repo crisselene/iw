@@ -13,8 +13,73 @@
         <div class="container">
             <h1 class="mt-5">Pagina para reservar mesa</h1>
         </div>
-        
     </main>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="row" style="background-color:rgb(117, 188, 250); border-top-right-radius: 10px; 
+                border-top-left-radius: 10px; border: 2px solid #000;">
+                    <h2>Selecciona el día</h2>
+                </div>
+                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
+                    border-bottom-right-radius: 10px; overflow: auto; height: 500px;">
+                    Aqui habrá un calendario super top
+                </div>
+            </div>
+            <div class="col-md-4 offset-1">
+                <div class="row" style="background-color:rgb(94, 245, 132); border-top-right-radius: 10px; 
+                border-top-left-radius: 10px; border: 2px solid #000;">
+                    <h2>Horas disponibles:</h2>
+                </div>
+                
+                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px; overflow: ms-auto; height: 500px;">
+                    <div id="mostrarHoras">
+                        <div class="row" style=" margin-top: 1%;">
+                            <div class="col-md-6">
+                                12:30
+                            </div>
+                            <div class="col" style="text-align: right;">
+                                <input type="radio" name="horas">
+                            </div>
+                        </div>
+                        <div class="row" style=" margin-top: 1%;">
+                            <div class="col-md-6">
+                                13:30
+                            </div>
+                            <div class="col" style="text-align: right;">
+                                <input type="radio" name="horas">
+                            </div>
+                        </div>
+                        <div class="row" style=" margin-top: 1%;">
+                            <div class="col-md-6">
+                                14:30
+                            </div>
+                            <div class="col" style="text-align: right;"> 
+                                <input type="radio" name="horas">
+                            </div>
+                        </div>
+    
+                        <div class="row" style="position: relative; right: 4px; top: 350px;">
+                            <div class="col">
+                                <div style="text-align: right;">
+                                    <form id="elegirHora" th:action="@{/carta}">
+                                        <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 3%;">Elegir</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> 
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+
 
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
