@@ -1,4 +1,4 @@
-#restaurant.es
+# restaurant.es
 
 ## Vista configuración: 
 definir número de pedidos máximo por horas para no colapsar. Definir horas posibles para hacer reservas y número máximo de reservas por hora (coincidiría con mesas disponibles en el restaurante)*. Gestión de empleados (añadir y eliminar empleados).
