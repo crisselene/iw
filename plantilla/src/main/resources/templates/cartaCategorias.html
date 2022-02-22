@@ -12,65 +12,88 @@
     <main class="flex-shrink-0">
 
 
-        <div class="container">
-            <h1 class="mt-5">Esta es la carta</h1>
-        </div>
 
-    </main>
-    
+        <div class="container">
+            <h1 class="mt-5">Categorias</h1>
+           
+            <!-- pruebas (funciona): <table >
+                <tr th:each="prod: ${categoria.lista}">
+                <td th:text="${prod}">Onions</td>
+                </tr>
+            </table> -->
+        </div>    
 
     <div class="container"> <!-- Si pones div container haces q las columnas dentro de las rows se centren automaticamente -->
-        <div class="row h-100" style="margin-top: 50px;"> <!-- La primera fila tiene margen superior para separar del titulo -->
-            <div class="col-md-3">
-                <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" width="128" height="128">
-                <br>
+        <div class="row h-100" style="margin-top: 50px;" > <!-- La primera fila tiene margen superior para separar del titulo -->
+           <!-- <div class="col-md-3">
+                <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" width="96" height="96">
+                <br>-->
                 <!-- Estos botones posiblemente tendran que ser forms, pero habrá q pensar cómo pasamos la info para que solo -->
                 <!-- Sea una misma pag la q vuelque el contenido de la categoría elegida, y no haya 1 pag (para el action) por cada categoria -->
-                <form th:action = "@{/verPlato}">
-                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Entrantes</button> <!--revisar esta linea-->
-            </form>   
-            </div>
-            <div class="col-md-3">
-                <img th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" alt="logo IW" width="128" height="128">
-                <br>
+                <!-- <form th:action = "@{/verPlato}">
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Entrantes</button>
+            </form>    
+            </div>-->
+            <div class="col-md-3 text-center categoryItemDiv "  th:each="prod: ${categoria.lista}">
+                <!-- estiqueta <a> Podria usarse para que las imagenes fueran links, pero habria que ver como saber que categoria se ha pinchado
+                    <a th:href="@{/cartaPlatosCategoria}"> -->       
+                        <img th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" class="img-thumbnail" ><!--alt="logo IW" width="96" height="96" -->
+                        <!--<input type ="image" name="catElegida" value="cat" th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" class="img-thumbnail" >--> <!-- alt="logo IW" width="96" height="96"-->
+                        <!-- </a> -->
+                     <br>
                 <form th:action = "@{/cartaPlatosCategoria}" method="get">
-                    <button type="submit" name="catElegida" value="burguers" class="btn btn-primary" style="margin-top: 10px;">Burguers</button> <!--revisar esta linea-->
+                    <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 10px;">Categoria</button> <!--revisar esta linea-->
                 </form> 
             </div>
-            <div class="col-md-3">
-                <img th:src="@{/img/s-img-1.jpg}" src="/img/s-img-1.jpg" alt="logo IW" width="128" height="128">
+            <!-- <div class="col-md-3">
+                <img th:src="@{/img/s-img-1.jpg}" src="/img/s-img-1.jpg" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">Segundos</button>
             </div>
             <div class="col-md-3">
-                <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" width="128" height="128">
+                <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">Postres</button>
             </div>
+
+
+            <div class="col-md-3">
+                <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Postres2</button>
+            </div>
+
+            <div class="col-md-3">
+                <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Postres3</button>
+            </div> -->
         </div>
 
-        <div class="row h-100">
+<!-- antes los items estaban puesto en dos rows, y ahora solo hay una, con muchas col -->
+
+        <!-- <div class="row h-100">
             <div class="col-md-3">
-                <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" width="128" height="128">
+                <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">Bebidas</button>
             </div>
             <div class="col-md-3">
-                <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" width="128" height="128">
+                <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">Batidos</button>
             </div>
             <div class="col-md-3">
-                <img th:src="@{/img/s-img-5.jpg}" src="/img/s-img-5.jpg" alt="logo IW" width="128" height="128">
+                <img th:src="@{/img/s-img-5.jpg}" src="/img/s-img-5.jpg" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">De temporada</button>
             </div>
             <div class="col-md-3">
-                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="128" height="128">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
                 <br>
                 <button type="button" class="btn btn-primary" style="margin-top: 10px;">Nacional</button>
             </div>
-        </div>
+        </div> -->
     </div>
     
 

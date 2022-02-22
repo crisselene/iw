@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import es.ucm.fdi.iw.model.Categorias;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 
@@ -31,6 +32,11 @@ public class RootController {
 
     @GetMapping("cartaCategorias")
     public String cartacategorias(Model model) {
+        Categorias c = new Categorias();
+      //  model.addAttribute("categoria", c.cat);//funciona
+      //  model.addAttribute("categoria", c);//funciona
+        model.addAttribute("categoria", c);//funciona
+        
         return "cartaCategorias";
     }
 
