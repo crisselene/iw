@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>IW: Welcome</title>
+    <link rel="stylesheet" href="css/reservarMesa.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -15,69 +16,83 @@
         </div>
     </main>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <div class="row" style="background-color:rgb(117, 188, 250); border-top-right-radius: 10px; 
-                border-top-left-radius: 10px; border: 2px solid #000;">
-                    <h2>Selecciona el día</h2>
-                </div>
-                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
-                    border-bottom-right-radius: 10px; overflow: auto; height: 500px;">
-                    Aqui habrá un calendario super top
-                </div>
+    <div class="row bajando">
+        <div class="col-md-8 bajando">
+            <div class="row" id="calendario">
+                <h2>Selecciona el día</h2>
             </div>
-            <div class="col-md-4 offset-1">
-                <div class="row" style="background-color:rgb(94, 245, 132); border-top-right-radius: 10px; 
-                border-top-left-radius: 10px; border: 2px solid #000;">
-                    <h2>Horas disponibles:</h2>
-                </div>
-                
-                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px; overflow: ms-auto; height: 500px;">
-                    <div id="mostrarHoras">
-                        <div class="row" style=" margin-top: 1%;">
-                            <div class="col-md-6">
-                                12:30
-                            </div>
-                            <div class="col" style="text-align: right;">
-                                <input type="radio" name="horas">
-                            </div>
+            <div class="row contenido">
+                Aqui habrá un calendario super top
+            </div>
+        </div>
+        <div class="col-md-3 offset-1 bajando">
+            <div class="row" id="horas">
+                <h2>Horas disponibles:</h2>
+            </div>
+            
+            <div class="row contenido" >
+                <div id="mostrarHoras">
+                    <div class="row">
+                        <div class="col">
+                            <h3>Comidas:</h3>
                         </div>
-                        <div class="row" style=" margin-top: 1%;">
-                            <div class="col-md-6">
-                                13:30
-                            </div>
-                            <div class="col" style="text-align: right;">
-                                <input type="radio" name="horas">
-                            </div>
-                        </div>
-                        <div class="row" style=" margin-top: 1%;">
-                            <div class="col-md-6">
-                                14:30
-                            </div>
-                            <div class="col" style="text-align: right;"> 
-                                <input type="radio" name="horas">
-                            </div>
-                        </div>
-    
-                        <div class="row" style="position: relative; right: 4px; top: 350px;">
-                            <div class="col">
-                                <div style="text-align: right;">
-                                    <form id="elegirHora" th:action="@{/carta}">
-                                        <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 3%;">Elegir</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div> 
-    
                     </div>
+                    <div class="row horas">
+                        <div class="col-md-1">
+                            <input type="radio" class="btn-check" name="horas" id="hora1" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora1">12:30</label>                            
+                        </div>
+                        <div class="col-md-1 offset-3">
+                            <input type="radio" class="btn-check" name="horas" id="hora2" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora2">13:30</label>
+                        </div>
+                        <div class="col-md-1 offset-3">
+                            <input type="radio" class="btn-check" name="horas" id="hora3" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora3">14:30</label>
+                        </div>
+                    </div>
+                    <div class="row horas">
+                        <div class="col-md-1">
+                            <input type="radio" class="btn-check" name="horas" id="hora4" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora4">15:00</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3>Cenas:</h3>
+                        </div>
+                    </div>
+                    <div class="row horas">
+                        <div class="col-md-1">
+                            <input type="radio" class="btn-check" name="horas" id="hora5" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora5">20:30</label>                            
+                        </div>
+                        <div class="col-md-1 offset-3">
+                            <input type="radio" class="btn-check" name="horas" id="hora6" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora6">21:30</label>
+                        </div>
+                        <div class="col-md-1 offset-3">
+                            <input type="radio" class="btn-check" name="horas" id="hora7" autocomplete="off">
+                            <label class="btn btn-outline-success" for="hora7">22:30</label>
+                        </div>
+                    </div>
+
+                    <div class="row" id="elegir">
+                        <div class="col-md-5">
+                            <p>Numero de personas :</p>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="comensales" type="number" min="1" max="15" value="1">
+                        </div>
+                        <div class="col-md-3 offset-1" id="colElegir">
+                            <button type="submit" id="botonElegir">Elegir</button>  
+                        </div>
+                                                     
+                    </div> 
+
                 </div>
             </div>
         </div>
-        
-        
-        
     </div>
 
 
