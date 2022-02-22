@@ -1,3 +1,37 @@
+#restaurant.es
+
+## Vista configuración: 
+definir número de pedidos máximo por horas para no colapsar. Definir horas posibles para hacer reservas y número máximo de reservas por hora (coincidiría con mesas disponibles en el restaurante)*. Gestión de empleados (añadir y eliminar empleados).
+La podrá usar el administrador,propietario.
+http://localhost:8080/configuracion 
+
+
+## Vista Carta:
+lista de platos organizados en categorias. La pueden ver todos los usuarios. para el propietario le aparece un botón para añadir un plato nuevo 
+(Vista inicial al pulsar carta)
+http://localhost:8080/cartaCategorias
+
+## Vista Plato: 
+Imagen grande, título, descripción, precio y valoraciones. 2 vistas: propietario puede modificar y eliminar (solo un botón para modificar toda la info con un modal). Usuario registrado y no registrado solo puede ver la información.
+http://localhost:8080/verPlato
+
+## Vista hacer pedido: 
+se dispone de dos columnas, la de la izquierda será más ancha en la que aparecerá un listado de los platos divididos por categorías. Al lado de cada plato aparece un botón en el que se pueden añadir platos al carrito.
+En la otra columna se van añadiendo los platos añadidos al carrito (una lista), y cada uno dispone de un botón en el que se pueden eliminar los platos que ya no se quieran. Se podrán añadir un número específico de platos.
+Pueden acceder los usuarios registrados.
+http://localhost:8080/hacerPedido
+
+## Vista reservas:
+aparece un calendario para seleccionar el día. Una vez seleccionado el día, permite elegir una hora entre las disponibles y finalmente aceptar la reserva.
+Pueden acceder los usuarios registrados y los empleados.
+http://localhost:8080/reservarMesa
+
+## Vista pedidos:
+vista empleado y propietario: lista nuevos pedidos (aceptar, rechazar) y lista de pedidos ya aceptados (modificar (para cambiar su estado) y eliminar)
+vista usuario: Puede ver su lista de pedidos, y meterse a ver los detalles de uno, pudiendo ver así su estado actual (en proceso, en entrega, entregado, etc.)
+http://localhost:8080/pedidos
+
+
 # iw
 
 Material para la asignatura de Ingeniería Web, edición 2021-22, de la Facultad de Informática UCM
