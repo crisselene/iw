@@ -121,6 +121,8 @@ section{
     transform: translateY(1rem);
   }
 }
+
+
 /* Quienes somos css*/
 
 .speciality .box-container{
@@ -175,6 +177,9 @@ section{
   .speciality .box-container .box:hover .content{
     transform: translateY(100%);
   }
+
+
+  
 /* loader Eros */
 .loader-container{
     position: fixed;
