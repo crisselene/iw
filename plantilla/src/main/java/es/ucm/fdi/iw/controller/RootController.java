@@ -71,10 +71,10 @@ public class RootController {
         //¿cuando se ejecutan esos addAttribute?
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
-        return "verReservasEmp";
+        return "verReservas";
         }
         else{
-            return "verReservasUs";
+            return "verReservas";
         }
 
         

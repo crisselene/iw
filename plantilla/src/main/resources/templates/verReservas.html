@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Restaurant.es: Reservas</title>
+    <link rel="stylesheet" href="css/verReservas.css" />
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1 class="mt-5">Reservas</h1>
+        </div>
+    </main>
+
+    <div class="container">
+        <div class="row" id="cabecera">
+            <div class="col-md-6">
+                <h3>Lista de reservas</h2>
+            </div>
+            <div class="col-md-4" id="textDia">
+                <p>Selecciona el dia:</p>
+            </div>
+            <div class="col-md-1" id="dia">
+                <input type="date" id="start" name="trip-start" value="2022-02-22" min="2022-01-01" max="2025-12-31">
+            </div>
+        </div>
+        <div class="row contenido">
+            <div id="mostrarReservas">
+                <div class="row mesa">
+                    <div class="col-md-6">
+                        <p>Mesa 8</p>
+                    </div>
+                    <div class="col">
+                        <p>10 Personas</p>                    
+                    </div>
+                    <div class="col">
+                        <div style="text-align: right; margin-bottom: 10%;">
+                            <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mesa">
+                    <div class="col-md-6">
+                        <p>Mesa 10</p>
+                    </div>
+                    <div class="col">
+                        <p>10 Personas</p>                    
+                    </div>
+                    <div class="col">
+                        <div style="text-align: right; margin-bottom: 10%;">
+                            <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mesa">
+                    <div class="col-md-6">
+                        <p>Mesa 5</p>
+                    </div>
+                    <div class="col">
+                        <p>10 Personas</p>                    
+                    </div>
+                    <div class="col">
+                        <div style="text-align: right; margin-bottom: 10%;">
+                            <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>
