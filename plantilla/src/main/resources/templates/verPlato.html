@@ -16,6 +16,7 @@
     max-width: 400px;
     max-height: 400px;
     float:left;
+    margin: 20px;
     }
 
 .caja{
@@ -30,6 +31,29 @@
 
 .fondo{
     background:url(../img/home-bg.jpg) no-repeat;
+    background-color: #e9dccd;
+    margin: 20px;
+}
+
+.caja h2{
+    color:rgb(122, 14, 14);
+    float:right;
+    text-align: end;
+}
+
+.caja p{
+    margin: 20px;
+    padding: 20px;
+}
+
+.caja h2{
+    color:rgb(122, 14, 14); 
+    margin: 50px;
+}
+
+h2{
+    color:rgb(122, 14, 14); 
+    margin: 50px;
 }
 
 </style>
@@ -38,12 +62,22 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="flex-shrink-0"  >
         <div class="degradado">
+            <h1 class="mt-5">Insertar aquí nombre del plato</h1>
             <div class="caja" >
-                        <h1 class="mt-5">Insertar aquí nombre del plato</h1>
-                        <img src="img/comidaDefault.jpg"  class="comida" >
-                        <aside>Descripción de la comida</aside>
+                <img src="img/comidaDefault.jpg"  class="comida" >
+                <p>Descripción de la comida:  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis est placerat, facilisis massa ut, gravida metus. Curabitur scelerisque scelerisque tellus ut pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas posuere rhoncus diam id convallis. Donec aliquam nulla quis ullamcorper posuere. Morbi eleifend lectus ut elit gravida, in consequat neque consectetur. Aliquam consequat tincidunt interdum. Morbi vitae arcu sed ipsum volutpat pellentesque in id neque. Sed porttitor posuere nibh a eleifend. Sed sodales odio ac placerat ultrices. Sed fringilla risus dapibus elementum faucibus. Suspendisse condimentum dui at felis egestas, at pulvinar ex gravida. </p>
+                <h2>13,50€</h2>
             </div> 
         <div class="reset"></div>
+
+        <div>
+            <h2>Ingredientes</h2>
+            <ul>
+                <li>Albahaca</li>
+                <li>Aceite de oliva</li>
+                <li>Spaguettis</li>
+            </ul>
+        </div>
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
