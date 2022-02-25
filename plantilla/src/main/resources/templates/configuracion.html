@@ -20,7 +20,7 @@
         <div class="row" style="margin-top: 5%;"> <!-- margen relativo del 5% de la pantalla para mas responsibilidad -->
             <div class="col-md-5" style="background-color: rgb(187, 187, 223); padding-top: 2%; padding-right: 2%; padding-bottom: 2%; padding-left: 2%; max-height: 260px; 
             border-radius: 10px;">
-                <form id="paramsRestaurante" th:action="@{/carta}">
+                <form id="paramsRestaurante" th:action="@{/}">
                     <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
                     <input type="number" id="maxPedidosHora" style="width:15%"> <!-- creo q el 15% es respecto al padre?-->
                     <br>
@@ -37,9 +37,18 @@
             </div>
 
             <div class="col-md-6 offset-1" style="height: 400px; background-color:aquamarine; overflow: auto; border-radius: 10px;">
-                <h2>Lista de empleados</h2>
+                <div class="row">
+                    <div class="col">
+                        <h2 style="margin-top: 1%; margin-bottom: 2%;">Lista de empleados</h2>
+                    </div>
+                    <div class="col" style="text-align: right;">
+                        <form id="anadirEmp" th:action="@{/}">
+                            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 3%;">Añadir empleado</button>
+                        </form>
+                    </div>
+                </div>
+                
                 <!-- La lista de empleados se crearía con un th:each recorriendo el array de empleados cuando tengamos modelo y datos -->
-
                 <div class="col-md-8">
                     <div style="margin-bottom: 2%; margin-left:4%; background-color: rgb(227, 240, 243); border-radius: 10px;
                     padding-top: 1%; padding-bottom: 1%;">
@@ -47,8 +56,10 @@
                             <div class="col" style="margin-left: 2%;">
                                 Pedro Martinez
                             </div>
-                            <div class="col" style="text-align: right; margin-right: 5%;">
-                                <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
+                            <div class="col" style="text-align: right; margin-right: 5%;">    
+                                <form id="eliminarEmp" th:action="@{/}">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
+                                </form>
                             </div>
                         </div>
                     </div>
