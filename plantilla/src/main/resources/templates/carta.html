@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>IW: Welcome</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1 class="mt-5">Esta es la carta</h1>
+        </div>
+
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#homeTab" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
+                </li>
+        
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profileTab" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile1</button>
+                </li>
+        
+            </ul>
+        </div>
+    </main>
+
+    
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="homeTab" role="tabpanel" aria-labelledby="home-tab">
+            <div>
+                <h1>PRUEBA3</h1>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="profileTab" role="tabpanel" aria-labelledby="profile-tab">
+            <div>
+                <h1>PRUEBA2</h1>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+        </div>
+    </div>
+
+    
+
+    <div class="container"> <!-- Si pones div container haces q las columnas dentro de las rows se centren automaticamente -->
+        <div class="row h-100" style="margin-top: 50px;"> <!-- La primera fila tiene margen superior para separar del titulo -->
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <!-- Estos botones posiblemente tendran que ser forms, pero habrá q pensar cómo pasamos la info para que solo -->
+                <!-- Sea una misma pag la q vuelque el contenido de la categoría elegida, y no haya 1 pag (para el action) por cada categoria -->
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;"  href="ver_plato">Entrantes</button> <!--revisar esta linea-->
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Primeros</button>
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Segundos</button>
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Postres</button>
+            </div>
+        </div>
+
+        <div class="row h-100">
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Bebidas</button>
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Batidos</button>
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">De temporada</button>
+            </div>
+            <div class="col-md-3">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="96" height="96">
+                <br>
+                <button type="button" class="btn btn-primary" style="margin-top: 10px;">Nacional</button>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>
