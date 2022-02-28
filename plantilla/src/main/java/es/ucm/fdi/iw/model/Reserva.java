@@ -1,7 +1,5 @@
 package es.ucm.fdi.iw.model;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;

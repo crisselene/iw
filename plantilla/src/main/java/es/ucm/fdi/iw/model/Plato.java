@@ -14,4 +14,10 @@ public class Plato {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
+
+    String nombre;
+    String descripcion;
+    float precio;
+    
+
 }
