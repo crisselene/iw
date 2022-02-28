@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
-    Time hora;
-    Date dia;
+    LocalDateTime fecha;
     int personas;
 }
