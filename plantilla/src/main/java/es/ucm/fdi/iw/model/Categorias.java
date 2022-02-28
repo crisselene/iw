@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 
 import antlr.collections.List;
+import lombok.Data;
 
 @Entity
+@Data
 public class Categorias {
     public String cat = "soy una categoria de un objeto";
     public ArrayList<String> lista; 
