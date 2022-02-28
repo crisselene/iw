@@ -2,8 +2,11 @@ package es.ucm.fdi.iw.model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+
 import antlr.collections.List;
 
+@Entity
 public class Categorias {
     public String cat = "soy una categoria de un objeto";
     public ArrayList<String> lista; 
