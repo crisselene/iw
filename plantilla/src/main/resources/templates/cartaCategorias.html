@@ -22,12 +22,14 @@
                 </tr>
             </table> -->
         </div>
-        
-        <div class="container" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: right;">
-            <form th:action = "@{/}" method="get" id="anadirCat">
-                <button type="submit" class="btn btn-primary" style="">Nueva categoría</button> <!--revisar esta linea-->
-            </form>
-        </div>
+
+        <th:block th:if="${session.u}">
+            <div class="container" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: right;">
+                <form th:action = "@{/}" method="get" id="anadirCat">
+                    <button type="submit" class="btn btn-primary">Nueva categoría</button> <!--revisar esta linea-->
+                </form>
+            </div>
+        </th:block> 
 
     <div class="container"> <!-- Si pones div container haces q las columnas dentro de las rows se centren automaticamente -->
         <div class="row h-100" style="margin-top: 50px;" > <!-- La primera fila tiene margen superior para separar del titulo -->
@@ -51,21 +53,32 @@
                 <div class="row">
                     <!-- Si el usuario es un admin, el boton se alinea a la derecha, para que al aparecer el siguiente boton de Eliminar,
                     aparezcan los 2 mas o menos centrados, en cambio si es un User, como solo hay 1 boton, queremos que salga centrado -->
-                    <div class="col-md-7" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: right;">
-                        <form th:action = "@{/cartaPlatosCategoria}" method="get" style="display: inline;">
-                            <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 2%; margin-bottom: 10%; margin-right: 0%;">Categoria</button> <!--revisar esta linea--> 
-                        </form>
-                    </div>
-                    <div class="col" th:unless="${session.u.hasAnyRole('ADMIN')}" style="text-align: center;">
-                        <form th:action = "@{/cartaPlatosCategoria}" method="get" style="display: inline;">
-                            <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 2%px; margin-bottom: 10%; ">Categoria</button> <!--revisar esta linea--> 
-                        </form>
-                    </div>
-                    <div class="col-md-5" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: left;">
-                        <form th:action = "@{/}" method="get" id="eliminarCat">
-                            <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-top: 7%;">❌</button> <!--revisar esta linea-->
-                        </form>
-                    </div>  
+                    <th:block th:if="${session.u}">
+                        <div class="col-md-7" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: right;">
+                            <form th:action = "@{/cartaPlatosCategoria}" method="get" style="display: inline;">
+                                <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 2%; margin-bottom: 10%; margin-right: 0%;">Categoria</button> <!--revisar esta linea--> 
+                            </form>
+                        </div>
+                        <div class="col" th:unless="${session.u.hasAnyRole('ADMIN')}" style="text-align: center;">
+                            <form th:action = "@{/cartaPlatosCategoria}" method="get" style="display: inline;">
+                                <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 2%px; margin-bottom: 10%; ">Categoria</button> <!--revisar esta linea--> 
+                            </form>
+                        </div>
+                        <div class="col-md-5" th:if="${session.u.hasAnyRole('ADMIN')}" style="text-align: left;">
+                            <form th:action = "@{/}" method="get" id="eliminarCat">
+                                <button type="submit" class="btn btn-outline-danger btn-sm" style="margin-top: 7%;">❌</button> <!--revisar esta linea-->
+                            </form>
+                        </div> 
+                    </th:block>
+
+                    <th:block th:unless="${session.u}">
+                        <div class="col" style="text-align: center;">
+                            <form th:action = "@{/cartaPlatosCategoria}" method="get" style="display: inline;">
+                                <button type="submit" name="catElegida" th:text="${prod}" value="burguers" class="btn btn-primary" style="margin-top: 2%px; margin-bottom: 10%; ">Categoria</button> <!--revisar esta linea--> 
+                            </form>
+                        </div>
+                    </th:block>
+                     
                 </div>
                 
             </div>
