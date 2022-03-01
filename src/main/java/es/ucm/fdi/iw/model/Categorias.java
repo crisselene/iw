@@ -8,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-import antlr.collections.List;
 import lombok.Data;
 
 @Entity
@@ -18,6 +17,7 @@ public class Categorias {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
+    
     public String cat = "soy una categoria de un objeto";
     public ArrayList<String> lista; 
 

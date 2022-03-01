@@ -69,14 +69,17 @@ public class RootController {
         User u= (User) session.getAttribute("u");//¿Porque u si esta en la sesion pero no en el modelo?
         //¿no se metio al ejecutarser el model.addatributte de la clase User?
         //¿cuando se ejecutan esos addAttribute?
+
+        // Se diferencia entre empleados y user porque los empleados necesitaran añadir todas las reservas existentes al modelo
+        // mientras que el usuario solo necesita añadir al modelo las reservas que le correspondan a él
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
-        return "verReservas";
-        }
-        else{
             return "verReservas";
         }
-
+        else{
+            
+            return "verReservas";
+        }
         
     }
 
@@ -99,10 +102,10 @@ public class RootController {
                                                 //¿cuando se ejecutan esos addAttribute?
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
-            return "pedidosEmp";
+            return "pedidosEmpleado";
         }
         else{
-            return "pedidosUs";
+            return "pedidosUsuario";
         }
 
     

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
@@ -20,5 +21,9 @@ public class Pedido {
 	private long id;
     
     @ManyToMany
-    List<Plato> platos;
+    List<Plato> platos; //Lista de platos
+    private String direccion;
+
+    @ManyToOne
+    private User cliente; //Quien compro el pedido
 }
