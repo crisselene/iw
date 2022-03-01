@@ -113,7 +113,7 @@ public class RootController {
             pedidos.add("pedido3");
             pedidos.add("pedido2");
 
-            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3"));
+            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3", "pedido5", "pedido4"));
 
             return "pedidosUsuario";
         }
