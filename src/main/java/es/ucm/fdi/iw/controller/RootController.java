@@ -1,5 +1,8 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -105,6 +108,13 @@ public class RootController {
             return "pedidosEmpleado";
         }
         else{
+            List<String> pedidos = new ArrayList<String>();
+            pedidos.add("pedido1");
+            pedidos.add("pedido3");
+            pedidos.add("pedido2");
+
+            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3"));
+
             return "pedidosUsuario";
         }
 
