@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import lombok.Data;
 
@@ -18,4 +19,7 @@ public class Reserva {
 	private long id;
     private LocalDateTime fecha;
     private int personas;
+    
+    @ManyToOne
+    private User cliente; //Quien hizo la reserva
 }

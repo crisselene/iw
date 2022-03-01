@@ -25,5 +25,5 @@ public class Pedido {
     private String direccion;
 
     @ManyToOne
-    private User cliente;
+    private User cliente; //Quien compro el pedido
 }
