@@ -8,10 +8,12 @@
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
-
+    
     <main class="flex-shrink-0">
         <div class="container">
             <h1 class="mt-5">Perfil de <span th:text="${user.username}">Paco</span></h1>
+            <img class="profilepic" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+
             <!-- para enviar mensajes; algo feo -->
             <div class="py-5 position-absolute bottom-0 row ">
                 <form th:action="@{/user/__${user.id}__/msg}" method="POST">
