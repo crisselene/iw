@@ -16,6 +16,6 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
-    LocalDateTime fecha;
-    int personas;
+    private LocalDateTime fecha;
+    private int personas;
 }

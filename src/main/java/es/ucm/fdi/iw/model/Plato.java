@@ -15,9 +15,9 @@ public class Plato {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-    String nombre;
-    String descripcion;
-    float precio;
+    private String nombre;
+    private String descripcion;
+    private float precio;
     
 
 }

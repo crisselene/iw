@@ -18,6 +18,7 @@ public class Categorias {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
+    
     public String cat = "soy una categoria de un objeto";
     public ArrayList<String> lista; 
 
