@@ -135,6 +135,13 @@ public class RootController {
                                                 //¿cuando se ejecutan esos addAttribute?
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
+            List<String> pedidos = new ArrayList<String>();
+            pedidos.add("pedido1");
+            pedidos.add("pedido3");
+            pedidos.add("pedido2");
+
+            //model.addAttribute("listaPedidos", pedidos);
+            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3", "pedido5", "pedido4"));
             return "pedidosEmpleado";
         }
         else{

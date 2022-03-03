@@ -3,7 +3,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Pedidos</title>
-    <link rel="stylesheet" href="css/pedidosEmpleado.css" />
+   <!-- <link rel="stylesheet" href="css/pedidosEmpleado.css" />-->
 </head>
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
@@ -11,19 +11,66 @@
         <div class="container">
             <h3 class="mt-5">Pagina pedidos desde punto de vista empleados/propietario</h3>
         </div>
-        <h1>Pedidos</h1>
-        <form id="form">
-            <!-- Input -->
-            <input type="text" class="input" id="input" placeholder="Anota el pedido" autocomplete="off">
+        <!--Tabla PEDIDOS NUEVOS, float left para que esté a la izquierda-->
+        <div class="container">
+                <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                lo mismo pasa con el ultimo elemento y los del medio-->
+                <th:block th:each="ped,i: ${pedidosEmpleado}">
+                    <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                    lo mismo pasa con el ultimo elemento y los del medio-->
+                       
+                    <!-- Primer elemento -->
+                    <div class="row" th:if="${i.first}" style="background-color: aquamarine;
+                    border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; border-bottom: 0;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
+                        <div class="col" th:text="${ped}" style="margin: auto;">
+                         
+                        </div>
+                        <div class="col">
+                            <form id="verDetallesPedido" th:action="@{/}">
+                                <button type="submit" class="btn btn-primary btn-sm" style="margin: auto;">Ver detalles</button>
+                            </form>
+                        </div>
+    
+                    </div>
+    
+                    <!-- Ultimo elemento -->
+                    <div class="row" th:if="${i.last}"  style="background-color: rgb(255, 127, 144);
+                    border: 1px solid; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
+                    
+                    </div>
+    
+                    <!-- Elementos del medio -->
+                    <div class="row" th:unless="${i.first or i.last}" 
+                    style="border: 1px solid; border-bottom: 0; padding-top: 2%; padding-bottom: 2%;
+                    padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
+                    </div>
+    
+                </th:block>
+                
 
-            <!-- Tabla de pedidos -->
-            <!-- ul = tabla il = fila -->
-            <ul class="pedidos" id="pedidos">
-                <li>Test</li>
-            </ul>
-        </form>
-        
-        <small>Click izquierdo para marcar pedido como finalizado. <br> Click derecho para eliminarlo de la lista</small>
+            
+                
+
+            
+          <!--  <div style="float: left;">
+                <h1>Nuevos pedidos</h1>
+            </div>
+
+
+            <div style="float: right;">
+                <h1>Pedidos2</h1></div>
+            </div>-->
+            
+        </div>
+      
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
