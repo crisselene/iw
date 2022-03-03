@@ -112,7 +112,9 @@ public class RootController {
     public String configuracion(Model model) {
 
         model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
-        , "empleado0", "empleado6", "empleado10"));
+        , "empleado0", "empleado6", "empleado10", "empleado11", "empleado12", "empleado13"));
+
+        model.addAttribute("listaCategorias", List.of("Entrantes", "Carnes","Pastas","Burguers","Pizzas","Tacos","Ensaladas"));
 
         return "configuracion";
     }
