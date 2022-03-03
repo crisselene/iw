@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import lombok.Data;
@@ -20,8 +20,8 @@ public class Pedido {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
     
-    @ManyToMany
-    List<Plato> platos; //Lista de platos
+    @OneToMany (mappedBy = "pedido")
+    private List<LineaPlatoPedido> platos; //Lista de platos
     private String direccion;
 
     @ManyToOne
