@@ -110,6 +110,10 @@ public class RootController {
 
     @GetMapping("configuracion")
     public String configuracion(Model model) {
+
+        model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
+        , "empleado0", "empleado6", "empleado10"));
+
         return "configuracion";
     }
 
@@ -135,6 +139,7 @@ public class RootController {
             pedidos.add("pedido3");
             pedidos.add("pedido2");
 
+            //model.addAttribute("listaPedidos", pedidos);
             model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3", "pedido5", "pedido4"));
 
             return "pedidosUsuario";

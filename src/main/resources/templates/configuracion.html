@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Configuracion</title>
+    <link rel="stylesheet" href="css/configuracion.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -36,20 +37,81 @@
                 </form>
             </div>
 
-            <div class="col-md-6 offset-1" style="height: 400px; background-color:aquamarine; overflow: auto; border-radius: 10px;">
+            <div class="col-md-6 offset-1" style="height: 500px; background-color:aquamarine; overflow: auto; border-radius: 10px;">
                 <div class="row">
                     <div class="col">
                         <h2 style="margin-top: 1%; margin-bottom: 2%;">Lista de empleados</h2>
                     </div>
                     <div class="col" style="text-align: right;">
-                        <form id="anadirEmp" th:action="@{/}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAnadirEmpleado">
+                            Añadir empleado
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalAnadirEmpleado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAnadirEmpleadoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Añadir empleado</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="text-align: left;">
+                                        <form method="post" id="formAnadirEmpleado">
+                                            <label for="nombreEmpleado" style="display: block;">Nombre</label>
+                                            <input type="text" id="nombreEmpleado">
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Primer apellido</label>
+                                                    <input type="text" id="primerApellidoEmpleado">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Segundo apellido</label>
+                                                    <input type="text" id="segundoApellidoEmpleado">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Contraseña</label>
+                                                    <input type="password" id="contrasena1Empleado">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
+                                                    <input type="text" id="segundoApellidoEmpleado">
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Añadir</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <form id="anadirEmp" th:action="@{/}">
                             <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 3%;">Añadir empleado</button>
+                        </form> -->
+                    </div>
+                </div>
+
+                <div class="row" th:each="emp: ${listaEmpleados}" style="background-color: rgb(184, 229, 235);
+                margin-top: 2%; margin-right: 2%; margin-left: 2%; border-radius: 10px;">
+                    <div class="col" style="padding-top: 1%;">
+                        <p th:text="${emp}">sustituirEmpleado</p>
+                    </div>
+                    <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
+                        <form id="eliminarEmp" th:action="@{/}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
                         </form>
                     </div>
                 </div>
                 
                 <!-- La lista de empleados se crearía con un th:each recorriendo el array de empleados cuando tengamos modelo y datos -->
-                <div class="col-md-8">
+                <!-- <div class="col-md-8">
                     <div style="margin-bottom: 2%; margin-left:4%; background-color: rgb(227, 240, 243); border-radius: 10px;
                     padding-top: 1%; padding-bottom: 1%;">
                         <div class="row">
@@ -63,9 +125,9 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>  -->
 
-                <div class="col-md-8">
+                <!-- <div class="col-md-8">
                     <div style="margin-bottom: 2%; margin-left:4%; background-color: rgb(227, 240, 243); border-radius: 10px;
                     padding-top: 1%; padding-bottom: 1%;">
                         <div class="row">
@@ -161,11 +223,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 
             </div>   
-            </div>
+            
         </div>
     </div>
 

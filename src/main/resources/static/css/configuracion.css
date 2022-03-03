@@ -1,0 +1,6 @@
+/* Este margen es para que los campos input del modal queden espaciados
+(excluyendo al primer input)*/
+.modalLabel{
+    margin-top: 10%;
+}
+
