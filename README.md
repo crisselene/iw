@@ -1,7 +1,15 @@
-# Aplicación de Plantilla de IW
+# Restaurant.es
+Aplicación desarrollada para la asignatura de Ingeniería Web en la Universidad Complutense de Madrid.
 
-Debes buscar todos los lugares donde aparece la palabra "plantilla" (incluido este párrafo) y reemplazar las ocurrencias, y el contexto circundante, por valores que tengan sentido en tu aplicación. Por ejemplo, este párrafo deberías eliminarlo de tu proyecto.
+## Integrantes
+- Alberto Pascual Fernández
+- Andrés Romero Arbáizar                   
+- Eros Guerrero Sosa
+- Cristina Díez Sobrino 
+- Samuel Rodríguez Gómez
 
+## Detalles sobre la aplicación
+Restaurant.es es una aplicación para administrar las reservas de cualquier restaurante como usuario administrador y para hacer pedidos a un restaurante como cliente.
 
 
 ### Reference Documentation
