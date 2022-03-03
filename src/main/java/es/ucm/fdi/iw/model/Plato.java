@@ -15,9 +15,15 @@ public class Plato {
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
 
-    private String nombre;
+    public String nombre;
     private String descripcion;
     private float precio;
-    
+    public String categoria;
+
+    public Plato(String n, String c)
+    {
+        nombre = n;
+        categoria = c;
+    }
 
 }

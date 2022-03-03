@@ -10,8 +10,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Categorias;
+import es.ucm.fdi.iw.model.ListaPlatos;
+import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 
@@ -43,9 +46,28 @@ public class RootController {
         return "cartaCategorias";
     }
 
-    @GetMapping("cartaPlatosCategoria")
-    public String cartaPlatosCategoria(Model model) {
-        return "cartaPlatosCategoria";
+    @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
+    public String cartaPlatosCategoria(Model model, @RequestParam(required = false) String catElegida) {
+        
+        log.info("mensaje de prueba 2 {}", catElegida);
+
+
+        Categorias c = new Categorias();
+        //  model.addAttribute("categoria", c.cat);//funciona
+        //  model.addAttribute("categoria", c);//funciona
+          model.addAttribute("categorias", c);//funciona
+          ListaPlatos lp = new ListaPlatos();
+          for ( String cat : c.lista) {
+              List<Plato> aux = new ArrayList<Plato>();
+               aux = lp.getPlatoscategoria(cat);
+               model.addAttribute(cat, aux);//guarda una variable con nombre categoria, cuyo valor es una lista con los platos de esa categoria
+          }
+
+          model.addAttribute("listaPlatos", lp);
+       
+       
+       
+        return "carta";
     }
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {
