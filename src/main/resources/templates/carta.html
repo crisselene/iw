@@ -49,8 +49,8 @@
                         <div class="col-md-3 text-center" th:each="plato: ${__${cat}__}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
-                            <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
+                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.nombre}" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                             <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.nombre}" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>

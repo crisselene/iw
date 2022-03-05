@@ -80,8 +80,11 @@ public class RootController {
         return "hacerPedido";
     }
 
-    @GetMapping("verPlato")
-    public String verPlato(Model model) {
+    @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
+    public String verPlato(Model model,  @RequestParam(required = true) String platoElegido) {
+
+        model.addAttribute("nombrePlato", platoElegido);
+
         return "verPlato";
     }
 
@@ -92,9 +95,7 @@ public class RootController {
 
     @GetMapping("verReservas")
     public String verReservas(Model model, HttpSession session) {
-        User u= (User) session.getAttribute("u");//¿Porque u si esta en la sesion pero no en el modelo?
-        //¿no se metio al ejecutarser el model.addatributte de la clase User?
-        //¿cuando se ejecutan esos addAttribute?
+        User u= (User) session.getAttribute("u");
 
         // Se diferencia entre empleados y user porque los empleados necesitaran añadir todas las reservas existentes al modelo
         // mientras que el usuario solo necesita añadir al modelo las reservas que le correspondan a él
@@ -130,9 +131,7 @@ public class RootController {
        // System.out.println(model.toString());
         //model.addAttribute("demo", "valor");
       //  User u= (User) model.getAttribute("u");
-        User u= (User) session.getAttribute("u");//¿Porque u si esta en la sesion pero no en el modelo?
-                                                //¿no se metio al ejecutarser el model.addatributte de la clase User?
-                                                //¿cuando se ejecutan esos addAttribute?
+        User u= (User) session.getAttribute("u");
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
             List<String> pedidos = new ArrayList<String>();
