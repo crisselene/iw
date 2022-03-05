@@ -11,35 +11,41 @@
 
     <main class="flex-shrink-0">
         
-       
+        <th:block th:if="0==1">
+    <!-- Idea funcionamiento: 
+        Datos:  -variable con la lista de categorias (categorias.lista)
+                -variables con la lista de platos de cada categoria (una variable por categoria,
+                 y cuyo nombre de variable se corresponde con el nombre de la categoria)
+        Funcionamiento: La navbar se cargara recorriendo la lista de categorias. Cada boton del navbar tendra como objetivo un div
+                        cuyo id sera el nombre de la categoria       
 
+                        Se cargan tantos divs (que seran los contenedores de los platos) como categorias hay.
+                        Cada div tendra como id el nombre de la categoria
+                        Dentro de cada div se cargan los platos de su categoria, accediendo a la variable que los contiene, 
+                        cuyo nombre es el mismo que el de la categoria
+                
+        *Este th:block con el if, sirve para que este comentario no se cargue en el html que ve el navegador
+                    -->
+        </th:block>
 
-        <nav id="navbarCategorias" class="navbar navbar-expand-md navbar-light bg-light">
-            <div class="container-fluid">
-
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav mr-auto">
-                  <!-- <li class="nav-item">
-                    <a class="nav-link  active" th:text="${cat}" data-bs-target="#entrantes" data-bs-toggle="tab" aria-selected="true" type="button">Entrantes</a>
-                  </li> -->
-                  <li class="nav-item" th:each="cat: ${categorias.lista}">
-                    <a class="nav-link" th:text="${cat}" th:attr="data-bs-target='#'+${cat}" data-bs-toggle="tab" type="button">Entrantes</a>
-                </li>
-                </ul>
-              </div>
+        <nav class="navbar-light bg-light">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <th:block th:each="cat,iter: ${categorias.lista}"><!-- Se recorre la lista de categorias para crear los elementos de la navbar, el primero se pone como activo-->
+                    <button th:if="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
+                    <button th:unless="${iter.index} == 0" th:text="${cat}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
+                </th:block>
             </div>
           </nav>
-<!--Los id de los panales target seran los porpios nombres de las categorias-->
-
-          
-        <div class="tab-content"  ><!-- contenido de la pagina, que se cargara segun lo pulsado en el navbar-->
-
-
-<!--panel dinamico-->
-
-            <div  class="tab-pane fade row h-100" th:each="cat: ${categorias.lista}" th:id=${cat}  role="tabpanel" aria-labelledby="Entrantes-tab">
-                <!-- <div class="container"> Si pones div container haces q las columnas dentro de las rows se centren automaticamente -->
-                     <div class="row h-100">
+         
+        <!-- tab que va cambiando los panel que muestra dinamicamente segun lo que se pulse en el navbar-->
+          <div class="tab-content" id="nav-tabContent">
+               <!-- Se recorre la lista de categorias para crear los pane de cada categoria (los cuales contendran los platos)-->
+            <th:block th:each="cat,iter: ${categorias.lista}">
+                   
+                <!--la primera categoria se marca como activa para que se muestre por defecto-->
+                <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat}" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
+                         <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
                         <div class="col-md-3 text-center" th:each="plato: ${__${cat}__}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
@@ -47,17 +53,79 @@
                             <button type="submit" class="btn btn-primary" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
-                        <!-- <div class="col-md-3 text-center">
+                    </div>
+
+                </div>
+                <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat}" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row"> 
+                        <div class="col-md-3 text-center" th:each="plato: ${__${cat}__}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
-                           
                             <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Papas</button> 
+                            <button type="submit" class="btn btn-primary" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
-                        </div> -->
-                     </div>  
-                  <!-- </div>  -->
+                        </div>
+                    </div>
+                </div>
+
+                    
+
+
+
+            </th:block>
+
+          </div>
+
+        <!-- <nav class="navbar-light bg-light">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist"> -->
+                <!-- <th:block th:each="cat,iter: ${categorias.lista}">
+                    <button th:if="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:attr="data-bs-target='#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                    <button th:unless="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:attr="data-bs-target='#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Home</button>
+                </th:block> -->
+              <!-- <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="Entrantes" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#Carnes" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#Pasta" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
             </div>
+        </nav>
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="Entrantes" role="tabpanel" aria-labelledby="nav-home-tab">contenido1</div>
+            <div class="tab-pane fade" id="Carnes" role="tabpanel" aria-labelledby="nav-profile-tab">contenido2</div>
+            <div class="tab-pane fade" id="Pasta" role="tabpanel" aria-labelledby="nav-contact-tab">contenido3</div>
+        </div> -->
+
+       
+
+
+        <!-- <nav id="navbarCategorias" class="navbar navbar-expand-md navbar-light bg-light">
+            <div class="container-fluid">
+ <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+</button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="nav mr-auto" role="tablist"> -->
+                  <!-- <li class="nav-item">
+                    <a class="nav-link  active" th:text="${cat}" data-bs-target="#entrantes" data-bs-toggle="tab" aria-selected="true" type="button">Entrantes</a>
+                  </li> -->
+                  <!-- <li class="nav-item" th:each="cat,iter: ${categorias.lista}" role="presentation">
+                      <th:block th:if="${iter.index} == 0">
+                        <a class="nav-link active" th:text="${cat}" th:attr="data-bs-target='#'+${cat}" role="tab" data-bs-toggle="tab" aria-selected="true" type="button">Entrantes</a>
+                      </th:block>
+                      <th:block th:unless="${iter.index} == 0">
+                        <a class="nav-link" th:text="${cat}" th:attr="data-bs-target='#'+${cat}" role="tab" data-bs-toggle="tab" aria-selected="false" type="button">Entrantes</a>
+                      </th:block>
+                        
+                     
+                    
+                </li>
+                </ul>
+              </div>
+            </div>
+          </nav> -->
+<!--Los id de los panales target seran los porpios nombres de las categorias-->
+
+          
+    
 
 
             <!--entrantes-->
@@ -174,7 +242,7 @@
 
 
 
-        </div>
+        <!-- </div> -->
     
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />
