@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Perfil</title>
+    <link rel="stylesheet" href="css/user.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -12,7 +13,11 @@
     <main class="flex-shrink-0">
         <div class="container">
             <h1 class="mt-5">Perfil de <span th:text="${user.username}">Paco</span></h1>
-            <img class="profilepic" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+            <img class="profilepic" style=" width: 205px; height: 205px;overflow: hidden;
+            border-radius: 100%;margin: 0 auto 34px auto; background: #59363F;padding: 10px;" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+             <h1 class="mt-5">¿Una rica hamburguesa🍔, <span th:text="${user.username}">Paco</span>?</h1>
+             <a class="button" th:href = "@{/hacerPedido}">¡Hacer un pedido!</a>
+             <h1 class="mt-5">🍟🍕 Tú decides 🥗🥞 </h1>
 
             <!-- para enviar mensajes; algo feo -->
             <div class="py-5 position-absolute bottom-0 row ">

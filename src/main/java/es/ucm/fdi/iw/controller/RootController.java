@@ -71,15 +71,18 @@ public class RootController {
        
         return "carta";
     }
-    @GetMapping("reservarMesa")
-    public String reservarMesa(Model model) {
-        return "reservarMesa";
-    }
 
     @GetMapping("hacerPedido")
     public String hacerPedido(Model model) {
         return "hacerPedido";
     }
+    
+    @GetMapping("reservarMesa")
+    public String reservarMesa(Model model) {
+        return "reservarMesa";
+    }
+
+
 
     @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
     public String verPlato(Model model,  @RequestParam(required = true) String platoElegido) {
