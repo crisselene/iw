@@ -112,7 +112,7 @@ public class RootController {
     }
 
     
-    @PostMapping("configuracion")
+    @GetMapping("configuracion")
     public String configuracion(Model model) {
 
         model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
