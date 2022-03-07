@@ -11,50 +11,95 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">Pagina pedidos desde punto de vista usuario 3</h1>
+            <h1 class="mt-5">Pagina pedidos desde punto de vista usuario</h1>
         </div>
 
-        <div class="container">
-            <th:block th:each="ped,i: ${listaPedidos}">
-                <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
-                lo mismo pasa con el ultimo elemento y los del medio-->
+        <div style="padding: 10px;">
+            <div class="container" style="width: 45%; float: left; margin:25px;">
+                <th:block th:each="ped,i: ${listaPedidos}">
+                    <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                    lo mismo pasa con el ultimo elemento y los del medio-->
 
-                <!-- Primer elemento -->
-                <div class="row" th:if="${i.first}" style="background-color: aquamarine;
-                border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; border-bottom: 0;
-                padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
-                    <div class="col" th:text="${ped}" style="margin: auto;">
-                        
+                    <!-- Primer elemento -->
+                    <div class="row" th:if="${i.first}" style="background-color: aquamarine;
+                    border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; border-bottom: 0;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
+                        <div class="col" th:text="${ped}" style="margin: auto;">
+                            
+                        </div>
+                        <div class="col">
+                            <form id="verDetallesPedido" th:action="@{/}">
+                                <button type="submit" class="btn btn-primary btn-sm" style="margin: auto ;">Ver detalles</button>
+                            </form>
+                        </div>
+
                     </div>
-                    <div class="col">
-                        <form id="verDetallesPedido" th:action="@{/}">
-                            <button type="submit" class="btn btn-primary btn-sm" style="margin: auto ;">Ver detalles</button>
-                        </form>
+
+                    <!-- Ultimo elemento -->
+                    <div class="row" th:if="${i.last}"  style="background-color: rgb(255, 127, 144);
+                    border: 1px solid; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
+                    
                     </div>
 
-                </div>
-
-                <!-- Ultimo elemento -->
-                <div class="row" th:if="${i.last}"  style="background-color: rgb(255, 127, 144);
-                border: 1px solid; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
-                padding-top: 2%; padding-bottom: 2%; padding-left: 10%;"> 
-                    <div class="col" th:text="${ped}">
-                        
+                    <!-- Elementos del medio -->
+                    <div class="row" th:unless="${i.first or i.last}" 
+                    style="border: 1px solid; border-bottom: 0; padding-top: 2%; padding-bottom: 2%;
+                    padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
                     </div>
-                
-                </div>
 
-                <!-- Elementos del medio -->
-                <div class="row" th:unless="${i.first or i.last}" 
-                style="border: 1px solid; border-bottom: 0; padding-top: 2%; padding-bottom: 2%;
-                padding-left: 10%;"> 
-                    <div class="col" th:text="${ped}">
-                        
+                </th:block>
+
+            </div>
+
+            <div class="container" style="width: 45%; float: right;  margin:25px;">
+                <th:block th:each="ped,i: ${listaPedidos}">
+                    <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                    lo mismo pasa con el ultimo elemento y los del medio-->
+
+                    <!-- Primer elemento -->
+                    <div class="row" th:if="${i.first}" style="background-color: aquamarine;
+                    border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; border-bottom: 0;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
+                        <div class="col" th:text="${ped}" style="margin: auto;">
+                            
+                        </div>
+                        <div class="col">
+                            <form id="verDetallesPedido" th:action="@{/}">
+                                <button type="submit" class="btn btn-primary btn-sm" style="margin: auto ;">Ver detalles</button>
+                            </form>
+                        </div>
+
                     </div>
-                </div>
 
-            </th:block>
+                    <!-- Ultimo elemento -->
+                    <div class="row" th:if="${i.last}"  style="background-color: rgb(255, 127, 144);
+                    border: 1px solid; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;
+                    padding-top: 2%; padding-bottom: 2%; padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
+                    
+                    </div>
 
+                    <!-- Elementos del medio -->
+                    <div class="row" th:unless="${i.first or i.last}" 
+                    style="border: 1px solid; border-bottom: 0; padding-top: 2%; padding-bottom: 2%;
+                    padding-left: 10%;"> 
+                        <div class="col" th:text="${ped}">
+                            
+                        </div>
+                    </div>
+
+                </th:block>
+
+            </div>
         </div>
         
     </main>
