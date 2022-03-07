@@ -1,6 +1,7 @@
 
 h1, h3{
     color:#566573;
+    text-align: left;
 }
 body{
     background:url(../img/home-bg.jpg) no-repeat;
@@ -21,6 +22,7 @@ button{
 }
 .bajando{
     height: 90%;
+    margin-left: 10px;
 }
 .contenido{
     border-top: 0px;
@@ -45,14 +47,12 @@ button{
 }
 #elegir{
     position: relative;
-    top : 48%;
+    top : 28%;
 }
 #mostrarHoras .row{
     margin-top: 1.5%;
 }
-#customButtom{
-    color:aqua;
-}
+
 #calendario{
     color:#566573;
     background-color:#D9B0B0;
