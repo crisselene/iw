@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Categorias;
 import es.ucm.fdi.iw.model.ListaPlatos;
+import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
@@ -138,23 +139,30 @@ public class RootController {
         User u= (User) session.getAttribute("u");
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
-            List<String> pedidos = new ArrayList<String>();
-            pedidos.add("pedido1");
-            pedidos.add("pedido3");
-            pedidos.add("pedido2");
+
+            Pedido ped = new Pedido("La avenida de la piruleta");
+            Pedido ped1 = new Pedido("Calle del aburrimiento nº2");
+            Pedido ped2 = new Pedido("Calle chachi pistachi");
+            List<Pedido> pedidos = new ArrayList<Pedido>();
+            pedidos.add(ped);
+            pedidos.add(ped1);
+            pedidos.add(ped2);
 
             //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3", "pedido5", "pedido4"));
+            model.addAttribute("listaPedidos", List.of(ped,ped1, ped2));
             return "pedidosEmpleado";
         }
         else{
-            List<String> pedidos = new ArrayList<String>();
-            pedidos.add("pedido1");
-            pedidos.add("pedido3");
-            pedidos.add("pedido2");
+            Pedido ped = new Pedido("La avenida de la piruleta");
+            Pedido ped1 = new Pedido("Calle del aburrimiento nº2");
+            Pedido ped2 = new Pedido("Calle chachi pistachi");
+            List<Pedido> pedidos = new ArrayList<Pedido>();
+            pedidos.add(ped);
+            pedidos.add(ped1);
+            pedidos.add(ped2);
 
             //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos", List.of("pedido1", "pedido2", "pedido3", "pedido5", "pedido4"));
+            model.addAttribute("listaPedidos", List.of(ped,ped1, ped2));
 
             return "pedidosUsuario";
         }
