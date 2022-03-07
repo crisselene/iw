@@ -13,6 +13,13 @@ body{
       color:#593643;
       opacity: 0.6;
   }
+  button{
+    background-color: #733646;
+    color:#f8f0e7;
+    border-color: #363846;
+    border-radius: 3px;
+    width: 100%;
+}
   form{
     max-width: 100%;
 
