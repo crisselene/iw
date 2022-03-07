@@ -57,14 +57,15 @@ public class RootController {
         //  model.addAttribute("categoria", c.cat);//funciona
         //  model.addAttribute("categoria", c);//funciona
           model.addAttribute("categorias", c);//funciona
+          model.addAttribute(c.getNombre(), c.getPlatos());
           ListaPlatos lp = new ListaPlatos();
-          for ( String cat : c.lista) {
-              List<Plato> aux = new ArrayList<Plato>();
-               aux = lp.getPlatoscategoria(cat);
-               model.addAttribute(cat, aux);//guarda una variable con nombre categoria, cuyo valor es una lista con los platos de esa categoria
-          }
+        //   for ( Plato p : c.getPlatos()) {
+        //       List<Plato> aux = new ArrayList<Plato>();
+        //        aux = lp.getPlatoscategoria(cat);
+        //        model.addAttribute(cat, aux);//guarda una variable con nombre categoria, cuyo valor es una lista con los platos de esa categoria
+        //   }
 
-          model.addAttribute("listaPlatos", lp);
+          model.addAttribute("listaPlatos", c.getPlatos());
        
        
        

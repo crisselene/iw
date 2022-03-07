@@ -49,6 +49,12 @@ public class User implements Transferable<User.Transfer> {
     private String firstName;
     private String lastName;
 
+    @OneToMany (mappedBy = "cliente")
+    private List<Reserva> reservas;
+
+    @OneToMany (mappedBy = "cliente")
+    private List<Valoracion> valoraciones;
+
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 

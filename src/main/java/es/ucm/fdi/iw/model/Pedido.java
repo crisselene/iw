@@ -22,8 +22,9 @@ public class Pedido {
     
     @OneToMany (mappedBy = "pedido")
     private List<LineaPlatoPedido> platos; //Lista de platos
-    private String direccion;
-
+    
     @ManyToOne
     private User cliente; //Quien compro el pedido
+
+    private String direccion;
 }

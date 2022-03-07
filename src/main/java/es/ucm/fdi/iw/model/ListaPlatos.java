@@ -25,10 +25,10 @@ public class ListaPlatos {
     {
         List<Plato> aux = new ArrayList<Plato>();
 
-        for (Plato p : platos) {
-            if(p.categoria == categoria)
-                aux.add(p);
-        }
+        // for (Plato p : platos) {
+        //     if(p.categoria == categoria)
+        //         aux.add(p);
+        // }
 
         return aux;
     }
