@@ -21,8 +21,9 @@
                 <p>Los administradores están informados. Puedes volver a intentar hacer lo que estabas haciendo de otra forma, o esperar a que solucionen el problema.</p>
             </div>
             <div th:if="${application.debug}">
-                <p>Ha pasado algo feo. Mira el log del servidor para saber más detalles.</p>
 
+                <p>😥😣Ha pasado algo feo. Mira el log del servidor para saber más detalles.😣😥</p>
+                <img th:src="|https://http.cat/${status}|" alt="gato ilustrando problema" />
                 <h4>Detalles del error</h4>
                 <table class="errTable">
                     <tr>
