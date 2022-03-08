@@ -10,10 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Data
+@AllArgsConstructor
 public class Plato {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
