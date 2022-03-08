@@ -15,9 +15,13 @@ import lombok.Data;
 @Entity
 @Data
 public class Pedido {
+    public Pedido(String direccion){
+        this.direccion = direccion;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
+    
 	private long id;
     
     @OneToMany (mappedBy = "pedido")
