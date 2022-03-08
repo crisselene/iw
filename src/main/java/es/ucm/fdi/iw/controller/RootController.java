@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -64,7 +65,6 @@ public class RootController {
         //        aux = lp.getPlatoscategoria(cat);
         //        model.addAttribute(cat, aux);//guarda una variable con nombre categoria, cuyo valor es una lista con los platos de esa categoria
         //   }
-
           model.addAttribute("listaPlatos", c.getPlatos());
        
        
