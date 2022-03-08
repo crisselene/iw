@@ -9,7 +9,7 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="flex-shrink-0">
         <div class="container">
-            <h3 class="mt-5">Pagina pedidos desde punto de vista empleados/propietario</h3>
+            <h3 class="mt-5">Pagina pedidos desde punto de vista ususario</h3>
         </div>
         <!--Tabla PEDIDOS NUEVOS, float left para que esté a la izquierda-->
         <div class="container">
@@ -28,7 +28,56 @@
                         </div>
                         <div class="col">
                             <form id="verDetallesPedido" th:action="@{/}">
-                                <button type="submit" class="btn btn-primary btn-sm" style="margin: auto;">Ver detalles</button>
+
+                                <!-- boton detalles que si lo pulsas te muestra los detalles con un modal-->
+                                <button type="submit" class="btn btn-primary btn-sm" style="margin: auto;" data-bs-toggle="modal" 
+                                data-bs-target="#modalVerDetalles" >Ver detalles</button>
+                               
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="modalVerDetalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAnadirEmpleadoLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalAnadirEmpleadoTitle">Ver detalles del pedido</h5>
+                                                    <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="text-align: left;">
+                                                    <form id="formAnadirEmpleado">
+                                                       
+                                                        <!--NO ENTIENDO POR QUÉ SI BORRO ESTE INPUT SE VA TODO EL MODAL A LA KK-->
+                                                        <input type="text" id="nombreEmpleado" required>
+
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <h6 style="display: block;" class="modalLabel">Lista platos</h6>
+                                                                <ul>
+                                                                    <li th:text="${ped}">plato 1</li>
+                                                                    <li>plato 2</li>
+                                                                    <li>plato 3</li>
+                                                                </ul>
+                                                               
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 style="display: block;" class="modalLabel">Cliente</h6>
+                                                            </div>
+                                                            <div class="col">
+                                                                <h6 style="display: block;" class="modalLabel"  th:text="${ped}">Dirección</h6>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <form id="anadirEmpleado" th:action="@{/}">
+                                                        <button type="submit" class="btn btn-primary">Añadir</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
                             </form>
                         </div>
     
