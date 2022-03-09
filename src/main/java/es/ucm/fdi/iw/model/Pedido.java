@@ -17,8 +17,9 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Pedido {
-    public Pedido(String direccion){
+    public Pedido(String direccion, List<LineaPlatoPedido> platos){
         this.direccion = direccion;
+        this.platos = platos;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")

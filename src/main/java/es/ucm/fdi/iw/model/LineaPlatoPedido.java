@@ -4,11 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Data
+@AllArgsConstructor
 public class LineaPlatoPedido {
+    public LineaPlatoPedido(Plato plato){
+        this.plato = plato;
+    }
     @EmbeddedId private LineaPlatoPedidoId id;
     
     @ManyToOne
