@@ -29,7 +29,7 @@ public class Plato {
     private List<Valoracion> valoraciones;
 
     @ManyToOne
-    private Categorias categoria;
+    private Categoria categoria;
 
     public String nombre;
     private String descripcion;
@@ -41,5 +41,15 @@ public class Plato {
         nombre = n;
         //categoria = c;
     }
+    public Plato(String n)
+    {
+        nombre = n;
+        //categoria = c;
+    }
+    public String debugGetName()
+    {
+        return nombre;
+    }
+
 
 }

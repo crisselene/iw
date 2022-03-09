@@ -30,9 +30,9 @@
 
         <nav class="navbar-light bg-light">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <th:block th:each="cat,iter: ${categorias.lista}"><!-- Se recorre la lista de categorias para crear los elementos de la navbar, el primero se pone como activo-->
-                    <button th:if="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
-                    <button th:unless="${iter.index} == 0" th:text="${cat}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
+                <th:block th:each="cat,iter: ${categorias}"><!-- Se recorre la lista de categorias para crear los elementos de la navbar, el primero se pone como activo-->
+                    <button th:if="${iter.index} == 0" th:text="${cat.debugGetNombre()}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
+                    <button th:unless="${iter.index} == 0" th:text="${cat.debugGetNombre()}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
                 </th:block>
             </div>
           </nav>
@@ -40,29 +40,29 @@
         <!-- tab que va cambiando los panel que muestra dinamicamente segun lo que se pulse en el navbar-->
           <div class="tab-content" id="nav-tabContent">
                <!-- Se recorre la lista de categorias para crear los pane de cada categoria (los cuales contendran los platos)-->
-            <th:block th:each="cat,iter: ${categorias.lista}">
+            <th:block th:each="cat,iter: ${categorias}">
                    
                 <!--la primera categoria se marca como activa para que se muestre por defecto-->
-                <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat}" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.debugGetNombre()}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
                          <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
-                        <div class="col-md-3 text-center" th:each="plato: ${__${cat}__}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.debugGetListaPlatos()}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.nombre}" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.debugGetName()}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
 
                 </div>
-                <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat}" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.debugGetNombre()}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> 
-                        <div class="col-md-3 text-center" th:each="plato: ${__${cat}__}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.debugGetListaPlatos()}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.nombre}" th:text="${plato.nombre}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.debugGetName()}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
@@ -75,174 +75,6 @@
             </th:block>
 
           </div>
-
-        <!-- <nav class="navbar-light bg-light">
-            <div class="nav nav-tabs" id="nav-tab" role="tablist"> -->
-                <!-- <th:block th:each="cat,iter: ${categorias.lista}">
-                    <button th:if="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:attr="data-bs-target='#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-                    <button th:unless="${iter.index} == 0" th:text="${cat}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:attr="data-bs-target='#'+${cat}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Home</button>
-                </th:block> -->
-              <!-- <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="Entrantes" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-              <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#Carnes" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-              <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#Pasta" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
-            </div>
-        </nav>
-
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="Entrantes" role="tabpanel" aria-labelledby="nav-home-tab">contenido1</div>
-            <div class="tab-pane fade" id="Carnes" role="tabpanel" aria-labelledby="nav-profile-tab">contenido2</div>
-            <div class="tab-pane fade" id="Pasta" role="tabpanel" aria-labelledby="nav-contact-tab">contenido3</div>
-        </div> -->
-
-       
-
-
-        <!-- <nav id="navbarCategorias" class="navbar navbar-expand-md navbar-light bg-light">
-            <div class="container-fluid">
- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-
-</button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav mr-auto" role="tablist"> -->
-                  <!-- <li class="nav-item">
-                    <a class="nav-link  active" th:text="${cat}" data-bs-target="#entrantes" data-bs-toggle="tab" aria-selected="true" type="button">Entrantes</a>
-                  </li> -->
-                  <!-- <li class="nav-item" th:each="cat,iter: ${categorias.lista}" role="presentation">
-                      <th:block th:if="${iter.index} == 0">
-                        <a class="nav-link active" th:text="${cat}" th:attr="data-bs-target='#'+${cat}" role="tab" data-bs-toggle="tab" aria-selected="true" type="button">Entrantes</a>
-                      </th:block>
-                      <th:block th:unless="${iter.index} == 0">
-                        <a class="nav-link" th:text="${cat}" th:attr="data-bs-target='#'+${cat}" role="tab" data-bs-toggle="tab" aria-selected="false" type="button">Entrantes</a>
-                      </th:block>
-                        
-                     
-                    
-                </li>
-                </ul>
-              </div>
-            </div>
-          </nav> -->
-<!--Los id de los panales target seran los porpios nombres de las categorias-->
-
-          
-    
-
-
-            <!--entrantes-->
-            <!-- <div  class="tab-pane fade row h-100 container show active" id="entrantes"  role="tabpanel" aria-labelledby="entrantes-tab">
-                <div class="container">
-                    <div class="row h-100" style="margin-top: 50px;"> 
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
-                            <br>
-                           
-                            <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Patatas bravas</button> 
-                        </form>   
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img style="height: 200px;" th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <form th:action = "@{/verPlato}">
-                                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Croquetas</button>
-                            </form>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-1.jpg}" src="/img/s-img-1.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Cheese sticks</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Chicken tenders</button>
-                        </div>
-                    </div>
-            
-                    <div class="row h-100">
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Patatas con chedar</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Nachos</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-5.jpg}" src="/img/s-img-5.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Delicias de pollo</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img style="height: 200px;" th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW"class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Teques</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-            <!--burguers-->
-            <!-- <div  class="tab-pane fade row h-100 container" id="hamburguesas" role="tabpanel" aria-labelledby="hamburguesas-tab">
-                <div class="container"> 
-                    <div class="row h-100" style="margin-top: 50px;">
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-6.jpg}" src="/img/s-img-6.jpg" alt="logo IW" class="img-thumbnail mw-100">
-                            <br>
-                            
-                            <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Burguer con queso</button>
-                        </form>   
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img style="height: 200px;" th:src="@{/img/comidaDefault.jpg}" src="/img/comidaDefault.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <form th:action = "@{/verPlato}">
-                                 <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Burguer Deluxe</button>
-                            </form> 
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-1.jpg}" src="/img/s-img-1.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burger vegan</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-3.jpg}" src="/img/s-img-3.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burguer pollo</button>
-                        </div>
-                    </div>
-            
-                    <div class="row h-100">
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burguer veggie</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-4.jpg}" src="/img/s-img-4.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burguer ranchera</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img th:src="@{/img/s-img-5.jpg}" src="/img/s-img-5.jpg" alt="logo IW" class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burguer & egg</button>
-                        </div>
-                        <div class="col-md-3 text-center">
-                            <img style="height: 200px;" th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW"class="img-thumbnail">
-                            <br>
-                            <button type="button" class="btn btn-primary" style="margin-top: 10px;">Burguer barbacoa</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
-
-
-        <!-- </div> -->
     
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />

@@ -4,10 +4,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import es.ucm.fdi.iw.model.Categorias;
+import es.ucm.fdi.iw.model.Categoria;
 
 public interface SACategoria {
     
-    public List<Categorias> listarCategorias(EntityManager em);
+    public List<Categoria> listarCategorias(EntityManager em);
     
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.ucm.fdi.iw.model.Categorias;
+import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ListaPlatos;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
@@ -39,35 +39,38 @@ public class RootController {
         return "index";
     }
 
-    @GetMapping("cartaCategorias")
-    public String cartacategorias(Model model) {
-        Categorias c = new Categorias();
-      //  model.addAttribute("categoria", c.cat);//funciona
-      //  model.addAttribute("categoria", c);//funciona
-        model.addAttribute("categoria", c);//funciona
-        
-        return "cartaCategorias";
-    }
-
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
-    public String cartaPlatosCategoria(Model model, @RequestParam(required = false) String catElegida) {
+    public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
         
-        log.info("mensaje de prueba 2 {}", catElegida);
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        listaCategorias.add(new Categoria("Entrantes"));
+        listaCategorias.add(new Categoria("Carnes"));
+        listaCategorias.add(new Categoria("Pescado"));
 
+        List<Plato> aux1 = new ArrayList<Plato>(); 
+        List<Plato> aux2 = new ArrayList<Plato>(); 
+        List<Plato> aux3 = new ArrayList<Plato>(); 
+        for(int i = 0; i < 5; i++)
+        {
+            aux1.add(new Plato("plato" + i));
+        }
+        for(int i = 0; i < 3; i++)
+        {
+            aux2.add(new Plato("plato" + i));
+        }
+        for(int i = 0; i < 2; i++)
+        {
+            aux3.add(new Plato("plato" + i));
+        }
 
-        //Categorias c = new Categorias();
-        //  model.addAttribute("categoria", c.cat);//funciona
-        //  model.addAttribute("categoria", c);//funciona
-        //   model.addAttribute("categorias", c);//funciona
-        //   model.addAttribute(c.getNombre(), c.getPlatos());
-        //   ListaPlatos lp = new ListaPlatos();
-        // //   for ( Plato p : c.getPlatos()) {
-        // //       List<Plato> aux = new ArrayList<Plato>();
-        // //        aux = lp.getPlatoscategoria(cat);
-        // //        model.addAttribute(cat, aux);//guarda una variable con nombre categoria, cuyo valor es una lista con los platos de esa categoria
-        // //   }
-        //   model.addAttribute("listaPlatos", c.getPlatos());
        
+     
+        listaCategorias.get(0).debugSetListaPlatos(aux1);
+        listaCategorias.get(1).debugSetListaPlatos(aux2);
+        listaCategorias.get(2).debugSetListaPlatos(aux3);
+        
+        //mete la lista de categorias
+        model.addAttribute("categorias", listaCategorias);
        
        
         return "carta";

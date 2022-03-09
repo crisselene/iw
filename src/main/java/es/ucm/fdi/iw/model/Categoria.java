@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Categorias {
+public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
@@ -24,4 +24,30 @@ public class Categorias {
     private List<Plato> platos;
     
     private String nombre;
+
+    public Categoria(String n)
+    {
+        nombre = n;
+    }
+
+
+    public void debugSetNombre(String n)
+    {
+        nombre = n;
+    }
+    public String debugGetNombre()
+    {
+       return nombre;
+    }
+
+    public List<Plato> debugGetListaPlatos()
+    {
+ 
+       return platos;
+    }
+
+    public void debugSetListaPlatos(List<Plato> lp)
+    {
+        platos = lp;
+    }
 }
