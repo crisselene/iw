@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Categoria;
+import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.ListaPlatos;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
@@ -142,30 +143,31 @@ public class RootController {
         User u= (User) session.getAttribute("u");
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
-
-            Pedido ped = new Pedido("La avenida de la piruleta");
-            Pedido ped1 = new Pedido("Calle del aburrimiento nº2");
-            Pedido ped2 = new Pedido("Calle chachi pistachi");
+            Plato plat = new Plato("Arroz", "con Calamares");
+            
+            LineaPlatoPedido lin = new LineaPlatoPedido(plat);
+            List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
+            platos.add(lin);
             List<Pedido> pedidos = new ArrayList<Pedido>();
-            pedidos.add(ped);
-            pedidos.add(ped1);
-            pedidos.add(ped2);
+            pedidos.add(new Pedido("La avenida de la piruleta", platos));
+            pedidos.add(new Pedido("Calle antequilla", platos));
+
 
             //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos", List.of(ped,ped1, ped2));
+            model.addAttribute("listaPedidos", pedidos);
             return "pedidosEmpleado";
         }
         else{
-            Pedido ped = new Pedido("La avenida de la piruleta");
-            Pedido ped1 = new Pedido("Calle del aburrimiento nº2");
-            Pedido ped2 = new Pedido("Calle chachi pistachi");
+            Plato plat = new Plato("Arroz", "con Calamares");
+            
+            LineaPlatoPedido lin = new LineaPlatoPedido(plat);
+            List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
+            platos.add(lin);
             List<Pedido> pedidos = new ArrayList<Pedido>();
-            pedidos.add(ped);
-            pedidos.add(ped1);
-            pedidos.add(ped2);
+            pedidos.add(new Pedido("La avenida de la piruleta", platos));
 
             //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos", List.of(ped,ped1, ped2));
+            model.addAttribute("listaPedidos",pedidos);
 
             return "pedidosUsuario";
         }
