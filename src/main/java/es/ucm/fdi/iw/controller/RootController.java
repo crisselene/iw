@@ -140,32 +140,31 @@ public class RootController {
        // System.out.println(model.toString());
         //model.addAttribute("demo", "valor");
       //  User u= (User) model.getAttribute("u");
-        User u= (User) session.getAttribute("u");
-        if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
-        {
-            Plato plat = new Plato("Arroz", "con Calamares");
+
+      //-------------------PRUEBAS
+      Plato plat = new Plato("Arroz", "con Calamares");
+            Plato plat1 = new Plato("Pollo", "con patatas");
             
             LineaPlatoPedido lin = new LineaPlatoPedido(plat);
+            LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
+
             List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
             platos.add(lin);
+            platos.add(lin1);
             List<Pedido> pedidos = new ArrayList<Pedido>();
             pedidos.add(new Pedido("La avenida de la piruleta", platos));
             pedidos.add(new Pedido("Calle antequilla", platos));
+    //------------------PRUEBAS
 
-
+        User u= (User) session.getAttribute("u");
+        if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
+        {
+            
             //model.addAttribute("listaPedidos", pedidos);
             model.addAttribute("listaPedidos", pedidos);
             return "pedidosEmpleado";
         }
         else{
-            Plato plat = new Plato("Arroz", "con Calamares");
-            
-            LineaPlatoPedido lin = new LineaPlatoPedido(plat);
-            List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
-            platos.add(lin);
-            List<Pedido> pedidos = new ArrayList<Pedido>();
-            pedidos.add(new Pedido("La avenida de la piruleta", platos));
-
             //model.addAttribute("listaPedidos", pedidos);
             model.addAttribute("listaPedidos",pedidos);
 
