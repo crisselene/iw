@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import es.ucm.fdi.iw.model.ListaPlatos;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.SA.SACategoriaImp;
 import es.ucm.fdi.iw.model.User.Role;
 
 /**
@@ -27,6 +29,10 @@ import es.ucm.fdi.iw.model.User.Role;
  */
 @Controller
 public class RootController {
+
+    @Autowired
+    private EntityManager entityManager;
+
 
 	private static final Logger log = LogManager.getLogger(RootController.class);
 
@@ -43,7 +49,21 @@ public class RootController {
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
     public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
         
+        SACategoriaImp saCategoria = new SACategoriaImp();
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
+
+        listaCategorias = saCategoria.listarCategorias(entityManager);
+
+        for(Categoria cat : listaCategorias)
+        {
+            log.info(cat.getNombre());
+            for(Plato p : cat.getPlatos())
+                log.info("-" + p.getNombre());
+        }
+
+      
+
+      /*  
         listaCategorias.add(new Categoria("Entrantes"));
         listaCategorias.add(new Categoria("Carnes"));
         listaCategorias.add(new Categoria("Pescado"));
@@ -68,7 +88,7 @@ public class RootController {
      
         listaCategorias.get(0).debugSetListaPlatos(aux1);
         listaCategorias.get(1).debugSetListaPlatos(aux2);
-        listaCategorias.get(2).debugSetListaPlatos(aux3);
+        listaCategorias.get(2).debugSetListaPlatos(aux3);*/
         
         //mete la lista de categorias
         model.addAttribute("categorias", listaCategorias);
@@ -90,9 +110,16 @@ public class RootController {
 
 
     @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
-    public String verPlato(Model model,  @RequestParam(required = true) String platoElegido) {
+    public String verPlato(Model model,  @RequestParam(required = true) Long platoElegidoId) {
+        Plato p = entityManager.find(Plato.class, platoElegidoId);
 
-        model.addAttribute("nombrePlato", platoElegido);
+        log.info("plato elegido" + p.getNombre());
+
+        model.addAttribute("plato", p);
+
+
+
+        model.addAttribute("nombrePlato", platoElegidoId);
 
         return "verPlato";
     }

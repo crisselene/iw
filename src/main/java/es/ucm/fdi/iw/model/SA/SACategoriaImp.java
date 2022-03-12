@@ -19,7 +19,8 @@ public class SACategoriaImp implements SACategoria{
     public List<Categoria> listarCategorias(EntityManager em) {
         List<Categoria> categorias;
        
-        categorias = em.createQuery("SELECT * FROM Categorias").getResultList();
+       // categorias = em.createQuery("SELECT * FROM Categoria").getResultList(); //no entiende el *
+        categorias = em.createQuery("SELECT c FROM Categoria c").getResultList(); //coge todas las categorias
         return categorias;
     }
     

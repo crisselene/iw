@@ -25,6 +25,9 @@ public class Categoria {
     
     private String nombre;
 
+    public Categoria()
+    {}
+
     public Categoria(String n)
     {
         nombre = n;

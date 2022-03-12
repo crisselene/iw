@@ -31,8 +31,8 @@
         <nav class="navbar-light bg-light">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <th:block th:each="cat,iter: ${categorias}"><!-- Se recorre la lista de categorias para crear los elementos de la navbar, el primero se pone como activo-->
-                    <button th:if="${iter.index} == 0" th:text="${cat.debugGetNombre()}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
-                    <button th:unless="${iter.index} == 0" th:text="${cat.debugGetNombre()}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
+                    <button th:if="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
+                    <button th:unless="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
                 </th:block>
             </div>
           </nav>
@@ -43,26 +43,26 @@
             <th:block th:each="cat,iter: ${categorias}">
                    
                 <!--la primera categoria se marca como activa para que se muestre por defecto-->
-                <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.debugGetNombre()}" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
                          <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.debugGetListaPlatos()}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.debugGetName()}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
 
                 </div>
-                <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.debugGetNombre()}" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.debugGetListaPlatos()}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
-                            <form th:action = "@{/verPlato}">
-                            <button type="submit" class="btn btn-primary" name="platoElegido" th:value="${plato.debugGetName()}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <form th:action = "@{/verPlato}">  <!-- antes value="${plato.debugGetName()}"  con lombock se puede acceder directamente a la variable como si fuera public-->
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
