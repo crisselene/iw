@@ -99,6 +99,19 @@ public class RootController {
 
     @GetMapping("hacerPedido")
     public String hacerPedido(Model model) {
+        SACategoriaImp saCategoria = new SACategoriaImp();
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+
+        listaCategorias = saCategoria.listarCategorias(entityManager);
+
+        for(Categoria cat : listaCategorias){
+            log.info(cat.getNombre());
+            for(Plato p : cat.getPlatos())
+                log.info("-" + p.getNombre());
+        }
+
+        model.addAttribute("categorias", listaCategorias); //Que tiene los platos
+       
         return "hacerPedido";
     }
     
