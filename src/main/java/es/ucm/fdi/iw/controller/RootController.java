@@ -182,18 +182,24 @@ public class RootController {
       //  User u= (User) model.getAttribute("u");
 
       //-------------------PRUEBAS
-      Plato plat = new Plato("Arroz", "con Calamares");
-            Plato plat1 = new Plato("Pollo", "con patatas");
+        Plato plat = new Plato("Arroz", "xxxxx");
+        Plato platito = new Plato("Calamares", "yyyyyy");
+        Plato plat1 = new Plato("Pechuga", "zzzzzzzz");
             
-            LineaPlatoPedido lin = new LineaPlatoPedido(plat);
-            LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
+        LineaPlatoPedido lin = new LineaPlatoPedido(plat);
+        LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
+        LineaPlatoPedido lin2 = new LineaPlatoPedido(platito);
 
-            List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
-            platos.add(lin);
-            platos.add(lin1);
-            List<Pedido> pedidos = new ArrayList<Pedido>();
-            pedidos.add(new Pedido("La avenida de la piruleta", platos));
-            pedidos.add(new Pedido("Calle antequilla", platos));
+        List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
+        platos.add(lin);
+        platos.add(lin2);
+
+        List<LineaPlatoPedido> platos1 = new ArrayList<LineaPlatoPedido>();
+        platos1.add(lin1);
+
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        pedidos.add(new Pedido("La avenida de la piruleta", platos));
+        pedidos.add(new Pedido("Calle antequilla", platos1));
     //------------------PRUEBAS
 
         User u= (User) session.getAttribute("u");
