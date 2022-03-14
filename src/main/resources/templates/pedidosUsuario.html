@@ -24,24 +24,34 @@
                 <div class="row" th:each="ped,i: ${listaPedidos}" style="background-color: rgba(180, 138, 138, 0.479);
                 border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; 
                 padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
-                    <div class="col" th:text="Pedido + ' ' + ${ped.getId}" style="margin: auto;"></div>
-                    <div class="col">
+                    <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}" style="margin: auto;">
+                        
+                    </div>
+                    <div class="col">   
+                        <ul>
+                            <!--EXPLICACIOÓN DE THBLOCKS Y COMO OBTENER LOS PLATOS
+                            Como el pedido tiene muchos platos (ped) tienes que generar otro block con otra
+                            variable (plat) para poder ir sacando de uno en uno los platos-->
+                            <th:block th:each="plat,i: ${ped.getPlatos}">
+                            <li th:text="${plat.getPlato.getNombre}">plato 1</li>
+                            </th:block>
+                        </ul>
 
-                                <!-- boton detalles que si lo pulsas te muestra los detalles con un modal-->
+                                <!--NO FUNCIONA TH:EACH CON MODAL ASIQUE NO LO USAMOS boton detalles que si lo pulsas te muestra los detalles con un modal
                                 <button type="submit" class="btn btn-primary btn-sm" style="margin: auto;" data-bs-toggle="modal" 
-                                data-bs-target="#modalVerDetalles">Ver detalles</button>
+                                data-bs-target="#modalPlatosDetalles">Ver platos del pedido</button>
+                                -->
                                
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="modalVerDetalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAnadirEmpleadoLabel" aria-hidden="true">
+                                    <!-- Modal NO FUNCIONA PARA EL TH:EACH
+                                    <div class="modal fade"  th:each="ped,i: ${listaPedidos}"  id="modalPlatosDetalles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAnadirEmpleadoLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="modalAnadirEmpleadoTitle">Ver detalles del pedido</h5>
-                                                    <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
+                                                    <h5 class="modal-title">Ver platos del pedido</h5>
+                                                    <!-- El boton es la crucecita de arriba a la derecha para cerrar 
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body" style="text-align: left;">
-                                                    <form id="formAnadirEmpleado">
 
                                                         <div class="row">
                                                             <div class="col">
@@ -49,7 +59,7 @@
                                                                 <ul>
                                                                     <!--EXPLICACIOÓN DE THBLOCKS Y COMO OBTENER LOS PLATOS
                                                                     Como el pedido tiene muchos platos (ped) tienes que generar otro block con otra
-                                                                    variable (plat) para poder ir sacando de uno en uno los platos-->
+                                                                    variable (plat) para poder ir sacando de uno en uno los platos
                                                                     <th:block th:each="plat,i: ${ped.getPlatos}">
                                                                     <li th:text="${plat.getPlato.getNombre}">plato 1</li>
                                                                     </th:block>
@@ -63,7 +73,7 @@
                                                                     <th:block >
                                                                     <li th:text="${ped.getCliente}">plato 1</li>
                                                                     </th:block>
-                                                                    -->
+                                                                    
                                                                 </ul>
                                                             </div>
                                                             <div class="col">
@@ -75,8 +85,6 @@
                                                                 </ul>
                                                             </div>
                                                         </div>
-                                                    </form>
-
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -84,6 +92,7 @@
                                                         <button type="submit" class="btn btn-primary">Añadir</button>
                                                     </form>
                                                 </div>
+                                                -->
                                             </div>
                                         </div>
                                     </div>
