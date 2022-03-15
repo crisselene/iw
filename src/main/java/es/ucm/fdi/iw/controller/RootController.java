@@ -129,11 +129,25 @@ public class RootController {
     
     @GetMapping("configuracion")
     public String configuracion(Model model) {
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        List<User> listaEmpleados = new ArrayList<User>();
 
-        model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
+        listaCategorias = saGeneral.listarCategorias(em);
+        listaEmpleados = em.createQuery("SELECT u FROM User u WHERE u.roles LIKE 'EMPLEADO'").getResultList();
+
+        log.info("@@@@@@@@@1");
+        for(Categoria cat : listaCategorias)
+        {
+            log.info(cat.getNombre());
+        }
+
+        model.addAttribute("listaCategorias", listaCategorias);
+        model.addAttribute("listaEmpleados", listaEmpleados);
+
+        /* model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
         , "empleado0", "empleado6", "empleado10", "empleado11", "empleado12", "empleado13"));
 
-        model.addAttribute("listaCategorias", List.of("Entrantes", "Carnes","Pastas","Burguers","Pizzas","Tacos","Ensaladas"));
+        model.addAttribute("listaCategorias", List.of("Entrantes", "Carnes","Pastas","Burguers","Pizzas","Tacos","Ensaladas")); */
 
         return "configuracion";
     }

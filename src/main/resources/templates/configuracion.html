@@ -57,7 +57,7 @@
                         <div class="row" th:each="cat: ${listaCategorias}" style="background-color: rgb(184, 229, 235);
                         margin-top: 1%; margin-right: 2%; margin-left: 2%; margin-bottom: 1%; border-radius: 10px;">
                             <div class="col" style="padding-top: 1%;">
-                                <p th:text="${cat}">sustituirCategoria</p>
+                                <p th:text="${cat.nombre}">sustituirCategoria</p>
                             </div>
                             <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
                                 <form id="eliminarEmp" th:action="@{/}">
@@ -135,7 +135,7 @@
                 <div class="row" th:each="emp: ${listaEmpleados}" style="background-color: rgb(184, 229, 235);
                 margin-top: 2%; margin-right: 2%; margin-left: 2%; margin-bottom: 2%; border-radius: 10px;">
                     <div class="col" style="padding-top: 1%;">
-                        <p th:text="${emp}">sustituirEmpleado</p>
+                        <p th:text="${emp.username}">sustituirEmpleado</p>
                     </div>
                     <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
                         <form id="eliminarEmp" th:action="@{/}">
