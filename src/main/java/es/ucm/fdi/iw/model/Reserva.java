@@ -22,6 +22,7 @@ public class Reserva {
 	private long id;
     private LocalDateTime fecha;
     private int personas;
+    private boolean activo;
     
     @ManyToOne
     private User cliente; //Quien hizo la reserva

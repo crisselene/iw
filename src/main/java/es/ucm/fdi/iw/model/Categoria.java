@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -15,6 +17,10 @@ import lombok.Data;
 
 @Entity
 @Data
+@NamedQueries({
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findById", query = "select obj from Categoria obj where  :id = obj.id"),
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findByNombre", query = "select obj from Categoria obj where  :nombre = obj.nombre")
+})
 @AllArgsConstructor
 public class Categoria {
     @Id
@@ -25,6 +31,7 @@ public class Categoria {
     @OneToMany (mappedBy = "categoria")
     private List<Plato> platos;
     
+    private boolean activo;
     private String nombre;
 
     public Categoria()

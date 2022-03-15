@@ -34,6 +34,7 @@ public class Plato {
     public String nombre;
     private String descripcion;
     private float precio;
+    private boolean activo;
     //public String categoria;
     public Plato()
     {}

@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
-import es.ucm.fdi.iw.model.ListaPlatos;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.User;
-import es.ucm.fdi.iw.model.SA.SACategoriaImp;
+import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
 
 /**
@@ -31,9 +30,9 @@ import es.ucm.fdi.iw.model.User.Role;
 public class RootController {
 
     @Autowired
-    private EntityManager entityManager;
+    private EntityManager em;
 
-
+    private SAGeneralImp saGeneral = new SAGeneralImp();
 	private static final Logger log = LogManager.getLogger(RootController.class);
 
 	@GetMapping("/login")
@@ -49,10 +48,9 @@ public class RootController {
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
     public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
         
-        SACategoriaImp saCategoria = new SACategoriaImp();
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
-        listaCategorias = saCategoria.listarCategorias(entityManager);
+        listaCategorias = saGeneral.listarCategorias(em);
 
         for(Categoria cat : listaCategorias)
         {
@@ -61,36 +59,6 @@ public class RootController {
                 log.info("-" + p.getNombre());
         }
 
-      
-
-      /*  
-        listaCategorias.add(new Categoria("Entrantes"));
-        listaCategorias.add(new Categoria("Carnes"));
-        listaCategorias.add(new Categoria("Pescado"));
-
-        List<Plato> aux1 = new ArrayList<Plato>(); 
-        List<Plato> aux2 = new ArrayList<Plato>(); 
-        List<Plato> aux3 = new ArrayList<Plato>(); 
-        for(int i = 0; i < 5; i++)
-        {
-            aux1.add(new Plato("plato" + i));
-        }
-        for(int i = 0; i < 3; i++)
-        {
-            aux2.add(new Plato("plato" + i));
-        }
-        for(int i = 0; i < 2; i++)
-        {
-            aux3.add(new Plato("plato" + i));
-        }
-
-       
-     
-        listaCategorias.get(0).debugSetListaPlatos(aux1);
-        listaCategorias.get(1).debugSetListaPlatos(aux2);
-        listaCategorias.get(2).debugSetListaPlatos(aux3);*/
-        
-        //mete la lista de categorias
         model.addAttribute("categorias", listaCategorias);
        
        
@@ -99,10 +67,9 @@ public class RootController {
 
     @GetMapping("hacerPedido")
     public String hacerPedido(Model model) {
-        SACategoriaImp saCategoria = new SACategoriaImp();
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
-        listaCategorias = saCategoria.listarCategorias(entityManager);
+        listaCategorias = saGeneral.listarCategorias(em);
 
         for(Categoria cat : listaCategorias){
             log.info(cat.getNombre());
@@ -124,7 +91,7 @@ public class RootController {
 
     @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
     public String verPlato(Model model,  @RequestParam(required = true) Long platoElegidoId) {
-        Plato p = entityManager.find(Plato.class, platoElegidoId);
+        Plato p = saGeneral.buscarPlato(em, platoElegidoId);
 
         log.info("plato elegido" + p.getNombre());
 
