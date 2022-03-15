@@ -29,4 +29,6 @@ public class Valoracion {
     @ManyToOne
     private Plato plato;
 
+    private boolean activo;
+
 }
