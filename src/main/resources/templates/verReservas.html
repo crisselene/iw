@@ -30,12 +30,15 @@
         </div>
         <div class="row contenido">
             <div id="mostrarReservas">
-                <div class="row mesa">
+                <div class="row" th:each="r:${listaReservas}">
                     <div class="col-md-6">
-                        <p>Mesa 8</p>
+                        <p th:text="${r.personas}">Sustituir numPersonas</p>
+                        <!-- <p>Sustituir numPersonas</p> -->
                     </div>
                     <div class="col">
-                        <p>10 Personas</p>                    
+                        <p th:text="${r.id}">Sustituir id</p> 
+
+                        <!-- <p>Sustituir id</p>  -->                  
                     </div>
                     <div class="col">
                         <div style="text-align: right; margin-bottom: 10%;">
@@ -43,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mesa">
+                <!-- <div class="row mesa">
                     <div class="col-md-6">
                         <p>Mesa 10</p>
                     </div>
@@ -68,7 +71,7 @@
                             <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             
         </div>

@@ -19,6 +19,7 @@ import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
+import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
@@ -113,14 +114,34 @@ public class RootController {
     public String verReservas(Model model, HttpSession session) {
         User u= (User) session.getAttribute("u");
 
+        List<Reserva> listaReservas = new ArrayList<Reserva>();
+
+        //listaReservas = saGeneral.listarReservas(em);
         // Se diferencia entre empleados y user porque los empleados necesitaran añadir todas las reservas existentes al modelo
         // mientras que el usuario solo necesita añadir al modelo las reservas que le correspondan a él
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
+            listaReservas = saGeneral.listarReservas(em);
+  
+            //Reserva re = new Reserva(1, null, 7, true, u);
+            /* listaReservas.add(re); */
+            log.info("@@@@@@1");
+            //log.info(re.getPersonas());
+            
+            /* for(Reserva r : listaReservas){
+                log.info(r.getPersonas());
+            } */
+            model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
         }
         else{
-            
+            listaReservas = em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").getResultList();
+            log.info("@@@@@@@4");
+            /* for(Reserva r: listaReservas)
+            {
+                log.info(r.getCliente().getId());
+            } */
+            model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
         }
         
@@ -134,12 +155,6 @@ public class RootController {
 
         listaCategorias = saGeneral.listarCategorias(em);
         listaEmpleados = em.createQuery("SELECT u FROM User u WHERE u.roles LIKE 'EMPLEADO'").getResultList();
-
-        log.info("@@@@@@@@@1");
-        for(Categoria cat : listaCategorias)
-        {
-            log.info(cat.getNombre());
-        }
 
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);
