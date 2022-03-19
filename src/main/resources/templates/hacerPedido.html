@@ -34,19 +34,29 @@
                             <div th:each="plato: ${cat.platos}" class="row">
                                 <div class="col-md-2">
                                     <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="80" height="80">
-                                </div>
-                                <div class="col">
-                                    <div  th:text="${plato.nombre}" style="font-size: 20px; font-weight: bold;">Ensalada</div>
+                                    </div>
+                                    <div class="col">
+                                    <div class="titulo-plato" th:text="${plato.nombre}" style="font-size: 20px; font-weight: bold;">Ensalada</div>
                                     <div th:text="${plato.descripcion}">
                                         <p>Descripción</p>
                                     </div>  
                                 </div>
                                 <div class="col">
+
+
                                     <div style="text-align: right;">
-                                        <div th:text="${plato.precio} +' € '" style="line-height: 1.5; vertical-align: middle; display: inline-block;">
-                                            9.90€&nbsp;
-                                        </div>
-                                        <button type="button" class="btn btn-primary" style="background-color:#613A43;">Comprar</button>
+                                        
+                                        <div class="col divcantidad">
+                                            <input class='cantidad-plato' type="number" value="0" style="width: 50px;" min="0" max="99" >
+                                            </div>
+
+                                         <!-- Escribimos el precio por separado para poder sumar los numeros y no tener que recortar -->
+                                         <div class="precio" th:text="${plato.precio} + '€'" style="line-height: 1.5; vertical-align: middle; display: inline-block;">
+                                            9.90
+                                         </div>
+   
+
+                                        <button type="button" class="btn btn-primary button" style="background-color:#613A43;">Comprar</button>
                                     </div>
                                 </div>
                             </div>
@@ -57,45 +67,28 @@
                 </div>
             </div>
         
+
+            <!-- AQUI EMPIEZA EL CARRITO -->
             <div class="col-md-4 offset-1">
                 <div class="row" style="background-color:#613A43; border-top-right-radius: 10px; 
                 border-top-left-radius: 10px; border: 2px solid #000;color: #dbbdc5;">
                     <h2>Carrito</h2>
                 </div>
+
                 
                 <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
                 border-bottom-right-radius: 10px; overflow: ms-auto; height: 500px;">
-                    <div id="mostrarCarrito">
-                        <div class="row" style="border-bottom: 1px solid; margin-top: 1%;">
-                            <div class="col-md-6">
-                                Chicken fingers
-                            </div>
-                            <div class="col">
-                                9.90$
-                            </div>
-                            <div class="col">
-                                <input type="number" value="1" style="width: 100%;" min="1" max="99">
-                            </div>
-                            <div class="col">
-                                <div style="text-align: right; margin-bottom: 10%;">
-                                    <button type="button" class="btn btn-outline-danger btn-sm">❌</button>
-                                </div>
-                            </div>
-                        </div>
+                <div class="CarroEntero">
+                    <div class="mostrarCarrito">
+                       
 
-
-                        <!-- Boton de finalizar, precio total... -->
-                        <!--<div style="position:relative;">
-                            <div style="position:absolute; bottom: 0; left:0;">
-                                hola
-                            </div>
-                        </div>-->
+                   </div>
 
                         <div class="row">
-                            <div class="col">
-                                Total: 
-                                <th:block id="totalCarrito" th:text="|${19.70}$|"></th:block>
+                            <div class="col totalCarrito">
+                                Total: 0€
                             </div>
+                            
                             <div class="col">
                                 <div style="text-align: right;">
                                     <form id="finalizarPedido" th:action="@{/carta}">
@@ -106,6 +99,7 @@
                         </div>      
 
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -113,6 +107,9 @@
 
 
     <th:block th:replace="fragments/footer.html :: footer" />
+
+        <!-- custom js Eros  -->
+        <script src="js/hacerPedido.js"></script>
 </body>
 
 </html>
