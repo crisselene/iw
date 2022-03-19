@@ -133,14 +133,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
         carrito.splice(i, 1)
       }
     }
-  /*
-    const alert = document.querySelector('.remove')
-  
-    setTimeout( function(){
-      alert.classList.add('remove')
-    }, 2000)
-      alert.classList.remove('remove')
-  */
+
     item.remove()
     TotalPedido()
   }
