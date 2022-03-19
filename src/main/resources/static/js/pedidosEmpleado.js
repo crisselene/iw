@@ -41,3 +41,9 @@ function addPedido(pedido){
         input.value = ' '
     }
 }
+
+
+function aceptarPed(){
+    
+    alert('hi');
+}

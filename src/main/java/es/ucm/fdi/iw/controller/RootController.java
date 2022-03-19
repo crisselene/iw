@@ -212,6 +212,8 @@ public class RootController {
                 log.info(ped.getDireccion());
                 for(LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
+                log.info(ped.getCliente());
+                log.info(ped.isEnCurso());
             }
             model.addAttribute("listaPedidos", listaPedidos);
             return "pedidosEmpleado";
@@ -226,7 +228,7 @@ public class RootController {
             {
                 log.info(ped.getDireccion());
                 for(LineaPlatoPedido p : ped.getPlatos())
-                    log.info("-" + p.getPlato());
+                    log.info("-" + p.getPlato().getNombre());
             }
            
             //model.addAttribute("listaPedidos", pedidos);
