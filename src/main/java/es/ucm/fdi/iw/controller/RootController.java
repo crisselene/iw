@@ -177,7 +177,8 @@ public class RootController {
         //model.addAttribute("demo", "valor");
       //  User u= (User) model.getAttribute("u");
 
-      //-------------------PRUEBAS
+      //-------------------PRUEBAS 
+      /*
         Plato plat = new Plato("Arroz", "xxxxx");
         Plato platito = new Plato("Calamares", "yyyyyy");
         Plato plat1 = new Plato("Pechuga", "zzzzzzzz");
@@ -196,19 +197,40 @@ public class RootController {
         List<Pedido> pedidos = new ArrayList<Pedido>();
         pedidos.add(new Pedido("La avenida de la piruleta", platos));
         pedidos.add(new Pedido("Calle antequilla", platos1));
-    //------------------PRUEBAS
+    //------------------PRUEBAS */
 
         User u= (User) session.getAttribute("u");
         if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
         {
             
-            //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos", pedidos);
+            List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+            listaPedidos = saGeneral.listarPedidos(em);
+    
+            for(Pedido ped : listaPedidos)
+            {
+                log.info(ped.getDireccion());
+                for(LineaPlatoPedido p : ped.getPlatos())
+                    log.info("-" + p.getPlato().getNombre());
+            }
+            model.addAttribute("listaPedidos", listaPedidos);
             return "pedidosEmpleado";
         }
         else{
+
+            List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+            listaPedidos = saGeneral.listarPedidosUsuario(em,u);
+    
+            for(Pedido ped : listaPedidos)
+            {
+                log.info(ped.getDireccion());
+                for(LineaPlatoPedido p : ped.getPlatos())
+                    log.info("-" + p.getPlato());
+            }
+           
             //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos",pedidos);
+            model.addAttribute("listaPedidos",listaPedidos);
 
             return "pedidosUsuario";
         }

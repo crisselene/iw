@@ -23,10 +23,6 @@ import lombok.Data;
 })
 @AllArgsConstructor
 public class Pedido {
-    public Pedido(String direccion, List<LineaPlatoPedido> platos){
-        this.direccion = direccion;
-        this.platos = platos;
-    }
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
@@ -42,4 +38,15 @@ public class Pedido {
     private User cliente; //Quien compro el pedido
 
     private String direccion;
+
+    public Pedido(String direccion, List<LineaPlatoPedido> platos, User u){
+        this.direccion = direccion;
+        this.platos = platos;
+        this.cliente = u;
+    }
+    public Pedido(String direccion, List<LineaPlatoPedido> platos){
+        this.direccion = direccion;
+        this.platos = platos;
+    }
+    public Pedido(){}
 }

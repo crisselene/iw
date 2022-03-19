@@ -3,6 +3,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.sound.sampled.Line;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,9 +12,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class LineaPlatoPedido {
-    public LineaPlatoPedido(Plato plato){
-        this.plato = plato;
-    }
     @EmbeddedId private LineaPlatoPedidoId id;
     
     @ManyToOne
@@ -24,4 +22,17 @@ public class LineaPlatoPedido {
 
     private Double precio;
     private int cantidad;
+
+    public LineaPlatoPedido(){ }
+
+    public LineaPlatoPedido(Pedido ped){
+        this.pedido = ped;
+    }
+    public LineaPlatoPedido(Plato plato){
+        this.plato = plato;
+    }
+    public LineaPlatoPedido(Plato plato, Pedido ped){
+        this.plato = plato;
+        this.pedido = ped;
+    }
 }
