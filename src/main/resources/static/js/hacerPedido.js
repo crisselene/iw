@@ -59,7 +59,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
 
 
     carrito.map(item => { //por cada item en el carrito
-      const tr = document.createElement('tr') //creamos un nuevo elemento tr (Tablita)
+      const tr = document.createElement('div') //creamos un nuevo elemento tr (Tablita)
       tr.classList.add('ItemCarrito')
    
       const Content = `
@@ -133,7 +133,6 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
         carrito.splice(i, 1)
       }
     }
-
     item.remove()
     TotalPedido()
   }
