@@ -55,3 +55,5 @@ VALUES(1, true, 'Calle Antilla', false, 2);
 
 INSERT INTO LINEA_PLATO_PEDIDO(cantidad, precio, plato_id, pedido_id)
 VALUES(2, 11.98, 1, 1);
+
+INSERT INTO CONFIGURACION_RESTAURANTE VALUES(1,4,5,12,23,30);

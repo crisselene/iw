@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Restaurant.es: Reservar</title>
+    <link rel="stylesheet" href="css/reservarMesaSimple.css" />
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <h1 class="mt-5">Pagina para reservar mesa</h1>
+        </div>
+        
+    </main>
+
+    <div class="container">
+        <div class="d-flex justify-content-center flex-column" id="contenido">
+            <div class="p-2 align-self-stretch" id="cabecera">
+                <h3>Elige fecha y dia</h3>
+            </div>
+            <div class="d-flex p-2 flex-row" id="calendarPicker">
+                <div class="p-2 ml-auto p-2">
+                    <input type="date" id="start" name="trip-start" value="2022-02-22" min="2022-01-01" max="2025-12-31">
+                </div>
+                <div class="p-2">
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+
+            
+        
+    </div>
+
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+
+        <!-- custom js Eros  -->
+        <script src="js/reservarMesaSimple.js"></script>
+</body>
+
+</html>

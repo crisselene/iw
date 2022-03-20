@@ -1,0 +1,33 @@
+h1, h3{
+    color:#566573;
+}
+body{
+    background:url(../img/home-bg.jpg) no-repeat;
+    background-color: #e9dccd;
+}
+button{
+    background-color: #733646;
+    color:#e9dccd;
+    border-color: #733646;
+    border-radius: 3px;
+    width: 100%;
+}
+#cabecera{
+    text-align: center;
+    background-color: #D9B0B0;
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+}
+#contenido{
+    margin-left: 25%;
+    width: 50%;
+    border: 1px solid #733646;
+    border-radius: 10px;
+    margin-top: 2%;
+    color:#566573;    
+    background-color: #a980803d;
+}
+#calendarPicker{
+    border-top: 1px solid #733646;
+}
+

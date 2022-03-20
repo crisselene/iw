@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model.SA;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.qos.logback.core.net.server.Client;
 import es.ucm.fdi.iw.model.Categoria;
+import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
@@ -115,5 +117,46 @@ public class SAGeneralImp{
         }
         return idDevolver;
     }
+
+    public List<Reserva> listarReservasFecha(EntityManager em, LocalDateTime fecha){
+        List<Reserva> reservas = null;
+        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Reserva.findByFecha", Reserva.class);
+        q.setParameter("fecha", fecha);
+        reservas = q.getResultList();
+
+        return reservas;
+    }
+
+    public ConfiguracionRestaurante getConfiguracion(EntityManager em){
+        ConfiguracionRestaurante c = null;
+        c = em.find(ConfiguracionRestaurante.class, 1);
+        return c;
+    }
     
+    public boolean actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
+        boolean correcto = false;
+        try{
+            EntityTransaction t = em.getTransaction();
+            t.begin();
+            ConfiguracionRestaurante c = null;
+            c = em.find(ConfiguracionRestaurante.class, 1);
+            //Si existe la configuracion (deberia existir siempre) lo actualizamos
+            if(c != null){
+                c.setPersonasMesa(personasMesa);
+                c.setMaxPedidosHora(maxPedidosHora);
+                c.setHoraIni(horaIni);
+                c.setHoraFin(horaFin);
+                c.setMaxReservas(maxReservas);
+
+                correcto = true;
+                t.commit();
+            }
+            else t.rollback(); //Si no la encuentra la cancelamos
+
+        }catch(Exception e){
+
+        }
+
+        return correcto;
+    }
 }

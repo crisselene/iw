@@ -17,4 +17,8 @@ public class ConfiguracionRestaurante {
 	private long id;
 
     int personasMesa;
+    int maxPedidosHora;
+    int horaIni;
+    int horaFin;
+    int maxReservas;
 }
