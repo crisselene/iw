@@ -18,18 +18,50 @@
     </main>
 
     <div class="container">
-        <div class="d-flex justify-content-center flex-column" id="contenido">
+        <!-- Aqui lo que hago es crear una columna dinamica (flex-column) que tendra tamaño segun su contenido -->
+        <div class="d-flex flex-column" id="contenido">
+            <!-- Primero creo la fila para la cabecera, para cada item se utiliza p-2 -->
             <div class="p-2 align-self-stretch" id="cabecera">
                 <h3>Elige fecha y dia</h3>
             </div>
-            <div class="d-flex p-2 flex-row" id="calendarPicker">
-                <div class="p-2 ml-auto p-2">
-                    <input type="date" id="start" name="trip-start" value="2022-02-22" min="2022-01-01" max="2025-12-31">
+            <!-- Aqui lo que hago es crear la fila con el calendario y el numero de comensales -->
+            <div class="d-flex p-2" id="calendarPicker">
+                <div class="p-2">
+                    <p>Número de personas: </p>                    
                 </div>
                 <div class="p-2">
-                    
+                    <input id="comensales" type="number" min="1" max="15" value="1">
                 </div>
-                
+                <div class="p-2">
+                    <p>Dia: </p>
+                </div>
+                <div class="p-2" id="calendario">
+                    <input type="date" id="start" name="trip-start" value="2022-02-22" min="2022-01-01" max="2025-12-31">
+                </div>               
+            </div>
+
+            <!-- Aqui va el thymeleaf -->
+
+            <div class="p-2 d-flex justify-content-around">
+                <div class="p-2">
+                    <input type="radio" class="btn-check" name="horas" id="hora6" autocomplete="off">
+                    <label class="btn btn-outline-success" for="hora6">20:30</label>
+                </div>
+                <div class="p-2">
+                    <input type="radio" class="btn-check" name="horas" id="hora5" autocomplete="off">
+                    <label class="btn btn-outline-success" for="hora5">22:30</label>
+                </div>
+                <div class="p-2">
+                    <input type="radio" class="btn-check" name="horas" id="hora4" autocomplete="off">
+                    <label class="btn btn-outline-success" for="hora4">19:30</label>
+                </div>
+            </div>
+
+            <!-- Creo una fila con otro d-flex que ponga su contenido al final para poner el boton -->
+            <div class="d-flex p-2 justify-content-end" id="aceptar">
+                <div class="p-2">
+                    <button type="submit" id="botonElegir">Elegir</button>
+                </div>
             </div>
             
         </div>

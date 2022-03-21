@@ -85,7 +85,7 @@ public class RootController {
     
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {
-        return "reservarMesa";
+        return "reservarMesaSimple";
     }
 
 

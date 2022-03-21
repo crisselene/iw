@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ch.qos.logback.core.net.server.Client;
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
+import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
@@ -157,6 +158,25 @@ public class SAGeneralImp{
 
         }
 
+        return correcto;
+    }
+
+    public boolean hacerPedido(EntityManager em, List<Plato> platos, User cliente, String direccion){
+        boolean correcto = false;
+        //Tengo que pensar bien como hacerlo
+
+        return correcto;
+    }
+
+    public boolean eliminarPedido(EntityManager em, long id){
+        boolean correcto = false;
+
+        return correcto;
+    }
+
+    public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
+        boolean correcto = false;
+        
         return correcto;
     }
 }

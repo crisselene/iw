@@ -29,5 +29,15 @@ button{
 }
 #calendarPicker{
     border-top: 1px solid #733646;
+    border-bottom: 1px solid #733646;
 }
-
+#comensales{
+    height: 60%;
+}
+#botonElegir{
+    /* no funciona no se porque, ya que si lo hacia y no toque nada xd */
+    margin-right: 2%;
+}
+#aceptar{
+    border-top: 1px solid #733646;;
+}
