@@ -34,7 +34,10 @@
                             + ', Cliente: ' + ${ped.getCliente}">
                                 
                             </div>
-                            <button id= "acep" onclick="aceptarPed()" style="float: right; width: 100px; margin: 5px; background-color: #849974;">Aceptar</button>
+                            <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
+                            poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
+                            cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
+                            <button id= "acep" name = " " value="${ped.id}" onclick="aceptarPed()" style="float: right; width: 100px; margin: 5px; background-color: #849974;">Aceptar</button>
                             <button style="float: right; width: 100px; margin: 5px;">Rechazar</button>
                         </th:block>
                     </div>

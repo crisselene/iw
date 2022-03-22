@@ -44,6 +44,6 @@ function addPedido(pedido){
 
 
 function aceptarPed(){
-    
-    alert('hi');
+    if go(,POST,)
+    alert('Error');
 }
