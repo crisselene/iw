@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .authorizeRequests()
 			.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/carta", "/verPlato").permitAll()
 				.antMatchers("/api/**").permitAll()            // <-- public api access
-				.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
+				.antMatchers("/admin/**", "/nuevoPlato").hasRole("ADMIN")	   // <-- administration
 	           // .antMatchers("method").hasAnyRole("USER", "EMPLEADO")	   // <-- logged-in users
 			   .antMatchers("/user/**").hasAnyRole("USER", "EMPLEADO")	
 				.antMatchers("/empleado/**").hasAnyRole("EMPLEADO", "ADMIN")	   

@@ -37,6 +37,12 @@
             </div>
           </nav>
          
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Añadir Plato
+              </button>
+          </div>
+         
         <!-- tab que va cambiando los panel que muestra dinamicamente segun lo que se pulse en el navbar-->
           <div class="tab-content" id="nav-tabContent">
                <!-- Se recorre la lista de categorias para crear los pane de cada categoria (los cuales contendran los platos)-->
@@ -75,9 +81,53 @@
             </th:block>
 
           </div>
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Añadir Plato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form role="form" id="myForm"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+            <label for="campoNombrePlato" class="form-label">Nombre del plato</label>
+            <input type="text" class="form-control" name="nombrePlato" id="campoNombrePlato" value="" required> 
+
+            <label for="campoPrecioPlato" class="form-label">Precio del plato</label>
+            <input type="number" step="0.01" class="form-control" name="precioPlato" id="campoPrecioPlato" required> 
+
+            <label for="campoCategoriaPlato" class="form-label">Categoria del plato</label>
+            <select class="form-select" name="categoriaPlato" id="campoCategoriaPlato">
+                <th:block th:each="cat,iter: ${categorias}">
+                   <!--<option th:if="${iter.index} == 0" selected th:text="${cat}">opcion</option>
+                    <option th:unless="${iter.index} == 0" th:text="${cat}">opcion</option> -->
+                    <option th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
+                </th:block>
+              </select>
+
+
+            <label for="campoDescripcionPlato" class="form-label">Descripcion del plato</label>
+            <textarea class="form-control" id="campoDescripcionPlato" name="descripcionPlato" rows="4" cols="60" required></textarea>
+            <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" id ="botonForm" class="btn btn-primary">Confirmar</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
     
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/carta.js}" src="js/carta.js"></script>
+    <script th:src="@{/js/gestionPlato.js}" src="js/gestionPlato.js"></script>
 </body>
 
 </html>
