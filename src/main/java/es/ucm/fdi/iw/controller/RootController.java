@@ -52,10 +52,21 @@ public class RootController {
     }
 
      //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
+     /*
+     para ajax con get necesario:
+     En el controller:
+     @GetMapping
+     @RequestParam tipo nombreParametro
+     No usa @RequestBody ya que los get no tienen body
+
+     En javascript:
+     En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
+     */
+     
      @PostMapping(path = "/nuevoPlato", produces = "application/json")
      @Transactional // para no recibir resultados inconsistentes
      @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-     public String demoajax(Model model, @RequestBody JsonNode o  /* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+     public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
          log.info("demoAjax");
          
          String nombre = o.get("nombrePlato").asText();
@@ -76,7 +87,6 @@ public class RootController {
              log.info("entraEnElIf");
              return null;
          }
-            
  
          return "{\"isok\": \"todobien\"}";//devuelve un json como un string
      }
