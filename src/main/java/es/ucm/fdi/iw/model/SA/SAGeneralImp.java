@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.transaction.Transaction;
 
+import org.hibernate.type.LocalDateTimeType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ch.qos.logback.core.net.server.Client;
@@ -103,7 +104,7 @@ public class SAGeneralImp{
             t.begin();
             Categoria c = null;
             c = em.find(Categoria.class, id);
-            if(c==null){
+            if(c!=null){
                 if(c.isActivo() == true){
                     c.setActivo(false);
                     t.commit();
@@ -119,10 +120,12 @@ public class SAGeneralImp{
         return idDevolver;
     }
 
-    public List<Reserva> listarReservasFecha(EntityManager em, LocalDateTime fecha){
+    public List<Reserva> listarReservasFecha(EntityManager em, String fecha){
         List<Reserva> reservas = null;
         Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Reserva.findByFecha", Reserva.class);
-        q.setParameter("fecha", fecha);
+        LocalDateTime time;
+        time = LocalDateTime.parse(fecha + "T00:00:00");
+        q.setParameter("fecha", time);
         reservas = q.getResultList();
 
         return reservas;
@@ -164,19 +167,57 @@ public class SAGeneralImp{
     public boolean hacerPedido(EntityManager em, List<Plato> platos, User cliente, String direccion){
         boolean correcto = false;
         //Tengo que pensar bien como hacerlo
+        //Mas bien verlo en el proyecto de MS
 
         return correcto;
     }
 
     public boolean eliminarPedido(EntityManager em, long id){
         boolean correcto = false;
+        try{
+            EntityTransaction t = em.getTransaction();
+            t.begin();
+            Pedido p = null;
+            p = em.find(Pedido.class, id);
+            if(p!=null){
+                if(p.isActivo() == true){
+                    p.setActivo(false);
+                    t.commit();
+                    correcto = true;
+                }
+                else t.rollback();
+                
+            }
+            else t.rollback();
+        }catch(Exception e){
 
+        }
         return correcto;
     }
 
     public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
         boolean correcto = false;
-        
+        try{
+            EntityTransaction t = em.getTransaction();
+            t.begin();
+            Pedido p = null;
+            p = em.find(Pedido.class, id);
+            if(p!=null){
+                if(p.isActivo() && p.isEnCurso()){
+                    p.setEnCurso(true);
+                    t.commit();
+                    correcto = true;
+                }
+                else t.rollback();
+                
+            }
+            else t.rollback();
+        }catch(Exception e){
+
+        }
         return correcto;
     }
+
+
+
 }
