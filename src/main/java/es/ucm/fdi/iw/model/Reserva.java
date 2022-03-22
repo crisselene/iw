@@ -18,14 +18,11 @@ import lombok.Data;
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findById", query = "select obj from Reserva obj where  :id = obj.id"),
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha+1 >= obj.fecha and :fecha <= obj.fecha")
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha+1 >= obj.fecha and :fecha <= obj.fecha"),
+    @NamedQuery(name="Reserva.reservasUsuario", query="SELECT r FROM Reserva r " + "WHERE r.cliente.id = :iduser")
 })
-@AllArgsConstructor
-@NamedQueries({
-    @NamedQuery(name="Reserva.reservasUsuario",
-            query="SELECT r FROM Reserva r "
-                    + "WHERE r.cliente.id = :iduser")})
-                    
+
+@AllArgsConstructor                  
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
