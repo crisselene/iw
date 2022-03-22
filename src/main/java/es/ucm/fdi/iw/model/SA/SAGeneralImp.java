@@ -56,6 +56,16 @@ public class SAGeneralImp{
         return reservas;
         
     }
+
+    public List<Reserva> listarReservasUsuario(EntityManager em, User u){
+        List<Reserva> reservas = null;
+        reservas = em.createNamedQuery("Reserva.reservasUsuario", Reserva.class)
+                    .setParameter("iduser", u.getId())
+                    .getResultList();
+
+        return reservas;
+    }
+
     public List<Plato> listarPlatos(EntityManager em){
         List<Plato> platos = null;
         platos = em.createQuery("SELECT p FROM Plato p").getResultList();        

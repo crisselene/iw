@@ -135,12 +135,18 @@ public class RootController {
             return "verReservas";
         }
         else{
-            listaReservas = em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").getResultList();
+            /* listaReservas = em.createNamedQuery("Reserva.reservasUsuario", Reserva.class)
+                    .setParameter("iduser", u.getId())
+                    .getResultList(); */
+            listaReservas = saGeneral.listarReservasUsuario(em, u);
+
+            /* listaReservas = em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").getResultList(); */
             log.info("@@@@@@@4");
             /* for(Reserva r: listaReservas)
             {
                 log.info(r.getCliente().getId());
             } */
+        
             model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
         }
