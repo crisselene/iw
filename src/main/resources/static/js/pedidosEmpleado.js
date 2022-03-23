@@ -1,49 +1,18 @@
-const form = document.getElementById('form')
-const input = document.getElementById('input')
-const pedidosTabla = document.getElementById('pedidos')
 
-
-
-form.addEventListener('submit', (e) => {
-
- e.preventDefault()
-
- addPedido()
-
-})
-
-function addPedido(pedido){
-    let pedidoText = input.value
-
-    if(pedido){
-        pedidoText = pedido.pedidoText
-    }
-
-    if(pedidoText){
-
-        const pedidoEl = document.createElement('li')
-
-        if(pedido && pedido.completed){
-            pedidoEl.classList.add('completed')
-        }
-
-        pedidoEl.innerText = pedidoText
-
-        pedidoEl.addEventListener('click', () => pedidoEl.classList.toggle('completed'))
-
-        pedidoEl.addEventListener('contextmenu', (e) =>{
-           e.preventDefault()
-           productoEl.remove()
-        })
-
-        pedidosUL.appendChild(pedidoEl)
-        
-        input.value = ' '
-    }
-}
+//tengo que coger el id del botón aceptar del html pedidosEmpleado
+const element2 = document.getElementById("acep");
+element2.addEventListener("click",aceptarPed);
 
 
 function aceptarPed(){
-    if go(,POST,)
-    alert('Error');
+    alert("hola");
+    //cojo el valor del id del pedido que lo he guardado en el botón acep
+    let params = {"idPed" : document.getElementById("acep").value};
+    go(config.rootUrl + "/aceptarPed" , 'POST', params)
+    .then(d =>{
+        console.log("todo ok") //mensajes que saldrán si todo sale bien
+        console.log("mensaje recibido: ", d);
+    })
+    .catch(() => console.log("el pedido ya estaba en curso"));
+    //alert('Error :0');
 }

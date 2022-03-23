@@ -51,6 +51,19 @@ public class RootController {
         return "index";
     }
 
+   
+    @PostMapping(path = "/aceptarPed", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String aceptarPed(Model model, @RequestBody JsonNode o  /* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+        log.info("entrando a aceptarPed rootController");
+        long id = o.get("idPed").asLong();
+        log.info("devuelve: ");
+        log.info(saGeneral.pedidoEnCurso(em,id));
+        return "{\"isok\": \"todobien\"}";
+    }
+
+
      //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
      /*
      para ajax con get necesario:
