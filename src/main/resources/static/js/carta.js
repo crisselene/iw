@@ -25,6 +25,8 @@ function nuevoPlato() {
             Object.keys(params).forEach(key => {
             console.log(key + ": " + params[key]);
             }); */
+
+
           
             go(config.rootUrl + "/nuevoPlato", 'POST', params)
             .then(d => {console.log("todo ok")
@@ -32,6 +34,15 @@ function nuevoPlato() {
                         console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
             })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
+
+            /*  ej de como seria con un get
+            go(config.rootUrl + "/nuevoPlato?miParam=12", 'GET')
+            .then(d => {console.log("todo ok")
+                        console.log("mensaje recibido: ", d);//json recibido
+                        console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+            })
+            .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null) */
+
 
         /* Otra forma de pasar los datos, creando el "json" en el parametro datos
 

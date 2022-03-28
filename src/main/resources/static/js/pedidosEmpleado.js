@@ -1,49 +1,21 @@
-const form = document.getElementById('form')
-const input = document.getElementById('input')
-const pedidosTabla = document.getElementById('pedidos')
 
+//NO CAMBIAR ESTA FUNCIÓN: no funcionaba bien porque cargaba antes el javascript
+//que el html y entonces no hacía el eventListener.Con esto obliga a cargar
+//antes al html 
+document.addEventListener("DOMContentLoaded", ()=>{
+   const element2 = document.querySelector('.aceptar')
+   element2.addEventListener("click", (e) => {
+    let params = {"idPed" : document.getElementById("acep").value};
+    go(config.rootUrl + "/aceptarPed" , 'POST', params)
+    .then(d =>{
+        console.log("todo ok") //mensajes que saldrán si todo sale bien
+        console.log("mensaje recibido: ", d);
+        if(d['encurso']== true){
+            console.log("se puede cambiar");
 
-
-form.addEventListener('submit', (e) => {
-
- e.preventDefault()
-
- addPedido()
-
+        }
+    })
+    .catch(() => console.log("el pedido ya estaba en curso"));
+});
 })
 
-function addPedido(pedido){
-    let pedidoText = input.value
-
-    if(pedido){
-        pedidoText = pedido.pedidoText
-    }
-
-    if(pedidoText){
-
-        const pedidoEl = document.createElement('li')
-
-        if(pedido && pedido.completed){
-            pedidoEl.classList.add('completed')
-        }
-
-        pedidoEl.innerText = pedidoText
-
-        pedidoEl.addEventListener('click', () => pedidoEl.classList.toggle('completed'))
-
-        pedidoEl.addEventListener('contextmenu', (e) =>{
-           e.preventDefault()
-           productoEl.remove()
-        })
-
-        pedidosUL.appendChild(pedidoEl)
-        
-        input.value = ' '
-    }
-}
-
-
-function aceptarPed(){
-    if go(,POST,)
-    alert('Error');
-}
