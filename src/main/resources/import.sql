@@ -43,12 +43,12 @@ VALUES (9, 'Nuestra ensalada mas afrodisiaca', 'Waikiki', 9.99, 2, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
 VALUES (10, 'El sabor de Italia en una ensalada', 'Toscana', 8.99, 2, 1);
 
-INSERT INTO RESERVA(id, activo, personas, cliente_id) 
-VALUES(1, true, 8, 1);
-INSERT INTO RESERVA(id, activo, personas, cliente_id) 
-VALUES(2, true, 5, 1);
-INSERT INTO RESERVA(id, activo, personas, cliente_id) 
-VALUES(3, true, 5, 2);
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
+VALUES(1, true, 8, 1, '2022-02-20T10:15:30');
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
+VALUES(2, true, 5, 1, '2022-02-20T16:15:30');
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
+VALUES(3, true, 5, 2, '2022-02-21T10:00:01');
 
 INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
 VALUES(1, true, 'Calle Antilla', false, 2);

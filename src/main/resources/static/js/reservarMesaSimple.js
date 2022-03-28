@@ -1,3 +1,5 @@
+"use strict"
+
 const fechaReserva = document.querySelector('.fechaReserva')
 
 window.onload = function() {
@@ -6,9 +8,15 @@ window.onload = function() {
 
 function cargarHoras(e){
     const input = e.target
-    console.log(input.value)
-    go(config.rootUrl+ "/reservarMesa/fecha" , 'GET', {fecha: "hora"})
-        .then(d=>"")
-        .catch(() => "Fecha completa")
+    let date = ""
+    date = date + input.value
+
+    go(config.rootUrl+ "/reservarMesa/fecha?date=" + date, 'GET')
+        .then(d=>{
+            console.log(date)
+        })
+        .catch(() => "Fecha fallo")
+
+    
     
 }
