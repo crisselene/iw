@@ -28,6 +28,7 @@ import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
+import netscape.javascript.JSException;
 
 /**
  *  Non-authenticated requests only.
@@ -121,6 +122,22 @@ public class RootController {
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {
         return "reservarMesaSimple";
+    }
+
+
+    @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
+    @ResponseBody
+    @Transactional
+    public String reservaMesaFecha(Model model, @RequestParam String date){
+        List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
+        String js = null;
+        if(reservas != null){
+            js = "{\"reserva1"
+        }
+        String js = "{\"reservas\": \"toodoooooook\"}"
+
+        return"{\"isok\": \"toodoooooook\"}";
+        
     }
 
 
