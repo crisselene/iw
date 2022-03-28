@@ -59,8 +59,9 @@ public class RootController {
         log.info("entrando a aceptarPed rootController");
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
-        log.info(saGeneral.pedidoEnCurso(em,id));
-        return "{\"isok\": \"todobien\"}";
+        log.info(id);
+        boolean encur= saGeneral.pedidoEnCurso(em,id+1);
+        return "{\"encurso\":" + encur +"}";
     }
 
 
