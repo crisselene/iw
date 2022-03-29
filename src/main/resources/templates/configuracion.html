@@ -91,7 +91,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body" style="text-align: left;">
-                                        <form id="formAnadirEmpleado">
+                                        <form id="formAnadirEmpleado" th:action="@{/}">
                                             <label for="nombreEmpleado" style="display: block;">Nombre</label>
                                             <input type="text" id="nombreEmpleado" required>
 
@@ -117,15 +117,15 @@
                                                 </div>
                                             </div>
 
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
+                                            </div>
+
                                         </form>
 
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <form id="anadirEmpleado" th:action="@{/}">
-                                            <button type="submit" class="btn btn-primary">Añadir</button>
-                                        </form>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -150,6 +150,7 @@
     </div>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/configuracion.js}" src="js/configuracion.js"></script>
 </body>
 
 </html>
