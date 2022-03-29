@@ -10,7 +10,9 @@ VALUES (2, TRUE, 'USER', 'b',
 INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (3, TRUE, 'EMPLEADO', 'emp',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
-
+INSERT INTO IWUser (id, enabled, roles, username, password, direccion, email, telefono)
+VALUES (4, TRUE, 'USER', 'e',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle lola', 'holita@ucm.es','678435232');
 INSERT INTO CATEGORIA (id, nombre, activo)
 VALUES (0, 'Entrantes', 1);
 INSERT INTO CATEGORIA (id, nombre, activo)

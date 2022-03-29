@@ -48,6 +48,9 @@ public class User implements Transferable<User.Transfer> {
 
     private String firstName;
     private String lastName;
+    private String email;
+    private String direccion;
+    private String telefono;
 
     @OneToMany (mappedBy = "cliente")
     private List<Reserva> reservas;

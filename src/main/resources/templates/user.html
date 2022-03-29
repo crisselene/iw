@@ -37,6 +37,17 @@
 
         <div class="container">
             <h1 class="mt-5">Perfil de <span th:text="${user.username}">Paco</span></h1>
+            <img class="profilepic" style=" width: 205px; height: 205px;overflow: hidden;
+            border-radius: 100%;margin: 0 auto 34px auto; background: #59363F;padding: 10px;" th:src="@{/user/{id}/pic(id=${session.u.id})}">
+             <p class="mt-5">Direccion <span th:text="${user.direccion}">Calle null</span></p>
+             <p class="mt-5">E-mail <span th:text="${user.email}">user@ucm.es</span></p>
+             <p class="mt-5">Teléfono <span th:text="${user.telefono}">728654782</span></p>
+             <h1 class="mt-5">¿Una rica hamburguesa🍔, <span th:text="${user.username}">Paco</span>?</h1>
+             <a class="button" th:href = "@{/hacerPedido}">¡Hacer un pedido!</a>
+             <h1 class="mt-5">🍟🍕 Tú decides 🥗🥞 </h1>
+
+            <!-- para enviar mensajes; algo feo -->
+            <div class="py-5 position-absolute bottom-0 row ">
             <!-- recepción de mensajes -->
             <div class="py-5 row" id="mensajes">
             </div>
