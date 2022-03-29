@@ -137,6 +137,7 @@ public class SAGeneralImp{
         LocalDateTime time;
         time = LocalDateTime.parse(fecha + "T00:00:00");
         q.setParameter("fecha", time);
+        q.setParameter("fecha2", time.plusDays(1));
         reservas = q.getResultList();
 
         return reservas;

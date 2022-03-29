@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -25,7 +26,9 @@ import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
+import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Reserva.Transfer;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
 import netscape.javascript.JSException;
@@ -152,16 +155,15 @@ public class RootController {
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
     @Transactional
-    public String reservaMesaFecha(Model model, @RequestParam String date){
+    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String date){
         List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
         String js = null;
         if(reservas != null){
-            js = "{\"reserva1"
+            log.info("Probandoooo");
+            log.info(reservas.stream().map(Transferable::toTransfer).collect(Collectors.toList()));
+            return reservas;
         }
-        String js = "{\"reservas\": \"toodoooooook\"}"
-
-        return"{\"isok\": \"toodoooooook\"}";
-        
+        else return null;       
     }
 
 

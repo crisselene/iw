@@ -13,7 +13,7 @@ function cargarHoras(e){
 
     go(config.rootUrl+ "/reservarMesa/fecha?date=" + date, 'GET')
         .then(d=>{
-            console.log(date)
+            console.log(d.unread)
         })
         .catch(() => "Fecha fallo")
 
