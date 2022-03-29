@@ -22,7 +22,7 @@
             
             <div class="col-md-5">
 
-                <div class="row" style="background-color: rgb(187, 187, 223); height: 250px; border-radius: 10px;">
+                <div class="row paramsrow">
                     <form id="paramsRestaurante" th:action="@{/}" style="margin-top: 4%; margin-left: 2%;">
                         <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
                         <input type="number" id="maxPedidosHora" style="width:15%"> <!-- creo q el 15% es respecto al padre?-->
@@ -39,10 +39,10 @@
                     </form>
                 </div>
 
-                <div class="row" style="background-color: rgb(245, 214, 176); margin-top: 5%;">
+                <div class="row paramsCategorias">
                     <div class="col" style="overflow: auto; height: 325px;">
                         <div class="row">
-                            <div class="row" style="margin-top: 2%; background-color: rgb(245, 214, 176);">
+                            <div class="row categoTitle" >
                                 <div class="col">
                                     <h2 style="margin-bottom: 2%;">Categorías</h2>
                                 </div>
@@ -54,8 +54,7 @@
                             </div>
                         </div>
 
-                        <div class="row" th:each="cat: ${listaCategorias}" style="background-color: rgb(184, 229, 235);
-                        margin-top: 1%; margin-right: 2%; margin-left: 2%; margin-bottom: 1%; border-radius: 10px;">
+                        <div class="row categoriarow" th:each="cat: ${listaCategorias}">
                             <div class="col" style="padding-top: 1%;">
                                 <p th:text="${cat.nombre}">sustituirCategoria</p>
                             </div>
@@ -70,7 +69,7 @@
                 
             </div>
 
-            <div class="col-md-6 offset-1" style="height: 600px; background-color:aquamarine; overflow: auto; border-radius: 10px;">
+            <div class="col-md-6 offset-1 emplist" >
                 <div class="row">
                     <div class="col">
                         <h2 style="margin-top: 1%; margin-bottom: 2%;">Lista de empleados</h2>
@@ -132,7 +131,7 @@
                     </div>
                 </div>
 
-                <div class="row" th:each="emp: ${listaEmpleados}" style="background-color: rgb(184, 229, 235);
+                <div class="row emprow" th:each="emp: ${listaEmpleados}" style="background-color: rgb(184, 229, 235);
                 margin-top: 2%; margin-right: 2%; margin-left: 2%; margin-bottom: 2%; border-radius: 10px;">
                     <div class="col" style="padding-top: 1%;">
                         <p th:text="${emp.username}">sustituirEmpleado</p>

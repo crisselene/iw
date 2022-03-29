@@ -1,11 +1,34 @@
 const Clickbutton = document.querySelectorAll('.button') //Buscamos los botones
 const carritobody = document.querySelector('.mostrarCarrito')
 let carrito = [] //array del carrito
+const finalizarbutton = document.querySelector('.botonfinalizar')
+finalizarbutton.addEventListener('click', finalizar)
 
 Clickbutton.forEach(btn => { //Por cada boton encontrado de tipo compra
    // btn.addEventListener('click', () => console.log('button')) //  Para que cada boton diga algo al pulsarlo por consola :) 
     btn.addEventListener('click', addToCarritoItem) //Le añadimos el action listener a los botones compra
 })
+
+function finalizar(e){
+  console.log("Hey bien finalizado ese pedido ;)")
+  let params ={};
+  carrito.map(item => { //por cada item en el carrito
+    console.log("ID: "+item.id + " x"+item.cantidad)
+
+    params[item.id] = item.cantidad;  
+  })
+  console.log(params)
+  go(config.rootUrl + "/nuevoPedido", 'POST', params)
+            .then(d => {console.log("todo ok")
+                        console.log("mensaje recibido: ", d);//json recibido
+                        console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+            })
+            .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
+
+
+  carrito = []
+  reloadCarrito()
+}
 
 function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
     const button = e.target //el target del evento es nuestro boton :O
@@ -13,10 +36,10 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
     const itemTitle = item.querySelector('.titulo-plato').textContent;
     const itemPrice = item.querySelector('.precio').textContent;
     const InputElemnto = item.querySelector('.cantidad-plato');
-    
     if(InputElemnto.value > 0){ //Si quiere comprar 0 o menos, mejor no hago nada...
 
     const newItem = { //Forma de un Item de pedido
+    id: button.value,
     title: itemTitle,
     precio: itemPrice,
     cantidad: InputElemnto.value
