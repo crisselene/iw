@@ -3,18 +3,11 @@ package es.ucm.fdi.iw.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-<<<<<<< Updated upstream
 import java.util.stream.Collectors;
-=======
-import java.util.Map;
->>>>>>> Stashed changes
-
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-
 import com.fasterxml.jackson.databind.JsonNode;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
