@@ -1,8 +1,13 @@
 package es.ucm.fdi.iw.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+<<<<<<< Updated upstream
 import java.util.stream.Collectors;
+=======
+import java.util.Map;
+>>>>>>> Stashed changes
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -251,6 +256,19 @@ public class RootController {
         return "configuracion";
     }
 
+    @PostMapping(path = "/nuevoPedido", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String nuevoPedido(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+        log.info("nuevoPedido");
+        Iterator<String> iterator = o.fieldNames();
+        iterator.forEachRemaining(e -> {
+            int cantidad = o.get(e).asInt();
+            log.info("Has pedido: "+e+" x"+cantidad);
+        });
+
+        return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+    }
     //TODO pedidos: seran dos paginas diferenes de html segun si admin o user, o se ajusta aqui? Como tienen formatos difrentes,
     //y no solo datos diferentes, quizas mejor dos htmls diferentes
 
