@@ -28,20 +28,25 @@
                         <th:block th:if=" ${ped.isEnCurso}==FALSE" th:each="ped,i: ${listaPedidos}">
                             <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
                             lo mismo pasa con el ultimo elemento y los del medio-->
+                           
+                           <!--esto es para llamar en javascript
+                             th:attr="data-id=${ped.id}"-->
+                            <div class="divCambiar"  th:attr="data-id=${ped.id}">
         
-        
-                            <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.getCliente}">
+                            <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
+                            + ', Cliente: ' + ${ped.cliente}">
                                 
                             </div>
                             <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
                             poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
                             cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
                            <form>
-                                <button type="button"  class="aceptar" id="acep" 
-                                value="${ped.id}" style="float: right; width: 100px; margin: 5px; background-color: #849974;">Aceptar</button>
-                                <button style="float: right; width: 100px; margin: 5px;">Rechazar</button>
+                               <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
+                                <button type="button"  class="aceptar"
+                                th:value="${ped.id}" style="float: right; width: 100px; margin: 5px; background-color: #849974;">Aceptar</button>
+                                <button type="button" class="rechazar" style="float: right; width: 100px; margin: 5px;">Rechazar</button>
                             </form>
+                            </div>
                         </th:block>
                     </div>
 
@@ -50,7 +55,7 @@
             <div class="container" style="width: 45%; float: right;  margin:25px;">
                 <h2>Pedidos actuales</h2>
                
-                    <div class="row" 
+                    <div class="row pedEnCurso" 
                     style="border: 1px solid; padding-top: 2%; padding-bottom: 2%;
                     padding-left: 10%;"> 
                         <th:block  th:if=" ${ped.isEnCurso}==true" th:each="ped,i: ${listaPedidos}">

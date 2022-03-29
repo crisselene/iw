@@ -64,7 +64,7 @@ public class RootController {
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        boolean encur= saGeneral.pedidoEnCurso(em,id+1);
+        boolean encur= saGeneral.pedidoEnCurso(em,id);
         return "{\"encurso\":" + encur +"}";
     }
 

@@ -54,6 +54,12 @@ VALUES(3, true, 5, 2, '2022-02-21T10:00:01');
 
 INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
 VALUES(1, true, 'Calle Antilla', false, 2);
+INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+VALUES(2, true, 'Calle Holanda', false, 2);
+INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+VALUES(3, true, 'Calle Eros', false, 2);
+INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+VALUES(4, true, 'Calle Cristina', false, 2);
 
 INSERT INTO LINEA_PLATO_PEDIDO(cantidad, precio, plato_id, pedido_id)
 VALUES(2, 11.98, 1, 1);
