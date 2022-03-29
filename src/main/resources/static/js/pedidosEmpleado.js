@@ -1,18 +1,21 @@
 
-//tengo que coger el id del botón aceptar del html pedidosEmpleado
-const element2 = document.getElementById("acep");
-element2.addEventListener("click",aceptarPed);
-
-
-function aceptarPed(){
-    alert("hola");
-    //cojo el valor del id del pedido que lo he guardado en el botón acep
+//NO CAMBIAR ESTA FUNCIÓN: no funcionaba bien porque cargaba antes el javascript
+//que el html y entonces no hacía el eventListener.Con esto obliga a cargar
+//antes al html 
+document.addEventListener("DOMContentLoaded", ()=>{
+   const element2 = document.querySelector('.aceptar')
+   element2.addEventListener("click", (e) => {
     let params = {"idPed" : document.getElementById("acep").value};
     go(config.rootUrl + "/aceptarPed" , 'POST', params)
     .then(d =>{
         console.log("todo ok") //mensajes que saldrán si todo sale bien
         console.log("mensaje recibido: ", d);
+        if(d['encurso']== true){
+            console.log("se puede cambiar");
+
+        }
     })
     .catch(() => console.log("el pedido ya estaba en curso"));
-    //alert('Error :0');
-}
+});
+})
+

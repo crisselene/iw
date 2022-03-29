@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +14,18 @@ import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 @Entity
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findById", query = "select obj from Reserva obj where  :id = obj.id"),
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha+1 >= obj.fecha and :fecha <= obj.fecha"),
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha2 >= obj.fecha and :fecha <= obj.fecha"),
     @NamedQuery(name="Reserva.reservasUsuario", query="SELECT r FROM Reserva r " + "WHERE r.cliente.id = :iduser")
 })
 
 @AllArgsConstructor                  
-public class Reserva {
+public class Reserva implements Transferable<Reserva.Transfer> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
@@ -38,11 +40,20 @@ public class Reserva {
     @ManyToOne
     private User cliente; //Quien hizo la reserva
 
-    @Data
+    
+
+    @Getter
     @AllArgsConstructor
-    public class Transfer{
-        String fecha;
+    public static class Transfer {
+		public Transfer(long id2, LocalDateTime fecha2) {
+        }
+        private String fecha;
+        private long id;
     }
 
+    @Override
+    public Transfer toTransfer() {
+		return new Transfer(id,	fecha);
+	}
 
 }

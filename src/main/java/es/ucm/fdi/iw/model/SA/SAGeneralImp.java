@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import javax.transaction.Transaction;
+import javax.transaction.Transactional;
 
 import org.hibernate.type.LocalDateTimeType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +137,7 @@ public class SAGeneralImp{
         LocalDateTime time;
         time = LocalDateTime.parse(fecha + "T00:00:00");
         q.setParameter("fecha", time);
+        q.setParameter("fecha2", time.plusDays(1));
         reservas = q.getResultList();
 
         return reservas;
@@ -207,24 +209,15 @@ public class SAGeneralImp{
 
     public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
         boolean correcto = false;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Pedido p = null;
-            p = em.find(Pedido.class, id);
+        Pedido p = em.find(Pedido.class, id);
             if(p!=null){
-                if(p.isActivo() && p.isEnCurso()){
+                if(p.isActivo() && !p.isEnCurso()){
                     p.setEnCurso(true);
-                    t.commit();
+                    
                     correcto = true;
                 }
-                else t.rollback();
-                
             }
-            else t.rollback();
-        }catch(Exception e){
-
-        }
+        
         return correcto;
     }
 

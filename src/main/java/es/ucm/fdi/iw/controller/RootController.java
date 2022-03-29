@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -25,9 +26,12 @@ import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
+import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Reserva.Transfer;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
+import netscape.javascript.JSException;
 
 /**
  *  Non-authenticated requests only.
@@ -59,8 +63,9 @@ public class RootController {
         log.info("entrando a aceptarPed rootController");
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
-        log.info(saGeneral.pedidoEnCurso(em,id));
-        return "{\"isok\": \"todobien\"}";
+        log.info(id);
+        boolean encur= saGeneral.pedidoEnCurso(em,id+1);
+        return "{\"encurso\":" + encur +"}";
     }
 
 
@@ -144,6 +149,21 @@ public class RootController {
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {
         return "reservarMesaSimple";
+    }
+
+
+    @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
+    @ResponseBody
+    @Transactional
+    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String date){
+        List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
+        String js = null;
+        if(reservas != null){
+            log.info("Probandoooo");
+            log.info(reservas.stream().map(Transferable::toTransfer).collect(Collectors.toList()));
+            return reservas;
+        }
+        else return null;       
     }
 
 
