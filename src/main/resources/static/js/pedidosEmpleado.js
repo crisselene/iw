@@ -28,17 +28,28 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 //si enCurso=true entonces podemos cambiarlo a la tabla
                 //de pedidos en curso
                 if(d['encurso']== true){
+                    //cambiamos el boton aceptar por "modificar"
+                    var botonAcep = div.querySelector(".aceptar")
+                    botonAcep.innerHTML = 'Modificar'
+                    var botonAcep = div.querySelector(".rechazar")
+                    botonAcep.innerHTML = 'Eliminar'
                     console.log("SE PUEDE CAMBIAR")
                     enCurso.append(div);
+                    
                 }else{
+                    //entonces es que quiere modificar
+                    alert("Modificar")
                     console.log("NOOOOO")
                     cambiar=false;       
                 }
             })                    
         })
         //********************FIN BOTON ACEPTAR******************/
+
+        //**********************BOTON ELIMINAR******************* */
         d.querySelector(".rechazar").addEventListener("click", e =>{
             console.log("Rechazando elemento id", id)
+            alert("Está seguro de que quiere eliminar ese pedido?")
         })     
     })
 })
