@@ -66,45 +66,79 @@ public class RootController {
     }
 
 
-     //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
-     /*
-     para ajax con get necesario:
-     En el controller:
-     @GetMapping
-     @RequestParam tipo nombreParametro
-     No usa @RequestBody ya que los get no tienen body
+    //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
+    /*
+    para ajax con get necesario:
+    En el controller:
+    @GetMapping
+    @RequestParam tipo nombreParametro
+    No usa @RequestBody ya que los get no tienen body
 
-     En javascript:
-     En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
-     */
-     
-     @PostMapping(path = "/nuevoPlato", produces = "application/json")
-     @Transactional // para no recibir resultados inconsistentes
-     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-     public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
-         log.info("demoAjax");
-         
-         String nombre = o.get("nombrePlato").asText();
-         String categoria = o.get("categoriaPlato").asText();
-         String precioString = o.get("precioPlato").asText();
-         Float precio = Float.parseFloat(precioString);
-         String desc = o.get("descripcionPlato").asText();
- 
-         //String aux = o.get("clave").asText();
-         log.info("DatosAjax - Nuevo plato");
-         log.info("nombre: " + nombre);
-         log.info("categoria: " + categoria);
-         log.info("precio: " + precio);
-         log.info("descripcion: " + desc);
- 
-         if(nombre.equals("especial"))//simulacion de ha ocurrido un error y quiero que se ejecute el catch del javascript, devolviendo null
-         {
-             log.info("entraEnElIf");
-             return null;
-         }
- 
-         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
-     }
+    En javascript:
+    En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
+    */
+    
+    @PostMapping(path = "/nuevoPlato", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+        log.info("demoAjax");
+        
+        String nombre = o.get("nombrePlato").asText();
+        String categoria = o.get("categoriaPlato").asText();
+        String precioString = o.get("precioPlato").asText();
+        Float precio = Float.parseFloat(precioString);
+        String desc = o.get("descripcionPlato").asText();
+
+        //String aux = o.get("clave").asText();
+        log.info("DatosAjax - Nuevo plato");
+        log.info("nombre: " + nombre);
+        log.info("categoria: " + categoria);
+        log.info("precio: " + precio);
+        log.info("descripcion: " + desc);
+
+        if(nombre.equals("especial"))//simulacion de ha ocurrido un error y quiero que se ejecute el catch del javascript, devolviendo null
+        {
+            log.info("entraEnElIf");
+            return null;
+        }
+
+        return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/existeUsuario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String comprobarNuevoEmpleado(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de comprobarNuevoEmpleado -------------");
+        
+        String nombreEmpleado = o.get("nombreEmpleado").asText();
+
+        if(saGeneral.existeUsuario(em, nombreEmpleado))
+        {
+            //log.info("usuario ya existe (rootController anadirEmpleado)");
+            return null;
+        }
+
+        return "{\"isok\": \"true\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/anadirEmpleado", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de anadirEmpleado -------------");
+    
+/*         String nombreEmpleado = o.get("nombreEmpleado").asText();
+
+        if(saGeneral.existeUsuario(em, nombreEmpleado))
+        {
+            //log.info("usuario ya existe (rootController anadirEmpleado)");
+            return null;
+        } */
+
+        return "{\"isok\": \"true\"}";//devuelve un json como un string
+    }
 
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
     public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {

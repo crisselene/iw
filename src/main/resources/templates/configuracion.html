@@ -27,7 +27,7 @@
                         <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
                         <input type="number" id="maxPedidosHora" style="width:15%"> <!-- creo q el 15% es respecto al padre?-->
                         <br>
-                        <label for="inicioReservas">Intervalo de horas posibles para reservar(00-23h):&nbsp;</label>
+                        <label for="inicioReservas">Horas posibles para reservar(00-23h):&nbsp;</label>
                         <input type="number" id="inicioReservas" min="00" max="23" style="width:10%; margin-top: 5%;">
                         &nbsp;a&nbsp;
                         <input type="number" id="finalReservas"  min="00" max="23" style="width:10%; margin-top: 5%;"> <!-- aqui no haria falta margin top pq ya esta en el otro input-->
@@ -90,7 +90,9 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body" style="text-align: left;">
-                                        <form id="formAnadirEmpleado" th:action="@{/}">
+                                        <!-- IMPORTANTE -->
+                                        <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
+                                        <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
                                             <label for="nombreEmpleado" style="display: block;">Nombre</label>
                                             <input type="text" id="nombreEmpleado" required>
 
@@ -108,11 +110,11 @@
                                             <div class="row">
                                                 <div class="col">
                                                     <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
-                                                    <input type="password" id="contrasena1Empleado">
+                                                    <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
                                                 </div>
                                                 <div class="col">
                                                     <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
-                                                    <input type="password" id="contrasena2Empleado">
+                                                    <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
                                                 </div>
                                             </div>
 
@@ -131,8 +133,7 @@
                     </div>
                 </div>
 
-                <div class="row emprow" th:each="emp: ${listaEmpleados}" style="background-color: rgb(184, 229, 235);
-                margin-top: 2%; margin-right: 2%; margin-left: 2%; margin-bottom: 2%; border-radius: 10px;">
+                <div class="row emprow" th:each="emp: ${listaEmpleados}">
                     <div class="col" style="padding-top: 1%;">
                         <p th:text="${emp.username}">sustituirEmpleado</p>
                     </div>

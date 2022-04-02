@@ -26,7 +26,7 @@
 
 /* Cada fila de las categorias */
 .categoriarow{
-    background-color: #a55f71;
+    background-color: #ffffff;
     margin-top: 1%;
     margin-right: 2%;
     margin-left: 2%;
@@ -49,5 +49,15 @@
 }
 
 .emprow{
-    color:#36384C;
+    color:#000000;
+    background-color: #ffffff;
+    margin-top: 2%; 
+    margin-right: 2%; 
+    margin-left: 2%; 
+    margin-bottom: 2%; 
+    border-radius: 10px;
+}
+
+#modalAnadirEmpleado{
+    color:black
 }

@@ -51,6 +51,13 @@ public class SAGeneralImp{
         return pedidos;
     }
 
+    public Boolean existeUsuario(EntityManager em, String nombreUsuario)
+    {
+        List<User> lu = em.createNamedQuery("User.existsUsername", User.class).setParameter("username", nombreUsuario).getResultList();
+        if(lu.size() == 0) return false;
+        else return true;
+    }
+
     public List<Reserva> listarReservas(EntityManager em){
         List<Reserva> reservas = null;
         reservas = em.createQuery("SELECT r FROM Reserva r").getResultList();        
@@ -80,6 +87,35 @@ public class SAGeneralImp{
         return p;
 
     }
+
+/*     public long crearUsuario(EntityManager em, User us)
+    {
+        long idDevolver = -1;
+        try{
+            EntityTransaction t = em.getTransaction();
+            t.begin();
+            User u = null;
+            u = em.find(User.class, u.getId());
+            if(u!=null){
+                if(!u.isEnabled()){
+                    u.setEnabled(true);
+                    idDevolver=u.getId();
+                }
+                t.rollback();
+            }
+            else {
+                u = new User(us.getDireccion(), us.getEmail(), us.isEnabled(), 
+                             us.getFirstName(), us.getLastName(), us.getPassword(), us.getRoles(), us.getTelefono(), us.getUsername());
+                em.persist(u);
+                t.commit();
+                idDevolver = u.getId();
+            }
+
+        }catch(Exception e){
+
+        }
+        return idDevolver;
+    } */
 
     public long crearCategoria(EntityManager em, long id, String nombre){
         long idDevolver = -1;
