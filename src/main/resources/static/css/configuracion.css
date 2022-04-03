@@ -8,3 +8,56 @@
     margin-top: 3%;
 }
 
+
+/* Cuadro de la parte superior izquierda con los parametros del restaurante */
+.paramsrow{
+    background-color: #783848;
+    height: 250px;
+    border-radius: 10px;
+    color:#F2E4D8;
+}
+
+/* Cuadro grande de las categorias */
+.paramsCategorias{
+    background-color:#783848;
+    margin-top: 5%;
+    border-radius: 10px;
+}
+
+/* Cada fila de las categorias */
+.categoriarow{
+    background-color: #ffffff;
+    margin-top: 1%;
+    margin-right: 2%;
+    margin-left: 2%;
+    margin-bottom: 1%;
+    border-radius: 10px;
+}
+
+.categoTitle{
+    margin-top: 2%;
+    margin-left: 0.1%;
+    color:#F2E4D8
+}
+
+.emplist{
+    height: 600px;
+    background-color:#783848;
+    overflow: auto;
+    border-radius: 10px;
+    color:#F2E4D8
+}
+
+.emprow{
+    color:#000000;
+    background-color: #ffffff;
+    margin-top: 2%; 
+    margin-right: 2%; 
+    margin-left: 2%; 
+    margin-bottom: 2%; 
+    border-radius: 10px;
+}
+
+#modalAnadirEmpleado{
+    color:black
+}

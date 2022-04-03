@@ -24,6 +24,10 @@ import java.util.List;
         @NamedQuery(name="User.hasUsername",
                 query="SELECT COUNT(u) "
                         + "FROM User u "
+                        + "WHERE u.username = :username"),
+        @NamedQuery(name="User.existsUsername",
+                query="SELECT u "
+                        + "FROM User u "
                         + "WHERE u.username = :username")
 })
 @Table(name="IWUser")

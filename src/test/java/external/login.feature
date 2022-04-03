@@ -13,32 +13,40 @@ Feature: login en servidor
 
   Scenario: login malo en plantilla
     Given driver baseUrl + '/user/2'
+    And delay(500)
     And input('#username', 'dummy')
     And input('#password', 'world')
+    And delay(500)
     When submit().click(".form-signin button")
     Then match html('.error') contains 'Error en nombre de usuario o contraseña'
 
   @login_b
   Scenario: login correcto como b
     Given driver baseUrl + '/login'
+    And delay(500)
     And input('#username', 'b')
     And input('#password', 'aa')
+    And delay(500)
     When submit().click(".form-signin button")
     Then waitForUrl(baseUrl + '/user/2')
 
   @login_a
   Scenario: login correcto como a
     Given driver baseUrl + '/login'
+    And delay(100)
     And input('#username', 'a')
     And input('#password', 'aa')
+    And delay(100)
     When submit().click(".form-signin button")
     Then waitForUrl(baseUrl + '/admin')
 
   Scenario: logout after login
     Given driver baseUrl + '/login'
+    And delay(500)
     And input('#username', 'a')
     And input('#password', 'aa')
+    And delay(500)
     When submit().click(".form-signin button")
     Then waitForUrl(baseUrl + '/admin')
-    When submit().click("{button}logout")
+    When submit().click("{^button}Logout")
     Then waitForUrl(baseUrl + '/login')

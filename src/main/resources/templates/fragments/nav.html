@@ -26,7 +26,7 @@
                                 <a class="nav-link"  th:href="@{/admin/}">Administrar📍</a>
                             </li>
                             <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/carta}">Carta📖
+                                <a class="nav-link cartaLink" th:href="@{/carta}">Carta📖
                                 </a>
                             </li>
 
@@ -36,7 +36,7 @@
                             </li>
 
                             <li th:if="${session.u.hasRole('USER')}" class="nav-item mx-2">
-                                <a class="nav-link"   th:href="@{/hacerPedido}">Hacer pedido🛍️
+                                <a class="nav-link"  id="hacerPedidoLink" th:href="@{/hacerPedido}">Hacer pedido🛍️
                                 </a>
                             </li>
 
@@ -51,7 +51,7 @@
                             </li>
 
                             <li th:if="${session.u.hasRole('ADMIN')}" class="nav-item mx-2">
-                                <a class="nav-link"  th:href="@{/configuracion}">Configuracion⚙️
+                                <a class="nav-link" id="configuracionLink" th:href="@{/configuracion}">Configuracion⚙️
                                 </a>
                             </li>
 
@@ -76,7 +76,7 @@
                         <th:block th:unless="${session.u}">
 
                             <li class="nav-item mx-2">
-                                <a class="nav-link"  th:href="@{/carta}">Carta📖</a>
+                                <a class="nav-link cartaLink"  th:href="@{/carta}">Carta📖</a>
                             </li>
 
                             <li class="nav-item mx-2">
