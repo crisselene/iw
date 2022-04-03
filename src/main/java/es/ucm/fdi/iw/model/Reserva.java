@@ -45,15 +45,12 @@ public class Reserva implements Transferable<Reserva.Transfer> {
     @Getter
     @AllArgsConstructor
     public static class Transfer {
-		public Transfer(long id2, LocalDateTime fecha2) {
-        }
+		private long id;
         private String fecha;
-        private long id;
     }
 
     @Override
     public Transfer toTransfer() {
-		return new Transfer(id,	fecha);
+		return new Transfer(id, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(fecha));
 	}
-
 }

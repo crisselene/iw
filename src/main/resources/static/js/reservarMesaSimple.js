@@ -11,11 +11,22 @@ function cargarHoras(e){
     let date = ""
     date = date + input.value
 
+    let fechas = []
+    
+
     go(config.rootUrl+ "/reservarMesa/fecha?date=" + date, 'GET')
         .then(d=>{
-            console.log(d.unread)
+            d.forEach(f => {
+                fechas.push(f)
+            });
         })
         .catch(() => "Fecha fallo")
+
+
+
+    console.log(fechas)
+    let numFechas = 
+    console.log("Este es " + fechas.length())
 
     
     
