@@ -34,5 +34,12 @@ public class LineaPlatoPedido {
     public LineaPlatoPedido(Plato plato, Pedido ped){
         this.plato = plato;
         this.pedido = ped;
+        this.precio=(double) plato.getPrecio();
+    }
+    public LineaPlatoPedido(Plato plato, Pedido ped,int cantidad){
+        this.plato = plato;
+        this.pedido = ped;
+        this.precio=(double) plato.getPrecio();
+        this.cantidad = cantidad;
     }
 }

@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -16,6 +18,9 @@ import lombok.Data;
 @Entity
 @Data
 @AllArgsConstructor
+@NamedQueries({
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Plato.findById", query = "select obj from Plato obj where  :id = obj.id")
+})
 public class Plato {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")

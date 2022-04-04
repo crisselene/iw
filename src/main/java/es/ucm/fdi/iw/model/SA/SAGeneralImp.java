@@ -1,20 +1,14 @@
 package es.ucm.fdi.iw.model.SA;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-import javax.transaction.Transaction;
-import javax.transaction.Transactional;
 
-import org.hibernate.type.LocalDateTimeType;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.JsonNode;
 
-import ch.qos.logback.core.net.server.Client;
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
@@ -23,6 +17,7 @@ import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
 import lombok.Data;
+
 @Data
 public class SAGeneralImp{
 
@@ -208,22 +203,34 @@ public class SAGeneralImp{
         return correcto;
     }
 
-    public boolean hacerPedido(EntityManager em, List<Plato> platos, User cliente, String direccion){
-        boolean correcto = false;
-        //Tengo que pensar bien como hacerlo
-        //Mas bien verlo en el proyecto de MS
-        Pedido p = new Pedido(cliente, direccion);
-        em.persist(p);
+    public boolean nuevoPedido(EntityManager em, JsonNode o, User cliente){
+
+        Pedido ped = new Pedido(cliente,cliente.getDireccion());
+        em.persist(ped);
         em.flush();//Creamos el pedido
 
-        long idPedido= p.getId();
 
-        for(Plato pl : platos){
-            long idPlato = pl.getId();
-            LineaPlatoPedido l = new LineaPlatoPedido();
-        }
+        System.out.println("PEDIDOOO EN SA");
 
-        return correcto;
+        Iterator<String> iterator = o.fieldNames();
+        iterator.forEachRemaining(e -> {
+            //e = id Plato
+            int cantidad = o.get(e).asInt();
+            long id = Long.parseLong(e);
+            System.out.println("PEDIDOOO EN SA"+ id);
+            //Plato p = em.find(Plato.class,id);
+            Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Plato.findById");
+            q.setParameter("id", id);
+            Plato p = (Plato) q.getResultList().get(0);
+            System.out.println("NOMBRE  ");
+            System.out.println("NOMBRE PLATO: "+p.getNombre()+p);
+           // LineaPlatoPedido l = new LineaPlatoPedido(p,ped,cantidad);//plato,pedido,precio,cantidad
+           // System.out.println("PEDIDOOO" + l);
+           // em.persist(l);
+           // em.flush();
+        });
+
+        return true;
     }
 
     public boolean eliminarPedido(EntityManager em, long id){

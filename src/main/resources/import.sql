@@ -1,13 +1,14 @@
 -- insert admin (username a, password aa)
-INSERT INTO IWUser (id, enabled, roles, username, password)
+INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono)
 VALUES (1, TRUE, 'ADMIN,USER', 'a',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
-INSERT INTO IWUser (id, enabled, roles, username, password)
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calla jefazo', 'admin@faq.es', '123456321');
+
+INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono)
 VALUES (2, TRUE, 'USER', 'b',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle machado', 'user@normalito.com', '456543675');
 
 
-INSERT INTO IWUser (id, enabled, roles, username, password)
+INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono)
 VALUES (3, TRUE, 'EMPLEADO', 'emp',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
 INSERT INTO IWUser (id, enabled, roles, username, password, direccion, email, telefono)
@@ -56,16 +57,16 @@ VALUES(4, true, 5, 2, '2022-02-21T10:00:00');
 INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
 VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
 
-INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
-VALUES(1, true, 'Calle Antilla', false, 2);
-INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
-VALUES(2, true, 'Calle Holanda', false, 2);
-INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
-VALUES(3, true, 'Calle Eros', false, 2);
-INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
-VALUES(4, true, 'Calle Cristina', false, 2);
+-- INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+-- VALUES(1, true, 'Calle Antilla', false, 2);
+-- INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+-- VALUES(2, true, 'Calle Holanda', false, 2);
+-- INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+-- VALUES(3, true, 'Calle Eros', false, 2);
+-- INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
+-- VALUES(4, true, 'Calle Cristina', false, 2);
 
-INSERT INTO LINEA_PLATO_PEDIDO(cantidad, precio, plato_id, pedido_id)
-VALUES(2, 11.98, 1, 1);
+-- INSERT INTO LINEA_PLATO_PEDIDO(cantidad, precio, plato_id, pedido_id)
+-- VALUES(2, 11.98, 1, 1);
 
 INSERT INTO CONFIGURACION_RESTAURANTE VALUES(1,4,5,12,23,30);
