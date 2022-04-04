@@ -50,9 +50,7 @@
                                             </div>
 
                                          <!-- Escribimos el precio por separado para poder sumar los numeros y no tener que recortar -->
-                                         <div class="precio" th:text="${plato.precio} + '€'">
-                                            9.90
-                                         </div>
+                                         <div class="precio" th:text="${plato.precio} + '€'">9.90</div>
    
 
                                         <button type="button" th:value="${plato.id}" class="btn btn-primary button btn-Second">Comprar</button>
@@ -76,15 +74,12 @@
                 
                 <div class="row row-CarroEntero" >
                 <div class="CarroEntero">
-                    <div class="mostrarCarrito">
+                <div class="mostrarCarrito">
                        
 
                    </div>
-
                         <div class="row">
-                            <div class="col totalCarrito">
-                                Total: 0€
-                            </div>
+                            <div class="col totalCarrito">Total: 0€</div>
                             
                             <div class="col">
                                 <div style="text-align: right;">
