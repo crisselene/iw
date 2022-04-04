@@ -88,34 +88,29 @@ public class SAGeneralImp{
 
     }
 
-/*     public long crearUsuario(EntityManager em, User us)
-    {
+    public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String pass, String roles, String telf, String username){
         long idDevolver = -1;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            User u = null;
-            u = em.find(User.class, u.getId());
-            if(u!=null){
-                if(!u.isEnabled()){
-                    u.setEnabled(true);
-                    idDevolver=u.getId();
-                }
-                t.rollback();
-            }
-            else {
-                u = new User(us.getDireccion(), us.getEmail(), us.isEnabled(), 
-                             us.getFirstName(), us.getLastName(), us.getPassword(), us.getRoles(), us.getTelefono(), us.getUsername());
+        
+        User u = null;
+        Query q = em.createNamedQuery("User.hasUsername", User.class);
+        q.setParameter("username", username);
+        int num = q.getFirstResult();
+
+        if(num>0){//Si no existe el username
+            q = em.createNamedQuery("User.byEmail", User.class);
+            q.setParameter("email", email);
+            List<User> us = q.getResultList();
+
+            if(us.isEmpty()){//Si no existe el correo
+                u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
                 em.persist(u);
-                t.commit();
+                em.flush();
                 idDevolver = u.getId();
             }
-
-        }catch(Exception e){
-
         }
         return idDevolver;
-    } */
+    } 
 
     public long crearCategoria(EntityManager em, long id, String nombre){
         long idDevolver = -1;
@@ -181,7 +176,8 @@ public class SAGeneralImp{
 
     public ConfiguracionRestaurante getConfiguracion(EntityManager em){
         ConfiguracionRestaurante c = null;
-        c = em.find(ConfiguracionRestaurante.class, 1);
+        long id =1;
+        c = em.find(ConfiguracionRestaurante.class, id);
         return c;
     }
     
@@ -216,6 +212,16 @@ public class SAGeneralImp{
         boolean correcto = false;
         //Tengo que pensar bien como hacerlo
         //Mas bien verlo en el proyecto de MS
+        Pedido p = new Pedido(cliente, direccion);
+        em.persist(p);
+        em.flush();//Creamos el pedido
+
+        long idPedido= p.getId();
+
+        for(Plato pl : platos){
+            long idPlato = pl.getId();
+            LineaPlatoPedido l = new LineaPlatoPedido();
+        }
 
         return correcto;
     }

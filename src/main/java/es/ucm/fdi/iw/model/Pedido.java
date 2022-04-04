@@ -49,4 +49,9 @@ public class Pedido {
         this.platos = platos;
     }
     public Pedido(){}
+    
+    public Pedido(User u, String direccion){
+        this.cliente = u;
+        this.direccion = direccion;
+    }
 }

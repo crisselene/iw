@@ -28,10 +28,27 @@ import java.util.List;
         @NamedQuery(name="User.existsUsername",
                 query="SELECT u "
                         + "FROM User u "
-                        + "WHERE u.username = :username")
+                        + "WHERE u.username = :username"),
+        @NamedQuery(name="User.byEmail",
+                query="SELECT u "
+                        + "FROM User u "
+                        + "WHERE u.email = :email")            
+                        
 })
 @Table(name="IWUser")
 public class User implements Transferable<User.Transfer> {
+
+    public User (String username, String password, String firstName, 
+    String lastName, String email, String direccion, String telf, String roles){
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName= lastName;
+        this.email=email;
+        this.direccion=direccion;
+        this.telefono=telf;
+        this.roles =roles;
+    }
 
     public enum Role {
         USER,			// normal users 
