@@ -285,14 +285,17 @@ public class RootController {
     @PostMapping(path = "/nuevoPedido", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String nuevoPedido(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+    public String nuevoPedido(Model model, @RequestBody JsonNode o, HttpSession session) {
         log.info("nuevoPedido");
+        User u = (User) session.getAttribute("u");
         Iterator<String> iterator = o.fieldNames();
         iterator.forEachRemaining(e -> {
             int cantidad = o.get(e).asInt();
-            log.info("Has pedido: "+e+" x"+cantidad);
+            log.info( " Has pedido: "+e+" x"+cantidad);
         });
-
+        //diccionario id, cantidad diccionario[ID]=cantidad
+        //
+       // saGeneral.hacerPedido(em, o,u); //entitymanager, jsonnode y user
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
     //TODO pedidos: seran dos paginas diferenes de html segun si admin o user, o se ajusta aqui? Como tienen formatos difrentes,
