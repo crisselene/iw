@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>IW: Welcome</title>
+    <link rel="stylesheet" href="css/carta.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -52,11 +53,11 @@
                 <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
                          <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" > <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
@@ -64,11 +65,11 @@
                 </div>
                 <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
                             <br>
                             <form th:action = "@{/verPlato}">  <!-- antes value="${plato.debugGetName()}"  con lombock se puede acceder directamente a la variable como si fuera public-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>

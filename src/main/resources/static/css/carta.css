@@ -1,0 +1,32 @@
+:root{
+    /* Variables de los colores */
+    --main:#783848;
+    --second: #36384C;
+    --background: #E9DCCD;
+  }
+
+.text-center{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-primary{
+    margin-top: 5px;
+    background-color: var(--main);
+}
+.btn:hover{
+    background-color:#965666;
+}
+.nav-link{
+    color: var(--main)
+}
+.img-thumbnail{
+    border: 1px solid var(--main);
+    padding: 5px;
+    border-radius: 50px;
+    width: 300px;
+}
+
+img:hover {
+    box-shadow: 0 0 3px 2px var(--second);
+  }
