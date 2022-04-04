@@ -4,6 +4,7 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Pedir</title>
+    <link rel="stylesheet" href="css/hacerPedido.css" />
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -19,13 +20,11 @@
     <div class="container">
         <div class="row">
             <div class="col-md-7">
-                <div class="row" style="background-color:#613A43; border-top-right-radius: 10px; 
-                border-top-left-radius: 10px; border: 2px solid #000; color: #dbbdc5;">
+                <div class="row row-Elegir" >
                     <h2>Elige tus platos</h2>
                 </div>
                 
-                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px; overflow: auto; height: 500px;">
+                <div class="row row-Mostrar" >
                     <div id="mostrarListaCompletaPlatos">
 
                         <th:block th:each="cat,iter: ${categorias}"><!-- Se recorre la lista de categorias -->
@@ -36,7 +35,7 @@
                                     <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="80" height="80">
                                     </div>
                                     <div class="col">
-                                    <div class="titulo-plato"  th:text="${plato.nombre}" style="font-size: 20px; font-weight: bold;">Ensalada</div>
+                                    <div class="titulo-plato"  th:text="${plato.nombre}" >Ensalada</div>
                                     <div th:text="${plato.descripcion}">
                                         <p>Descripción</p>
                                     </div>  
@@ -47,16 +46,16 @@
                                     <div style="text-align: right;">
                                         
                                         <div class="col divcantidad">
-                                            <input class='cantidad-plato' type="number" value="0" style="width: 50px;" min="0" max="99" >
+                                            <input class='cantidad-plato' type="number" value="0"  min="0" max="99" >
                                             </div>
 
                                          <!-- Escribimos el precio por separado para poder sumar los numeros y no tener que recortar -->
-                                         <div class="precio" th:text="${plato.precio} + '€'" style="line-height: 1.5; vertical-align: middle; display: inline-block;">
+                                         <div class="precio" th:text="${plato.precio} + '€'">
                                             9.90
                                          </div>
    
 
-                                        <button type="button" th:value="${plato.id}" class="btn btn-primary button" style="background-color:#613A43;">Comprar</button>
+                                        <button type="button" th:value="${plato.id}" class="btn btn-primary button btn-Second">Comprar</button>
                                     </div>
                                 </div>
                             </div>
@@ -70,14 +69,12 @@
 
             <!-- AQUI EMPIEZA EL CARRITO -->
             <div class="col-md-4 offset-1">
-                <div class="row" style="background-color:#613A43; border-top-right-radius: 10px; 
-                border-top-left-radius: 10px; border: 2px solid #000;color: #dbbdc5;">
+                <div class="row row-Carrito" >
                     <h2>Carrito</h2>
                 </div>
 
                 
-                <div class="row" style="border: 2px solid #000; border-top: 0px; border-bottom-left-radius: 10px;
-                border-bottom-right-radius: 10px; overflow: ms-auto; height: 500px;">
+                <div class="row row-CarroEntero" >
                 <div class="CarroEntero">
                     <div class="mostrarCarrito">
                        
@@ -91,7 +88,7 @@
                             
                             <div class="col">
                                 <div style="text-align: right;">
-                                        <button type="button" class="btn btn-primary btn-sm botonfinalizar" style="margin-top: 3%; background-color: #783848;">Finalizar</button>
+                                        <button type="button" class="btn btn-primary btn-sm botonfinalizar btn-Second" >Finalizar</button>
                                 </div>
                             </div>
                         </div>      
