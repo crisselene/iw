@@ -1,8 +1,10 @@
 const element = document.getElementById("anadirEmpleadoButton");
 element.addEventListener("click", nuevoEmpleado);
 
-function nuevoEmpleado()
+function nuevoEmpleado(e)
 {
+    e.preventDefault();
+
     console.log("hol@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     let nombreEmpleado = document.getElementById("nombreEmpleado");
 
@@ -49,12 +51,13 @@ function validateUser(){
     })
     .catch(() => {console.log("Error");//si el valor devuelto no es valido (por ejemplo null)
                   // este validity no funciona
-                  //nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+                  nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+                  nombreEmpleado.reportValidity();
                   //existe = true;
                   //console.log("existe1: " + existe);
                   return false;
     })
-    nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+    /* nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor"); */
     return false;
 }
 
