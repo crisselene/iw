@@ -1,9 +1,17 @@
 "use strict"
-//NO CAMBIAR ESTA FUNCIÓN: no funcionaba bien porque cargaba antes el javascript
+//NO CAMBIAR ESTA FUNCIÓN DE DEBAJO DE ESTE COMENTARIO:
+// no funcionaba bien porque cargaba antes el javascript
 //que el html y entonces no hacía el eventListener.Con esto obliga a cargar
 //antes al html 
 document.addEventListener("DOMContentLoaded", ()=>{
 
+    /***********************BOTON MODIFICAR********************/
+    const ModBtns = document.querySelectorAll('.modify')
+    ModBtns.forEach(btn=>{
+    btn.addEventListener("click", modify )
+    /********************FIN BOTON MODIFICAR*******************/
+    
+    })
     document.querySelectorAll(".divCambiar").forEach(d => {
         //OJO como hemos puesto th:attr="data-id=${ped.id}" en el html
         //de divCambiar entonces para coger el dato de ped.id, que es
@@ -37,10 +45,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
                     enCurso.append(div);
                     
                 }else{
-                    //entonces es que quiere modificar
-                    alert("Modificar")
-                    console.log("NOOOOO")
-                    cambiar=false;       
+                    //entonces es que quiere modificar, hace boton modificar
+                    modify()      
                 }
             })                    
         })
@@ -52,6 +58,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
             alert("Está seguro de que quiere eliminar ese pedido?")
         })     
     })
+
 })
+
+//Función para cuando se le da al botón modificar
+ function modify(e) {
+     e.preventDefault()
+    console.log("MODIFYYYYYYY")
+ }
 
 
