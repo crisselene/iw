@@ -92,17 +92,11 @@ public class SAGeneralImp{
         q.setParameter("username", username);
         int num = q.getFirstResult();
 
-        if(num>0){//Si no existe el username
-            q = em.createNamedQuery("User.byEmail", User.class);
-            q.setParameter("email", email);
-            List<User> us = q.getResultList();
-
-            if(us.isEmpty()){//Si no existe el correo
-                u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
-                em.persist(u);
-                em.flush();
-                idDevolver = u.getId();
-            }
+        if(num<=0){//Si no existe el username
+            u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
+            em.persist(u);
+            em.flush();
+            idDevolver = u.getId();
         }
         return idDevolver;
     } 
