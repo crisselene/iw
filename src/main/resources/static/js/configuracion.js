@@ -1,65 +1,64 @@
 const element = document.getElementById("anadirEmpleadoButton");
 element.addEventListener("click", nuevoEmpleado);
 
-function nuevoEmpleado(e)
+function nuevoEmpleado()
 {
-    e.preventDefault();
-
     console.log("hol@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    let nombreEmpleado = document.getElementById("nombreEmpleado");
+    let username = document.getElementById("username");
 
-    validateUser();
+    //validateUser();
     
-    let primerApellidoEmpleado = document.getElementById("primerApellidoEmpleado");
-    let segundoApellidoEmpleado = document.getElementById("segundoApellidoEmpleado");
+    let nombreEmpleado = document.getElementById("nombreEmpleado");
+    let apellidoEmpleado = document.getElementById("apellidoEmpleado");
     let contrasena1Empleado = document.getElementById("contrasena1Empleado");
     let contrasena2Empleado = document.getElementById("contrasena2Empleado");
+    let dir = document.getElementById("direccion");
+    let tel = document.getElementById("telefono");
+    let email = document.getElementById("email");
 
-    let params = {"nombreEmpleado" : nombreEmpleado.value,
-                "primerApellidoEmpleado" : primerApellidoEmpleado.value,
-                "segundoApellidoEmpleado" : segundoApellidoEmpleado.value,
+    let params = {"username" : username.value,
+                "nombreEmpleado" : nombreEmpleado.value,
+                "apellidoEmpleado" : apellidoEmpleado.value,
                 "contrasena1Empleado" : contrasena1Empleado.value,
-                "contrasena2Empleado" : contrasena2Empleado.value};
+                "contrasena2Empleado" : contrasena2Empleado.value,
+                "direccion" : dir.value,
+                "telefono" : tel.value,
+                "email" : email.value};
 
-    /* go(config.rootUrl + "/anadirEmpleado", 'POST', params)
-    .then(d => {console.log("todo ok")
-                console.log("mensaje recibido: ", d);//json recibido
-                console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+    go(config.rootUrl + "/anadirEmpleado", 'POST', params)
+    .then(d => {console.log("todo ok") // va ok si el username no existe
+                username.setCustomValidity("");
     })
-    .catch(() => {console.log("Error");//si el valor devuelto no es valido (por ejemplo null)
-                  console.log("El usuario ya existe, escoja otro");
-                  nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+    .catch(() => {console.log("Error");//si el username ya existia
+                username.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+                username.reportValidity();
     })
-    console.log("prueba") */
 }
 
-function validateUser(){
+/* function validateUser(){
     console.log("--- en validate user ---");
 
-    var nombreEmpleado = document.getElementById("nombreEmpleado");
+    var username = document.getElementById("username");
+    console.log(username.value);
 
-    let params = {"nombreEmpleado" : nombreEmpleado.value};
+    let params = {"username" : username.value};
     //var existe = false; 
 
     go(config.rootUrl + "/existeUsuario", 'POST', params)
     .then(d => {console.log("todo ok")
-                nombreEmpleado.setCustomValidity("");
-                //existe = true;
-                //console.log("existe0: " + existe);
-                
+                username.setCustomValidity("");            
                 return true;
     })
     .catch(() => {console.log("Error");//si el valor devuelto no es valido (por ejemplo null)
-                  // este validity no funciona
-                  nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
-                  nombreEmpleado.reportValidity();
+                  username.setCustomValidity("El usuario ya existe, escoja otro, por favor");
+                  username.reportValidity();
                   //existe = true;
                   //console.log("existe1: " + existe);
                   return false;
     })
-    /* nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor"); */
+    nombreEmpleado.setCustomValidity("El usuario ya existe, escoja otro, por favor");
     return false;
-}
+} */ 
 
 function validatePassword(){
     var password = document.getElementById("contrasena1Empleado");

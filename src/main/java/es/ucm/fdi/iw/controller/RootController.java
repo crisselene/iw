@@ -106,22 +106,22 @@ public class RootController {
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
 
-    @PostMapping(path = "/existeUsuario", produces = "application/json")
+/*     @PostMapping(path = "/existeUsuario", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String comprobarNuevoEmpleado(Model model, @RequestBody JsonNode o) {
+    public String existeUsuario(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de comprobarNuevoEmpleado -------------");
         
-        String nombreEmpleado = o.get("nombreEmpleado").asText();
+        String username = o.get("username").asText();
 
-        if(saGeneral.existeUsuario(em, nombreEmpleado))
+        if(saGeneral.existeUsuario(em, username))
         {
-            //log.info("usuario ya existe (rootController anadirEmpleado)");
+            log.info("usuario ya existe (rootController anadirEmpleado)");
             return null;
         }
 
         return "{\"isok\": \"true\"}";//devuelve un json como un string
-    }
+    } */
 
     @PostMapping(path = "/anadirEmpleado", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
@@ -129,13 +129,24 @@ public class RootController {
     public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de anadirEmpleado -------------");
     
-/*         String nombreEmpleado = o.get("nombreEmpleado").asText();
+        String username = o.get("username").asText();
 
-        if(saGeneral.existeUsuario(em, nombreEmpleado))
+        if(saGeneral.existeUsuario(em, username))
         {
-            //log.info("usuario ya existe (rootController anadirEmpleado)");
+            log.info("usuario ya existe (rootController anadirEmpleado)");
             return null;
-        } */
+        }else{
+            log.info("------------------------------");
+            log.info(o.get("nombreEmpleado").asText());
+            log.info(o.get("apellidoEmpleado").asText());
+            log.info(o.get("email").asText());
+            log.info(o.get("telefono").asText());
+            log.info(o.get("direccion").asText());
+            log.info(o.get("contrasena1Empleado").asText());
+            log.info(o.get("contrasena2Empleado").asText());
+
+            saGeneral.crearUsuario(log,em, o.get("direccion").asText(), o.get("email").asText(), o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(), o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
+        }
 
         return "{\"isok\": \"true\"}";//devuelve un json como un string
     }

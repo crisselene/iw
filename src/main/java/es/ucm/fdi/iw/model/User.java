@@ -39,7 +39,7 @@ import java.util.List;
 public class User implements Transferable<User.Transfer> {
 
     public User (String username, String password, String firstName, 
-    String lastName, String email, String direccion, String telf, String roles){
+    String lastName, String email, String direccion, String telf, String roles, Boolean enabled){
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -48,6 +48,7 @@ public class User implements Transferable<User.Transfer> {
         this.direccion=direccion;
         this.telefono=telf;
         this.roles =roles;
+        this.enabled = enabled;
     }
 
     public enum Role {

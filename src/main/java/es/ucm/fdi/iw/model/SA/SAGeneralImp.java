@@ -9,6 +9,8 @@ import javax.persistence.Query;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.apache.logging.log4j.Logger;
+
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
@@ -83,21 +85,30 @@ public class SAGeneralImp{
 
     }
 
-    public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
-    String lastName, String pass, String roles, String telf, String username){
+    public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
+        log.info("@@@@@@ en crearUsuario");
         long idDevolver = -1;
+
+        if(!existeUsuario(em, username)){
+            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
+            em.persist(u);
+            em.flush();
+            idDevolver = u.getId();
+        }
         
-        User u = null;
+        /* User u = null;
         Query q = em.createNamedQuery("User.hasUsername", User.class);
         q.setParameter("username", username);
-        int num = q.getFirstResult();
+        long num = q.getFirstResult();
 
         if(num<=0){//Si no existe el username
             u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
             em.persist(u);
             em.flush();
             idDevolver = u.getId();
-        }
+        } */
+
         return idDevolver;
     } 
 

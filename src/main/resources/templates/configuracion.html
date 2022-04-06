@@ -91,19 +91,22 @@
                                     </div>
                                     <div class="modal-body" style="text-align: left;">
                                         <!-- IMPORTANTE -->
-                                        <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
+                                        <!-- el onsubmit false puede dar error en funcion de la version de VC (creo)-->
                                         <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
-                                            <label for="nombreEmpleado" style="display: block;">Nombre</label>
-                                            <input type="text" id="nombreEmpleado" required>
+                                            <label for="username" style="display: block;">Username</label>
+                                            <input type="text" id="username" required>
+
+                                            <label for="email" style="display: block;" class="modalLabel">Email</label>
+                                            <input type="email" id="email" required>
 
                                             <div class="row">
                                                 <div class="col">
-                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Primer apellido</label>
-                                                    <input type="text" id="primerApellidoEmpleado">
+                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Nombre</label>
+                                                    <input type="text" id="nombreEmpleado">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Segundo apellido</label>
-                                                    <input type="text" id="segundoApellidoEmpleado">
+                                                    <label for="apellidoEmpleado" style="display: block;" class="modalLabel">Apellido</label>
+                                                    <input type="text" id="apellidoEmpleado">
                                                 </div>
                                             </div>
 
@@ -115,6 +118,17 @@
                                                 <div class="col">
                                                     <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
                                                     <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label for="direccion" style="display: block;" class="modalLabel">Direccion</label>
+                                                    <input type="input" id="direccion" required>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="telefono" style="display: block;" class="modalLabel">Telefono</label>
+                                                    <input type="tel" id="telefono" required>
                                                 </div>
                                             </div>
 
