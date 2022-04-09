@@ -85,6 +85,27 @@ public class SAGeneralImp{
 
     }
 
+    public Long crearPlato(EntityManager em, String nombre, String descripcion, String categoria, float precio)
+    {
+        long idDevuelta = -1;
+        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Categoria.findByNombre", Categoria.class);
+        q.setParameter("nombre",categoria);
+        Categoria c = (Categoria) q.getSingleResult( );
+        
+        
+        Plato p = new Plato(nombre, c, descripcion, precio);
+
+    //la lista de platos de la categoria deberia actualizarse sola
+        em.persist(p);
+        em.flush();
+        idDevuelta = p.getId();
+
+       
+
+
+        return idDevuelta;
+    }
+
     public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
     String lastName, String pass, String roles, String telf, String username, Boolean enabled){
         log.info("@@@@@@ en crearUsuario");

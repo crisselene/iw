@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.controller;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
@@ -78,11 +81,11 @@ public class RootController {
     En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
     */
     
-    @PostMapping(path = "/nuevoPlato", produces = "application/json")
-    @Transactional // para no recibir resultados inconsistentes
-    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
-        log.info("demoAjax");
+//    @PostMapping(path = "/nuevoPlato", produces = "application/json")
+//    @Transactional // para no recibir resultados inconsistentes
+//    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+//    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+ /*        log.info("demoAjax");
         
         String nombre = o.get("nombrePlato").asText();
         String categoria = o.get("categoriaPlato").asText();
@@ -104,7 +107,7 @@ public class RootController {
         }
 
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
-    }
+    } */
 
 /*     @PostMapping(path = "/existeUsuario", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
@@ -169,6 +172,67 @@ public class RootController {
        
        
         return "carta";
+    }
+
+    @PostMapping("nuevoPlato2")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String nuevoPlato2(@RequestParam("imgPlato") MultipartFile photo, 
+                            @RequestParam("nombrePlato") String nombre,
+                            @RequestParam("categoriaPlato") String categoria,
+                            @RequestParam("precioPlato") Float precio,
+                            @RequestParam("descripcionPlato") String desc
+                           /*  @PathVariable long id, 
+    HttpServletResponse response ,*/ /* HttpSession session ,*//*  Model model */) {
+       log.info("creando plato");
+
+       /*  long idAsignada = saGeneral.crearPlato(em, nombre, desc, categoria, precio); */
+        Long idP = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
+
+        //localdata == /temp/iwdata
+        //String myimg = new File("src/main/resources/static/img/platos").getAbsolutePath();
+
+        //se crea el fichero en ese directorio, y el nombre de las imagenes se correspondera con su id
+        File img = new File("src/main/resources/static/img/platos", idP +".jpg"); 
+
+        //log.info("dir pics:" + myimg);
+        /* File f = localData.getFile("user", "pic.jpg"); */
+        //File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
+        //File f2 = localData.getFile("/img/platos", "p13.jpg");
+        //log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
+       
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+            return null;
+		} else {
+			try (BufferedOutputStream stream =
+					new BufferedOutputStream(new FileOutputStream(img))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+				log.info("la ruta es: " + img.getAbsolutePath());
+			} catch (Exception e) {
+                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				//log.warn("Error uploading " + id + " ", e);
+                return null;
+			}
+		}
+
+        /* saGeneral.crearPlato(em, nombre, desc, categoria, precio, f.getAbsolutePath()); */
+       // saGeneral.updatePlatoRutaImg(em, p, dirImg.getAbsolutePath());
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "}";
+        
+
+        log.info("datos recibidos nuevo plato: ");
+        log.info("nombre: " + nombre);
+        log.info("categoria: " + categoria);
+        log.info("precio: " + precio.toString());
+        log.info("descripcion: " + desc);
+       // log.info("ruta imagen: " + f.getAbsolutePath());
+
+       //return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+       return dataToReturn;
     }
 
     @GetMapping("hacerPedido")

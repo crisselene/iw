@@ -22,29 +22,29 @@ INSERT INTO CATEGORIA (id, nombre, activo)
 VALUES (2, 'Ensaladas', 1);
 
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (0, 'Croquetas como las de tu casa', 'Croquetas', 7.99, 0, 1);
+VALUES (1, 'Croquetas como las de tu casa', 'Croquetas', 7.99, 0, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (1, 'Patas picantonas para los mas atrevidos', 'Patatas bravas', 5.99, 0, 1);
+VALUES (2, 'Patas picantonas para los mas atrevidos', 'Patatas bravas', 5.99, 0, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (2, 'Nachos bien crujientes y deliciosos', 'Nachos', 4.99, 0, 1);
+VALUES (3, 'Nachos bien crujientes y deliciosos', 'Nachos', 4.99, 0, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (3, 'Aros de cebolla hechos con nuestro estilo original', 'Aros de cebolla', 4.99, 0, 1);
+VALUES (4, 'Aros de cebolla hechos con nuestro estilo original', 'Aros de cebolla', 4.99, 0, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (4, 'Fingers de queso que se derretiran en tu boca', 'Fingers de queso', 5.99, 0, 1);
+VALUES (5, 'Fingers de queso que se derretiran en tu boca', 'Fingers de queso', 5.99, 0, 1);
 
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (5, 'Chuletas con nuestra salsa especial barbacoa', 'Chuletas barbacoa', 10.99, 1, 1);
+VALUES (6, 'Chuletas con nuestra salsa especial barbacoa', 'Chuletas barbacoa', 10.99, 1, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (6, 'Solomillo en su punto perfecto para ti', 'Solomillo', 10.99, 1, 1);
+VALUES (7, 'Solomillo en su punto perfecto para ti', 'Solomillo', 10.99, 1, 1);
 
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (7, 'La ensalada del gran emperador romano', 'Cesar', 9.99, 2, 1);
+VALUES (8, 'La ensalada del gran emperador romano', 'Cesar', 9.99, 2, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (8, 'Ensalada con un toque surfero', 'California', 10.99, 2, 1);
+VALUES (9, 'Ensalada con un toque surfero', 'California', 10.99, 2, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (9, 'Nuestra ensalada mas afrodisiaca', 'Waikiki', 9.99, 2, 1);
+VALUES (10, 'Nuestra ensalada mas afrodisiaca', 'Waikiki', 9.99, 2, 1);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo)
-VALUES (10, 'El sabor de Italia en una ensalada', 'Toscana', 8.99, 2, 1);
+VALUES (11, 'El sabor de Italia en una ensalada', 'Toscana', 8.99, 2, 1);
 
 INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
 VALUES(1, true, 8, 1, '2022-02-20T10:00:00');

@@ -9,7 +9,12 @@
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
-
+   <!--   <style type="text/css">
+      .miClase{ 
+        width: 20em; /* You can set the dimensions to whatever you want */
+    height: 20em;
+    object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */}
+     </style> -->
     <main class="flex-shrink-0">
         
         <th:block th:if="0==1">
@@ -37,12 +42,23 @@
                 </th:block>
             </div>
           </nav>
-         
-          <div class="d-flex justify-content-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Añadir Plato
-              </button>
-          </div>
+
+          <!-- <form th:action="@{/subirImagen}" method="POST">
+            <input type="file" name ="img" accept="image/jpeg,image/png">
+            <input type="file" id="f_avatar" accept="image/jpeg,image/png">
+            <img id="avatar" alt="careto a subir">
+            <button type="button" id="buttonSubir">  mandar </button>
+          </form> -->
+
+          <th:block th:if="${session.u}">
+            <th:block th:if="${session.u.hasRole('ADMIN')}">
+              <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Añadir Plato
+                  </button>
+              </div>
+            </th:block>
+          </th:block>
          
         <!-- tab que va cambiando los panel que muestra dinamicamente segun lo que se pulse en el navbar-->
           <div class="tab-content" id="nav-tabContent">
@@ -53,11 +69,16 @@
                 <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
                          <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" > <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
-                            <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
-                            <br>
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                          <!-- <th:block th:if="${plato.id} == 12">
+                            <img th:src="@{/img/platos/12.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail img-fluid mw-100">
+                          </th:block> -->  
+                         <!--  <th:block th:unless="${plato.id} == 12"> -->
+                            <!-- @{/user/{id}/pic(id=${session.u.id})} -->
+                          <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
+                        <!-- </th:block><br> -->
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
@@ -65,11 +86,12 @@
                 </div>
                 <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
-                            <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100">
+                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                            <!-- <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> -->
+                            <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
                             <br>
                             <form th:action = "@{/verPlato}">  <!-- antes value="${plato.debugGetName()}"  con lombock se puede acceder directamente a la variable como si fuera public-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
@@ -113,6 +135,11 @@
 
             <label for="campoDescripcionPlato" class="form-label">Descripcion del plato</label>
             <textarea class="form-control" id="campoDescripcionPlato" name="descripcionPlato" rows="4" cols="60" required></textarea>
+            
+            <label for="fPlato" class="form-label">Imagen del plato</label>
+            <!-- <img id="imgNuePlato" th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase"> -->
+            <img id="imgNuePlato" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase">
+            <input type="file" id="fPlato" accept="image/jpeg,image/png" required>
             <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -127,8 +154,9 @@
     
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />
+    
     <script th:src="@{/js/carta.js}" src="js/carta.js"></script>
-    <script th:src="@{/js/gestionPlato.js}" src="js/gestionPlato.js"></script>
+    <!-- <script th:src="@{/js/gestionPlato.js}" src="js/gestionPlato.js"></script> -->
 </body>
 
 </html>
