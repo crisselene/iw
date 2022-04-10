@@ -208,6 +208,61 @@ public class RootController {
        return dataToReturn;
     }
 
+    @PostMapping("updatePlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String updatePlato(@RequestParam("nombrePlato") String nombre,
+                            @RequestParam("categoriaPlato") String categoria,
+                            @RequestParam("precioPlato") Float precio,
+                            @RequestParam("descripcionPlato") String desc,
+                            @RequestParam("idPlato") long idPlato) {
+
+        Long idP = saGeneral.updatePlato(em, nombre, desc, categoria, precio, idPlato);
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "}";
+        log.info("actualizando plato");
+
+       return dataToReturn;
+    }
+
+    @PostMapping("updateImgPlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String updateImgPlato(@RequestParam("imgPlato") MultipartFile photo,
+                                @RequestParam("idPlato") long idPlato) {
+
+        File img = new File("src/main/resources/static/img/platos", idPlato +".jpg"); 
+       
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+            return null;
+		} else {
+			try (BufferedOutputStream stream =
+					new BufferedOutputStream(new FileOutputStream(img))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+				log.info("la ruta es: " + img.getAbsolutePath());
+			} catch (Exception e) {
+                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				//log.warn("Error uploading " + id + " ", e);
+                return null;
+			}
+		}
+
+
+
+        log.info("actualizando imagen plato");
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "}";
+        log.info("actualizando plato");
+
+       return dataToReturn;
+    }
+
     @GetMapping("hacerPedido")
     public String hacerPedido(Model model) {
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
@@ -258,6 +313,19 @@ public class RootController {
 
 
         model.addAttribute("nombrePlato", platoElegidoId);
+
+
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        listaCategorias = saGeneral.listarCategorias(em);
+
+       /*  for(Categoria cat : listaCategorias)
+        {
+            log.info(cat.getNombre());
+            for(Plato p : cat.getPlatos())
+                log.info("-" + p.getNombre());
+        } */
+
+        model.addAttribute("categorias", listaCategorias);
 
         return "verPlato";
     }

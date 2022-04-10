@@ -10,26 +10,53 @@
 
 
 
-<body class="fondo" >
+<body>
     <header th:replace="fragments/nav.html :: nav"></header>
-    <main class="flex-shrink-0"  >
+   
+    <main class="flex-shrink-0 fondo"  >
         <div class="degradado">
-            <h1 class="mt-5" th:text="${plato.nombre}">Insertar aquí nombre del plato</h1>
+            <h1 class="mt-5" id="nombrePlato" th:text="${plato.nombre}">Nombre del plato</h1>
             <div class="caja" >
-                <img src="img/comidaDefault.jpg"  class="comida" >
-                <p th:text="${plato.descripcion}">Descripción de la comida:  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sagittis est placerat, facilisis massa ut, gravida metus. Curabitur scelerisque scelerisque tellus ut pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas posuere rhoncus diam id convallis. Donec aliquam nulla quis ullamcorper posuere. Morbi eleifend lectus ut elit gravida, in consequat neque consectetur. Aliquam consequat tincidunt interdum. Morbi vitae arcu sed ipsum volutpat pellentesque in id neque. Sed porttitor posuere nibh a eleifend. Sed sodales odio ac placerat ultrices. Sed fringilla risus dapibus elementum faucibus. Suspendisse condimentum dui at felis egestas, at pulvinar ex gravida. </p>
-                <h2 th:text="${plato.precio}+' €'">13,50€</h2>
+                <span>
+                    <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="img/comidaDefault.jpg" id="imgPlato"  class="comida" >
+                    <th:block th:if="${session.u}">
+                    <th:block th:if="${session.u.hasRole('ADMIN')}">
+                          
+                            <button type="button" id="editarImgButton" data-bs-toggle="modal" data-bs-target="#modalUpdateImg"><!-- class="btn btn-primary" -->
+                                ✏️
+                              </button>
+                          
+                        </th:block>
+                    </th:block>
+
+                </span>
+                   
+                    <th:block th:if="${session.u}">
+                        <th:block th:if="${session.u.hasRole('ADMIN')}">
+                          <div class="d-flex justify-content-end">
+                            <button type="button" id="editarButton"  data-bs-toggle="modal" data-bs-target="#modalUpdatePlato"><!-- class="btn btn-primary" -->
+                                ✏️
+                              </button>
+                          </div>
+                        </th:block>
+                      </th:block>
+                    <p class ="desc-plato" id="descPlato" th:text="${plato.descripcion}">Descripción de la comida</p>
+                    
+              
+                    <h2 th:text="${plato.precio}+' €'" id="precioPlato">precio€</h2>
+                
+               
             </div> 
         <div class="reset"></div>
 
-        <div>
+       <!--  <div>
             <h2>Ingredientes</h2>
             <ul>
                 <li>Albahaca</li>
                 <li>Aceite de oliva</li>
                 <li>Spaguettis</li>
             </ul>
-        </div>
+        </div> -->
         <div>
             <h2>Comentarios</h2>
             <ul id="listcomentario">
@@ -57,6 +84,75 @@
                 </li>
             </ul>
         </div>
+
+
+        <!-- Modal -->
+  <div class="modal fade" id="modalUpdatePlato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar datos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form role="form" id="myForm"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+            <label for="campoNombrePlato" class="form-label">Nombre del plato</label>
+            <input type="text" class="form-control" name="nombrePlato" id="campoNombrePlato" th:value="${plato.nombre}" required> 
+
+            <label for="campoPrecioPlato" class="form-label">Precio del plato</label>
+            <input type="number" step="0.01" class="form-control" name="precioPlato" id="campoPrecioPlato" th:value="${plato.precio}" required> 
+
+            <label for="campoCategoriaPlato" class="form-label">Categoria del plato</label>
+            <select class="form-select" name="categoriaPlato" id="campoCategoriaPlato">
+                <th:block th:each="cat,iter: ${categorias}">
+                   <option th:if="${cat.nombre} == ${plato.categoria.nombre}" selected  th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
+                   <option th:unless="${cat.nombre} == ${plato.categoria.nombre}" th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
+                   <!-- <option th:unless="${cat.nombre} == ${plato.categoria.nombre}" th:text="${cat}">opcion</option>  -->
+                   <!--  <option th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option> -->
+                </th:block>
+              </select>
+
+
+            <label for="campoDescripcionPlato" class="form-label">Descripcion del plato</label>
+            <textarea class="form-control" id="campoDescripcionPlato" name="descripcionPlato" th:text="${plato.descripcion}" rows="4" cols="60" required></textarea>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" id ="botonForm" th:value="${plato.id}"class="btn btn-primary">Confirmar</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+     <!-- Modal 2 -->
+     <div class="modal fade" id="modalUpdateImg" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Imagen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form role="form" id="formImg"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                
+                <label for="fImg" class="form-label">Imagen del plato</label>
+                <!-- <img id="imgNuePlato" th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase"> -->
+                <img id="imgNuePlato" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase">
+                <input type="file" id="fImg" accept="image/jpeg,image/png" th:value="@{/img/platos/{id}.jpg(id=${plato.id})}" required>
+                <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" id ="botonFormImg" th:value="${plato.id}" class="btn btn-primary">Confirmar</button>
+                </div>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
@@ -72,6 +168,8 @@
                 .catch(e => console.log("sad", e))
         }
     </script>
+
+<script th:src="@{/js/verPlato.js}" src="js/carta.js"></script>
 </body>
 
 </html>
