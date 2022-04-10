@@ -74,87 +74,21 @@
                     <div class="col">
                         <h2 style="margin-top: 1%; margin-bottom: 2%;">Lista de empleados</h2>
                     </div>
-                    <div class="col" style="text-align: right;">
-                        <button type="button" id="botonAnadirEmpleado" class="btn btn-primary" data-bs-toggle="modal" 
-                        data-bs-target="#modalAnadirEmpleado">
+                    <div class="col" style="text-align: right; margin-top: 1%;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anadirEmpleadoModal">
                             Añadir empleado
-                        </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="modalAnadirEmpleado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalAnadirEmpleadoLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="modalAnadirEmpleadoTitle">Añadir empleado</h5>
-                                        <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body" style="text-align: left;">
-                                        <!-- IMPORTANTE -->
-                                        <!-- el onsubmit false puede dar error en funcion de la version de VC (creo)-->
-                                        <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
-                                            <label for="username" style="display: block;">Username</label>
-                                            <input type="text" id="username" required>
-
-                                            <label for="email" style="display: block;" class="modalLabel">Email</label>
-                                            <input type="email" id="email" required>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label for="nombreEmpleado" style="display: block;" class="modalLabel">Nombre</label>
-                                                    <input type="text" id="nombreEmpleado">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="apellidoEmpleado" style="display: block;" class="modalLabel">Apellido</label>
-                                                    <input type="text" id="apellidoEmpleado">
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
-                                                    <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
-                                                    <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <label for="direccion" style="display: block;" class="modalLabel">Direccion</label>
-                                                    <input type="input" id="direccion" required>
-                                                </div>
-                                                <div class="col">
-                                                    <label for="telefono" style="display: block;" class="modalLabel">Telefono</label>
-                                                    <input type="tel" id="telefono" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
-                                            </div>
-
-                                        </form>
-
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
+                        </button>   
                     </div>
                 </div>
 
-                <div class="row emprow" th:each="emp: ${listaEmpleados}">
-                    <div class="col" style="padding-top: 1%;">
-                        <p th:text="${emp.username}">sustituirEmpleado</p>
-                    </div>
-                    <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
-                        <form id="eliminarEmp" th:action="@{/}">
-                            <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
-                        </form>
+                <div th:each="emp: ${listaEmpleados}" id="listaDivsEmpleados">
+                    <div class="row emprow" th:attr="data-id=${emp.id}">
+                        <div class="col" style="padding-top: 1%;">
+                            <p th:text="${emp.username}">sustituirEmpleado</p>
+                        </div>
+                        <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
+                            <button type="submit" class="btn btn-outline-danger btn-sm eliminar">❌</button>
+                        </div>
                     </div>
                 </div>
               
@@ -162,6 +96,69 @@
             
         </div>
     </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="anadirEmpleadoModal" tabindex="-1" aria-labelledby="anadirEmpleadoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anadirEmpleadoModalLabel">Añadir empleado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
+                        <label for="username" style="display: block;">Username</label>
+                        <input type="text" id="username" required>
+
+                        <label for="email" style="display: block;" class="modalLabel">Email</label>
+                        <input type="email" id="email" required>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="nombreEmpleado" style="display: block;" class="modalLabel">Nombre</label>
+                                <input type="text" id="nombreEmpleado">
+                            </div>
+                            <div class="col">
+                                <label for="apellidoEmpleado" style="display: block;" class="modalLabel">Apellido</label>
+                                <input type="text" id="apellidoEmpleado">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
+                                <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
+                            </div>
+                            <div class="col">
+                                <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
+                                <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="direccion" style="display: block;" class="modalLabel">Direccion</label>
+                                <input type="input" id="direccion" required>
+                            </div>
+                            <div class="col">
+                                <label for="telefono" style="display: block;" class="modalLabel">Telefono</label>
+                                <input type="tel" id="telefono" required>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/configuracion.js}" src="js/configuracion.js"></script>

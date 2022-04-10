@@ -55,6 +55,27 @@ public class SAGeneralImp{
         else return true;
     }
 
+    public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
+        long idDevolver = -1;
+
+        if(!existeUsuario(em, username)){
+            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
+            em.persist(u);
+            em.flush();
+            idDevolver = u.getId();
+        }
+
+        return idDevolver;
+    }
+
+    public void borrarUsuario(EntityManager em, long idUsuario){
+        User u = em.createNamedQuery("User.byId", User.class).setParameter("idUser", idUsuario).getSingleResult();
+        u.setEnabled(false);
+        em.persist(u);
+        em.flush();
+    }
+
     public List<Reserva> listarReservas(EntityManager em){
         List<Reserva> reservas = null;
         reservas = em.createQuery("SELECT r FROM Reserva r").getResultList();        

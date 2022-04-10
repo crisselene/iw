@@ -21,6 +21,9 @@ import java.util.List;
         @NamedQuery(name="User.byUsername",
                 query="SELECT u FROM User u "
                         + "WHERE u.username = :username AND u.enabled = TRUE"),
+        @NamedQuery(name="User.byId",
+                query="SELECT u FROM User u "
+                        + "WHERE u.id = :idUser AND u.enabled = TRUE"),
         @NamedQuery(name="User.hasUsername",
                 query="SELECT COUNT(u) "
                         + "FROM User u "
@@ -32,9 +35,13 @@ import java.util.List;
         @NamedQuery(name="User.byEmail",
                 query="SELECT u "
                         + "FROM User u "
-                        + "WHERE u.email = :email")            
-                        
+                        + "WHERE u.email = :email"),
+        @NamedQuery(name="User.byRol",
+                query="SELECT u "
+                        + "FROM User u "
+                        + "WHERE u.roles = :rol AND u.enabled = TRUE")                             
 })
+
 @Table(name="IWUser")
 public class User implements Transferable<User.Transfer> {
 

@@ -7,13 +7,18 @@ INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, tel
 VALUES (2, TRUE, 'USER', 'b',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle machado', 'user@normalito.com', '456543675');
 
-
 INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono)
 VALUES (3, TRUE, 'EMPLEADO', 'emp',
-    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle empleado', 'emp1@emps.com', '123123123');
+
 INSERT INTO IWUser (id, enabled, roles, username, password, direccion, email, telefono)
 VALUES (4, TRUE, 'USER', 'e',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle lola', 'holita@ucm.es','678435232');
+
+INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono)
+VALUES (5, TRUE, 'EMPLEADO', 'emp2',
+    '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calle noseque', 'emp2@emps.com', '789789789');
+
 INSERT INTO CATEGORIA (id, nombre, activo)
 VALUES (0, 'Entrantes', 1);
 INSERT INTO CATEGORIA (id, nombre, activo)
