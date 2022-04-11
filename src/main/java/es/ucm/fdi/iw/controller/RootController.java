@@ -210,6 +210,21 @@ public class RootController {
        return dataToReturn;
     }
 
+    @PostMapping("deletePlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String deletePlato(@RequestParam("idPlato") long idPlato) {
+
+        saGeneral.deletePlato(em, idPlato);
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "}";
+        log.info("borrando plato");
+
+       return dataToReturn;
+    }
+
     @PostMapping("updatePlato")
     @Transactional
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON

@@ -68,8 +68,10 @@
                 <!--la primera categoria se marca como activa para que se muestre por defecto-->
                 <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
                     <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
-                         <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos --> 
-                        <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                         <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos (solo los que esten activos)--> 
+                        
+                         <div class="col-md-3 text-center" th:each="plato: ${cat.platos}" th:if="${plato.activo} == true" th:attr="data-plato=${plato.id}" style="margin-top: 1rem; margin-bottom: 1rem;"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
+                          
                           <!-- <th:block th:if="${plato.id} == 12">
                             <img th:src="@{/img/platos/12.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail img-fluid mw-100">
                           </th:block> -->  
@@ -78,9 +80,22 @@
                           <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
                         <!-- </th:block><br> -->
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
-                        </form>   
+                              <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            </form>
+                            <th:block th:if="${session.u}">
+                              <th:block th:if="${session.u.hasRole('ADMIN')}">
+                                <!-- <div class="d-flex justify-content-end"> -->
+                                  <button type="button" class="btn btn-primary botonDeletePlato" th:value="${plato.id}"><!--  data-bs-toggle="modal" data-bs-target="#modalDeletePlato" -->
+                                    ❌
+                                    </button>
+                                <!-- </div> -->
+                              </th:block>
+                            </th:block>
+
+                          
                         </div>
+
+                      
                     </div>
 
                 </div>
@@ -147,6 +162,27 @@
             </div>
           </form>
         </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="modal fade" id="modalDeletePlato" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel2">Confirmar borrar plato</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+          <form role="form" id="formImg"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" id ="botonFormDeletePlato" value="" class="btn btn-primary">Borrar</button>
+            </div>
+          </form>
+        
         
       </div>
     </div>

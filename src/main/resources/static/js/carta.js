@@ -4,11 +4,50 @@ $('document').ready(function ()
 { */
 
 const pruebaModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
+const modalDeletePlato = new bootstrap.Modal(document.querySelector('#modalDeletePlato'));
 
+
+
+//-----------------------------------------------------------------------------------
+//importante: for each solo funciona con querySelectorAll y no getElements
+//este no funcionaria:  document.getElementsByClassName("botonDeletePlato").forEach(element => console.log(element));
+//----------------------------------------------------------------------------------
+//recorre todos los elementos con dicha clase y les asigna un listener
+document.querySelectorAll('.botonDeletePlato').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
+    boton.addEventListener("click", e => {
+        document.getElementById("botonFormDeletePlato").value = e.target.value;
+        console.log("value boton form:"  + document.getElementById("botonFormDeletePlato").value);
+        modalDeletePlato.show();
+    
+    });
+});
+
+//boton de borrar del formulario de borrar plato
+document.getElementById("botonFormDeletePlato").addEventListener("click", deletePlato);
+function deletePlato()
+{
+    let idPlato = document.getElementById("botonFormDeletePlato").value;
+    console.log("borrando plato con id " +idPlato);
+
+    let formData = new FormData();
+    formData.append("idPlato", idPlato);
+
+    go("/deletePlato", "POST", formData, {}).then(d => {
+        console.log("todo ok")
+
+        modalDeletePlato.hide();//escondemos el modal
+        //seleccionamos en el html el div con un data-plato='id' siendo id la id del plato que se ha borrado
+        let divABorrar =document.querySelector("div[data-plato='"+idPlato+"']"); //¡Cuidado: el valor (en este caso idPlato) debe ir entre ''
+        divABorrar.remove();
+        console.log("div a borrar: " + divABorrar);
+
+        }).catch(() => console.log("fallo"));
+
+
+}
 
 const element = document.getElementById("botonForm");
 element.addEventListener("click", nuevoPlato2);
-
 
 
 

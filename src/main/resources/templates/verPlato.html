@@ -156,7 +156,7 @@
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
-    <script>
+  <!--   <script>
         // envio de mensajes con AJAX
         let b = document.getElementById("sendmsg");
         b.onclick = (e) => {
@@ -167,7 +167,7 @@
                 .then(d => console.log("happy", d))
                 .catch(e => console.log("sad", e))
         }
-    </script>
+    </script> -->
 
 <script th:src="@{/js/verPlato.js}" src="js/carta.js"></script>
 </body>

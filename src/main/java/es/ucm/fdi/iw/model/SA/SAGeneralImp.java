@@ -119,6 +119,7 @@ public class SAGeneralImp{
         
         
         Plato p = new Plato(nombre, c, descripcion, precio);
+        p.setActivo(true);
 
     //la lista de platos de la categoria deberia actualizarse sola
         em.persist(p);
@@ -145,6 +146,15 @@ public class SAGeneralImp{
         p.setPrecio(precio);
 
         return id;
+    }
+
+    public boolean deletePlato(EntityManager em, long id)
+    {
+        Plato p = em.find(Plato.class, id);
+
+        p.setActivo(false);
+
+        return true;
     }
 
     public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
