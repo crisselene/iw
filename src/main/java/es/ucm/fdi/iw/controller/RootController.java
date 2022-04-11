@@ -2,8 +2,10 @@ package es.ucm.fdi.iw.controller;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -450,10 +452,12 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String nuevoPedido(Model model, @RequestBody JsonNode o, HttpSession session) {
         log.info("nuevoPedido");
-        User u = (User) session.getAttribute("u");
+        User u = em.find(User.class, ((User) session.getAttribute("u")).getId());
+        Map<Long, Integer> cantidades = new HashMap<>();
         Iterator<String> iterator = o.fieldNames();
         iterator.forEachRemaining(e -> {
             int cantidad = o.get(e).asInt();
+            cantidades.put(Long.parseLong(e), o.get(e).asInt());
             log.info( " Has pedido: "+e+" x"+cantidad);
             log.info(e.toString());
         });
@@ -462,9 +466,10 @@ public class RootController {
         //diccionario id, cantidad diccionario[ID]=cantidad
         //
         log.info("HE LLEGADO PERRO");
-        saGeneral.nuevoPedido(em, o,u); //entitymanager, jsonnode y user
+        saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
+
 
 
 
