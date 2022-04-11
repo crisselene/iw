@@ -41,6 +41,15 @@ public class Plato {
     public Plato()
     {}
 
+    public Plato(String nombre, Categoria categoria, String descripcion, float precio)
+    {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.precio = precio;
+
+    }
+
 
     public Plato(String n, String c)
     {

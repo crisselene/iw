@@ -1,72 +1,99 @@
 
  .h1 {
-     color:rgb(122, 14, 14)}
+    color:rgb(122, 14, 14)}
 
- .comida {
-    border-radius: 100px;
-    background:url(../img/home-bg.jpg) no-repeat;
-    max-width: 400px;
-    max-height: 400px;
-    float:left;
-    margin: 20px;
-    }
+.comida {
+   border-radius: 50px;
+   background:url(../img/home-bg.jpg) no-repeat;
+   /* max-width: 400px;
+   max-height: 400px; */
+   width:  20em;
+   height: 20em;
+   object-fit: cover; /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */
+   float:left;
+   margin: 20px;
+   }
 
 .caja{
-    border: 1px solid #ddd;
-    border-radius: 10px;  
-    max-width: 100%;
-    margin: 40px;
-    padding: 20px;
-    background-color:rgba(169, 128, 128, 0.24);
-    overflow: auto;
+   border: 1px solid #ddd;
+   border-radius: 10px;  
+   max-width: 100%;
+   margin: 40px;
+   padding: 20px;
+   background-color:rgba(169, 128, 128, 0.24);
+   overflow: auto;
 }
 
 .fondo{
-    background:url(../img/home-bg.jpg) no-repeat;
-    background-color: #e9dccd;
-    margin: 20px;
+   background:url(../img/home-bg.jpg) no-repeat;
+   background-color: #e9dccd;
+   margin: 20px;
 }
 
+#editarButton{
+   background-color: rgb(122, 14, 14, 0.2);/* el cuarto parametro es la opcidad */
+   border-radius: 20px;
+   border-color: transparent;
+   font-size: xx-large;
+}
+#editarButton:hover {
+   background-color: rgba(146, 17, 17, 0.5);
+ }
+
+#editarImgButton{
+   background-color: rgb(122, 14, 14, 0.7);/* el cuarto parametro es la opcidad */
+   border-radius: 20px;
+   border-color: transparent;
+   font-size: x-large;
+   position:absolute;
+   top: 21em;
+    left: 15em;
+}
+
+#editarImgButton:hover {
+   background-color: rgba(146, 17, 17, 0.9);
+ }
+
 .caja h2{
-    color:rgb(122, 14, 14);
-    float:right;
-    text-align: end;
+   color:rgb(122, 14, 14);
+   float:right;
+   text-align: end;
 }
 
 .caja p{
-    margin: 20px;
-    padding: 20px;
+   margin: 20px;
+   padding: 20px;
 }
 
 .caja h2{
-    color:rgb(122, 14, 14); 
-    margin: 50px;
+   color:rgb(122, 14, 14); 
+   margin: 50px;
 }
 
 h2{
-    color:rgb(122, 14, 14); 
-    margin: 50px;
+   color:rgb(122, 14, 14); 
+   margin: 50px;
 }
 
 #listcomentario li{
-    border: 1px solid #ddd;
-    border-radius: 10px;  
-    max-width: 100%;
-    margin: 10px;
-    padding: 20px;
-    background-color:rgba(255, 248, 248, 0.637);
-    overflow: auto;
+   border: 1px solid #ddd;
+   border-radius: 10px;  
+   max-width: 100%;
+   margin: 10px;
+   padding: 20px;
+   background-color:rgba(255, 248, 248, 0.637);
+   overflow: auto;
 }
 
 .usuario{
-    float:left;
-    margin-right: 20px;
-    max-width: 50px;
-    max-height: 50px;
+   float:left;
+   margin-right: 20px;
+   max-width: 50px;
+   max-height: 50px;
 }
 
 .valorar{
-    float: right;
-    max-height: 100px;
-    max-width: 80px;
+   float: right;
+   max-height: 100px;
+   max-width: 80px;
 }
