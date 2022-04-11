@@ -42,4 +42,11 @@ public class LineaPlatoPedido {
         this.precio=(double) plato.getPrecio();
         this.cantidad = cantidad;
     }
+    public LineaPlatoPedido(LineaPlatoPedidoId id, Plato plato, Pedido ped,int cantidad){
+        this.id=id;
+        this.plato = plato;
+        this.pedido = ped;
+        this.precio=(double) plato.getPrecio();
+        this.cantidad = cantidad;
+    }
 }

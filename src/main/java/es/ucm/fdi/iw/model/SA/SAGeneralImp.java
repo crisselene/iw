@@ -1,8 +1,11 @@
 package es.ucm.fdi.iw.model.SA;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -12,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
+import es.ucm.fdi.iw.model.LineaPlatoPedidoId;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
@@ -203,33 +207,26 @@ public class SAGeneralImp{
         return correcto;
     }
 
-    public boolean nuevoPedido(EntityManager em, JsonNode o, User cliente){
+    public boolean nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
         Pedido ped = new Pedido(cliente,cliente.getDireccion());
         em.persist(ped);
+
+        //sacar id pedido
+        em.flush();
+        System.out.println(ped.getId());
+        List<LineaPlatoPedido> listaPlatos = new ArrayList();
+        System.out.println("PEDIDOOO EN SA: ");
+
+        for (Map.Entry<Long, Integer> e : cantidades.entrySet()) {
+            Plato p= em.find(Plato.class, e.getKey());
+            LineaPlatoPedidoId idl = new LineaPlatoPedidoId(p.getId(), ped.getId());
+            LineaPlatoPedido l = new LineaPlatoPedido(idl, p,ped, e.getValue());
+            em.persist(l);
+            listaPlatos.add(l);
+        }
+        ped.setPlatos(listaPlatos);
         em.flush();//Creamos el pedido
-
-
-        System.out.println("PEDIDOOO EN SA");
-
-        Iterator<String> iterator = o.fieldNames();
-        iterator.forEachRemaining(e -> {
-            //e = id Plato
-            int cantidad = o.get(e).asInt();
-            long id = Long.parseLong(e);
-            System.out.println("PEDIDOOO EN SA"+ id);
-            //Plato p = em.find(Plato.class,id);
-            Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Plato.findById");
-            q.setParameter("id", id);
-            Plato p = (Plato) q.getResultList().get(0);
-            System.out.println("NOMBRE  ");
-            System.out.println("NOMBRE PLATO: "+p.getNombre()+p);
-           // LineaPlatoPedido l = new LineaPlatoPedido(p,ped,cantidad);//plato,pedido,precio,cantidad
-           // System.out.println("PEDIDOOO" + l);
-           // em.persist(l);
-           // em.flush();
-        });
-
         return true;
     }
 
