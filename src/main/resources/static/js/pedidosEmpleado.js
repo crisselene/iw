@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
         const id = d.dataset.id; 
         const div = d;
         const enCurso = document.querySelector(".pedEnCurso");
-        //********************BOTON ACEPTAR************************
+
+        //********************BOTON ACEPTAR Y RECHAZAR************************
         //lo que hace es que al clicar aceptar cambiamos el valor
         //de enCurso de 0 a 1, y lo cambiamos de tabla en la vista
         d.querySelector(".aceptar").addEventListener("click", e =>{
@@ -35,22 +36,91 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 console.log("en curso: ", d['encurso'])
                 //si enCurso=true entonces podemos cambiarlo a la tabla
                 //de pedidos en curso
+                var botonAcep = div.querySelector(".aceptar")
                 if(d['encurso']== true){
-                    //cambiamos el boton aceptar por "modificar"
-                    var botonAcep = div.querySelector(".aceptar")
-                    botonAcep.innerHTML = 'Modificar'
-                    var botonAcep = div.querySelector(".rechazar")
-                    botonAcep.innerHTML = 'Eliminar'
-                    console.log("SE PUEDE CAMBIAR")
+                    //eliminamos el boton aceptar para reemplazarlo por
+                    //el boton modificar
+                    botonAcep.remove();
+                    //eliminamos el boton rechazar para reemplazarlo por
+                    //el boton eliminar
+                    var rech = div.querySelector(".rechazar")
+                    rech.remove();
+
+                    //console.log("SE PUEDE CAMBIAR")
+
+                    //lo cambiamos a la tabla de pedidos en curso
                     enCurso.append(div);
-                    
-                }else{
-                    //entonces es que quiere modificar, hace boton modificar
-                    modify()      
+                    //creamos un nuevo formulario con los botones de
+                    //eliminar y modificar, incluyendo el modal
+                    const tr = document.createElement('form')
+                    const Content = `
+                    <form>
+                    <button class="modify"  data-bs-toggle="modal" 
+                    data-bs-target="#modalModPed" 
+                    style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>    
+                    <button style="float: left; width: 100px; margin-right: 5px;">Eliminar</button>     
+                
+                <!--MODAL-->
+                
+            <!-- Modal -->
+            <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
+                            <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="text-align: left;">
+                            <!-- IMPORTANTE -->
+                            <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
+                            <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
+                                <label for="nombreEmpleado" style="display: block;">Nombre</label>
+                                <input type="text" id="nombreEmpleado" required>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="nombreEmpleado" style="display: block;" class="modalLabel">Primer apellido</label>
+                                        <input type="text" id="primerApellidoEmpleado">
+                                    </div>
+                                    <div class="col">
+                                        <label for="nombreEmpleado" style="display: block;" class="modalLabel">Segundo apellido</label>
+                                        <input type="text" id="segundoApellidoEmpleado">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
+                                        <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
+                                    </div>
+                                    <div class="col">
+                                        <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
+                                        <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </form>  
+                    `
+                    tr.innerHTML=Content
+                    div.append(tr); 
                 }
             })                    
         })
-        //********************FIN BOTON ACEPTAR******************/
+        //********************FIN BOTON ACEPTAR Y RECHAZAR******************/
 
         //**********************BOTON ELIMINAR******************* */
         d.querySelector(".rechazar").addEventListener("click", e =>{
@@ -63,7 +133,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 //Función para cuando se le da al botón modificar
  function modify(e) {
-     e.preventDefault()
+    e.preventDefault()
     console.log("MODIFYYYYYYY")
  }
 
