@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  *  Access to this end-point is authenticated.
  */
+
+ //TODO La clase sobra, ahora va a configuracion directamente. Podemos pasar config aquí o borrar esta basicamente.
+ /*
 @Controller
 @RequestMapping("admin")
 public class AdminController {
@@ -23,3 +26,4 @@ public class AdminController {
         return "admin";
     }
 }
+*/
