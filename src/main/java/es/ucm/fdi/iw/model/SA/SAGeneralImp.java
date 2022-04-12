@@ -1,17 +1,23 @@
 package es.ucm.fdi.iw.model.SA;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.apache.logging.log4j.Logger;
+
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
+import es.ucm.fdi.iw.model.LineaPlatoPedidoId;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
@@ -53,6 +59,27 @@ public class SAGeneralImp{
         else return true;
     }
 
+    public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
+        long idDevolver = -1;
+
+        if(!existeUsuario(em, username)){
+            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
+            em.persist(u);
+            em.flush();
+            idDevolver = u.getId();
+        }
+
+        return idDevolver;
+    }
+
+    public void borrarUsuario(EntityManager em, long idUsuario){
+        User u = em.createNamedQuery("User.byId", User.class).setParameter("idUser", idUsuario).getSingleResult();
+        u.setEnabled(false);
+        em.persist(u);
+        em.flush();
+    }
+
     public List<Reserva> listarReservas(EntityManager em){
         List<Reserva> reservas = null;
         reservas = em.createQuery("SELECT r FROM Reserva r").getResultList();        
@@ -83,21 +110,77 @@ public class SAGeneralImp{
 
     }
 
-    public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
-    String lastName, String pass, String roles, String telf, String username){
-        long idDevolver = -1;
+    public Long crearPlato(EntityManager em, String nombre, String descripcion, String categoria, float precio)
+    {
+        long idDevuelta = -1;
+        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Categoria.findByNombre", Categoria.class);
+        q.setParameter("nombre",categoria);
+        Categoria c = (Categoria) q.getSingleResult( );
         
-        User u = null;
+        
+        Plato p = new Plato(nombre, c, descripcion, precio);
+        p.setActivo(true);
+
+    //la lista de platos de la categoria deberia actualizarse sola
+        em.persist(p);
+        em.flush();
+        idDevuelta = p.getId();
+
+       
+
+
+        return idDevuelta;
+    }
+
+    public Long updatePlato(EntityManager em, String nombre, String descripcion, String categoria, float precio, long id)
+    {
+        
+        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Categoria.findByNombre", Categoria.class);
+        q.setParameter("nombre",categoria);
+        Categoria c = (Categoria) q.getSingleResult( );
+
+        Plato p = em.find(Plato.class, id);
+        p.setCategoria(c);
+        p.setNombre(nombre);
+        p.setDescripcion(descripcion);
+        p.setPrecio(precio);
+
+        return id;
+    }
+
+    public boolean deletePlato(EntityManager em, long id)
+    {
+        Plato p = em.find(Plato.class, id);
+
+        p.setActivo(false);
+
+        return true;
+    }
+
+    public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
+        log.info("@@@@@@ en crearUsuario");
+        long idDevolver = -1;
+
+        if(!existeUsuario(em, username)){
+            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
+            em.persist(u);
+            em.flush();
+            idDevolver = u.getId();
+        }
+        
+        /* User u = null;
         Query q = em.createNamedQuery("User.hasUsername", User.class);
         q.setParameter("username", username);
-        int num = q.getFirstResult();
+        long num = q.getFirstResult();
 
         if(num<=0){//Si no existe el username
             u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
             em.persist(u);
             em.flush();
             idDevolver = u.getId();
-        }
+        } */
+
         return idDevolver;
     } 
 
@@ -197,33 +280,26 @@ public class SAGeneralImp{
         return correcto;
     }
 
-    public boolean nuevoPedido(EntityManager em, JsonNode o, User cliente){
+    public boolean nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
         Pedido ped = new Pedido(cliente,cliente.getDireccion());
         em.persist(ped);
+
+        //sacar id pedido
+        em.flush();
+        System.out.println(ped.getId());
+        List<LineaPlatoPedido> listaPlatos = new ArrayList();
+        System.out.println("PEDIDOOO EN SA: ");
+
+        for (Map.Entry<Long, Integer> e : cantidades.entrySet()) {
+            Plato p= em.find(Plato.class, e.getKey());
+            LineaPlatoPedidoId idl = new LineaPlatoPedidoId(p.getId(), ped.getId());
+            LineaPlatoPedido l = new LineaPlatoPedido(idl, p,ped, e.getValue());
+            em.persist(l);
+            listaPlatos.add(l);
+        }
+        ped.setPlatos(listaPlatos);
         em.flush();//Creamos el pedido
-
-
-        System.out.println("PEDIDOOO EN SA");
-
-        Iterator<String> iterator = o.fieldNames();
-        iterator.forEachRemaining(e -> {
-            //e = id Plato
-            int cantidad = o.get(e).asInt();
-            long id = Long.parseLong(e);
-            System.out.println("PEDIDOOO EN SA"+ id);
-            //Plato p = em.find(Plato.class,id);
-            Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Plato.findById");
-            q.setParameter("id", id);
-            Plato p = (Plato) q.getResultList().get(0);
-            System.out.println("NOMBRE  ");
-            System.out.println("NOMBRE PLATO: "+p.getNombre()+p);
-           // LineaPlatoPedido l = new LineaPlatoPedido(p,ped,cantidad);//plato,pedido,precio,cantidad
-           // System.out.println("PEDIDOOO" + l);
-           // em.persist(l);
-           // em.flush();
-        });
-
         return true;
     }
 

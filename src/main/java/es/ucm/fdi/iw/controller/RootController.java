@@ -1,8 +1,11 @@
 package es.ucm.fdi.iw.controller;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.ucm.fdi.iw.model.Categoria;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
@@ -78,11 +83,11 @@ public class RootController {
     En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
     */
     
-    @PostMapping(path = "/nuevoPlato", produces = "application/json")
-    @Transactional // para no recibir resultados inconsistentes
-    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
-        log.info("demoAjax");
+//    @PostMapping(path = "/nuevoPlato", produces = "application/json")
+//    @Transactional // para no recibir resultados inconsistentes
+//    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+//    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+ /*        log.info("demoAjax");
         
         String nombre = o.get("nombrePlato").asText();
         String categoria = o.get("categoriaPlato").asText();
@@ -104,41 +109,25 @@ public class RootController {
         }
 
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
-    }
+    } */
 
-    @PostMapping(path = "/existeUsuario", produces = "application/json")
+/*     @PostMapping(path = "/existeUsuario", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String comprobarNuevoEmpleado(Model model, @RequestBody JsonNode o) {
+    public String existeUsuario(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de comprobarNuevoEmpleado -------------");
         
-        String nombreEmpleado = o.get("nombreEmpleado").asText();
+        String username = o.get("username").asText();
 
-        if(saGeneral.existeUsuario(em, nombreEmpleado))
+        if(saGeneral.existeUsuario(em, username))
         {
-            //log.info("usuario ya existe (rootController anadirEmpleado)");
+            log.info("usuario ya existe (rootController anadirEmpleado)");
             return null;
         }
 
         return "{\"isok\": \"true\"}";//devuelve un json como un string
-    }
+    } */
 
-    @PostMapping(path = "/anadirEmpleado", produces = "application/json")
-    @Transactional // para no recibir resultados inconsistentes
-    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
-        log.info("----------- dentro de anadirEmpleado -------------");
-    
-/*         String nombreEmpleado = o.get("nombreEmpleado").asText();
-
-        if(saGeneral.existeUsuario(em, nombreEmpleado))
-        {
-            //log.info("usuario ya existe (rootController anadirEmpleado)");
-            return null;
-        } */
-
-        return "{\"isok\": \"true\"}";//devuelve un json como un string
-    }
 
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
     public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
@@ -158,6 +147,137 @@ public class RootController {
        
        
         return "carta";
+    }
+
+    @PostMapping("nuevoPlato2")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String nuevoPlato2(@RequestParam("imgPlato") MultipartFile photo, 
+                            @RequestParam("nombrePlato") String nombre,
+                            @RequestParam("categoriaPlato") String categoria,
+                            @RequestParam("precioPlato") Float precio,
+                            @RequestParam("descripcionPlato") String desc
+                           /*  @PathVariable long id, 
+    HttpServletResponse response ,*/ /* HttpSession session ,*//*  Model model */) {
+       log.info("creando plato");
+
+       /*  long idAsignada = saGeneral.crearPlato(em, nombre, desc, categoria, precio); */
+        Long idP = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
+
+        //localdata == /temp/iwdata
+        //String myimg = new File("src/main/resources/static/img/platos").getAbsolutePath();
+
+        //se crea el fichero en ese directorio, y el nombre de las imagenes se correspondera con su id
+        File img = new File("src/main/resources/static/img/platos", idP +".jpg"); 
+
+        //log.info("dir pics:" + myimg);
+        /* File f = localData.getFile("user", "pic.jpg"); */
+        //File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
+        //File f2 = localData.getFile("/img/platos", "p13.jpg");
+        //log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
+       
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+            return null;
+		} else {
+			try (BufferedOutputStream stream =
+					new BufferedOutputStream(new FileOutputStream(img))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+				log.info("la ruta es: " + img.getAbsolutePath());
+			} catch (Exception e) {
+                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				//log.warn("Error uploading " + id + " ", e);
+                return null;
+			}
+		}
+
+        /* saGeneral.crearPlato(em, nombre, desc, categoria, precio, f.getAbsolutePath()); */
+       // saGeneral.updatePlatoRutaImg(em, p, dirImg.getAbsolutePath());
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "}";
+        
+
+        log.info("datos recibidos nuevo plato: ");
+        log.info("nombre: " + nombre);
+        log.info("categoria: " + categoria);
+        log.info("precio: " + precio.toString());
+        log.info("descripcion: " + desc);
+       // log.info("ruta imagen: " + f.getAbsolutePath());
+
+       //return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+       return dataToReturn;
+    }
+
+    @PostMapping("deletePlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String deletePlato(@RequestParam("idPlato") long idPlato) {
+
+        saGeneral.deletePlato(em, idPlato);
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "}";
+        log.info("borrando plato");
+
+       return dataToReturn;
+    }
+
+    @PostMapping("updatePlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String updatePlato(@RequestParam("nombrePlato") String nombre,
+                            @RequestParam("categoriaPlato") String categoria,
+                            @RequestParam("precioPlato") Float precio,
+                            @RequestParam("descripcionPlato") String desc,
+                            @RequestParam("idPlato") long idPlato) {
+
+        Long idP = saGeneral.updatePlato(em, nombre, desc, categoria, precio, idPlato);
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "}";
+        log.info("actualizando plato");
+
+       return dataToReturn;
+    }
+
+    @PostMapping("updateImgPlato")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String updateImgPlato(@RequestParam("imgPlato") MultipartFile photo,
+                                @RequestParam("idPlato") long idPlato) {
+
+        File img = new File("src/main/resources/static/img/platos", idPlato +".jpg"); 
+       
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+            return null;
+		} else {
+			try (BufferedOutputStream stream =
+					new BufferedOutputStream(new FileOutputStream(img))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+				log.info("la ruta es: " + img.getAbsolutePath());
+			} catch (Exception e) {
+                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				//log.warn("Error uploading " + id + " ", e);
+                return null;
+			}
+		}
+
+
+
+        log.info("actualizando imagen plato");
+
+        String dataToReturn = "{";
+        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "}";
+        log.info("actualizando plato");
+
+       return dataToReturn;
     }
 
     @GetMapping("hacerPedido")
@@ -210,6 +330,19 @@ public class RootController {
 
 
         model.addAttribute("nombrePlato", platoElegidoId);
+
+
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        listaCategorias = saGeneral.listarCategorias(em);
+
+       /*  for(Categoria cat : listaCategorias)
+        {
+            log.info(cat.getNombre());
+            for(Plato p : cat.getPlatos())
+                log.info("-" + p.getNombre());
+        } */
+
+        model.addAttribute("categorias", listaCategorias);
 
         return "verPlato";
     }
@@ -282,15 +415,64 @@ public class RootController {
         return "configuracion";
     }
 
+    @PostMapping(path = "/anadirEmpleado", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de anadirEmpleado -------------");
+    
+        String username = o.get("username").asText();
+        long idUsuario;
+
+        if(saGeneral.existeUsuario(em, username))
+        {
+            log.info("usuario ya existe (rootController anadirEmpleado)");
+            return null;
+        }else{
+            log.info("------------------------------");
+            log.info(o.get("nombreEmpleado").asText());
+            log.info(o.get("apellidoEmpleado").asText());
+            log.info(o.get("email").asText());
+            log.info(o.get("telefono").asText());
+            log.info(o.get("direccion").asText());
+            log.info(o.get("contrasena1Empleado").asText());
+            log.info(o.get("contrasena2Empleado").asText());
+
+            idUsuario = saGeneral.crearUsuario(log,em, o.get("direccion").asText(), o.get("email").asText(), o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(), o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
+            if(idUsuario==-1) return null;
+        }
+
+        return "{\"isok\": \"true\", \"idUsuario\": "+ idUsuario +"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/borrarUsuario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String borrarEmpleado(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de borrarUsuario -------------");
+    
+        long idUsuario = o.get("idUsuario").asLong();
+        log.info("-----------"+idUsuario);
+
+        //long id = Long.parseLong(idUsuario);
+        //log.info(idUsuario);
+
+        saGeneral.borrarUsuario(em, idUsuario);
+
+        return "{\"isok\": \"true\"}";//devuelve un json como un string
+    }
+
     @PostMapping(path = "/nuevoPedido", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String nuevoPedido(Model model, @RequestBody JsonNode o, HttpSession session) {
         log.info("nuevoPedido");
-        User u = (User) session.getAttribute("u");
+        User u = em.find(User.class, ((User) session.getAttribute("u")).getId());
+        Map<Long, Integer> cantidades = new HashMap<>();
         Iterator<String> iterator = o.fieldNames();
         iterator.forEachRemaining(e -> {
             int cantidad = o.get(e).asInt();
+            cantidades.put(Long.parseLong(e), o.get(e).asInt());
             log.info( " Has pedido: "+e+" x"+cantidad);
             log.info(e.toString());
         });
@@ -299,9 +481,10 @@ public class RootController {
         //diccionario id, cantidad diccionario[ID]=cantidad
         //
         log.info("HE LLEGADO PERRO");
-        saGeneral.nuevoPedido(em, o,u); //entitymanager, jsonnode y user
+        saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
+
 
 
 

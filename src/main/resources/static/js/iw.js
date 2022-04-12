@@ -191,6 +191,37 @@ function postImage(img, endpoint, name, filename) {
     return go(endpoint, "POST", fd, {})
 }
 
+//propia
+function toBlobGeneral(dataurl) {
+    let arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], {
+        type: mime
+    });
+}
+
+//propia
+/**
+ * Mete una imagen a los campos a enviar por un formulario
+ * @param {form} form datos de formulario al que sumar la imagen
+ * @param {img} img imagen a sumar
+ * @param {String} name nombre de la clave que tendra la imagen en el array del formulario
+ * @returns {form} devuelve los datos del formulario con la imagen ya dentro
+ */
+ function appendImageToFomData(form, img, name)
+ {
+     let imageBlob = toBlobGeneral(img.src);
+     form.append(name, imageBlob);
+     return form;
+     //return go(endpoint, "POST", fd, {})
+ }
+
 /**
  * Actions to perform once the page is fully loaded
  */

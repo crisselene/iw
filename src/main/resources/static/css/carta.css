@@ -24,7 +24,10 @@
     border: 1px solid var(--main);
     padding: 5px;
     border-radius: 50px;
-    width: 300px;
+
+    width: 20em; /* You can set the dimensions to whatever you want */
+    height: 20em;
+    object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */
 }
 
 img:hover {

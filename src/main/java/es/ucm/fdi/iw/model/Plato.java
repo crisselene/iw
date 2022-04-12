@@ -18,9 +18,6 @@ import lombok.Data;
 @Entity
 @Data
 @AllArgsConstructor
-@NamedQueries({
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Plato.findById", query = "select obj from Plato obj where  :id = obj.id")
-})
 public class Plato {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
@@ -44,6 +41,15 @@ public class Plato {
     public Plato()
     {}
 
+    public Plato(String nombre, Categoria categoria, String descripcion, float precio)
+    {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.precio = precio;
+
+    }
+
 
     public Plato(String n, String c)
     {
@@ -60,5 +66,8 @@ public class Plato {
         return nombre;
     }
 
+    public String toString() {
+        return "p"+id;
+    }
 
 }

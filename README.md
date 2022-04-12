@@ -11,6 +11,18 @@ Aplicación desarrollada para la asignatura de Ingeniería Web en la Universidad
 ## Detalles sobre la aplicación
 Restaurant.es es una aplicación para administrar las reservas de cualquier restaurante como usuario administrador y para hacer pedidos a un restaurante como cliente.
 
+## Sobre la ultima entrega
+Lo hemos intentado desplegar en el container, pero hay algunas cosas que no funcionan, como añadir empleado o borrar empleado.
+Por eso entregamos el link de github como en otras entregas, para que lo pruebes sin el container, ya que si se prueba normal, dichas
+funcionalidades si funcionan.
+
+Respecto a añadir empleado: la idea es que con el empleado que se añade desde Configuracion, después se pueda hacer login, pero no hemos
+sido capaces de entender la logica que hay por detras del login para aplicarla al añadir empleado
+
+La funcionalidad de añadir plato está acabada y sí que funciona en el container.
+No hemos entregado una carpeta data/ con imagenes porque ya están metidas dentro del proyecto en .../static/img
+para una mayor comodidad
+
 
 ### Reference Documentation
 For further reference, please consider the following sections:
