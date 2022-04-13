@@ -66,11 +66,10 @@
                             <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.getCliente}"></div>
                             <form>
+                                <button class="rechazar" type="button" style="float: left; width: 100px; margin-right: 5px;" >Eliminar</button>
                                 <button class="modify" type="button" data-bs-toggle="modal" data-bs-target="#modalModPed"
                                     style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>
-                                <button class="rechazar" type="button" style="float: left; width: 100px; margin-right: 5px;" >Eliminar</button>
-
-                                
+                                                                
                                 <!-- Modal -->
                                 <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
                                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel"

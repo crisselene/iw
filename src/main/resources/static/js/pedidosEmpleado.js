@@ -36,10 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         //eliminamos el boton aceptar para reemplazarlo por
                         //el boton modificar
                         botonAcep.remove();
-                        //eliminamos el boton rechazar para reemplazarlo por
-                        //el boton eliminar
+                        
+                        //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                         var rech = div.querySelector(".rechazar")
-                        rech.remove();
+                        rech.innerHTML="Eliminar"
+
 
                         //console.log("SE PUEDE CAMBIAR")
 
@@ -48,29 +49,30 @@ document.addEventListener("DOMContentLoaded", () => {
                         //creamos un nuevo formulario con los botones de
                         //eliminar y modificar, incluyendo el modal
                         const tr = document.createElement('form')
-                        const Content = `
-                    <form>
-                    <button class="modify"  data-bs-toggle="modal" 
-                    data-bs-target="#modalModPed" 
-                    style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>    
-                    <button style="float: left; width: 100px; margin-right: 5px;">Eliminar</button>     
-                
-                <!--MODAL-->
-                
-            <!-- Modal -->
-            <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
-                            <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="text-align: left;">
-                            <!-- IMPORTANTE -->
-                            <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
-                            <form id="formModPed" th:action="@{/}" onsubmit="return false;">
-                                            <label for="nombrePedido" style="display: block;">Número de pedido</label>
+                        const Content = `<form>
+                       <button class="modify" type="button" data-bs-toggle="modal" data-bs-target="#modalModPed"
+                            style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>
+                        
+
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
+                                        <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="text-align: left;">
+                                        <!-- IMPORTANTE -->
+                                        <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
+                                        <form id="formModPed" th:action="@{/}" onsubmit="return false;">
+                                            <label for="nombrePedido" style="display: block;">Número de
+                                                pedido</label>
                                             <input type="text" id="nombrePedido" required>
 
                                             <label for="nombrePedido" style="display: block;">Dirección</label>
@@ -80,19 +82,20 @@ document.addEventListener("DOMContentLoaded", () => {
                                             <input type="text" id="nombrePedido" required>
 
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Guardar cambios</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" id="anadirEmpleadoButton"
+                                                    class="btn btn-primary">Guardar cambios</button>
                                             </div>
 
                                         </form>
 
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+                                    </div>
 
-        </form>  
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                          `
                         tr.innerHTML = Content
                         div.append(tr);
