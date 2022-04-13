@@ -70,6 +70,17 @@ public class RootController {
         return "{\"encurso\":" + encur +"}";
     }
 
+    @PostMapping(path = "/eliminarPed", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String eliminarPed(Model model, @RequestBody JsonNode o  /* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+        log.info("entrando a eliminarPed rootController");
+        long id = o.get("idPed").asLong();
+        log.info("devuelve: ");
+        log.info(id);
+        boolean elm= saGeneral.eliminarPedido(em,id);
+        return "{\"eliminado\":" + elm +"}";
+    }
 
     //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
     /*

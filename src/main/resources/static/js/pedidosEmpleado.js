@@ -3,57 +3,52 @@
 // no funcionaba bien porque cargaba antes el javascript
 //que el html y entonces no hacía el eventListener.Con esto obliga a cargar
 //antes al html 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
 
-    /***********************BOTON MODIFICAR********************/
-    const ModBtns = document.querySelectorAll('.modify')
-    ModBtns.forEach(btn=>{
-    btn.addEventListener("click", modify )
-    /********************FIN BOTON MODIFICAR*******************/
-    
-    })
+    //TABLA DE NUEVOS PEDIDOS
     document.querySelectorAll(".divCambiar").forEach(d => {
         //OJO como hemos puesto th:attr="data-id=${ped.id}" en el html
         //de divCambiar entonces para coger el dato de ped.id, que es
         //el id del pedido que queremos manejar, entonces hay que 
         //poner dataset:
-        const id = d.dataset.id; 
+        const id = d.dataset.id;
         const div = d;
         const enCurso = document.querySelector(".pedEnCurso");
+        let params = { "idPed": id };
 
         //********************BOTON ACEPTAR Y RECHAZAR************************
         //lo que hace es que al clicar aceptar cambiamos el valor
         //de enCurso de 0 a 1, y lo cambiamos de tabla en la vista
-        d.querySelector(".aceptar").addEventListener("click", e =>{
+        d.querySelector(".aceptar").addEventListener("click", e => {
             console.log("Aceptando elemento id", id)
-            
+
             //Realizamos el cambio con el controlador para que 
             //se ponga en curso =1
-            let params = {"idPed" : id};
+
             console.log(params)
-            go(config.rootUrl + "/aceptarPed" , 'POST', params)
-            .then(d =>{
-                console.log("en curso: ", d['encurso'])
-                //si enCurso=true entonces podemos cambiarlo a la tabla
-                //de pedidos en curso
-                var botonAcep = div.querySelector(".aceptar")
-                if(d['encurso']== true){
-                    //eliminamos el boton aceptar para reemplazarlo por
-                    //el boton modificar
-                    botonAcep.remove();
-                    //eliminamos el boton rechazar para reemplazarlo por
-                    //el boton eliminar
-                    var rech = div.querySelector(".rechazar")
-                    rech.remove();
+            go(config.rootUrl + "/aceptarPed", 'POST', params)
+                .then(d => {
+                    console.log("en curso: ", d['encurso'])
+                    //si enCurso=true entonces podemos cambiarlo a la tabla
+                    //de pedidos en curso
+                    var botonAcep = div.querySelector(".aceptar")
+                    if (d['encurso'] == true) {
+                        //eliminamos el boton aceptar para reemplazarlo por
+                        //el boton modificar
+                        botonAcep.remove();
+                        //eliminamos el boton rechazar para reemplazarlo por
+                        //el boton eliminar
+                        var rech = div.querySelector(".rechazar")
+                        rech.remove();
 
-                    //console.log("SE PUEDE CAMBIAR")
+                        //console.log("SE PUEDE CAMBIAR")
 
-                    //lo cambiamos a la tabla de pedidos en curso
-                    enCurso.append(div);
-                    //creamos un nuevo formulario con los botones de
-                    //eliminar y modificar, incluyendo el modal
-                    const tr = document.createElement('form')
-                    const Content = `
+                        //lo cambiamos a la tabla de pedidos en curso
+                        enCurso.append(div);
+                        //creamos un nuevo formulario con los botones de
+                        //eliminar y modificar, incluyendo el modal
+                        const tr = document.createElement('form')
+                        const Content = `
                     <form>
                     <button class="modify"  data-bs-toggle="modal" 
                     data-bs-target="#modalModPed" 
@@ -98,27 +93,68 @@ document.addEventListener("DOMContentLoaded", ()=>{
             </div>
 
         </form>  
-                    `
-                    tr.innerHTML=Content
-                    div.append(tr); 
-                }
-            })                    
+                         `
+                        tr.innerHTML = Content
+                        div.append(tr);
+                    }
+                })
         })
         //********************FIN BOTON ACEPTAR Y RECHAZAR******************/
 
-        //**********************BOTON ELIMINAR******************* */
-        d.querySelector(".rechazar").addEventListener("click", e =>{
+        //**********************BOTON RECHAZAR******************* */
+        d.querySelector(".rechazar").addEventListener("click", e => {
             console.log("Rechazando elemento id", id)
-            alert("Está seguro de que quiere eliminar ese pedido?")
-        })     
+            let confirmAction = confirm("¿Quiere eliminar este pedido?");
+            if (confirmAction) {
+                eliminar(e, params)
+                div.remove()
+            }
+
+        })
+        //**********************FIN BOTON RECHAZAR******************* */ 
+
+        /***********************BOTON MODIFICAR********************/
+        const ModBtns = d.querySelectorAll('.modify')
+        ModBtns.forEach(btn => {
+            btn.addEventListener("click", modify)
+            /********************FIN BOTON MODIFICAR*******************/
+
+        })
+    })
+
+    //TABLA PEDIDOS EN CURSO
+    document.querySelectorAll(".divCambiados").forEach(c => {
+
+        const id = c.dataset.id;
+        const div = c;
+        let params = { "idPed": id };
+
+        //***************BOTON ELIMINAR************************* */
+        c.querySelector(".rechazar").addEventListener("click", e => {
+            console.log("Rechazando elemento id", id)
+            let confirmAction = confirm("¿Quiere eliminar este pedido?");
+            if (confirmAction) {
+                eliminar(e, params)
+                div.remove()
+            }
+
+        })
     })
 
 })
 
 //Función para cuando se le da al botón modificar
- function modify(e) {
+function modify(e) {
     e.preventDefault()
     console.log("MODIFYYYYYYY")
- }
+}
+
+function eliminar(e, params) {
+    e.preventDefault()
+    go(config.rootUrl + "/eliminarPed", 'POST', params)
+        .then(d => {
+            console.log("Eliminando pedido.......")
+        })
+}
 
 
