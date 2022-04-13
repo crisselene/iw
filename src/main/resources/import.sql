@@ -77,8 +77,8 @@ VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
   INSERT INTO PEDIDO(id, activo, direccion, en_curso, cliente_id)
  VALUES(7, true, 'Calle C', false, 2);
 
- INSERT INTO LINEA_PLATO_PEDIDO(cantidad, precio, plato_id, pedido_id)
- VALUES(2, 11.98, 1, 1);
+ --INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad)
+ --VALUES(1, 1, 2);
 
 INSERT INTO CONFIGURACION_RESTAURANTE VALUES(1,4,5,12,23,30);
 

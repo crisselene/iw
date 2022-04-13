@@ -74,38 +74,22 @@ document.addEventListener("DOMContentLoaded", ()=>{
                         <div class="modal-body" style="text-align: left;">
                             <!-- IMPORTANTE -->
                             <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
-                            <form id="formAnadirEmpleado" th:action="@{/}" onsubmit="return false;">
-                                <label for="nombreEmpleado" style="display: block;">Nombre</label>
-                                <input type="text" id="nombreEmpleado" required>
+                            <form id="formModPed" th:action="@{/}" onsubmit="return false;">
+                                            <label for="nombrePedido" style="display: block;">Número de pedido</label>
+                                            <input type="text" id="nombrePedido" required>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="nombreEmpleado" style="display: block;" class="modalLabel">Primer apellido</label>
-                                        <input type="text" id="primerApellidoEmpleado">
-                                    </div>
-                                    <div class="col">
-                                        <label for="nombreEmpleado" style="display: block;" class="modalLabel">Segundo apellido</label>
-                                        <input type="text" id="segundoApellidoEmpleado">
-                                    </div>
-                                </div>
+                                            <label for="nombrePedido" style="display: block;">Dirección</label>
+                                            <input type="text" id="nombrePedido" required>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
-                                        <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
-                                    </div>
-                                    <div class="col">
-                                        <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
-                                        <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
-                                    </div>
-                                </div>
+                                            <label for="nombrePedido" style="display: block;">Cliente</label>
+                                            <input type="text" id="nombrePedido" required>
 
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
-                                </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Guardar cambios</button>
+                                            </div>
 
-                            </form>
+                                        </form>
 
                         </div>
                         
