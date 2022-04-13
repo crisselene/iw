@@ -306,7 +306,11 @@ public class RootController {
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
     @Transactional
-    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String date){
+    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String info){
+        String[] parts = info.split("_");
+        String date = parts[0];
+        Integer personas = Integer.parseInt(parts[1]);
+
         List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
         String js = null;
         if(reservas != null){

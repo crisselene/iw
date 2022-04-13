@@ -305,23 +305,12 @@ public class SAGeneralImp{
 
     public boolean eliminarPedido(EntityManager em, long id){
         boolean correcto = false;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Pedido p = null;
-            p = em.find(Pedido.class, id);
-            if(p!=null){
-                if(p.isActivo() == true){
-                    p.setActivo(false);
-                    t.commit();
-                    correcto = true;
-                }
-                else t.rollback();
-                
+        Pedido p = em.find(Pedido.class,id);
+        if(p!=null){
+            if(p.isActivo()){
+                p.setActivo(false);
+                correcto = true;
             }
-            else t.rollback();
-        }catch(Exception e){
-
         }
         return correcto;
     }
