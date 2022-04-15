@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,9 @@ public class RootController {
 
     @Autowired
     private EntityManager em;
+
+    @Autowired
+	private SimpMessagingTemplate messagingTemplate;
 
     private SAGeneralImp saGeneral = new SAGeneralImp();
 	private static final Logger log = LogManager.getLogger(RootController.class);
@@ -499,6 +503,49 @@ public class RootController {
         saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
+
+    @PostMapping("/web")
+	@ResponseBody
+	@Transactional
+	public String postMsg( @RequestParam("dato") String dato) {
+		
+        String jsonAEnviar = "{\"isok\": \"llegado de un websocket\"}";
+		/* String text = o.get("message").asText();
+		User u = entityManager.find(User.class, id);
+		User sender = entityManager.find(
+				User.class, ((User)session.getAttribute("u")).getId());
+		model.addAttribute("user", u);
+		
+		// construye mensaje, lo guarda en BD
+		Message m = new Message();
+		m.setRecipient(u);
+		m.setSender(sender);
+		m.setDateSent(LocalDateTime.now());
+		m.setText(text);
+		entityManager.persist(m);
+		entityManager.flush(); // to get Id before commit
+		
+		// construye json
+		ObjectMapper mapper = new ObjectMapper(); */
+		/*
+		// construye json: método manual
+		ObjectNode rootNode = mapper.createObjectNode();
+		rootNode.put("from", sender.getUsername());
+		rootNode.put("to", u.getUsername());
+		rootNode.put("text", text);
+		rootNode.put("id", m.getId());
+		String json = mapper.writeValueAsString(rootNode);
+		*/
+		// persiste objeto a json usando Jackson
+        log.info("en funcion de websocket");
+        log.info("datos llegados: " + dato);
+		/* String json = mapper.writeValueAsString(m.toTransfer());
+
+		log.info("Sending a message to {} with contents '{}'", id, json); */
+
+		 messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
+		return "{\"result\": \"conseguido\"}";
+	}	
 
 
 

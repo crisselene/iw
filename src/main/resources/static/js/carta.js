@@ -5,7 +5,34 @@ $('document').ready(function ()
 
 const pruebaModal = new bootstrap.Modal(document.querySelector('#exampleModal'));
 const modalDeletePlato = new bootstrap.Modal(document.querySelector('#modalDeletePlato'));
+"use strict"
 
+
+
+ document.addEventListener("DOMContentLoaded", () => {
+    if (config.socketUrl) {
+        let subs = ["/paginaSuscrita"];
+        ws.initialize(config.socketUrl, subs);
+        console.log("suscribiendose desde mi nueva funcion");
+     
+    } else {
+        console.log("Not opening websocket: missing config", config)
+    }
+
+    // add your after-page-loaded JS code here; or even better, call 
+    // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
+    //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
+}); 
+
+// recibiendo los mensajes de webSockets
+if (ws.receive) {
+    const oldFn = ws.receive; // guarda referencia a manejador anterior
+    ws.receive = (m) => {//reescribe lo que hace la funcion receive
+        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
+        /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+        console.log("mensaje webSocket llegado");
+    }
+}
 
 
 //-----------------------------------------------------------------------------------
