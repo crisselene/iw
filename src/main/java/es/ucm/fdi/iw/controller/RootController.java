@@ -126,23 +126,6 @@ public class RootController {
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     } */
 
-/*     @PostMapping(path = "/existeUsuario", produces = "application/json")
-    @Transactional // para no recibir resultados inconsistentes
-    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String existeUsuario(Model model, @RequestBody JsonNode o) {
-        log.info("----------- dentro de comprobarNuevoEmpleado -------------");
-        
-        String username = o.get("username").asText();
-
-        if(saGeneral.existeUsuario(em, username))
-        {
-            log.info("usuario ya existe (rootController anadirEmpleado)");
-            return null;
-        }
-
-        return "{\"isok\": \"true\"}";//devuelve un json como un string
-    } */
-
 
     @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
     public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
@@ -421,7 +404,7 @@ public class RootController {
         List<User> listaEmpleados = new ArrayList<User>();
 
         listaCategorias = saGeneral.listarCategorias(em);
-        listaEmpleados = em.createQuery("SELECT u FROM User u WHERE u.roles LIKE 'EMPLEADO'").getResultList();
+        listaEmpleados = saGeneral.listarEmpleados(em);
 
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);
@@ -457,11 +440,32 @@ public class RootController {
             log.info(o.get("contrasena1Empleado").asText());
             log.info(o.get("contrasena2Empleado").asText());
 
-            idUsuario = saGeneral.crearUsuario(log,em, o.get("direccion").asText(), o.get("email").asText(), o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(), o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
+            idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(), o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(), o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
             if(idUsuario==-1) return null;
         }
 
         return "{\"isok\": \"true\", \"idUsuario\": "+ idUsuario +"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/anadirCategoria", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String anadirCategoria(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de anadirCategoria -------------");
+        long id = -1;
+    
+        String categoria = o.get("categoria").asText();
+
+        log.info("@@@@@@"+ categoria +" -------------");
+        if(saGeneral.existeCategoria(em, categoria)){
+            log.info("----------- ya existe la categoria -------------");
+            return null;
+        } else {
+            id = saGeneral.crearCategoria(em, categoria);
+            if(id == -1) return null;
+        }
+
+        return "{\"isok\": \"true\", \"idCategoria\": "+ id +"}";
     }
 
     @PostMapping(path = "/borrarUsuario", produces = "application/json")
@@ -477,6 +481,23 @@ public class RootController {
         //log.info(idUsuario);
 
         saGeneral.borrarUsuario(em, idUsuario);
+
+        return "{\"isok\": \"true\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/borrarCategoria", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String borrarCategoria(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de borrarCategoria -------------");
+    
+        long idCategoria = o.get("idCategoria").asLong();
+        log.info("-----------"+idCategoria);
+
+        //long id = Long.parseLong(idUsuario);
+        //log.info(idUsuario);
+
+        saGeneral.borrarCategoria(em, idCategoria);
 
         return "{\"isok\": \"true\"}";//devuelve un json como un string
     }

@@ -5,13 +5,18 @@ anadirEmpleadoButton.addEventListener("click", nuevoEmpleado);
 
 const anadirEmpleadoModal = new bootstrap.Modal(document.querySelector('#anadirEmpleadoModal'));
 
+const anadirCategoriaButton = document.getElementById("anadirCategoriaButton");
+anadirCategoriaButton.addEventListener("click", nuevaCategoria);
+
+const anadirCategoriaModal = new bootstrap.Modal(document.querySelector('#anadirCategoriaModal'));
+
 /* const cerrarBtn = document.getElementById("cerrarModal").addEventListener("click", function(){
     modalAnadirEmpleado.hide();
 }) */
 
 function nuevoEmpleado()
 {
-    console.log("hol@@@@@@2");
+    console.log("--- en validate user ---");
     const myForm = document.getElementById("formAnadirEmpleado");
     if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
     {
@@ -19,7 +24,6 @@ function nuevoEmpleado()
         myForm.reportValidity();
     }
 
-    console.log("hol@@@@@@2");
     let username = document.getElementById("username");
 
     //validateUser();
@@ -125,6 +129,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
         //********************BOTON ELIMINAR************************
         ajaxBorrarUsuario(div, id);
     })
+
+    document.querySelectorAll(".categoriarow").forEach(d => {
+        const id = d.dataset.id;
+        var div = d;
+
+        ajaxBorrarCategoria(div, id);
+    })
 })
 
 function ajaxBorrarUsuario(div, id){
@@ -133,12 +144,72 @@ function ajaxBorrarUsuario(div, id){
         console.log("eliminando elemento id", id);
         go(config.rootUrl + "/borrarUsuario", 'POST', {"idUsuario" : id})
         .then(d => {console.log("todo ok en ajax borrar usuario") // va ok si el username no existe
-                    username.setCustomValidity("");
+                    /* username.setCustomValidity(""); */
                     div.innerHTML = "";
         })
         .catch(() => {console.log("Error en ajax borrar usuario");//si el username ya existia
-                    username.setCustomValidity("Error al borrar usuario");
-                    username.reportValidity();
+                    /* username.setCustomValidity("Error al borrar usuario");
+                    username.reportValidity(); */
         }) 
     });
+}
+
+function ajaxBorrarCategoria(div, id) {
+    div.querySelector(".eliminar").addEventListener("click", function(){
+        console.log("Borrando elemento: " + id);
+        go(config.rootUrl + "/borrarCategoria", 'POST', {"idCategoria" : id})
+        .then(d => {console.log("todo ok en ajax borrar categoria") // va ok si el username no existe
+                    /* categoria.setCustomValidity(""); */
+                    div.innerHTML = "";
+        })
+        .catch(() => {console.log("Error en ajax borrar categoria");//si el username ya existia
+                    /* username.setCustomValidity("Error al borrar categoria");
+                    username.reportValidity(); */
+        }) 
+    });
+}
+
+function nuevaCategoria(){
+    const myForm = document.getElementById("formAnadirCategoria");
+    if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
+    {
+        //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
+        myForm.reportValidity();
+    }
+
+    let categoria = document.getElementById("categoria");
+
+    let params = {"categoria" : categoria.value };
+
+    go(config.rootUrl + "/anadirCategoria", 'POST', params)
+    .then(d => {console.log("todo ok") // va ok si el username no existe
+                categoria.setCustomValidity("");
+                console.log("------" + d["isok"]);
+                var listaDivsEmpleados = document.getElementById("listaCategoriasDiv");
+                var html = `
+                <div class="row categoriarow" id="`+d["idCategoria"]+`" th:attr="data-id=` + d["idCategoria"] +`">
+                    <div class="col" style="padding-top: 1%;">
+                        <p>`+ categoria.value +`</p>
+                    </div>
+                    <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
+                        <button type="submit" class="btn btn-outline-danger btn-sm eliminar">❌</button>
+                    </div>
+                </div>
+                `;
+
+                listaDivsEmpleados.insertAdjacentHTML("beforebegin",html);
+
+                myForm.reset();
+                anadirCategoriaModal.hide();
+
+                let idDiv = "#"+d["idCategoria"];
+                console.log(idDiv + "----");
+
+                let div = document.getElementById(d["idCategoria"]);
+                ajaxBorrarCategoria(div, d["idCategoria"]);
+    })
+    .catch(() => {console.log("Error en catch anadir categoria");//si el username ya existia
+                username.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
+                username.reportValidity();
+    })
 }

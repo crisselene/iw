@@ -30,8 +30,13 @@ public class SAGeneralImp{
     public List<Categoria> listarCategorias(EntityManager em) {
         List<Categoria> categorias = null;
        // categorias = em.createQuery("SELECT * FROM Categoria").getResultList(); //no entiende el *
-        categorias = em.createQuery("SELECT c FROM Categoria c").getResultList(); //coge todas las categorias
+        categorias = em.createNamedQuery("Categoria.list", Categoria.class).getResultList();
         return categorias;
+    }
+
+    public List<User> listarEmpleados(EntityManager em) {
+        List<User> lu = em.createNamedQuery("User.byRol", User.class).setParameter("rol", "EMPLEADO").getResultList();
+        return lu;
     }
 
     public List<Pedido> listarPedidos(EntityManager em) {
@@ -59,6 +64,28 @@ public class SAGeneralImp{
         else return true;
     }
 
+    public Boolean existeCategoria(EntityManager em, String categoria) {
+        /* Categoria c = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getSingleResult();
+        if(c != null) return true;
+        else return false; */
+        List<Categoria> lc = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getResultList();
+        if(lc.size() == 0) return false;
+        else return true;
+    }
+
+    public long crearCategoria(EntityManager em, String categoria) {
+        long idDevolver = -1;
+
+        if(!existeCategoria(em, categoria)){
+            Categoria c = new Categoria(categoria, true);
+            em.persist(c);
+            em.flush();
+            idDevolver = c.getId();
+        }
+
+        return idDevolver;
+    }
+
     public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
     String lastName, String pass, String roles, String telf, String username, Boolean enabled){
         long idDevolver = -1;
@@ -78,6 +105,12 @@ public class SAGeneralImp{
         u.setEnabled(false);
         em.persist(u);
         em.flush();
+    }
+
+    public void borrarCategoria(EntityManager em, long id) {
+        Categoria c = em.find(Categoria.class, id);
+
+        c.setActivo(false);
     }
 
     public List<Reserva> listarReservas(EntityManager em){
@@ -157,34 +190,9 @@ public class SAGeneralImp{
         return true;
     }
 
-    public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
-    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
-        log.info("@@@@@@ en crearUsuario");
-        long idDevolver = -1;
+    
 
-        if(!existeUsuario(em, username)){
-            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
-            em.persist(u);
-            em.flush();
-            idDevolver = u.getId();
-        }
-        
-        /* User u = null;
-        Query q = em.createNamedQuery("User.hasUsername", User.class);
-        q.setParameter("username", username);
-        long num = q.getFirstResult();
-
-        if(num<=0){//Si no existe el username
-            u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
-            em.persist(u);
-            em.flush();
-            idDevolver = u.getId();
-        } */
-
-        return idDevolver;
-    } 
-
-    public long crearCategoria(EntityManager em, long id, String nombre){
+    /* public long crearCategoria(EntityManager em, long id, String nombre){
         long idDevolver = -1;
         try{
             EntityTransaction t = em.getTransaction();
@@ -209,7 +217,7 @@ public class SAGeneralImp{
 
         }
         return idDevolver;
-    }
+    } */
 
     public long eliminarCategoria(EntityManager em, long id){
         long idDevolver = -1;

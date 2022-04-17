@@ -47,14 +47,28 @@
                                     <h2 style="margin-bottom: 2%;">Categorías</h2>
                                 </div>
                                 <div class="col" style="text-align: right;">
-                                    <form id="anadirCategoria" th:action="@{/}">
+                                    <!-- <form id="anadirCategoria" th:action="@{/}">
                                         <button type="submit" class="btn btn-primary" style="margin-top:3%">Crear</button>
-                                    </form>   
+                                    </form> --> 
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anadirCategoriaModal">
+                                        Crear
+                                    </button>   
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row categoriarow" th:each="cat: ${listaCategorias}">
+                        <div id="listaCategoriasDiv" th:each="cat: ${listaCategorias}">
+                            <div class="row categoriarow" th:attr="data-id=${cat.id}">
+                                <div class="col" style="padding-top: 1%;">
+                                    <p th:text="${cat.nombre}">sustituirCategoria</p>
+                                </div>
+                                <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm eliminar">❌</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="row categoriarow" th:each="cat: ${listaCategorias}">
                             <div class="col" style="padding-top: 1%;">
                                 <p th:text="${cat.nombre}">sustituirCategoria</p>
                             </div>
@@ -63,7 +77,7 @@
                                     <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </div> 
                 </div>
                 
@@ -99,7 +113,7 @@
 
 
 
-    <!-- Modal -->
+    <!-- Modal anadir empleado -->
     <div class="modal fade" id="anadirEmpleadoModal" tabindex="-1" aria-labelledby="anadirEmpleadoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -151,6 +165,31 @@
                         <div class="modal-footer">
                             <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal categorias -->
+    <div class="modal fade" id="anadirCategoriaModal" tabindex="-1" aria-labelledby="anadirCategoriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anadirCategoriaModalLabel">Añadir categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAnadirCategoria" th:action="@{/}" onsubmit="return false;">
+                        <label for="categoria" style="display: block;">Categoría</label>
+                        <input type="text" id="categoria" required>
+
+                        <div class="modal-footer">
+                            <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="anadirCategoriaButton" class="btn btn-primary">Añadir</button>
                         </div>
 
                     </form>

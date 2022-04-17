@@ -39,7 +39,7 @@ import java.util.List;
         @NamedQuery(name="User.byRol",
                 query="SELECT u "
                         + "FROM User u "
-                        + "WHERE u.roles = :rol AND u.enabled = TRUE")                             
+                        + "WHERE u.roles = :rol AND u.enabled = TRUE")                                   
 })
 
 @Table(name="IWUser")
