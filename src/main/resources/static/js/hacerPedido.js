@@ -10,14 +10,16 @@ Clickbutton.forEach(btn => { //Por cada boton encontrado de tipo compra
 })
 
 function finalizar(e){
-  console.log("Hey bien finalizado ese pedido ;)")
+
   let params ={};
   carrito.map(item => { //por cada item en el carrito
     console.log("ID: "+item.id + " x"+item.cantidad)
-
     params[item.id] = item.cantidad;  
   })
+
   console.log(params)
+  if(carrito.length > 0){
+  console.log("Hey bien finalizado ese pedido ;)")
   go(config.rootUrl + "/nuevoPedido", 'POST', params)
             .then(d => {console.log("todo ok")
                         console.log("mensaje recibido: ", d);//json recibido
@@ -25,9 +27,10 @@ function finalizar(e){
             })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
 
-
+  
   carrito = []
   reloadCarrito()
+          }
 }
 
 function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
@@ -125,7 +128,8 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
       const precio = Number(item.precio.replace("€", ''))
       Total = Total + precio*item.cantidad
     })
-  Total = Total.toFixed(2);
+
+    Total = Total.toFixed(2);
     itemCartTotal.innerHTML = `Total: ${Total}€`
   }
 
