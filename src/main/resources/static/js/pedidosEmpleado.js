@@ -21,10 +21,19 @@ document.addEventListener("DOMContentLoaded", () => {
 if (ws.receive) {
     const oldFn = ws.receive; // guarda referencia a manejador anterior
     ws.receive = (m) => {//reescribe lo que hace la funcion receive
-        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
+        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
         /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
         //se accede como a un json , vamos, como se accede a un array xd
         console.log("el id es: " + m["idPedido"]);
+
+        //intorduzco el pedido en la tabla de nuevos pedidos
+        const enCurso = document.querySelector(".rowNuevosPed");
+        var nuevoPedi = createElement(div);
+        nuevoPedi.innerHTML = `
+        <div class="col" th:text="'Pedido: ' + ${m["idPedido"]} >`
+       // + ', Direccion: ' + ${m.getDireccion} + ', Cliente: ' + ${m.cliente.username}">`
+        
+        document.querySelector(".divCambiar").append(nuevoPedi);
         console.log("mensaje webSocket llegado");
     }
 }

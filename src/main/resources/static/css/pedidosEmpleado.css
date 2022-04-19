@@ -68,7 +68,8 @@ small {
 /*contenedores de pedidos*/
 .container{
     width: 45%;
-    
+    max-height:500px;
+    overflow: auto;
     margin:25px;
 }
 
