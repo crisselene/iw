@@ -34,7 +34,7 @@
                         <div class="divCambiar" th:attr="data-id=${ped.id}">
 
                             <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.cliente}">
+                            + ', Cliente: ' + ${ped.cliente.username}">
 
                             </div>
                             <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
@@ -64,7 +64,7 @@
 
                         <div class="divCambiados" th:attr="data-id=${ped.id}">
                             <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.getCliente}"></div>
+                            + ', Cliente: ' + ${ped.getCliente.username}"></div>
                             <form>
                                 <button class="rechazar" type="button" style="float: left; width: 100px; margin-right: 5px;" >Eliminar</button>
                                 <button class="modify" type="button" data-bs-toggle="modal" data-bs-target="#modalModPed"
