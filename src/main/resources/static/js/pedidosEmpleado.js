@@ -1,4 +1,23 @@
 "use strict"
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (config.socketUrl) {
+        let subs = ["/nuevoPedidoWebSocket"];
+        ws.initialize(config.socketUrl, subs);
+        console.log("suscribiendose a nuestra cosa /nuevoPedidoWebSocket");
+     
+    } else {
+        console.log("Not opening websocket: missing config", config)
+    }
+
+    // add your after-page-loaded JS code here; or even better, call 
+    // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
+    //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
+}); 
+
+
+
 //NO CAMBIAR ESTA FUNCIÓN DE DEBAJO DE ESTE COMENTARIO:
 // no funcionaba bien porque cargaba antes el javascript
 //que el html y entonces no hacía el eventListener.Con esto obliga a cargar

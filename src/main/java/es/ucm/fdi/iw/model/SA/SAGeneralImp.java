@@ -288,7 +288,7 @@ public class SAGeneralImp{
         return correcto;
     }
 
-    public boolean nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
+    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
         Pedido ped = new Pedido(cliente,cliente.getDireccion());
         em.persist(ped);
@@ -308,7 +308,7 @@ public class SAGeneralImp{
         }
         ped.setPlatos(listaPlatos);
         em.flush();//Creamos el pedido
-        return true;
+        return ped;
     }
 
     public boolean eliminarPedido(EntityManager em, long id){

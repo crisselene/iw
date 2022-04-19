@@ -518,10 +518,21 @@ public class RootController {
         });
 
 
+       
+
+
+
+
+
         //diccionario id, cantidad diccionario[ID]=cantidad
         //
         log.info("HE LLEGADO PERRO");
-        saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
+        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
+        
+        String jsonForWebSocket = "{\"idPedido\": \"" + ped.getId() + "\","+
+        "\"dirPedido\": \"" + ped.getDireccion() +"\"," +
+        "\"emailCliente\": \"" + ped.getCliente().getEmail() + "\"}";
+        messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
 
