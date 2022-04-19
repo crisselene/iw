@@ -527,6 +527,7 @@ public class RootController {
         String jsonForWebSocket = "{\"idPedido\": \"" + ped.getId() + "\","+
         "\"dirPedido\": \"" + ped.getDireccion() +"\"," +
         "\"emailCliente\": \"" + ped.getCliente().getEmail() + "\"}";
+        //url a la que te has subscrito en js y los datos a enviar (json)
         messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }

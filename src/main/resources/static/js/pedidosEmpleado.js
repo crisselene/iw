@@ -1,6 +1,6 @@
 "use strict"
 
-
+//copiar y pegar esto cambiando los subs (si quieres subscribirte a web sockets)
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
         let subs = ["/nuevoPedidoWebSocket"];

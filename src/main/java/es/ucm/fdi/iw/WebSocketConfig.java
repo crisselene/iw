@@ -23,6 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/ws");
     }
 
+    //poner aquí los websockets que vas a utilizar
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic", "/queue", "/paginaSuscrita", "/nuevoPedidoWebSocket");
