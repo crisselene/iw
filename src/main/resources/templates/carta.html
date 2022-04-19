@@ -37,8 +37,8 @@
         <nav class="navbar-light bg-light">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <th:block th:each="cat,iter: ${categorias}"><!-- Se recorre la lista de categorias para crear los elementos de la navbar, el primero se pone como activo-->
-                    <button th:if="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
-                    <button th:unless="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.debugGetNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
+                    <button th:if="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.getNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="true">uno</button>
+                    <button th:unless="${iter.index} == 0" th:text="${cat.nombre}" class="nav-link" id="nav-home-tab" data-bs-toggle="tab" th:data-bs-target="'#'+${cat.getNombre()}" type="button" role="tab" aria-controls="nav-home" aria-selected="false">uno</button>
                 </th:block>
             </div>
           </nav>
@@ -80,7 +80,7 @@
                           <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
                         <!-- </th:block><br> -->
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
-                              <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                              <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.getName()}"style="margin-top: 10px;">Patatas bravas</button> 
                             </form>
                             <th:block th:if="${session.u}">
                               <th:block th:if="${session.u.hasRole('ADMIN')}">
@@ -106,7 +106,7 @@
                             <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
                             <br>
                             <form th:action = "@{/verPlato}">  <!-- antes value="${plato.debugGetName()}"  con lombock se puede acceder directamente a la variable como si fuera public-->
-                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.debugGetName()}"style="margin-top: 10px;">Patatas bravas</button> 
+                            <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.getName()}"style="margin-top: 10px;">Patatas bravas</button> 
                         </form>   
                         </div>
                     </div>
