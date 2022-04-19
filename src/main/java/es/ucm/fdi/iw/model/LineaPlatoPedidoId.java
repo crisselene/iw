@@ -13,4 +13,6 @@ import lombok.Data;
 public class LineaPlatoPedidoId implements Serializable{
     private long plato;
     private long pedido;
+
+    public LineaPlatoPedidoId(){};
 }
