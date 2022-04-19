@@ -23,6 +23,8 @@ if (ws.receive) {
     ws.receive = (m) => {//reescribe lo que hace la funcion receive
         oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
         /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+        //se accede como a un json , vamos, como se accede a un array xd
+        console.log("el id es: " + m["idPedido"]);
         console.log("mensaje webSocket llegado");
     }
 }

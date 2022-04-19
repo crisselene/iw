@@ -519,11 +519,6 @@ public class RootController {
 
 
        
-
-
-
-
-
         //diccionario id, cantidad diccionario[ID]=cantidad
         //
         log.info("HE LLEGADO PERRO");
