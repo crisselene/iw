@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let subs = ["/nuevoPedidoWebSocket"];
         ws.initialize(config.socketUrl, subs);
         console.log("suscribiendose a nuestra cosa /nuevoPedidoWebSocket");
-     
+
     } else {
         console.log("Not opening websocket: missing config", config)
     }
@@ -25,15 +25,35 @@ if (ws.receive) {
         /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
         //se accede como a un json , vamos, como se accede a un array xd
         console.log("el id es: " + m["idPedido"]);
+        console.log("M: ", m);//mensaje que muestra el objeto
 
-        //intorduzco el pedido en la tabla de nuevos pedidos
-        const enCurso = document.querySelector(".rowNuevosPed");
-        var nuevoPedi = createElement(div);
-        nuevoPedi.innerHTML = `
-        <div class="col" th:text="'Pedido: ' + ${m["idPedido"]} >`
-       // + ', Direccion: ' + ${m.getDireccion} + ', Cliente: ' + ${m.cliente.username}">`
-        
-        document.querySelector(".divCambiar").append(nuevoPedi);
+        //-------------------------intorduzco el pedido en la tabla de nuevos pedidos----------------------------------------------
+        /*crear un div nuevo, añadirle clase y contenido: 
+        https://developer.mozilla.org/es/docs/Web/API/Document/createElement
+        https://www.w3schools.com/jsref/met_document_createelement.asp          */
+
+        //contenido del div
+        var nuevoPedi = document.createElement("div");
+        nuevoPedi.className = "col"
+        var newContent = document.createTextNode('Pedido: ' + m["idPedido"]
+            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["emailCliente"]);
+        nuevoPedi.appendChild(newContent)
+
+        //boton aceptar
+        var nuevoAcep = document.createElement("button");
+        nuevoAcep.className = "aceptar verde"
+        nuevoAcep.innerText = "Aceptar"
+        nuevoPedi.appendChild(nuevoAcep)
+
+        //boton rechazar
+        var nuevoRech = document.createElement("button");
+        nuevoRech.className = "rechazar rojo"
+        nuevoRech.innerText = "Rechazar"
+        nuevoPedi.appendChild(nuevoRech)
+
+        //añadir el div a la tabla de pedidos pendientes
+        var pedidosPendientes = document.querySelector(".rowNuevosPed")
+        pedidosPendientes.append(nuevoPedi);
         console.log("mensaje webSocket llegado");
     }
 }
@@ -77,10 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         //eliminamos el boton aceptar para reemplazarlo por
                         //el boton modificar
                         botonAcep.remove();
-                        
+
                         //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                         var rech = div.querySelector(".rechazar")
-                        rech.innerHTML="Eliminar"
+                        rech.innerHTML = "Eliminar"
 
 
                         //console.log("SE PUEDE CAMBIAR")
