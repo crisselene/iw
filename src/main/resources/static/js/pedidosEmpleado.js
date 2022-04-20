@@ -34,7 +34,7 @@ if (ws.receive) {
 
         //contenido del div
         var nuevoPedi = document.createElement("div");
-        nuevoPedi.className = "col"
+        nuevoPedi.className = "col elemento"
         var newContent = document.createTextNode('Pedido: ' + m["idPedido"]
             + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["emailCliente"]);
         nuevoPedi.appendChild(newContent)
