@@ -16,7 +16,93 @@ document.addEventListener("DOMContentLoaded", () => {
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
 });
 
+// recibiendo los mensajes de webSockets
+if (ws.receive) {
+    const oldFn = ws.receive; // guarda referencia a manejador anterior
 
+    ws.receive = (m) => {//reescribe lo que hace la funcion receive
+
+        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
+        /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+        //se accede como a un json , vamos, como se accede a un array xd
+
+        console.log("el id es: " + m["idPedido"]);
+        console.log("M: ", m);//mensaje que muestra el objeto
+        //-------------------------intorduzco el pedido en la tabla de nuevos pedidos----------------------------------------------
+        /*crear un div nuevo, añadirle clase y contenido: 
+        https://developer.mozilla.org/es/docs/Web/API/Document/createElement
+        https://www.w3schools.com/jsref/met_document_createelement.asp          */
+
+
+        /*explicación:
+        hay 3 niveles: 
+        1. el divCambiar(cambioDiv) que es el que contiene al resto, dentro va el div col
+        2. el div col(nuevoPedi), que es el que establece las columnas y contiene la info, dentro van los botones
+        3. los dos botones de aceptar y rechazar
+        
+        vamos a ir creando cada uno a continuación con sus clases, e insertando sus hijos.
+        Despues al divCambiar(cambioDiv) le añadiremos el action listener sobre su boton aceptar 
+        y el boton rechazar*/
+
+        var pedidosPendientes = document.querySelector(".rowNuevosPed")
+        
+        //constante id del pedido
+        const id = m["idPedido"];
+
+        console.log("pendientes ", pedidosPendientes)
+        //divCambiar
+        var cambioDiv = document.createElement("div");
+        cambioDiv.className = "divCambiar elemento"
+
+        //contenido del div col
+        var nuevoPedi = document.createElement("div");
+        nuevoPedi.className = "col"
+        
+        var newContent = document.createTextNode('Pedido: ' + id
+            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["emailCliente"]);
+        nuevoPedi.appendChild(newContent)
+
+
+        //boton aceptar
+        var nuevoAcep = document.createElement("button");
+        nuevoAcep.className = "aceptar verde"
+        nuevoAcep.innerText = "Aceptar"
+
+
+        //boton rechazar
+        var nuevoRech = document.createElement("button");
+        nuevoRech.className = "rechazar rojo"
+        nuevoRech.innerText = "Rechazar"
+
+
+        //añadir el div a la tabla de pedidos pendientes
+        nuevoPedi.appendChild(nuevoAcep)
+        nuevoPedi.appendChild(nuevoRech)
+        cambioDiv.append(nuevoPedi)
+        pedidosPendientes.append(cambioDiv);
+        console.log("mensaje webSocket llegado");
+
+        //listener aceptar
+        document.querySelector(".divCambiar")
+        let params = { "idPed": id };
+        const enCurso = document.querySelector(".pedEnCurso");
+        nuevoAcep.addEventListener("click", l => {
+            aceptarPedido(nuevoAcep,id,nuevoPedi,enCurso,params)
+        })
+
+        //listener rechazar
+        cambioDiv.querySelector(".rechazar").addEventListener("click", k => {
+            console.log("Rechazando elemento id", id)
+            let confirmAction = confirm("¿Quiere eliminar este pedido?");
+            if (confirmAction) {
+                eliminar(k, params)
+                nuevoPedi.remove()
+            }
+
+        })
+
+    }
+}
 
 
 
@@ -88,78 +174,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
 })
-
-// recibiendo los mensajes de webSockets
-if (ws.receive) {
-    const oldFn = ws.receive; // guarda referencia a manejador anterior
-
-    ws.receive = (m) => {//reescribe lo que hace la funcion receive
-
-        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
-        /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
-        //se accede como a un json , vamos, como se accede a un array xd
-
-        console.log("el id es: " + m["idPedido"]);
-        console.log("M: ", m);//mensaje que muestra el objeto
-        //-------------------------intorduzco el pedido en la tabla de nuevos pedidos----------------------------------------------
-        /*crear un div nuevo, añadirle clase y contenido: 
-        https://developer.mozilla.org/es/docs/Web/API/Document/createElement
-        https://www.w3schools.com/jsref/met_document_createelement.asp          */
-
-
-        /*explicación:
-        hay 3 niveles: 
-        1. el divCambiar(cambioDiv) que es el que contiene al resto, dentro va el div col
-        2. el div col(nuevoPedi), que es el que establece las columnas y contiene la info, dentro van los botones
-        3. los dos botones de aceptar y rechazar
-        
-        vamos a ir creando cada uno a continuación con sus clases, e insertando sus hijos.
-        Despues al divCambiar(cambioDiv) le añadiremos el action listener sobre su boton aceptar 
-        y el boton rechazar*/
-
-        var pedidosPendientes = document.querySelector(".rowNuevosPed")
-        console.log("pendientes ", pedidosPendientes)
-        //divCambiar
-        var cambioDiv = document.createElement("div");
-        cambioDiv.className = "divCambiar elemento"
-
-        //contenido del div col
-        var nuevoPedi = document.createElement("div");
-        nuevoPedi.className = "col"
-        var newContent = document.createTextNode('Pedido: ' + m["idPedido"]
-            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["emailCliente"]);
-        nuevoPedi.appendChild(newContent)
-
-
-        //boton aceptar
-        var nuevoAcep = document.createElement("button");
-        nuevoAcep.className = "aceptar verde"
-        nuevoAcep.innerText = "Aceptar"
-
-
-        //boton rechazar
-        var nuevoRech = document.createElement("button");
-        nuevoRech.className = "rechazar rojo"
-        nuevoRech.innerText = "Rechazar"
-
-
-        //añadir el div a la tabla de pedidos pendientes
-        nuevoPedi.appendChild(nuevoAcep)
-        nuevoPedi.appendChild(nuevoRech)
-        cambioDiv.append(nuevoPedi)
-        pedidosPendientes.append(cambioDiv);
-        console.log("mensaje webSocket llegado");
-
-        //listener
-        document.querySelector(".divCambiar")
-        let params = { "idPed": m["idPedido"] };
-        const enCurso = document.querySelector(".pedEnCurso");
-        nuevoAcep.addEventListener("click", l => {
-            aceptarPedido(nuevoAcep,m["idPedido"],nuevoPedi,enCurso,params)
-        })
-
-    }
-}
 
 //Función para cuando se le da al botón modificar
 function modify(e) {
