@@ -23,20 +23,20 @@
             <div class="col-md-5">
 
                 <div class="row paramsrow">
-                    <form id="paramsRestaurante" th:action="@{/}" onsubmit="return false;" style="margin-top: 4%; margin-left: 2%;">
+                    <form id="paramsRestauranteForm" th:method="POST" onsubmit="return false;" style="margin-top: 4%; margin-left: 2%;">
                         <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
-                        <input type="number" id="maxPedidosHora" style="width:15%" th:value="${params.maxPedidosHora}"> <!-- creo q el 15% es respecto al padre?-->
+                        <input type="number" id="maxPedidosHora" min="0" max="999" style="width:15%" th:value="${params.maxPedidosHora}"> <!-- creo q el 15% es respecto al padre?-->
                         <br>
                         <label for="inicioReservas">Horas posibles para reservar(00-23h):&nbsp;</label>
                         <input type="number" id="inicioReservas" min="00" max="23" th:value="${params.horaIni}" style="width:10%; margin-top: 5%;">
                         &nbsp;a&nbsp;
                         <input type="number" id="finalReservas"  min="00" max="23" th:value="${params.horaFin}" style="width:10%; margin-top: 5%;"> <!-- aqui no haria falta margin top pq ya esta en el otro input-->
                         <br>
-                        <label for="maxReservas">Número máximo de reservas:&nbsp;</label>
-                        <input type="number" id="maxReservas" th:value="${params.maxReservas}" style="width:15%; margin-top: 5%;">
+                        <label for="maxReservas">Número máximo de reservas (mesas):&nbsp;</label>
+                        <input type="number" id="maxReservas" min="0" th:value="${params.maxReservas}" style="width:15%; margin-top: 5%;">
                         <br>
                         <label for="personasMesa">Número de personas por mesa:&nbsp;</label>
-                        <input type="number" id="personasMesa" th:value="${params.personasMesa}" style="width:15%; margin-top: 5%;">
+                        <input type="number" id="personasMesa" min="0" th:value="${params.personasMesa}" style="width:15%; margin-top: 5%;">
                         <br>
                         <button type="submit" id="guardarParams" class="btn btn-primary" style="margin-top:5%">Guardar</button>
                     </form>

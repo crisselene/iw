@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.ucm.fdi.iw.model.Categoria;
+import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
@@ -48,6 +50,9 @@ public class RootController {
 
     @Autowired
 	private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private PasswordEncoder PasswordEncoder;
 
     private SAGeneralImp saGeneral = new SAGeneralImp();
 	private static final Logger log = LogManager.getLogger(RootController.class);
@@ -412,17 +417,15 @@ public class RootController {
     public String configuracion(Model model) {
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
         List<User> listaEmpleados = new ArrayList<User>();
+        ConfiguracionRestaurante config = null;
 
         listaCategorias = saGeneral.listarCategorias(em);
         listaEmpleados = saGeneral.listarEmpleados(em);
+        config = saGeneral.getConfiguracion(em);
 
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);
-
-        /* model.addAttribute("listaEmpleados", List.of("empleado1", "empleado2", "empleado3", "empleado5", "empleado4"
-        , "empleado0", "empleado6", "empleado10", "empleado11", "empleado12", "empleado13"));
-
-        model.addAttribute("listaCategorias", List.of("Entrantes", "Carnes","Pastas","Burguers","Pizzas","Tacos","Ensaladas")); */
+        model.addAttribute("params", config);
 
         return "configuracion";
     }
@@ -508,6 +511,23 @@ public class RootController {
         //log.info(idUsuario);
 
         saGeneral.borrarCategoria(em, idCategoria);
+
+        return "{\"isok\": \"true\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/actualizarParametrosRestaurante", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String actualizarParametrosRestaurante(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de actualizarParametrosRestaurante -------------");
+    
+        int personasMesa = o.get("personasMesa").asInt();
+        int maxPedidosHora = o.get("maxPedidosHora").asInt();
+        int horaIni = o.get("horaIni").asInt();
+        int horaFin = o.get("horaFin").asInt();
+        int maxReservas = o.get("maxReservas").asInt();
+
+        saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas);
 
         return "{\"isok\": \"true\"}";//devuelve un json como un string
     }

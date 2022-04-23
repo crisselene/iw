@@ -206,58 +206,6 @@ public class SAGeneralImp{
         
     }
 
-    
-
-    /* public long crearCategoria(EntityManager em, long id, String nombre){
-        long idDevolver = -1;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Categoria c = null;
-            c = em.find(Categoria.class, id);
-            if(c!=null){
-                if(!c.isActivo()){
-                    c.setActivo(true);
-                    idDevolver=id;
-                }
-                t.rollback();
-            }
-            else {
-                c = new Categoria(nombre);
-                em.persist(c);
-                t.commit();
-                idDevolver = c.getId();
-            }
-
-        }catch(Exception e){
-
-        }
-        return idDevolver;
-    } */
-
-    public long eliminarCategoria(EntityManager em, long id){
-        long idDevolver = -1;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Categoria c = null;
-            c = em.find(Categoria.class, id);
-            if(c!=null){
-                if(c.isActivo() == true){
-                    c.setActivo(false);
-                    t.commit();
-                    idDevolver = c.getId();
-                }
-                else t.rollback();
-                
-            }
-            else t.rollback();
-        }catch(Exception e){
-
-        }
-        return idDevolver;
-    }
-
     public List<Reserva> listarReservasFecha(EntityManager em, String fecha){
         List<Reserva> reservas = null;
         Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Reserva.findByFecha", Reserva.class);
@@ -277,31 +225,15 @@ public class SAGeneralImp{
         return c;
     }
     
-    public boolean actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
-        boolean correcto = false;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            ConfiguracionRestaurante c = null;
-            c = em.find(ConfiguracionRestaurante.class, 1);
-            //Si existe la configuracion (deberia existir siempre) lo actualizamos
-            if(c != null){
-                c.setPersonasMesa(personasMesa);
-                c.setMaxPedidosHora(maxPedidosHora);
-                c.setHoraIni(horaIni);
-                c.setHoraFin(horaFin);
-                c.setMaxReservas(maxReservas);
-
-                correcto = true;
-                t.commit();
-            }
-            else t.rollback(); //Si no la encuentra la cancelamos
-
-        }catch(Exception e){
-
-        }
-
-        return correcto;
+    public void actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
+        Long id = (long) 1;
+        
+        ConfiguracionRestaurante config = em.find(ConfiguracionRestaurante.class, id); // id 1 para sobrescribir siempre lo mismo
+        config.setHoraFin(horaFin);
+        config.setHoraIni(horaIni);
+        config.setMaxPedidosHora(maxPedidosHora);
+        config.setMaxReservas(maxReservas);
+        config.setPersonasMesa(personasMesa);
     }
 
     public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){

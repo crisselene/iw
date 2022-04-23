@@ -208,17 +208,55 @@ function nuevaCategoria(){
                 ajaxBorrarCategoria(div, d["idCategoria"]);
     })
     .catch(() => {console.log("Error en catch anadir categoria");//si el username ya existia
-                username.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
-                username.reportValidity();
+                categoria.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
+                categoria.reportValidity();
     })
 }
 
 function actualizarParams() {
-    let maxPedidosHora = document.getElementById("maxPedidosHora").value;
-    let inicioReservas = document.getElementById("inicioReservas").value;
-    let finalReservas = document.getElementById("finalReservas").value;
-    let maxReservas = document.getElementById("maxReservas").value;
-    let personasMesa = document.getElementById("personasMesa").value;
-    let guardarParams = document.getElementById("guardarParams").value;
+    let maxPedidosHora = document.getElementById("maxPedidosHora");
+    let inicioReservas = document.getElementById("inicioReservas");
+    let finalReservas = document.getElementById("finalReservas");
+    let maxReservas = document.getElementById("maxReservas");
+    let personasMesa = document.getElementById("personasMesa");
+
     console.log("atualizar params");
+
+    const myForm = document.getElementById("paramsRestauranteForm");
+
+    // comprobamos que el intervalo de hora de inicio de reservas y de fin tenga sentido
+    if(finalReservas.value <= inicioReservas.value) {
+        inicioReservas.setCustomValidity("La hora de inicio ha de ser menor que la de fin");
+    } else {
+        inicioReservas.setCustomValidity("");
+
+        let params = {"maxPedidosHora" : maxPedidosHora.value,
+                "horaIni" : inicioReservas.value,
+                "horaFin" : finalReservas.value,
+                "maxReservas" : maxReservas.value,
+                "personasMesa" : personasMesa.value }
+
+        console.log("maxPedidosHora" + maxPedidosHora.value)
+        console.log("horaIni" + inicioReservas.value)
+        console.log("horaFin" + finalReservas.value)
+        console.log("maxReservas" + maxReservas.value)
+        console.log("personasMesa" + personasMesa.value)
+
+        console.log(params)
+
+        go(config.rootUrl + "/actualizarParametrosRestaurante", 'POST', params)
+        .then(d => {console.log("todo ok") // va ok si el username no existe
+                    // categoria.setCustomValidity("");
+                    
+        })
+        .catch(() => {console.log("Error en catch actualizar params");//si el username ya existia
+                    // categoria.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
+                    // categoria.reportValidity();
+        })
+    }
+    
+    if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
+    {
+        myForm.reportValidity();
+    }
 }
