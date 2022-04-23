@@ -10,9 +10,8 @@ anadirCategoriaButton.addEventListener("click", nuevaCategoria);
 
 const anadirCategoriaModal = new bootstrap.Modal(document.querySelector('#anadirCategoriaModal'));
 
-/* const cerrarBtn = document.getElementById("cerrarModal").addEventListener("click", function(){
-    modalAnadirEmpleado.hide();
-}) */
+const guardarParamsButton = document.getElementById("guardarParams");
+guardarParamsButton.addEventListener("click", actualizarParams);
 
 function nuevoEmpleado()
 {
@@ -212,4 +211,14 @@ function nuevaCategoria(){
                 username.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
                 username.reportValidity();
     })
+}
+
+function actualizarParams() {
+    let maxPedidosHora = document.getElementById("maxPedidosHora").value;
+    let inicioReservas = document.getElementById("inicioReservas").value;
+    let finalReservas = document.getElementById("finalReservas").value;
+    let maxReservas = document.getElementById("maxReservas").value;
+    let personasMesa = document.getElementById("personasMesa").value;
+    let guardarParams = document.getElementById("guardarParams").value;
+    console.log("atualizar params");
 }

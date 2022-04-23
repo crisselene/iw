@@ -12,7 +12,7 @@
 /* Cuadro de la parte superior izquierda con los parametros del restaurante */
 .paramsrow{
     background-color: #783848;
-    height: 250px;
+    height: 20em;
     border-radius: 10px;
     color:#F2E4D8;
 }
@@ -41,7 +41,7 @@
 }
 
 .emplist{
-    height: 600px;
+    height: 42em;
     background-color:#783848;
     overflow: auto;
     border-radius: 10px;
