@@ -31,6 +31,7 @@ import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Valoracion;
 import es.ucm.fdi.iw.model.Reserva.Transfer;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
@@ -324,6 +325,15 @@ public class RootController {
     @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
     public String verPlato(Model model,  @RequestParam(required = true) Long platoElegidoId) {
         Plato p = saGeneral.buscarPlato(em, platoElegidoId);
+
+        List<Valoracion> valoraciones = saGeneral.listarValoracionesPlato(em, p.getId());
+        
+
+        for (Valoracion valoracion : valoraciones) {
+            log.info("valoracion: " + valoracion.getDescripcion());
+        }
+
+        model.addAttribute("valoraciones", valoraciones);
 
         log.info("plato elegido" + p.getNombre());
 

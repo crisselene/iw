@@ -60,8 +60,27 @@
         <div>
             <h2>Comentarios</h2>
             <ul id="listcomentario">
+              <th:block th:each="val,iter: ${valoraciones}">
+
                 <li>
+                  <div class="comentario">
+                    
+                    <h3 class="nombreUs" th:text="${val.getCliente().getUsername()} + ' dice:'"></h3>
+                    <div class="ContenedorEstrellas">
+                      <p class="star" th:each="i : ${#numbers.sequence(1, val.rate, 1)}">⭐</p> <!--th:text="${i}"-->
+                    </div>
+                     <!--  <img src="img/default-pic.jpg"  class="usuario" > -->
+                     <!--  <aside>comentario</aside> -->
+                      <p th:text="${val.descripcion}"></p><!-- th:value="@{/img/platos/{id}.jpg(id=${plato.id})}" -->
+                      <!-- <img src="img/valoracion.png"  class="valorar" > -->
+                  </div>
+                </li>
+
+
+              </th:block>
+               <!--  <li>
                     <div class="comentario">
+                      <p> </p>
                         <img src="img/default-pic.jpg"  class="usuario" >
                         <aside>comentario</aside>
                         <img src="img/valoracion.png"  class="valorar" >
@@ -81,7 +100,7 @@
                         <aside>comentario</aside>
                         <img src="img/valoracion.png"  class="valorar" >
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
 

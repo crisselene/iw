@@ -97,3 +97,20 @@ h2{
    max-height: 100px;
    max-width: 80px;
 }
+
+.ContenedorEstrellas
+{
+   width: 14%;
+   display: inline-block;
+   text-align: right;
+}
+
+.star{
+   
+   display: inline-block;
+  
+}
+.nombreUs{
+   width: 85%;
+   display: inline-block
+}

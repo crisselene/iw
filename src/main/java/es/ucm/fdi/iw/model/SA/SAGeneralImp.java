@@ -22,6 +22,7 @@ import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Valoracion;
 import lombok.Data;
 
 @Data
@@ -85,6 +86,12 @@ public class SAGeneralImp{
 
         return idDevolver;
     }
+
+/*     public User getUsuario(EntityManager em, long idUsuario)
+    {
+        User u = em.find(User.class, idUsuario);
+        return u;
+    } */
 
     public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
     String lastName, String pass, String roles, String telf, String username, Boolean enabled){
@@ -188,6 +195,15 @@ public class SAGeneralImp{
         p.setActivo(false);
 
         return true;
+    }
+
+    public List<Valoracion> listarValoracionesPlato(EntityManager em, long idPlato){
+        Plato p = em.find(Plato.class, idPlato);
+        return p.getValoraciones();
+       /*  List<Plato> platos = null;
+        platos = em.createQuery("SELECT p FROM Plato p").getResultList();        
+        return platos; */
+        
     }
 
     
