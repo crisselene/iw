@@ -59,7 +59,7 @@ if (ws.receive) {
         nuevoPedi.className = "col"
         
         var newContent = document.createTextNode('Pedido: ' + id
-            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["emailCliente"]);
+            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
         nuevoPedi.appendChild(newContent)
 
 
@@ -98,7 +98,6 @@ if (ws.receive) {
                 eliminar(k, params)
                 nuevoPedi.remove()
             }
-
         })
 
     }

@@ -10,9 +10,14 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +45,7 @@ import es.ucm.fdi.iw.model.User.Role;
 import netscape.javascript.JSException;
 
 /**
- *  Non-authenticated requests only.
+ * Non-authenticated requests only.
  */
 @Controller
 public class RootController {
@@ -49,169 +54,188 @@ public class RootController {
     private EntityManager em;
 
     @Autowired
-	private SimpMessagingTemplate messagingTemplate;
+    private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     private PasswordEncoder PasswordEncoder;
 
     private SAGeneralImp saGeneral = new SAGeneralImp();
-	private static final Logger log = LogManager.getLogger(RootController.class);
+    private static final Logger log = LogManager.getLogger(RootController.class);
 
-	@GetMapping("/login")
+    @GetMapping("/login")
     public String login(Model model) {
         return "login";
     }
 
-	@GetMapping("/")
+    @GetMapping("/")
     public String index(Model model) {
         return "index";
     }
 
-   
     @PostMapping(path = "/aceptarPed", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String aceptarPed(Model model, @RequestBody JsonNode o  /* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+    public String aceptarPed(Model model,
+            @RequestBody JsonNode o /* @RequestParam(required = true) String params */ /*
+                                                                                        * @RequestBody JsonNode params
+                                                                                        */ ) {
         log.info("entrando a aceptarPed rootController");
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        boolean encur= saGeneral.pedidoEnCurso(em,id);
-        return "{\"encurso\":" + encur +"}";
+        boolean encur = saGeneral.pedidoEnCurso(em, id);
+        return "{\"encurso\":" + encur + "}";
     }
 
     @PostMapping(path = "/eliminarPed", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String eliminarPed(Model model, @RequestBody JsonNode o  /* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
+    public String eliminarPed(Model model,
+            @RequestBody JsonNode o /* @RequestParam(required = true) String params */ /*
+                                                                                        * @RequestBody JsonNode params
+                                                                                        */ ) {
         log.info("entrando a eliminarPed rootController");
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        boolean elm= saGeneral.eliminarPedido(em,id);
-        return "{\"eliminado\":" + elm +"}";
+        boolean elm = saGeneral.eliminarPedido(em, id);
+        return "{\"eliminado\":" + elm + "}";
     }
 
-    //Importante, necesario dar permisos a esta "direccion" en el security config a los roles que puedan usar esta funcioonalidad
+    // Importante, necesario dar permisos a esta "direccion" en el security config a
+    // los roles que puedan usar esta funcioonalidad
     /*
-    para ajax con get necesario:
-    En el controller:
-    @GetMapping
-    @RequestParam tipo nombreParametro
-    No usa @RequestBody ya que los get no tienen body
+     * para ajax con get necesario:
+     * En el controller:
+     * 
+     * @GetMapping
+     * 
+     * @RequestParam tipo nombreParametro
+     * No usa @RequestBody ya que los get no tienen body
+     * 
+     * En javascript:
+     * En go, la url debe seguir el formato config.rootUrl +
+     * "/path?nombreParametro=valorParametro"
+     */
 
-    En javascript:
-    En go, la url debe seguir el formato config.rootUrl + "/path?nombreParametro=valorParametro"
-    */
-    
-//    @PostMapping(path = "/nuevoPlato", produces = "application/json")
-//    @Transactional // para no recibir resultados inconsistentes
-//    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-//    public String demoajax(Model model, @RequestBody JsonNode o/* @RequestParam(required = true) String params */ /* @RequestBody JsonNode params */ ) {
- /*        log.info("demoAjax");
-        
-        String nombre = o.get("nombrePlato").asText();
-        String categoria = o.get("categoriaPlato").asText();
-        String precioString = o.get("precioPlato").asText();
-        Float precio = Float.parseFloat(precioString);
-        String desc = o.get("descripcionPlato").asText();
+    // @PostMapping(path = "/nuevoPlato", produces = "application/json")
+    // @Transactional // para no recibir resultados inconsistentes
+    // @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    // public String demoajax(Model model, @RequestBody JsonNode o/*
+    // @RequestParam(required = true) String params */ /* @RequestBody JsonNode
+    // params */ ) {
+    /*
+     * log.info("demoAjax");
+     * 
+     * String nombre = o.get("nombrePlato").asText();
+     * String categoria = o.get("categoriaPlato").asText();
+     * String precioString = o.get("precioPlato").asText();
+     * Float precio = Float.parseFloat(precioString);
+     * String desc = o.get("descripcionPlato").asText();
+     * 
+     * //String aux = o.get("clave").asText();
+     * log.info("DatosAjax - Nuevo plato");
+     * log.info("nombre: " + nombre);
+     * log.info("categoria: " + categoria);
+     * log.info("precio: " + precio);
+     * log.info("descripcion: " + desc);
+     * 
+     * if(nombre.equals("especial"))//simulacion de ha ocurrido un error y quiero
+     * que se ejecute el catch del javascript, devolviendo null
+     * {
+     * log.info("entraEnElIf");
+     * return null;
+     * }
+     * 
+     * return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+     * }
+     */
 
-        //String aux = o.get("clave").asText();
-        log.info("DatosAjax - Nuevo plato");
-        log.info("nombre: " + nombre);
-        log.info("categoria: " + categoria);
-        log.info("precio: " + precio);
-        log.info("descripcion: " + desc);
+    @GetMapping("carta") // al final no se ha utilizado el parametro del get, pero se deja como
+                         // refernecia para saber hacerlo en un futuro
+    public String cartaPlatosCategoria(Model model/* , @RequestParam(required = false) String catElegida */) {
 
-        if(nombre.equals("especial"))//simulacion de ha ocurrido un error y quiero que se ejecute el catch del javascript, devolviendo null
-        {
-            log.info("entraEnElIf");
-            return null;
-        }
-
-        return "{\"isok\": \"todobien\"}";//devuelve un json como un string
-    } */
-
-
-    @GetMapping("carta")//al final no se ha utilizado el parametro del get, pero se deja como refernecia para saber hacerlo en un futuro
-    public String cartaPlatosCategoria(Model model/*, @RequestParam(required = false) String catElegida*/) {
-        
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
         listaCategorias = saGeneral.listarCategorias(em);
 
-        for(Categoria cat : listaCategorias)
-        {
+        for (Categoria cat : listaCategorias) {
             log.info(cat.getNombre());
-            for(Plato p : cat.getPlatos())
+            for (Plato p : cat.getPlatos())
                 log.info("-" + p.getNombre());
         }
 
         model.addAttribute("categorias", listaCategorias);
-       
-       
+
         return "carta";
     }
 
     @PostMapping("nuevoPlato2")
     @Transactional
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String nuevoPlato2(@RequestParam("imgPlato") MultipartFile photo, 
-                            @RequestParam("nombrePlato") String nombre,
-                            @RequestParam("categoriaPlato") String categoria,
-                            @RequestParam("precioPlato") Float precio,
-                            @RequestParam("descripcionPlato") String desc
-                           /*  @PathVariable long id, 
-    HttpServletResponse response ,*/ /* HttpSession session ,*//*  Model model */) {
-       log.info("creando plato");
+    public String nuevoPlato2(@RequestParam("imgPlato") MultipartFile photo,
+            @RequestParam("nombrePlato") String nombre,
+            @RequestParam("categoriaPlato") String categoria,
+            @RequestParam("precioPlato") Float precio,
+            @RequestParam("descripcionPlato") String desc
+    /*
+     * @PathVariable long id,
+     * HttpServletResponse response ,
+     */ /* HttpSession session , *//* Model model */) {
+        log.info("creando plato");
 
-       /*  long idAsignada = saGeneral.crearPlato(em, nombre, desc, categoria, precio); */
+        /*
+         * long idAsignada = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
+         */
         Long idP = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
 
-        //localdata == /temp/iwdata
-        //String myimg = new File("src/main/resources/static/img/platos").getAbsolutePath();
+        // localdata == /temp/iwdata
+        // String myimg = new
+        // File("src/main/resources/static/img/platos").getAbsolutePath();
 
-        //se crea el fichero en ese directorio, y el nombre de las imagenes se correspondera con su id
-        File img = new File("src/main/resources/static/img/platos", idP +".jpg"); 
+        // se crea el fichero en ese directorio, y el nombre de las imagenes se
+        // correspondera con su id
+        File img = new File("src/main/resources/static/img/platos", idP + ".jpg");
 
-        //log.info("dir pics:" + myimg);
+        // log.info("dir pics:" + myimg);
         /* File f = localData.getFile("user", "pic.jpg"); */
-        //File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
-        //File f2 = localData.getFile("/img/platos", "p13.jpg");
-        //log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
-       
-		if (photo.isEmpty()) {
-			log.info("failed to upload photo: emtpy file?");
-            return null;
-		} else {
-			try (BufferedOutputStream stream =
-					new BufferedOutputStream(new FileOutputStream(img))) {
-				byte[] bytes = photo.getBytes();
-				stream.write(bytes);
-				log.info("la ruta es: " + img.getAbsolutePath());
-			} catch (Exception e) {
-                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				//log.warn("Error uploading " + id + " ", e);
-                return null;
-			}
-		}
+        // File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
+        // File f2 = localData.getFile("/img/platos", "p13.jpg");
+        // log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
 
-        /* saGeneral.crearPlato(em, nombre, desc, categoria, precio, f.getAbsolutePath()); */
-       // saGeneral.updatePlatoRutaImg(em, p, dirImg.getAbsolutePath());
+        if (photo.isEmpty()) {
+            log.info("failed to upload photo: emtpy file?");
+            return null;
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(img))) {
+                byte[] bytes = photo.getBytes();
+                stream.write(bytes);
+                log.info("la ruta es: " + img.getAbsolutePath());
+            } catch (Exception e) {
+                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                // log.warn("Error uploading " + id + " ", e);
+                return null;
+            }
+        }
+
+        /*
+         * saGeneral.crearPlato(em, nombre, desc, categoria, precio,
+         * f.getAbsolutePath());
+         */
+        // saGeneral.updatePlatoRutaImg(em, p, dirImg.getAbsolutePath());
         String dataToReturn = "{";
-        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "\"idPlato\": \"" + idP + "\"";
         dataToReturn += "}";
-        
 
         log.info("datos recibidos nuevo plato: ");
         log.info("nombre: " + nombre);
         log.info("categoria: " + categoria);
         log.info("precio: " + precio.toString());
         log.info("descripcion: " + desc);
-       // log.info("ruta imagen: " + f.getAbsolutePath());
+        // log.info("ruta imagen: " + f.getAbsolutePath());
 
-       //return "{\"isok\": \"todobien\"}";//devuelve un json como un string
-       return dataToReturn;
+        // return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+        return dataToReturn;
     }
 
     @PostMapping("deletePlato")
@@ -222,66 +246,63 @@ public class RootController {
         saGeneral.deletePlato(em, idPlato);
 
         String dataToReturn = "{";
-        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "\"idPlato\": \"" + idPlato + "\"";
         dataToReturn += "}";
         log.info("borrando plato");
 
-       return dataToReturn;
+        return dataToReturn;
     }
 
     @PostMapping("updatePlato")
     @Transactional
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String updatePlato(@RequestParam("nombrePlato") String nombre,
-                            @RequestParam("categoriaPlato") String categoria,
-                            @RequestParam("precioPlato") Float precio,
-                            @RequestParam("descripcionPlato") String desc,
-                            @RequestParam("idPlato") long idPlato) {
+            @RequestParam("categoriaPlato") String categoria,
+            @RequestParam("precioPlato") Float precio,
+            @RequestParam("descripcionPlato") String desc,
+            @RequestParam("idPlato") long idPlato) {
 
         Long idP = saGeneral.updatePlato(em, nombre, desc, categoria, precio, idPlato);
 
         String dataToReturn = "{";
-        dataToReturn += "\"idPlato\": \""+ idP + "\"";
+        dataToReturn += "\"idPlato\": \"" + idP + "\"";
         dataToReturn += "}";
         log.info("actualizando plato");
 
-       return dataToReturn;
+        return dataToReturn;
     }
 
     @PostMapping("updateImgPlato")
     @Transactional
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String updateImgPlato(@RequestParam("imgPlato") MultipartFile photo,
-                                @RequestParam("idPlato") long idPlato) {
+            @RequestParam("idPlato") long idPlato) {
 
-        File img = new File("src/main/resources/static/img/platos", idPlato +".jpg"); 
-       
-		if (photo.isEmpty()) {
-			log.info("failed to upload photo: emtpy file?");
+        File img = new File("src/main/resources/static/img/platos", idPlato + ".jpg");
+
+        if (photo.isEmpty()) {
+            log.info("failed to upload photo: emtpy file?");
             return null;
-		} else {
-			try (BufferedOutputStream stream =
-					new BufferedOutputStream(new FileOutputStream(img))) {
-				byte[] bytes = photo.getBytes();
-				stream.write(bytes);
-				log.info("la ruta es: " + img.getAbsolutePath());
-			} catch (Exception e) {
-                //response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				//log.warn("Error uploading " + id + " ", e);
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(img))) {
+                byte[] bytes = photo.getBytes();
+                stream.write(bytes);
+                log.info("la ruta es: " + img.getAbsolutePath());
+            } catch (Exception e) {
+                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                // log.warn("Error uploading " + id + " ", e);
                 return null;
-			}
-		}
-
-
+            }
+        }
 
         log.info("actualizando imagen plato");
 
         String dataToReturn = "{";
-        dataToReturn += "\"idPlato\": \""+ idPlato + "\"";
+        dataToReturn += "\"idPlato\": \"" + idPlato + "\"";
         dataToReturn += "}";
         log.info("actualizando plato");
 
-       return dataToReturn;
+        return dataToReturn;
     }
 
     @GetMapping("hacerPedido")
@@ -290,49 +311,46 @@ public class RootController {
 
         listaCategorias = saGeneral.listarCategorias(em);
 
-        for(Categoria cat : listaCategorias){
+        for (Categoria cat : listaCategorias) {
             log.info(cat.getNombre());
-            for(Plato p : cat.getPlatos())
+            for (Plato p : cat.getPlatos())
                 log.info("-" + p.getNombre());
         }
 
-        model.addAttribute("categorias", listaCategorias); //Que tiene los platos
-       
+        model.addAttribute("categorias", listaCategorias); // Que tiene los platos
+
         return "hacerPedido";
     }
-    
+
     @GetMapping("reservarMesa")
     public String reservarMesa(Model model) {
         return "reservarMesaSimple";
     }
 
-
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
     @Transactional
-    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String info){
+    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String info) {
         String[] parts = info.split("_");
         String date = parts[0];
         Integer personas = Integer.parseInt(parts[1]);
 
         List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
         String js = null;
-        if(reservas != null){
+        if (reservas != null) {
             log.info("Probandoooo");
             log.info(reservas.stream().map(Transferable::toTransfer).collect(Collectors.toList()));
             return reservas;
-        }
-        else return null;       
+        } else
+            return null;
     }
 
-
-
-    @GetMapping("verPlato")//por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas adelante deberia de ser su id
-    public String verPlato(Model model,  @RequestParam(required = true) Long platoElegidoId) {
+    @GetMapping("verPlato") // por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas
+                            // adelante deberia de ser su id
+    public String verPlato(Model model, @RequestParam(required = true) Long platoElegidoId) {
         Plato p = saGeneral.buscarPlato(em, platoElegidoId);
 
         List<Valoracion> valoraciones = saGeneral.listarValoracionesPlato(em, p.getId());
-        
 
         for (Valoracion valoracion : valoraciones) {
             log.info("valoracion: " + valoracion.getDescripcion());
@@ -344,75 +362,85 @@ public class RootController {
 
         model.addAttribute("plato", p);
 
-
-
         model.addAttribute("nombrePlato", platoElegidoId);
-
 
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
         listaCategorias = saGeneral.listarCategorias(em);
 
-       /*  for(Categoria cat : listaCategorias)
-        {
-            log.info(cat.getNombre());
-            for(Plato p : cat.getPlatos())
-                log.info("-" + p.getNombre());
-        } */
+        /*
+         * for(Categoria cat : listaCategorias)
+         * {
+         * log.info(cat.getNombre());
+         * for(Plato p : cat.getPlatos())
+         * log.info("-" + p.getNombre());
+         * }
+         */
 
         model.addAttribute("categorias", listaCategorias);
 
         return "verPlato";
     }
 
-  /*  @GetMapping("verReservas")
-    public String verReservas(Model model) {
-        return "verReservas";
-    }*/
+    /*
+     * @GetMapping("verReservas")
+     * public String verReservas(Model model) {
+     * return "verReservas";
+     * }
+     */
 
     @GetMapping("verReservas")
     public String verReservas(Model model, HttpSession session) {
-        User u= (User) session.getAttribute("u");
+        User u = (User) session.getAttribute("u");
 
         List<Reserva> listaReservas = new ArrayList<Reserva>();
 
-        //listaReservas = saGeneral.listarReservas(em);
-        // Se diferencia entre empleados y user porque los empleados necesitaran añadir todas las reservas existentes al modelo
-        // mientras que el usuario solo necesita añadir al modelo las reservas que le correspondan a él
-        if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
-        {
+        // listaReservas = saGeneral.listarReservas(em);
+        // Se diferencia entre empleados y user porque los empleados necesitaran añadir
+        // todas las reservas existentes al modelo
+        // mientras que el usuario solo necesita añadir al modelo las reservas que le
+        // correspondan a él
+        if (u.hasAnyRole(Role.ADMIN, Role.EMPLEADO)) {
             listaReservas = saGeneral.listarReservas(em);
-  
-            //Reserva re = new Reserva(1, null, 7, true, u);
+
+            // Reserva re = new Reserva(1, null, 7, true, u);
             /* listaReservas.add(re); */
             log.info("@@@@@@1");
-            //log.info(re.getPersonas());
-            
-            /* for(Reserva r : listaReservas){
-                log.info(r.getPersonas());
-            } */
+            // log.info(re.getPersonas());
+
+            /*
+             * for(Reserva r : listaReservas){
+             * log.info(r.getPersonas());
+             * }
+             */
             model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
-        }
-        else{
-            /* listaReservas = em.createNamedQuery("Reserva.reservasUsuario", Reserva.class)
-                    .setParameter("iduser", u.getId())
-                    .getResultList(); */
+        } else {
+            /*
+             * listaReservas = em.createNamedQuery("Reserva.reservasUsuario", Reserva.class)
+             * .setParameter("iduser", u.getId())
+             * .getResultList();
+             */
             listaReservas = saGeneral.listarReservasUsuario(em, u);
 
-            /* listaReservas = em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").getResultList(); */
+            /*
+             * listaReservas =
+             * em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").
+             * getResultList();
+             */
             log.info("@@@@@@@4");
-            /* for(Reserva r: listaReservas)
-            {
-                log.info(r.getCliente().getId());
-            } */
-        
+            /*
+             * for(Reserva r: listaReservas)
+             * {
+             * log.info(r.getCliente().getId());
+             * }
+             */
+
             model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
         }
-        
+
     }
 
-    
     @GetMapping("configuracion")
     public String configuracion(Model model) {
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
@@ -435,15 +463,14 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de anadirEmpleado -------------");
-    
+
         String username = o.get("username").asText();
         long idUsuario;
 
-        if(saGeneral.existeUsuario(em, username))
-        {
+        if (saGeneral.existeUsuario(em, username)) {
             log.info("usuario ya existe (rootController anadirEmpleado)");
             return null;
-        }else{
+        } else {
             log.info("------------------------------");
             log.info(o.get("nombreEmpleado").asText());
             log.info(o.get("apellidoEmpleado").asText());
@@ -453,11 +480,14 @@ public class RootController {
             log.info(o.get("contrasena1Empleado").asText());
             log.info(o.get("contrasena2Empleado").asText());
 
-            idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(), o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(), o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
-            if(idUsuario==-1) return null;
+            idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
+                    o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
+                    o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
+            if (idUsuario == -1)
+                return null;
         }
 
-        return "{\"isok\": \"true\", \"idUsuario\": "+ idUsuario +"}";//devuelve un json como un string
+        return "{\"isok\": \"true\", \"idUsuario\": " + idUsuario + "}";// devuelve un json como un string
     }
 
     @PostMapping(path = "/anadirCategoria", produces = "application/json")
@@ -466,19 +496,20 @@ public class RootController {
     public String anadirCategoria(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de anadirCategoria -------------");
         long id = -1;
-    
+
         String categoria = o.get("categoria").asText();
 
-        log.info("@@@@@@"+ categoria +" -------------");
-        if(saGeneral.existeCategoria(em, categoria)){
+        log.info("@@@@@@" + categoria + " -------------");
+        if (saGeneral.existeCategoria(em, categoria)) {
             log.info("----------- ya existe la categoria -------------");
             return null;
         } else {
             id = saGeneral.crearCategoria(em, categoria);
-            if(id == -1) return null;
+            if (id == -1)
+                return null;
         }
 
-        return "{\"isok\": \"true\", \"idCategoria\": "+ id +"}";
+        return "{\"isok\": \"true\", \"idCategoria\": " + id + "}";
     }
 
     @PostMapping(path = "/borrarUsuario", produces = "application/json")
@@ -486,16 +517,16 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String borrarEmpleado(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de borrarUsuario -------------");
-    
-        long idUsuario = o.get("idUsuario").asLong();
-        log.info("-----------"+idUsuario);
 
-        //long id = Long.parseLong(idUsuario);
-        //log.info(idUsuario);
+        long idUsuario = o.get("idUsuario").asLong();
+        log.info("-----------" + idUsuario);
+
+        // long id = Long.parseLong(idUsuario);
+        // log.info(idUsuario);
 
         saGeneral.borrarUsuario(em, idUsuario);
 
-        return "{\"isok\": \"true\"}";//devuelve un json como un string
+        return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
 
     @PostMapping(path = "/borrarCategoria", produces = "application/json")
@@ -503,16 +534,16 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String borrarCategoria(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de borrarCategoria -------------");
-    
-        long idCategoria = o.get("idCategoria").asLong();
-        log.info("-----------"+idCategoria);
 
-        //long id = Long.parseLong(idUsuario);
-        //log.info(idUsuario);
+        long idCategoria = o.get("idCategoria").asLong();
+        log.info("-----------" + idCategoria);
+
+        // long id = Long.parseLong(idUsuario);
+        // log.info(idUsuario);
 
         saGeneral.borrarCategoria(em, idCategoria);
 
-        return "{\"isok\": \"true\"}";//devuelve un json como un string
+        return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
 
     @PostMapping(path = "/actualizarParametrosRestaurante", produces = "application/json")
@@ -520,7 +551,7 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String actualizarParametrosRestaurante(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de actualizarParametrosRestaurante -------------");
-    
+
         int personasMesa = o.get("personasMesa").asInt();
         int maxPedidosHora = o.get("maxPedidosHora").asInt();
         int horaIni = o.get("horaIni").asInt();
@@ -529,7 +560,7 @@ public class RootController {
 
         saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas);
 
-        return "{\"isok\": \"true\"}";//devuelve un json como un string
+        return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
 
     @PostMapping(path = "/nuevoPedido", produces = "application/json")
@@ -543,144 +574,161 @@ public class RootController {
         iterator.forEachRemaining(e -> {
             int cantidad = o.get(e).asInt();
             cantidades.put(Long.parseLong(e), o.get(e).asInt());
-            log.info( " Has pedido: "+e+" x"+cantidad);
+            log.info(" Has pedido: " + e + " x" + cantidad);
             log.info(e.toString());
         });
 
-
-       
-        //diccionario id, cantidad diccionario[ID]=cantidad
+        // diccionario id, cantidad diccionario[ID]=cantidad
         //
         log.info("HE LLEGADO PERRO");
-        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); //entitymanager, jsonnode y user
-        
-        String jsonForWebSocket = "{\"idPedido\": \"" + ped.getId() + "\","+
-        "\"dirPedido\": \"" + ped.getDireccion() +"\"," +
-        "\"emailCliente\": \"" + ped.getCliente().getEmail() + "\"}";
-        //url a la que te has subscrito en js y los datos a enviar (json)
+        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); // entitymanager, jsonnode y user
+
+        // tratamiento de json:
+        // https://www.delftstack.com/es/howto/javascript/javascript-json-array-of-objects/
+    
+        String jsonPlatos = "[";
+        int cont = 1;
+        int fini = ped.getPlatos().size();
+        for (LineaPlatoPedido pl : ped.getPlatos()) {
+            if (cont == fini) {
+                log.info("cont = fini");
+                jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
+                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() +  "\"}]" ;
+            } else {
+                log.info("cont NO = fini");
+                jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
+                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
+            }
+            cont++;               
+        }
+
+        String jsonForWebSocket = "{\"idPedido\": \"" + ped.getId() + "\"," +
+                "\"dirPedido\": \"" + ped.getDireccion() + "\"," +
+                "\"nombreCliente\": \"" + ped.getCliente().getUsername() + "\"," +
+                "\"platos\": " + jsonPlatos + "}";
+
+        log.info(jsonForWebSocket);
+
+        // url a la que te has subscrito en js y los datos a enviar (json)
         messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
-        return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+        return "{\"isok\": \"todobien\"}";// devuelve un json como un string
     }
 
     @PostMapping("/web")
-	@ResponseBody
-	@Transactional
-	public String postMsg( @RequestParam("dato") String dato) {
-		
+    @ResponseBody
+    @Transactional
+    public String postMsg(@RequestParam("dato") String dato) {
+
         String jsonAEnviar = "{\"isok\": \"llegado de un websocket\"}";
-		/* String text = o.get("message").asText();
-		User u = entityManager.find(User.class, id);
-		User sender = entityManager.find(
-				User.class, ((User)session.getAttribute("u")).getId());
-		model.addAttribute("user", u);
-		
-		// construye mensaje, lo guarda en BD
-		Message m = new Message();
-		m.setRecipient(u);
-		m.setSender(sender);
-		m.setDateSent(LocalDateTime.now());
-		m.setText(text);
-		entityManager.persist(m);
-		entityManager.flush(); // to get Id before commit
-		
-		// construye json
-		ObjectMapper mapper = new ObjectMapper(); */
-		/*
-		// construye json: método manual
-		ObjectNode rootNode = mapper.createObjectNode();
-		rootNode.put("from", sender.getUsername());
-		rootNode.put("to", u.getUsername());
-		rootNode.put("text", text);
-		rootNode.put("id", m.getId());
-		String json = mapper.writeValueAsString(rootNode);
-		*/
-		// persiste objeto a json usando Jackson
+        /*
+         * String text = o.get("message").asText();
+         * User u = entityManager.find(User.class, id);
+         * User sender = entityManager.find(
+         * User.class, ((User)session.getAttribute("u")).getId());
+         * model.addAttribute("user", u);
+         * 
+         * // construye mensaje, lo guarda en BD
+         * Message m = new Message();
+         * m.setRecipient(u);
+         * m.setSender(sender);
+         * m.setDateSent(LocalDateTime.now());
+         * m.setText(text);
+         * entityManager.persist(m);
+         * entityManager.flush(); // to get Id before commit
+         * 
+         * // construye json
+         * ObjectMapper mapper = new ObjectMapper();
+         */
+        /*
+         * // construye json: método manual
+         * ObjectNode rootNode = mapper.createObjectNode();
+         * rootNode.put("from", sender.getUsername());
+         * rootNode.put("to", u.getUsername());
+         * rootNode.put("text", text);
+         * rootNode.put("id", m.getId());
+         * String json = mapper.writeValueAsString(rootNode);
+         */
+        // persiste objeto a json usando Jackson
         log.info("en funcion de websocket");
         log.info("datos llegados: " + dato);
-		/* String json = mapper.writeValueAsString(m.toTransfer());
+        /*
+         * String json = mapper.writeValueAsString(m.toTransfer());
+         * 
+         * log.info("Sending a message to {} with contents '{}'", id, json);
+         */
 
-		log.info("Sending a message to {} with contents '{}'", id, json); */
+        messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
+        return "{\"result\": \"conseguido\"}";
+    }
 
-		 messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
-		return "{\"result\": \"conseguido\"}";
-	}	
-
-
-
-
-
-    //TODO pedidos: seran dos paginas diferenes de html segun si admin o user, o se ajusta aqui? Como tienen formatos difrentes,
-    //y no solo datos diferentes, quizas mejor dos htmls diferentes
+    // TODO pedidos: seran dos paginas diferenes de html segun si admin o user, o se
+    // ajusta aqui? Como tienen formatos difrentes,
+    // y no solo datos diferentes, quizas mejor dos htmls diferentes
 
     @GetMapping("pedidos")
     public String pedidos(Model model, HttpSession session) {
-        
-       // System.out.println(model.toString());
-        //model.addAttribute("demo", "valor");
-      //  User u= (User) model.getAttribute("u");
 
-      //-------------------PRUEBAS 
-      /*
-        Plato plat = new Plato("Arroz", "xxxxx");
-        Plato platito = new Plato("Calamares", "yyyyyy");
-        Plato plat1 = new Plato("Pechuga", "zzzzzzzz");
-            
-        LineaPlatoPedido lin = new LineaPlatoPedido(plat);
-        LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
-        LineaPlatoPedido lin2 = new LineaPlatoPedido(platito);
+        // System.out.println(model.toString());
+        // model.addAttribute("demo", "valor");
+        // User u= (User) model.getAttribute("u");
 
-        List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
-        platos.add(lin);
-        platos.add(lin2);
+        // -------------------PRUEBAS
+        /*
+         * Plato plat = new Plato("Arroz", "xxxxx");
+         * Plato platito = new Plato("Calamares", "yyyyyy");
+         * Plato plat1 = new Plato("Pechuga", "zzzzzzzz");
+         * 
+         * LineaPlatoPedido lin = new LineaPlatoPedido(plat);
+         * LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
+         * LineaPlatoPedido lin2 = new LineaPlatoPedido(platito);
+         * 
+         * List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
+         * platos.add(lin);
+         * platos.add(lin2);
+         * 
+         * List<LineaPlatoPedido> platos1 = new ArrayList<LineaPlatoPedido>();
+         * platos1.add(lin1);
+         * 
+         * List<Pedido> pedidos = new ArrayList<Pedido>();
+         * pedidos.add(new Pedido("La avenida de la piruleta", platos));
+         * pedidos.add(new Pedido("Calle antequilla", platos1));
+         * //------------------PRUEBAS
+         */
 
-        List<LineaPlatoPedido> platos1 = new ArrayList<LineaPlatoPedido>();
-        platos1.add(lin1);
+        User u = (User) session.getAttribute("u");
+        if (u.hasAnyRole(Role.ADMIN, Role.EMPLEADO)) {
 
-        List<Pedido> pedidos = new ArrayList<Pedido>();
-        pedidos.add(new Pedido("La avenida de la piruleta", platos));
-        pedidos.add(new Pedido("Calle antequilla", platos1));
-    //------------------PRUEBAS */
-
-        User u= (User) session.getAttribute("u");
-        if(u.hasAnyRole(Role.ADMIN, Role.EMPLEADO))
-        {
-            
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
             listaPedidos = saGeneral.listarPedidos(em);
-    
-            for(Pedido ped : listaPedidos)
-            {
+
+            for (Pedido ped : listaPedidos) {
                 log.info(ped.getDireccion());
-                for(LineaPlatoPedido p : ped.getPlatos())
+                for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
                 log.info(ped.getCliente());
                 log.info(ped.isEnCurso());
             }
             model.addAttribute("listaPedidos", listaPedidos);
             return "pedidosEmpleado";
-        }
-        else{
+        } else {
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
-            listaPedidos = saGeneral.listarPedidosUsuario(em,u);
-    
-            for(Pedido ped : listaPedidos)
-            {
+            listaPedidos = saGeneral.listarPedidosUsuario(em, u);
+
+            for (Pedido ped : listaPedidos) {
                 log.info(ped.getDireccion());
-                for(LineaPlatoPedido p : ped.getPlatos())
+                for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
             }
-           
-            //model.addAttribute("listaPedidos", pedidos);
-            model.addAttribute("listaPedidos",listaPedidos);
+
+            // model.addAttribute("listaPedidos", pedidos);
+            model.addAttribute("listaPedidos", listaPedidos);
 
             return "pedidosUsuario";
         }
 
-    
-        
     }
 
 }
