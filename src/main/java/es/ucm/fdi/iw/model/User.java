@@ -39,7 +39,7 @@ import java.util.List;
         @NamedQuery(name="User.byRol",
                 query="SELECT u "
                         + "FROM User u "
-                        + "WHERE u.roles = :rol AND u.enabled = TRUE")                             
+                        + "WHERE u.roles = :rol AND u.enabled = TRUE")                                   
 })
 
 @Table(name="IWUser")
@@ -74,7 +74,6 @@ public class User implements Transferable<User.Transfer> {
     
     @Column(nullable = false)
     private String password;
-
     private String firstName;
     private String lastName;
     private String email;

@@ -1,56 +1,111 @@
-*{
+* {
     box-sizing: border-box;
 }
-body{
-    background:url(../img/home-bg.jpg) no-repeat;
+
+body {
+    background: url(../img/home-bg.jpg) no-repeat;
     display: flex;
     flex-direction: column;
     height: 100vh;
     overflow: hidden;
     margin: 0;
-  }
-  h1{
-      color:#593643;
-      opacity: 0.6;
-  }
-  button{
+}
+
+h1 {
+    color: #593643;
+    opacity: 0.6;
+}
+
+button {
     background-color: #733646;
-    color:#f8f0e7;
+    color: #f8f0e7;
     border-color: #363846;
     border-radius: 3px;
     width: 100%;
 }
-  form{
+
+form {
     max-width: 100%;
 
-    }
-.input{
+}
+
+.input {
     border: none;
-    color:#593643;
+    color: #593643;
     font-size: 2rem;
     display: block;
     width: 100;
 }
-.input::placeholder{
-    color:#F2F2F2
+
+.input::placeholder {
+    color: #F2F2F2
 }
-    .pedidos{
-        padding: 0;
-        list-style-type: none;
+
+.pedidos {
+    padding: 0;
+    list-style-type: none;
+}
+
+.pedidos li {
+    border-top: 1px solid #F2F2F2;
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 1rem 2rem;
+}
+
+/* Cuando el pedido está completo  */
+.pedidos li.completed {
+    color: #593643;
+    text-decoration: line-through;
+}
+
+small {
+    color: #73384E;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+/*contenedores de pedidos*/
+.container{
+    width: 45%;
+    max-height:500px;
+    overflow: auto;
+}
+
+/*Nuevos pedidos a la izquierda */
+.containerLeft{
+float: left;
+}
+
+/*pedidos actuales a la derecha */
+.containerRight{
+    float: right;
     }
-    .pedidos li{
-        border-top: 1px solid #F2F2F2 ;
-        cursor: pointer;
-        font-size: 1.5rem;
-        padding: 1rem 2rem;
-    }
-    /* Cuando el pedido está completo  */
-    .pedidos li.completed{
-        color: #593643;
-        text-decoration: line-through;
-    }
-    small{
-        color: #73384E;
-        margin-top: 3rem;
-        text-align: center;
-    }
+
+/*columnas de las tablas*/
+.row{
+    border: 1px solid; 
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 10%;
+}
+
+/*elementos de las tablas separados*/
+.elemento{
+    margin-bottom: 20px;
+}
+
+/*botones verdes de aceptar o modificar*/
+.verde{
+   float: left; 
+   width: 100px; 
+   margin-right: 5px; 
+   background-color: #849974;
+}
+
+/*botones rojos de eliminar o rechazar*/
+.rojo{
+    float: left; 
+    width: 100px; 
+    margin-right: 5px;
+}

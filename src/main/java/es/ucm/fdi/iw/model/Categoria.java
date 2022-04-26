@@ -19,7 +19,8 @@ import lombok.Data;
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findById", query = "select obj from Categoria obj where  :id = obj.id"),
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findByNombre", query = "select obj from Categoria obj where  :nombre = obj.nombre")
+    @NamedQuery(name = "Categoria.findByNombre", query = "select c from Categoria c where :nombre = c.nombre AND c.activo = TRUE"),
+    @NamedQuery(name = "Categoria.list", query = "select c from Categoria c where c.activo = TRUE")
 })
 @AllArgsConstructor
 public class Categoria {
@@ -37,13 +38,14 @@ public class Categoria {
     public Categoria()
     { }
 
-    public Categoria(String n)
+    public Categoria(String n, boolean activo)
     {
-        nombre = n;
+        this.nombre = n;
+        this.activo = activo;
     }
 
 
-    public void debugSetNombre(String n)
+    /* public void debugSetNombre(String n)
     {
         nombre = n;
     }
@@ -61,5 +63,5 @@ public class Categoria {
     public void debugSetListaPlatos(List<Plato> lp)
     {
         platos = lp;
-    }
+    } */
 }

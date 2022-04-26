@@ -31,4 +31,8 @@ public class Valoracion {
 
     private boolean activo;
 
+    private String descripcion;
+
+
+
 }

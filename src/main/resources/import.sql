@@ -82,4 +82,14 @@ VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
 
 INSERT INTO CONFIGURACION_RESTAURANTE VALUES(1,4,5,12,23,30);
 
+
+INSERT INTO VALORACION(id, descripcion, rate, cliente_id, plato_id, activo)
+VALUES (1, 'Me encantan', 4, 2, 1, 1);
+
+INSERT INTO VALORACION(id, descripcion, rate, cliente_id, plato_id, activo)
+VALUES (2, 'Podrian mejorar', 2, 1, 1, 1);
+
+INSERT INTO VALORACION(id, descripcion, rate, cliente_id, plato_id, activo)
+VALUES (3, 'Son las mejores que he comido nunca. Bien de cantidad y muy ricas. Repetire seguro', 5, 3, 1, 1);
+
 ALTER SEQUENCE "PUBLIC"."GEN" RESTART WITH 1024;

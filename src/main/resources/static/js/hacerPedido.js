@@ -1,44 +1,58 @@
-const Clickbutton = document.querySelectorAll('.button') //Buscamos los botones
-const carritobody = document.querySelector('.mostrarCarrito')
-let carrito = [] //array del carrito
-const finalizarbutton = document.querySelector('.botonfinalizar')
-finalizarbutton.addEventListener('click', finalizar)
+const Clickbutton = document.querySelectorAll('.button') //Buscamos los botones de comprar
+const carritobody = document.querySelector('.mostrarCarrito') //El cuerpo del carrito de la derecha
+let carrito = [] //array del carrito en local
+const finalizarbutton = document.querySelector('.botonfinalizar') //Botón de finalizar 
+
+finalizarbutton.addEventListener('click', finalizar) //Cuando se le haga click llama a la función finalizar()
 
 Clickbutton.forEach(btn => { //Por cada boton encontrado de tipo compra
    // btn.addEventListener('click', () => console.log('button')) //  Para que cada boton diga algo al pulsarlo por consola :) 
     btn.addEventListener('click', addToCarritoItem) //Le añadimos el action listener a los botones compra
 })
 
+//Funcion de finalizar la compra
 function finalizar(e){
-  console.log("Hey bien finalizado ese pedido ;)")
-  let params ={};
-  carrito.map(item => { //por cada item en el carrito
-    console.log("ID: "+item.id + " x"+item.cantidad)
 
+  let params ={}; //Parametros para el json
+
+  carrito.map(item => { //por cada item en el carrito
+    console.log("ID: "+ item.id + " x"+item.cantidad)
     params[item.id] = item.cantidad;  
+    //Mapa clave valor, [ID]=Cantidad del producto ID
   })
-  console.log(params)
-  go(config.rootUrl + "/nuevoPedido", 'POST', params)
+
+  console.log(params) //Mostramos por consola
+
+  //Si el carrito no está vacío lo procesamos, en caso contrario, nada.
+  if(carrito.length > 0){
+
+  go(config.rootUrl + "/nuevoPedido", 'POST', params) //Le mandamos al controlador los datos del carrito
             .then(d => {console.log("todo ok")
                         console.log("mensaje recibido: ", d);//json recibido
                         console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
             })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
 
+  
 
-  carrito = []
-  reloadCarrito()
+  carrito = [] //Vaciamos el carrito
+  reloadCarrito() //Recargamos el carritos body
+          }
 }
 
+//Funcion de los botones de compra
 function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
-    const button = e.target //el target del evento es nuestro boton :O
-    const item = button.closest('.row')
+    const button = e.target //El target del evento es nuestro boton :O (Hay muchos, pues el que hemos pulsado)
+    const item = button.closest('.row') //La fila más cercana al boton que hemos pulsado es el item a comprar
+
+    //Recorger datos de la fila (item)
     const itemTitle = item.querySelector('.titulo-plato').textContent;
     const itemPrice = item.querySelector('.precio').textContent;
     const InputElemnto = item.querySelector('.cantidad-plato');
+
     if(InputElemnto.value > 0){ //Si quiere comprar 0 o menos, mejor no hago nada...
 
-    const newItem = { //Forma de un Item de pedido
+    const newItem = { //Struct del item para almacenarlo en local solo con lo que nos interesa.
     id: button.value,
     title: itemTitle,
     precio: itemPrice,
@@ -47,14 +61,12 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
 
     InputElemnto.value=0; //reseteamos el input
 
-    addItemCarrito(newItem) //añadir el nuevo item al carrito
+    addItemCarrito(newItem) //añadir el nuevo item al carrito local
 }
   }
 
+  //Añadir un struct newItem al carrito
   function addItemCarrito(newItem){
-
-    //TO DO Aviso In progress
-  
     
      const InputElemnto = carritobody.getElementsByClassName('cantidad-plato')
 
@@ -62,12 +74,13 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
         if(carrito[i].title.trim() === newItem.title.trim()){
          const inputValue = InputElemnto[i]
          for (let j = 0; j < newItem.cantidad; j++) { //Por cada unidad nueva añadida
-            carrito[i].cantidad++;
+            carrito[i].cantidad++; //No he conseguido optimizarlo
             inputValue.value++;
          }
-         TotalPedido()
 
-         return null;
+         TotalPedido() //Actualizamos el total del dinero
+
+         return null; //Terminamos la búsqueda nos salimos ya
        }
      }
     
@@ -77,13 +90,14 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
   } 
 
 
-  function reloadCarrito(){
-   carritobody.innerHTML = ''
+  function reloadCarrito(){ //Recargar el carrito sin webSockets
+   carritobody.innerHTML = '' //Vaciamos y empezamos
 
 
-    carrito.map(item => { //por cada item en el carrito
+    carrito.map(item => { //Por cada item en el carrito
+
       const tr = document.createElement('div') //creamos un nuevo elemento tr (Tablita)
-      tr.classList.add('ItemCarrito')
+      tr.classList.add('ItemCarrito') //Le añadimos un .ItemCarrito para tener identificada la fila
    
       const Content = `
       <div class="row" style="border-bottom: 1px solid; margin-top: 1%;">
@@ -104,7 +118,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
                         </div>
       `
 
-      tr.innerHTML = Content;
+      tr.innerHTML = Content; //La fila va a tener el html de arriba, y la clase fila
 
       carritobody.append(tr) //enganchamos la nueva fila a la tabla
 
@@ -116,6 +130,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
     
   }
 
+  //Calcula el total del pedido
   function TotalPedido(){
     let Total = 0;
 
@@ -125,10 +140,12 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
       const precio = Number(item.precio.replace("€", ''))
       Total = Total + precio*item.cantidad
     })
-  Total = Total.toFixed(2);
+
+    Total = Total.toFixed(2);
     itemCartTotal.innerHTML = `Total: ${Total}€`
   }
 
+  //En caso de que se cambie la cantidad, se actualiza el total
   function ChangeChantidad(e){
     const sumaInput  = e.target //El input
     const itemrow = sumaInput.closest('.row')
@@ -145,6 +162,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
 
   }
 
+  //Eliminar un item
   function removeItemCarrito(e){
     const button = e.target //el target del evento es nuestro boton :O
     const item = button.closest('.row')

@@ -21,4 +21,15 @@ public class ConfiguracionRestaurante {
     int horaIni;
     int horaFin;
     int maxReservas;
+
+    public ConfiguracionRestaurante()
+    {}
+
+    public ConfiguracionRestaurante(int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas) {
+        this.personasMesa = personasMesa;
+        this.maxPedidosHora = maxPedidosHora;
+        this.horaIni = horaIni;
+        this.horaFin = horaFin;
+        this.maxReservas = maxReservas;
+    }
 }

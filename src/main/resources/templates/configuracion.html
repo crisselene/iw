@@ -23,19 +23,22 @@
             <div class="col-md-5">
 
                 <div class="row paramsrow">
-                    <form id="paramsRestaurante" th:action="@{/}" style="margin-top: 4%; margin-left: 2%;">
+                    <form id="paramsRestauranteForm" th:method="POST" onsubmit="return false;" style="margin-top: 4%; margin-left: 2%;">
                         <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
-                        <input type="number" id="maxPedidosHora" style="width:15%"> <!-- creo q el 15% es respecto al padre?-->
+                        <input type="number" id="maxPedidosHora" min="0" max="999" style="width:15%" th:value="${params.maxPedidosHora}"> <!-- creo q el 15% es respecto al padre?-->
                         <br>
                         <label for="inicioReservas">Horas posibles para reservar(00-23h):&nbsp;</label>
-                        <input type="number" id="inicioReservas" min="00" max="23" style="width:10%; margin-top: 5%;">
+                        <input type="number" id="inicioReservas" min="00" max="23" th:value="${params.horaIni}" style="width:10%; margin-top: 5%;">
                         &nbsp;a&nbsp;
-                        <input type="number" id="finalReservas"  min="00" max="23" style="width:10%; margin-top: 5%;"> <!-- aqui no haria falta margin top pq ya esta en el otro input-->
+                        <input type="number" id="finalReservas"  min="00" max="23" th:value="${params.horaFin}" style="width:10%; margin-top: 5%;"> <!-- aqui no haria falta margin top pq ya esta en el otro input-->
                         <br>
-                        <label for="maxReservas">Número máximo de reservas:&nbsp;</label>
-                        <input type="number" id="maxReservas" style="width:15%; margin-top: 5%;">
+                        <label for="maxReservas">Número máximo de reservas (mesas):&nbsp;</label>
+                        <input type="number" id="maxReservas" min="0" th:value="${params.maxReservas}" style="width:15%; margin-top: 5%;">
                         <br>
-                        <button type="submit" class="btn btn-primary" style="margin-top:5%">Guardar</button>
+                        <label for="personasMesa">Número de personas por mesa:&nbsp;</label>
+                        <input type="number" id="personasMesa" min="0" th:value="${params.personasMesa}" style="width:15%; margin-top: 5%;">
+                        <br>
+                        <button type="submit" id="guardarParams" class="btn btn-primary" style="margin-top:5%">Guardar</button>
                     </form>
                 </div>
 
@@ -47,14 +50,28 @@
                                     <h2 style="margin-bottom: 2%;">Categorías</h2>
                                 </div>
                                 <div class="col" style="text-align: right;">
-                                    <form id="anadirCategoria" th:action="@{/}">
+                                    <!-- <form id="anadirCategoria" th:action="@{/}">
                                         <button type="submit" class="btn btn-primary" style="margin-top:3%">Crear</button>
-                                    </form>   
+                                    </form> --> 
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anadirCategoriaModal">
+                                        Crear
+                                    </button>   
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row categoriarow" th:each="cat: ${listaCategorias}">
+                        <div id="listaCategoriasDiv" th:each="cat: ${listaCategorias}">
+                            <div class="row categoriarow" th:attr="data-id=${cat.id}">
+                                <div class="col" style="padding-top: 1%;">
+                                    <p th:text="${cat.nombre}">sustituirCategoria</p>
+                                </div>
+                                <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm eliminar">❌</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="row categoriarow" th:each="cat: ${listaCategorias}">
                             <div class="col" style="padding-top: 1%;">
                                 <p th:text="${cat.nombre}">sustituirCategoria</p>
                             </div>
@@ -63,7 +80,7 @@
                                     <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </div> 
                 </div>
                 
@@ -99,7 +116,7 @@
 
 
 
-    <!-- Modal -->
+    <!-- Modal anadir empleado -->
     <div class="modal fade" id="anadirEmpleadoModal" tabindex="-1" aria-labelledby="anadirEmpleadoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -151,6 +168,31 @@
                         <div class="modal-footer">
                             <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="submit" id="anadirEmpleadoButton" class="btn btn-primary">Añadir</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal categorias -->
+    <div class="modal fade" id="anadirCategoriaModal" tabindex="-1" aria-labelledby="anadirCategoriaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="anadirCategoriaModalLabel">Añadir categoría</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAnadirCategoria" th:action="@{/}" onsubmit="return false;">
+                        <label for="categoria" style="display: block;">Categoría</label>
+                        <input type="text" id="categoria" required>
+
+                        <div class="modal-footer">
+                            <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" id="anadirCategoriaButton" class="btn btn-primary">Añadir</button>
                         </div>
 
                     </form>

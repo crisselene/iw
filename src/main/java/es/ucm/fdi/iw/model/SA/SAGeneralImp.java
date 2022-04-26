@@ -22,6 +22,7 @@ import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Valoracion;
 import lombok.Data;
 
 @Data
@@ -30,8 +31,13 @@ public class SAGeneralImp{
     public List<Categoria> listarCategorias(EntityManager em) {
         List<Categoria> categorias = null;
        // categorias = em.createQuery("SELECT * FROM Categoria").getResultList(); //no entiende el *
-        categorias = em.createQuery("SELECT c FROM Categoria c").getResultList(); //coge todas las categorias
+        categorias = em.createNamedQuery("Categoria.list", Categoria.class).getResultList();
         return categorias;
+    }
+
+    public List<User> listarEmpleados(EntityManager em) {
+        List<User> lu = em.createNamedQuery("User.byRol", User.class).setParameter("rol", "EMPLEADO").getResultList();
+        return lu;
     }
 
     public List<Pedido> listarPedidos(EntityManager em) {
@@ -59,6 +65,34 @@ public class SAGeneralImp{
         else return true;
     }
 
+    public Boolean existeCategoria(EntityManager em, String categoria) {
+        /* Categoria c = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getSingleResult();
+        if(c != null) return true;
+        else return false; */
+        List<Categoria> lc = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getResultList();
+        if(lc.size() == 0) return false;
+        else return true;
+    }
+
+    public long crearCategoria(EntityManager em, String categoria) {
+        long idDevolver = -1;
+
+        if(!existeCategoria(em, categoria)){
+            Categoria c = new Categoria(categoria, true);
+            em.persist(c);
+            em.flush();
+            idDevolver = c.getId();
+        }
+
+        return idDevolver;
+    }
+
+/*     public User getUsuario(EntityManager em, long idUsuario)
+    {
+        User u = em.find(User.class, idUsuario);
+        return u;
+    } */
+
     public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
     String lastName, String pass, String roles, String telf, String username, Boolean enabled){
         long idDevolver = -1;
@@ -78,6 +112,12 @@ public class SAGeneralImp{
         u.setEnabled(false);
         em.persist(u);
         em.flush();
+    }
+
+    public void borrarCategoria(EntityManager em, long id) {
+        Categoria c = em.find(Categoria.class, id);
+
+        c.setActivo(false);
     }
 
     public List<Reserva> listarReservas(EntityManager em){
@@ -157,81 +197,13 @@ public class SAGeneralImp{
         return true;
     }
 
-    public long crearUsuario(Logger log,EntityManager em, String direccion, String email, String firstName, 
-    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
-        log.info("@@@@@@ en crearUsuario");
-        long idDevolver = -1;
-
-        if(!existeUsuario(em, username)){
-            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
-            em.persist(u);
-            em.flush();
-            idDevolver = u.getId();
-        }
+    public List<Valoracion> listarValoracionesPlato(EntityManager em, long idPlato){
+        Plato p = em.find(Plato.class, idPlato);
+        return p.getValoraciones();
+       /*  List<Plato> platos = null;
+        platos = em.createQuery("SELECT p FROM Plato p").getResultList();        
+        return platos; */
         
-        /* User u = null;
-        Query q = em.createNamedQuery("User.hasUsername", User.class);
-        q.setParameter("username", username);
-        long num = q.getFirstResult();
-
-        if(num<=0){//Si no existe el username
-            u = new User(username, pass, firstName, lastName, email, direccion, telf, roles);
-            em.persist(u);
-            em.flush();
-            idDevolver = u.getId();
-        } */
-
-        return idDevolver;
-    } 
-
-    public long crearCategoria(EntityManager em, long id, String nombre){
-        long idDevolver = -1;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Categoria c = null;
-            c = em.find(Categoria.class, id);
-            if(c!=null){
-                if(!c.isActivo()){
-                    c.setActivo(true);
-                    idDevolver=id;
-                }
-                t.rollback();
-            }
-            else {
-                c = new Categoria(nombre);
-                em.persist(c);
-                t.commit();
-                idDevolver = c.getId();
-            }
-
-        }catch(Exception e){
-
-        }
-        return idDevolver;
-    }
-
-    public long eliminarCategoria(EntityManager em, long id){
-        long idDevolver = -1;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            Categoria c = null;
-            c = em.find(Categoria.class, id);
-            if(c!=null){
-                if(c.isActivo() == true){
-                    c.setActivo(false);
-                    t.commit();
-                    idDevolver = c.getId();
-                }
-                else t.rollback();
-                
-            }
-            else t.rollback();
-        }catch(Exception e){
-
-        }
-        return idDevolver;
     }
 
     public List<Reserva> listarReservasFecha(EntityManager em, String fecha){
@@ -253,34 +225,18 @@ public class SAGeneralImp{
         return c;
     }
     
-    public boolean actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
-        boolean correcto = false;
-        try{
-            EntityTransaction t = em.getTransaction();
-            t.begin();
-            ConfiguracionRestaurante c = null;
-            c = em.find(ConfiguracionRestaurante.class, 1);
-            //Si existe la configuracion (deberia existir siempre) lo actualizamos
-            if(c != null){
-                c.setPersonasMesa(personasMesa);
-                c.setMaxPedidosHora(maxPedidosHora);
-                c.setHoraIni(horaIni);
-                c.setHoraFin(horaFin);
-                c.setMaxReservas(maxReservas);
-
-                correcto = true;
-                t.commit();
-            }
-            else t.rollback(); //Si no la encuentra la cancelamos
-
-        }catch(Exception e){
-
-        }
-
-        return correcto;
+    public void actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
+        Long id = (long) 1;
+        
+        ConfiguracionRestaurante config = em.find(ConfiguracionRestaurante.class, id); // id 1 para sobrescribir siempre lo mismo
+        config.setHoraFin(horaFin);
+        config.setHoraIni(horaIni);
+        config.setMaxPedidosHora(maxPedidosHora);
+        config.setMaxReservas(maxReservas);
+        config.setPersonasMesa(personasMesa);
     }
 
-    public boolean nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
+    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
         Pedido ped = new Pedido(cliente,cliente.getDireccion());
         em.persist(ped);
@@ -300,7 +256,7 @@ public class SAGeneralImp{
         }
         ped.setPlatos(listaPlatos);
         em.flush();//Creamos el pedido
-        return true;
+        return ped;
     }
 
     public boolean eliminarPedido(EntityManager em, long id){
