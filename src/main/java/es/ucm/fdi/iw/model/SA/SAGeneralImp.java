@@ -329,6 +329,16 @@ public class SAGeneralImp{
         return correcto;
     }
 
+    public boolean realizarReserva(EntityManager em, LocalDateTime fecha, int personas, User cliente){
+        ConfiguracionRestaurante c = em.find(ConfiguracionRestaurante.class, (long)1);
+        int mesas;
+        mesas = c.getPersonasMesa() / personas;
+        if(c.getPersonasMesa() % personas != 0) mesas++;
+        Reserva r = new Reserva(fecha, personas, mesas, cliente);
+        em.persist(r);
+        em.flush();
 
+        return true;
+    }
 
 }

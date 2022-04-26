@@ -32,6 +32,7 @@ public class Reserva implements Transferable<Reserva.Transfer> {
 	private long id;
     private LocalDateTime fecha;
     private int personas;
+    private int mesas;
     private boolean activo;
 
     public Reserva()
@@ -41,6 +42,14 @@ public class Reserva implements Transferable<Reserva.Transfer> {
     private User cliente; //Quien hizo la reserva
 
     
+
+    public Reserva(LocalDateTime fecha, int personas, int mesas, User cliente) {
+        this.fecha = fecha;
+        this.personas = personas;
+        this.mesas = mesas;
+        this.cliente = cliente;
+        this.activo = true;
+    }
 
     @Getter
     @AllArgsConstructor

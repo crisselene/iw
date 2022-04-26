@@ -42,25 +42,12 @@
 
             <!-- Aqui va el thymeleaf -->
 
-            <div class="p-2 d-flex justify-content-around">
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora6" autocomplete="off">
-                    <label class="btn btn-outline-success" for="hora6">20:30</label>
-                </div>
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora5" autocomplete="off">
-                    <label class="btn btn-outline-success" for="hora5">22:30</label>
-                </div>
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora4" autocomplete="off">
-                    <label class="btn btn-outline-success" for="hora4">19:30</label>
-                </div>
-            </div>
+            <div id="horasBody"></div>
 
             <!-- Creo una fila con otro d-flex que ponga su contenido al final para poner el boton -->
             <div class="d-flex p-2 justify-content-end" id="aceptar">
                 <div class="p-2">
-                    <button type="submit" id="botonElegir">Elegir</button>
+                    <button type="button" id="botonElegir">Elegir</button>
                 </div>
             </div>
             
