@@ -58,12 +58,24 @@
             </ul>
         </div> -->
         <div>
-            <h2>Comentarios</h2>
+          <div class="row">
+            <h2 class="col-md-9">Comentarios</h2>
+            <div class="col-md-2">
+              <button th:if="${session.u}" class="btn mi-btn-primary" type="button" id="comentarButton" data-bs-toggle="modal" data-bs-target="#modalComentario">Añadir comentario</button>
+            </div>
+            
+          </div>
             <ul id="listcomentario">
               <th:block th:each="val,iter: ${valoraciones}">
 
-                <li>
+                <li th:if="${val.activo == true}">
                   <div class="comentario">
+                    <th:block th:if="${session.u}">
+                      <button th:if="${session.u.hasRole('ADMIN')}" type="button" class="botonBorrPlat" th:value="${val.id}"><!--  data-bs-toggle="modal" data-bs-target="#modalDeletePlato" -->
+                        ❌
+                        </button>
+
+                    </th:block>
                     
                     <h3 class="nombreUs" th:text="${val.getCliente().getUsername()} + ' dice:'"></h3>
                     <div class="ContenedorEstrellas">
@@ -78,29 +90,7 @@
 
 
               </th:block>
-               <!--  <li>
-                    <div class="comentario">
-                      <p> </p>
-                        <img src="img/default-pic.jpg"  class="usuario" >
-                        <aside>comentario</aside>
-                        <img src="img/valoracion.png"  class="valorar" >
-                    </div>
-                </li>
-                
-                <li>
-                    <div class="comentario">
-                        <img src="img/default-pic.jpg"  class="usuario" >
-                        <aside>comentario</aside>
-                        <img src="img/valoracion.png"  class="valorar" >
-                    </div>
-                </li>
-                <li>
-                    <div class="comentario">
-                        <img src="img/default-pic.jpg"  class="usuario" >
-                        <aside>comentario</aside>
-                        <img src="img/valoracion.png"  class="valorar" >
-                    </div>
-                </li> -->
+              
             </ul>
         </div>
 
@@ -151,7 +141,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Editar Imagen</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Añadir comentario</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -165,6 +155,42 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                   <button type="button" id ="botonFormImg" th:value="${plato.id}" class="btn btn-primary">Confirmar</button>
+                </div>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+     <!--  Modal comentario -->
+      <div class="modal fade" id="modalComentario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Editar Imagen</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form role="form" id="formCom"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                
+                <label for="campoCategoriaPlato" class="form-label">Puntuacion</label>
+                <select class="form-select" name="rateCom" id="campoRateCom">
+                    
+                  <option selected  value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+
+                <label for="campoDescCom" class="form-label">Descripcion</label>
+                <textarea class="form-control" id="campoDescCom" name="descCom" rows="4" cols="60" required></textarea>
+
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" id ="botonComentar" th:value="${plato.id}" class="btn btn-primary">Confirmar</button>
                 </div>
               </form>
             </div>

@@ -65,6 +65,12 @@ public class SAGeneralImp{
         else return true;
     }
 
+    public User getUsuario(EntityManager em, long idUsuario)
+    {
+        User u = em.find(User.class, idUsuario);
+        return u;
+    }
+
     public Boolean existeCategoria(EntityManager em, String categoria) {
         /* Categoria c = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getSingleResult();
         if(c != null) return true;
@@ -196,6 +202,24 @@ public class SAGeneralImp{
 
         return true;
     }
+
+    public Valoracion crearValoracion(EntityManager em, Plato p, User u, String descCom, int rate)
+    {
+        Valoracion v = new Valoracion(p, u, descCom, rate);
+        v.setActivo(true);
+        em.persist(v);
+        em.flush();
+        return v;
+    }
+
+    public boolean borrarValoracion(EntityManager em, long idVal)
+    {
+        Valoracion v = em.find(Valoracion.class, idVal);
+
+        v.setActivo(false);
+        return true;
+    }
+
 
     public List<Valoracion> listarValoracionesPlato(EntityManager em, long idPlato){
         Plato p = em.find(Plato.class, idPlato);

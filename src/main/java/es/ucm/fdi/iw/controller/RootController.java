@@ -381,6 +381,51 @@ public class RootController {
         return "verPlato";
     }
 
+    @PostMapping(path = "/hacerComentario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String hacerComentario(Model model, @RequestParam("idPlato") long idPlato,
+                                                @RequestParam("descCom") String descCom,
+                                                @RequestParam("rateCom") int rateCom,
+                                                HttpSession session ) {
+        long idU = ((User)session.getAttribute("u")).getId();
+        User u = saGeneral.getUsuario(em, idU);
+        Plato p = saGeneral.buscarPlato(em, idPlato);
+        Valoracion v = saGeneral.crearValoracion(em, p, u, descCom, rateCom);
+        log.info("nuevo comentario del plato" + idPlato);
+        
+        String rol = "Usuario";
+
+        if(u.hasRole(Role.ADMIN))
+        {
+            rol = "Admin";
+        }
+
+        return "{\"isok\": \"true\","+
+        "\"NombreUs\": \""+ u.getUsername() + "\","+
+        "\"idCom\": \""+ v.getId() + "\","+
+        "\"rol\": \""+ rol + "\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/borrarComentario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String borrarComentario(Model model, @RequestParam("idCom") long idCom,  HttpSession session) {
+        saGeneral.borrarValoracion(em, idCom);
+        long idU = ((User)session.getAttribute("u")).getId();
+        User u = saGeneral.getUsuario(em, idU);
+        String rol = "Usuario";
+
+        if(u.hasRole(Role.ADMIN))
+        {
+            rol = "Admin";
+        }
+
+        return "{\"isok\": \"true\","+
+        "\"rol\": \""+ rol + "\"}";//devuelve un json como un string
+    }
+
+
     /*
      * @GetMapping("verReservas")
      * public String verReservas(Model model) {
