@@ -25,8 +25,14 @@
                 border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; 
                 padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
                     <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}" style="margin: auto;">
+                    <!-- <div class="col" th:text="${ped.getId}" style="margin: auto;"></div> -->
                         
                     </div>
+
+                    <div class="col">
+                        <p th:text="${ped.getEstado}">estado</p>
+                    </div>
+
                     <div class="col">   
                         <ul>
                             <!--EXPLICACIOÓN DE THBLOCKS Y COMO OBTENER LOS PLATOS
@@ -100,6 +106,12 @@
                         </div>
                         
                     </div>
+
+                    <!-- <div class="col">
+                        <p th:text="Estado:  + ${ped.getEstado}">
+                            reemplazame
+                        </p>
+                    </div> -->
             
           <!--  <div style="float: left;">
                 <h1>Nuevos pedidos</h1>

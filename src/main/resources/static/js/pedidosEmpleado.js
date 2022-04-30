@@ -201,7 +201,7 @@ function aceptarPedido(e, id, div, enCurso, params) {
             //si enCurso=true entonces podemos cambiarlo a la tabla
             //de pedidos en curso
             var botonAcep = div.querySelector(".aceptar")
-            if (d['encurso'] == true) {
+            if (d['estado'] == "ACEPTADO") {
                 //eliminamos el boton aceptar para reemplazarlo por
                 //el boton modificar
                 botonAcep.remove()

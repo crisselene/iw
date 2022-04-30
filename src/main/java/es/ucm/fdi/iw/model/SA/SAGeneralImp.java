@@ -23,6 +23,7 @@ import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Valoracion;
+import es.ucm.fdi.iw.model.Pedido.Estado;
 import lombok.Data;
 
 @Data
@@ -45,6 +46,13 @@ public class SAGeneralImp{
         pedidos = em.createQuery("SELECT p FROM Pedido p").getResultList();
         return pedidos;
     }
+
+    public List<Pedido> listarPedidosPendientes(EntityManager em) {
+        List<Pedido> pedidos = null;
+        pedidos = em.createNamedQuery("Pedido.pedidosByEstado", Pedido.class).setParameter("estado", Estado.PENDIENTE).getResultList();
+        return pedidos;
+    }
+
     public List<Pedido> listarPedidosUsuario(EntityManager em, User cliente) {
         List<Pedido> pedidos = null;
         try{
@@ -262,7 +270,7 @@ public class SAGeneralImp{
 
     public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
-        Pedido ped = new Pedido(cliente,cliente.getDireccion());
+        Pedido ped = new Pedido(cliente,cliente.getDireccion(),Estado.PENDIENTE);
         em.persist(ped);
 
         //sacar id pedido
@@ -307,6 +315,15 @@ public class SAGeneralImp{
             }
         
         return correcto;
+    }
+
+    public void estadoPedido(EntityManager em, long id, Estado estado) {
+        Pedido p = em.find(Pedido.class, id);
+        if(p!=null){
+            if(p.isActivo()){
+                p.setEstado(estado);
+            }
+        }
     }
 
     public boolean realizarReserva(EntityManager em, LocalDateTime fecha, int personas, User cliente){

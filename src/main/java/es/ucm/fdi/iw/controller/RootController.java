@@ -39,6 +39,7 @@ import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Valoracion;
+import es.ucm.fdi.iw.model.Pedido.Estado;
 import es.ucm.fdi.iw.model.Reserva.Transfer;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
@@ -83,8 +84,10 @@ public class RootController {
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        boolean encur = saGeneral.pedidoEnCurso(em, id);
-        return "{\"encurso\":" + encur + "}";
+        /* boolean encur = saGeneral.pedidoEnCurso(em, id);
+        return "{\"encurso\":" + encur + "}"; */
+        saGeneral.estadoPedido(em, id, Estado.ACEPTADO);
+        return "{\"estado\":" + "\"ACEPTADO\"" + "}";
     }
 
     @PostMapping(path = "/eliminarPed", produces = "application/json")
@@ -745,9 +748,10 @@ public class RootController {
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
-            listaPedidos = saGeneral.listarPedidos(em);
-
+            listaPedidos = saGeneral.listarPedidosPendientes(em);
+            log.info("@@@@@@@@@@@@---------@@");
             for (Pedido ped : listaPedidos) {
+                log.info("---------@@");
                 log.info(ped.getDireccion());
                 for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
@@ -763,7 +767,9 @@ public class RootController {
             listaPedidos = saGeneral.listarPedidosUsuario(em, u);
 
             for (Pedido ped : listaPedidos) {
+                log.info("@@@@@---");
                 log.info(ped.getDireccion());
+                log.info(ped.getEstado());
                 for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
             }

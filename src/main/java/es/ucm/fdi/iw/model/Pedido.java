@@ -19,7 +19,8 @@ import lombok.Data;
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Pedido.findById", query = "select obj from Pedido obj where  :id = obj.id"),
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Pedido.findByCliente", query = "select obj from Pedido obj where  :cliente = obj.cliente")
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Pedido.findByCliente", query = "select obj from Pedido obj where  :cliente = obj.cliente AND obj.activo = TRUE"),
+    @NamedQuery(name = "Pedido.pedidosByEstado", query = "select p from Pedido p where p.estado = :estado")
 })
 @AllArgsConstructor
 public class Pedido {
@@ -29,6 +30,13 @@ public class Pedido {
     
 	private long id;
     
+    public enum Estado {
+        PENDIENTE,			 
+        ACEPTADO,          
+        REPARTO
+    }
+
+    private Estado estado; 
     private boolean enCurso;
     private boolean activo;
     @OneToMany (mappedBy = "pedido")
@@ -50,9 +58,10 @@ public class Pedido {
     }
     public Pedido(){}
     
-    public Pedido(User u, String direccion){
+    public Pedido(User u, String direccion, Estado estado){
         this.cliente = u;
         this.direccion = direccion;
+        this.estado = estado;
         this.activo=true;
     }
 }
