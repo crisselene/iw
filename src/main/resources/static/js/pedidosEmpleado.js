@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Not opening websocket: missing config", config)
     }
 
+    //Acordeenos de pedidos ya hechos una vez cargada la pagina
+    const Pedacc = document.querySelectorAll('.accordion') //Lista de acordeones
+    Pedacc.forEach(acc => { 
+        acc.addEventListener('click', loadAccordion) //Le añadimos el action listener a los botones compra
+     })
+
+
     // add your after-page-loaded JS code here; or even better, call 
     // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
@@ -54,19 +61,23 @@ if (ws.receive) {
 
         //vamos sumando los precios de los platos y los guardamos en total
         var totalPedido = new Number(0);
-        //necesito un objeto json poruqe estoy sacando información de 
+        //necesito un objeto json porque estoy sacando información de 
         //un json que está dentor de otro json
         m["platos"].forEach(pla => {
             console.log(pla["nombrePlato"]);
+
             platos +=  pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
-            " "+ pla["precioPlato"] + "€" +"\n";
-            var PrecioUnitario=Number(pla["precioPlato"])*Number(pla["cantidadPlato"]);
+            " "+ pla["precioPlato"] + " €" +"\n";
+
+            var PrecioUnitario= Number(pla["precioPlato"])*Number(pla["cantidadPlato"]);
             totalPedido+=PrecioUnitario;
         });
+
         console.log("platos: " , platos);
         console.log("TOTAL" , totalPedido);
 
         console.log("pendientes ", pedidosPendientes)
+
         //divCambiar
         var cambioDiv = document.createElement("div");
         cambioDiv.className = "divCambiar elemento"
@@ -222,6 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
+
 //Función para cuando se le da al botón modificar
 function modify(e) {
     e.preventDefault()
@@ -320,6 +332,25 @@ function aceptarPedido(e, id, div, enCurso, params) {
             }
         })
 }
+
+//Update accordeones en el momento de carga
+function loadAccordion(e){
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel /
+    this.classList.toggle("active");
+
+    / Toggle between hiding and showing the active panel */
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+
+}
+
+
+
 
 
 

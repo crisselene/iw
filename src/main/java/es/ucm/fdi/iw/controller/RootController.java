@@ -628,7 +628,7 @@ public class RootController {
 
         // diccionario id, cantidad diccionario[ID]=cantidad
         //
-        log.info("HE LLEGADO PERRO");
+
         Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); // entitymanager, jsonnode y user
 
         // tratamiento de json:
