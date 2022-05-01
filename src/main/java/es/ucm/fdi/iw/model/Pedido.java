@@ -64,4 +64,10 @@ public class Pedido {
         this.estado = estado;
         this.activo=true;
     }
+
+    public Boolean isEnCurso() {
+        if(this.estado==Estado.ACEPTADO || this.estado==Estado.REPARTO) 
+            return true;
+        else return false;
+    }
 }

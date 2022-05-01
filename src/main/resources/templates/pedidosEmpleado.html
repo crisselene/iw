@@ -11,6 +11,8 @@
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
+    <button type="button" id="prueba1">Prueba1</button>
+
     <main class="flex-shrink-0">
         <div class="container">
             <h1 class="mt-5">Pedidos</h1>
@@ -127,6 +129,7 @@
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/pedidosEmpleado.js}" src="js/pedidosEmpleado.js"></script>
+    <script th:src="@{/js/pedidosEmpleadoPrueba.js}" src="js/pedidosEmpleadoPrueba.js"></script>
 </body>
 
 </html>

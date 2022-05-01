@@ -750,7 +750,7 @@ public class RootController {
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
-            listaPedidos = saGeneral.listarPedidosPendientes(em);
+            listaPedidos = saGeneral.listarPedidos(em);
             log.info("@@@@@@@@@@@@---------@@");
             for (Pedido ped : listaPedidos) {
                 log.info("---------@@");
