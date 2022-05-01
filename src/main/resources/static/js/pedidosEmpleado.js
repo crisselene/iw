@@ -13,9 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Acordeenos de pedidos ya hechos una vez cargada la pagina
     const Pedacc = document.querySelectorAll('.accordion') //Lista de acordeones
-    Pedacc.forEach(acc => { 
+    Pedacc.forEach(acc => {
         acc.addEventListener('click', loadAccordion) //Le añadimos el action listener a los botones compra
-     })
+    })
 
 
     // add your after-page-loaded JS code here; or even better, call 
@@ -57,7 +57,7 @@ if (ws.receive) {
         const id = m["idPedido"];
 
         //string con los platos del pedido
-        var platos="";
+        var platos = "";
 
         //vamos sumando los precios de los platos y los guardamos en total
         var totalPedido = new Number(0);
@@ -66,20 +66,20 @@ if (ws.receive) {
         m["platos"].forEach(pla => {
             console.log(pla["nombrePlato"]);
 
-            platos +=  pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
-            " ("+ pla["precioPlato"] + "€/ud)" +"\n";
+            platos += pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
+                " (" + pla["precioPlato"] + "€/ud)" + "\n";
 
-            var PrecioUnitario= Number(pla["precioPlato"])*Number(pla["cantidadPlato"]);
-            totalPedido+=PrecioUnitario;
+            var PrecioUnitario = Number(pla["precioPlato"]) * Number(pla["cantidadPlato"]);
+            totalPedido += PrecioUnitario;
         });
 
         //creamos un parrafo para el total y lo ponemos en negrita
         var pTotal = document.createElement("p");
-        pTotal.innerText= 'Total: ' + totalPedido + '€';
-        pTotal.style="font-weight:bold"
+        pTotal.innerText = 'Total: ' + totalPedido + '€';
+        pTotal.style = "font-weight:bold"
 
-        console.log("platos: " , platos);
-        console.log("TOTAL" , totalPedido);
+        console.log("platos: ", platos);
+        console.log("TOTAL", totalPedido);
 
         console.log("pendientes ", pedidosPendientes)
 
@@ -114,7 +114,7 @@ if (ws.receive) {
 
         //button acordeon
         var accord = document.createElement("button");
-        accord.innerText="Listado de platos"
+        accord.innerText = "Listado de platos"
         accord.className = "accordion"
         var panel = document.createElement("div")
         panel.className = "panel"
@@ -126,7 +126,7 @@ if (ws.receive) {
 
         //añadir el div a la tabla de pedidos pendientes
         nuevoPedi.appendChild(botones)
-       
+
         cambioDiv.append(nuevoPedi)
         cambioDiv.append(accord);
         pedidosPendientes.append(cambioDiv);
@@ -135,15 +135,15 @@ if (ws.receive) {
         //listener acordeon
         document.querySelector(".accordion")
         accord.addEventListener("click", l => {
-           
-                    accord.classList.toggle("active");
-                    var panel2 = accord.nextElementSibling;
-                    if (panel.style.display === "block") {
-                        panel.style.display = "none";
-                    } else {
-                        panel.style.display = "block";
-                    }
-                
+
+            accord.classList.toggle("active");
+            var panel2 = accord.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
         })
 
         //listener aceptar
@@ -151,7 +151,7 @@ if (ws.receive) {
         let params = { "idPed": id };
         const enCurso = document.querySelector(".pedEnCurso");
         nuevoAcep.addEventListener("click", l => {
-            aceptarPedido(nuevoAcep, id, nuevoPedi, enCurso, params)
+            aceptarPedido(nuevoAcep, id, cambioDiv, enCurso, params)
         })
 
         //listener rechazar
@@ -265,31 +265,28 @@ function aceptarPedido(e, id, div, enCurso, params) {
             console.log("en curso: ", d['encurso'])
             //si enCurso=true entonces podemos cambiarlo a la tabla
             //de pedidos en curso
-            var botonAcep = div.querySelector(".aceptar")
+
             if (d['estado'] == "ACEPTADO") {
                 //eliminamos el boton aceptar para reemplazarlo por
                 //el boton modificar
-                botonAcep.remove()
+                var botonAcep = div.querySelector(".aceptar")
+                botonAcep.setAttribute('data-bs-toggle', 'modal');
+                botonAcep.setAttribute('data-bs-target', '#modalModPed');
+                botonAcep.className = "modify"
+                botonAcep.innerText = "Modificar"
+                botonAcep.style = "float: left; width: 100px; margin-right: 5px;background-color: #849974"
 
                 //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                 var rech = div.querySelector(".rechazar")
                 rech.innerHTML = "Eliminar"
 
 
-                //console.log("SE PUEDE CAMBIAR")
-
-                //lo cambiamos a la tabla de pedidos en curso
-                enCurso.append(div);
                 console.log("vamos a apendarlo a ", enCurso)
                 //creamos un nuevo formulario con los botones de
                 //eliminar y modificar, incluyendo el modal
-                const tr = document.createElement('form')
-                const Content = `<form>
-               <button class="modify" type="button" data-bs-toggle="modal" data-bs-target="#modalModPed"
-                    style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>
-                
 
-                
+                const tr = document.createElement('div')
+                const Content = `
                 <!-- Modal -->
                 <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel"
@@ -330,16 +327,19 @@ function aceptarPedido(e, id, div, enCurso, params) {
                         </div>
                     </div>
                 </div>
-            </form>
+           
                  `
                 tr.innerHTML = Content
-                div.append(tr);
+                div.append(tr)
+                //lo cambiamos a la tabla de pedidos en curso
+                enCurso.append(div);
+
             }
         })
 }
 
 //Update accordeones en el momento de carga
-function loadAccordion(e){
+function loadAccordion(e) {
     /* Toggle between adding and removing the "active" class,
     to highlight the button that controls the panel /
     this.classList.toggle("active");
@@ -348,9 +348,9 @@ function loadAccordion(e){
 
     var panel = this.nextElementSibling;
     if (panel.style.display === "block") {
-      panel.style.display = "none";
+        panel.style.display = "none";
     } else {
-      panel.style.display = "block";
+        panel.style.display = "block";
     }
 
 }
