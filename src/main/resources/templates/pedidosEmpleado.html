@@ -43,6 +43,16 @@
                         </form>
                     </div>
 
+                    <button class="accordion">Listado de platos</button>
+                        <div class="panel">
+                            <p> </p>
+                             <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
+                             ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
+                             
+                             
+                             ">Lechuga</p>
+                             <p th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' ">Total</p>
+                        </div>
                 </th:block>
             </div>
 
