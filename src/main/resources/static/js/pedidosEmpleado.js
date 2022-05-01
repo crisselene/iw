@@ -45,9 +45,26 @@ if (ws.receive) {
         y el boton rechazar*/
 
         var pedidosPendientes = document.querySelector(".rowNuevosPed")
-        
+
         //constante id del pedido
         const id = m["idPedido"];
+
+        //string con los platos del pedido
+        var platos="";
+
+        //vamos sumando los precios de los platos y los guardamos en total
+        var totalPedido = new Number(0);
+        //necesito un objeto json poruqe estoy sacando información de 
+        //un json que está dentor de otro json
+        m["platos"].forEach(pla => {
+            console.log(pla["nombrePlato"]);
+            platos +=  pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
+            " "+ pla["precioPlato"] + "€" +"\n";
+            var PrecioUnitario=Number(pla["precioPlato"])*Number(pla["cantidadPlato"]);
+            totalPedido+=PrecioUnitario;
+        });
+        console.log("platos: " , platos);
+        console.log("TOTAL" , totalPedido);
 
         console.log("pendientes ", pedidosPendientes)
         //divCambiar
@@ -57,9 +74,10 @@ if (ws.receive) {
         //contenido del div col
         var nuevoPedi = document.createElement("div");
         nuevoPedi.className = "col"
-        
+
         var newContent = document.createTextNode('Pedido: ' + id
-            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
+            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] +
+            ', Total: ' + totalPedido);
         nuevoPedi.appendChild(newContent)
 
 
@@ -74,20 +92,50 @@ if (ws.receive) {
         nuevoRech.className = "rechazar rojo"
         nuevoRech.innerText = "Rechazar"
 
+        //div botones
+        var botones = document.createElement("div");
+        botones.appendChild(nuevoAcep)
+        botones.appendChild(nuevoRech)
+
+        //button acordeon
+        var accord = document.createElement("button");
+        accord.innerText="Listado de platos"
+        accord.className = "accordion"
+        var panel = document.createElement("div")
+        panel.className = "panel"
+        var parrafo = document.createElement("p")
+        parrafo.innerText = platos;
+        panel.appendChild(parrafo);
+        accord.appendChild(panel);
 
         //añadir el div a la tabla de pedidos pendientes
-        nuevoPedi.appendChild(nuevoAcep)
-        nuevoPedi.appendChild(nuevoRech)
+        nuevoPedi.appendChild(botones)
+       
         cambioDiv.append(nuevoPedi)
+        cambioDiv.append(accord);
         pedidosPendientes.append(cambioDiv);
         console.log("mensaje webSocket llegado");
+
+        //listener acordeon
+        document.querySelector(".accordion")
+        accord.addEventListener("click", l => {
+           
+                    accord.classList.toggle("active");
+                    var panel2 = accord.nextElementSibling;
+                    if (panel.style.display === "block") {
+                        panel.style.display = "none";
+                    } else {
+                        panel.style.display = "block";
+                    }
+                
+        })
 
         //listener aceptar
         document.querySelector(".divCambiar")
         let params = { "idPed": id };
         const enCurso = document.querySelector(".pedEnCurso");
         nuevoAcep.addEventListener("click", l => {
-            aceptarPedido(nuevoAcep,id,nuevoPedi,enCurso,params)
+            aceptarPedido(nuevoAcep, id, nuevoPedi, enCurso, params)
         })
 
         //listener rechazar

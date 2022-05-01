@@ -641,11 +641,13 @@ public class RootController {
             if (cont == fini) {
                 log.info("cont = fini");
                 jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
-                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() +  "\"}]" ;
+                    "\"cantidadPlato\": \"" + pl.getCantidad() + "\"," +
+                    "\"precioPlato\": \"" + pl.getPlato().getPrecio() +  "\"}]" ;
             } else {
                 log.info("cont NO = fini");
                 jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
-                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
+                    "\"cantidadPlato\": \"" + pl.getCantidad() + "\"," +
+                     "\"precioPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
             }
             cont++;               
         }
