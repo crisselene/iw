@@ -67,11 +67,16 @@ if (ws.receive) {
             console.log(pla["nombrePlato"]);
 
             platos +=  pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
-            " "+ pla["precioPlato"] + " €" +"\n";
+            " ("+ pla["precioPlato"] + "€/ud)" +"\n";
 
             var PrecioUnitario= Number(pla["precioPlato"])*Number(pla["cantidadPlato"]);
             totalPedido+=PrecioUnitario;
         });
+
+        //creamos un parrafo para el total y lo ponemos en negrita
+        var pTotal = document.createElement("p");
+        pTotal.innerText= 'Total: ' + totalPedido + '€';
+        pTotal.style="font-weight:bold"
 
         console.log("platos: " , platos);
         console.log("TOTAL" , totalPedido);
@@ -87,8 +92,7 @@ if (ws.receive) {
         nuevoPedi.className = "col"
 
         var newContent = document.createTextNode('Pedido: ' + id
-            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] +
-            ', Total: ' + totalPedido);
+            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
         nuevoPedi.appendChild(newContent)
 
 
@@ -117,6 +121,7 @@ if (ws.receive) {
         var parrafo = document.createElement("p")
         parrafo.innerText = platos;
         panel.appendChild(parrafo);
+        panel.appendChild(pTotal);
         accord.appendChild(panel);
 
         //añadir el div a la tabla de pedidos pendientes
