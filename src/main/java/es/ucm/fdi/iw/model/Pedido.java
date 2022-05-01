@@ -65,8 +65,8 @@ public class Pedido {
         this.activo=true;
     }
 
-    public Boolean isEnCurso(){
-        if(this.estado==Estado.ACEPTADO || this.estado==Estado.REPARTO)
+    public Boolean isEnCurso() {
+        if(this.estado==Estado.ACEPTADO || this.estado==Estado.REPARTO) 
             return true;
         else return false;
     }
