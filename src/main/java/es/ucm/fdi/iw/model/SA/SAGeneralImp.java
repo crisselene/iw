@@ -303,7 +303,7 @@ public class SAGeneralImp{
         return correcto;
     }
 
-    public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
+ /*    public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
         boolean correcto = false;
         Pedido p = em.find(Pedido.class, id);
             if(p!=null){
@@ -315,9 +315,25 @@ public class SAGeneralImp{
             }
         
         return correcto;
+    } */
+
+    public Pedido actualizarEstadoPedido(EntityManager em, long idPedido, String estado)
+    {
+        Pedido p = em.find(Pedido.class, idPedido);
+       /*  if(p != null)
+        { */
+            Estado e = Pedido.estadoStringToEnum(estado);
+            p.setEstado(e);
+            //p.actualizarEstado(estado);
+
+
+            return p;
+       /*  } */
+
+        /* return false; */
     }
 
-    public boolean modificarPedido(EntityManager em, long id, String direccion){ //Cabmia el valor de enCurso a true
+    /* public boolean modificarPedido(EntityManager em, long id, String direccion){ //Cabmia el valor de enCurso a true
         boolean correcto = false;
         Pedido p = em.find(Pedido.class, id);
             if(p!=null){
@@ -327,7 +343,7 @@ public class SAGeneralImp{
                 }
             }
         return correcto;
-    }
+    } */
 
     public void estadoPedido(EntityManager em, long id, Estado estado) {
         Pedido p = em.find(Pedido.class, id);

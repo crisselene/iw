@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="h-100" xmlns:th="http://www.thymeleaf.org">
-<script src="js/pedidosEmpleado.js"></script>
+<!-- <script src="js/pedidosEmpleado.js"></script> -->
 
 <head>
     <th:block th:replace="fragments/head :: header" />
@@ -40,11 +40,19 @@
                             cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
                         <form>
                             <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
+                            <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}">
+                                <th:block th:each="est,iter: ${listaEstados}">
+                                   <!--<option th:if="${iter.index} == 0" selected th:text="${cat}">opcion</option>
+                                    <option th:unless="${iter.index} == 0" th:text="${cat}">opcion</option> -->
+                                    <option th:value="${est}" th:text="${est}">opcion</option> <!-- th:attr="data-posEstado=${est}" -->
+                                </th:block>
+                              </select>
+
                             <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
                             <button type="button" class="rechazar rojo">Rechazar</button>
                         </form>
             
-                    <button class="accordion">Listado de platos</button>
+                    <button class="accordion">Listado de platos <p> 🔽</p></button>
                         <div class="panel">
                             <p> </p>
                              <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
@@ -70,24 +78,31 @@
                         <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.getCliente.username}"></div>
                         <form>
-                            <button class="modify verde" type="button" data-bs-toggle="modal"
-                                data-bs-target="#modalModPed">Modificar</button>
+                            <select class="selectEstado" name="estado" th:attr="data-estPedId=${ped.id}">
+                                <th:block th:each="est,iter: ${listaEstados}">
+                                   <option th:if="${est} == ${ped.getEstadoAsString()}" selected th:value="${est}" th:text="${est}">opcion</option>
+                                    <option th:unless="${est} == ${ped.getEstadoAsString()}" th:value="${est}" th:text="${est}">opcion</option> -->
+                                    <!-- <option th:value="${est}" th:text="${est}">opcion</option>  --><!-- th:attr="data-posEstado=${est}" -->
+                                </th:block>
+                              </select>
+                            <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
+                                data-bs-target="#modalModPed">Modificar</button> -->
                             <button class="rechazar rojo" type="button">Eliminar</button>
 
                             <!-------------------------- MODAL -------------------->
-                            <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false"
+                            <!-- <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false"
                                 tabindex="-1" aria-labelledby="modalModPedLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
-                                            <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
+                                             El boton es la crucecita de arriba a la derecha para cerrar
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" style="text-align: left;">
-                                            <!-- IMPORTANTE -->
-                                            <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
+                                             IMPORTANTE
+                                             Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)
                                             <form id="formModPed" th:action="@{/}" onsubmit="return false;">
                                                 <label for="nombrePedido" style="display: block;">Número de
                                                     pedido</label>
@@ -112,11 +127,11 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <!------------------------ACABAMOS MODAL ------------------------->
 
                         </form>
-                        <button class="accordion">Listado de platos</button>
+                        <button class="accordion">Listado de platos <p> 🔽</p></button>
                         <div class="panel">
                             <p> </p>
                              <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
@@ -135,7 +150,7 @@
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/pedidosEmpleado.js}" src="js/pedidosEmpleado.js"></script>
-    <script th:src="@{/js/pedidosEmpleadoPrueba.js}" src="js/pedidosEmpleadoPrueba.js"></script>
-</body>
+    <!-- <script th:src="@{/js/pedidosEmpleadoPrueba.js}" src="js/pedidosEmpleadoPrueba.js"></script>
+</body> -->
 
 </html>

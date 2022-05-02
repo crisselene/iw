@@ -62,21 +62,42 @@ VALUES(4, true, 5, 2, '2022-02-21T10:00:00');
 INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
 VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
 
- INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(1, true, 'Calle Antilla', false, 0, 2);
- INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(2, true, 'Calle Holanda', false, 0, 2);
- INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(3, true, 'Calle Eros', false, 0, 2);
- INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(4, true, 'Calle Cristina', false, 0, 2);
-  INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(5, true, 'Calle A', false, 0, 2);
-  INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(6, true, 'Calle B', false, 0, 2);
-  INSERT INTO PEDIDO(id, activo, direccion, en_curso, estado, cliente_id)
- VALUES(7, true, 'Calle C', false, 0, 2);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(1, true, 'Calle Antilla', 0, 2);
+ INSERT INTO PEDIDO(id, activo, direccion,  estado, cliente_id)
+ VALUES(2, true, 'Calle Holanda', 0, 2);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(3, true, 'Calle Eros', 0, 2);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(4, true, 'Calle Cristina', 0, 2);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(5, true, 'Calle A',  0, 2);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(6, true, 'Calle B', 2, 2);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id)
+ VALUES(7, true, 'Calle C', 3, 2);
 
+
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(1, 1, 1,  7.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(2, 1, 2, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(3, 2, 2, 4.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(1, 2, 2, 7.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(2, 3, 2, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(4, 4, 1,  4.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(5, 5, 2, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(5, 6, 1, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(1, 6, 1, 7.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(1, 7, 2, 7.99);
  --INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad)
  --VALUES(1, 1, 2);
 

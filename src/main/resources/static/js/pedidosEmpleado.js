@@ -1,5 +1,39 @@
 "use strict"
 
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll('.selectEstado').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
+        boton.addEventListener("change", e => {
+            cambiarEstado(e.target.dataset.estpedid, e.target.value) //IMPORTANTE (Los data deben ir en minusculas)    
+        });
+    }); 
+
+
+    function cambiarEstado(idPedido, nuevoEstado)
+    {
+        console.log("cambiado estado del pedido con id")
+        console.log(idPedido + " id del pedido a cambiar")
+        let formData = new FormData();
+        formData.append("idPedido", idPedido)
+        formData.append("estado", nuevoEstado)
+
+        go("/actualizarEstPed", "POST", formData, {}).then(d => {
+            
+
+            if(d["result"] != "ok")
+            {
+                alert("Error al actualizar el estado del pedido " + idPedido)
+            }
+            else{
+                console.log("todo ok")
+            }
+            }).catch(() => console.log("fallo"));
+
+    } 
+
+});
+
+
 //copiar y pegar esto cambiando los subs (si quieres subscribirte a web sockets)
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
@@ -23,149 +57,153 @@ document.addEventListener("DOMContentLoaded", () => {
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
 });
 
+
+document.addEventListener("DOMContentLoaded", () => {
 // recibiendo los mensajes de webSockets
-if (ws.receive) {
-    const oldFn = ws.receive; // guarda referencia a manejador anterior
+    if (ws.receive) {
+        const oldFn = ws.receive; // guarda referencia a manejador anterior
 
-    ws.receive = (m) => {//reescribe lo que hace la funcion receive
+        ws.receive = (m) => {//reescribe lo que hace la funcion receive
 
-        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
-        /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
-        //se accede como a un json , vamos, como se accede a un array xd
+            oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
+            /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+            //se accede como a un json , vamos, como se accede a un array xd
 
-        console.log("el id es: " + m["idPedido"]);
-        console.log("M: ", m);//mensaje que muestra el objeto
-        //-------------------------intorduzco el pedido en la tabla de nuevos pedidos----------------------------------------------
-        /*crear un div nuevo, añadirle clase y contenido: 
-        https://developer.mozilla.org/es/docs/Web/API/Document/createElement
-        https://www.w3schools.com/jsref/met_document_createelement.asp          */
-
-
-        /*explicación:
-        hay 3 niveles: 
-        1. el divCambiar(cambioDiv) que es el que contiene al resto, dentro va el div col
-        2. el div col(nuevoPedi), que es el que establece las columnas y contiene la info, dentro van los botones
-        3. los dos botones de aceptar y rechazar
-        
-        vamos a ir creando cada uno a continuación con sus clases, e insertando sus hijos.
-        Despues al divCambiar(cambioDiv) le añadiremos el action listener sobre su boton aceptar 
-        y el boton rechazar*/
-
-        var pedidosPendientes = document.querySelector(".rowNuevosPed")
-
-        //constante id del pedido
-        const id = m["idPedido"];
-
-        //string con los platos del pedido
-        var platos = "";
-
-        //vamos sumando los precios de los platos y los guardamos en total
-        var totalPedido = new Number(0);
-        //necesito un objeto json porque estoy sacando información de 
-        //un json que está dentor de otro json
-        m["platos"].forEach(pla => {
-            console.log(pla["nombrePlato"]);
-
-            platos += pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
-                " (" + pla["precioPlato"] + "€/ud)" + "\n";
-
-            var PrecioUnitario = Number(pla["precioPlato"]) * Number(pla["cantidadPlato"]);
-            totalPedido += PrecioUnitario;
-        });
-
-        //creamos un parrafo para el total y lo ponemos en negrita
-        var pTotal = document.createElement("p");
-        pTotal.innerText = 'Total: ' + totalPedido + '€';
-        pTotal.style = "font-weight:bold"
-
-        console.log("platos: ", platos);
-        console.log("TOTAL", totalPedido);
-
-        console.log("pendientes ", pedidosPendientes)
-
-        //divCambiar
-        var cambioDiv = document.createElement("div");
-        cambioDiv.className = "divCambiar elemento"
-
-        //contenido del div col
-        var nuevoPedi = document.createElement("div");
-        nuevoPedi.className = "col"
-
-        var newContent = document.createTextNode('Pedido: ' + id
-            + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
-        nuevoPedi.appendChild(newContent)
+            console.log("el id es: " + m["idPedido"]);
+            console.log("M: ", m);//mensaje que muestra el objeto
+            //-------------------------intorduzco el pedido en la tabla de nuevos pedidos----------------------------------------------
+            /*crear un div nuevo, añadirle clase y contenido: 
+            https://developer.mozilla.org/es/docs/Web/API/Document/createElement
+            https://www.w3schools.com/jsref/met_document_createelement.asp          */
 
 
-        //boton aceptar
-        var nuevoAcep = document.createElement("button");
-        nuevoAcep.className = "aceptar verde"
-        nuevoAcep.innerText = "Aceptar"
+            /*explicación:
+            hay 3 niveles: 
+            1. el divCambiar(cambioDiv) que es el que contiene al resto, dentro va el div col
+            2. el div col(nuevoPedi), que es el que establece las columnas y contiene la info, dentro van los botones
+            3. los dos botones de aceptar y rechazar
+            
+            vamos a ir creando cada uno a continuación con sus clases, e insertando sus hijos.
+            Despues al divCambiar(cambioDiv) le añadiremos el action listener sobre su boton aceptar 
+            y el boton rechazar*/
+
+             var pedidosPendientes = document.querySelector(".rowNuevosPed")
+
+            //constante id del pedido
+            const id = m["idPedido"];
+
+            //string con los platos del pedido
+            var platos = "";
+
+            //vamos sumando los precios de los platos y los guardamos en total
+            var totalPedido = new Number(0);
+            //necesito un objeto json porque estoy sacando información de 
+            //un json que está dentor de otro json
+            m["platos"].forEach(pla => {
+                console.log(pla["nombrePlato"]);
+
+                platos += pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
+                    " (" + pla["precioPlato"] + "€/ud)" + "\n";
+
+                var PrecioUnitario = Number(pla["precioPlato"]) * Number(pla["cantidadPlato"]);
+                totalPedido += PrecioUnitario;
+            });
+
+            //creamos un parrafo para el total y lo ponemos en negrita
+            var pTotal = document.createElement("p");
+            pTotal.innerText = 'Total: ' + totalPedido + '€';
+            pTotal.style = "font-weight:bold"
+
+            console.log("platos: ", platos);
+            console.log("TOTAL", totalPedido);
+
+            console.log("pendientes ", pedidosPendientes)
+
+            //divCambiar
+            var cambioDiv = document.createElement("div");
+            cambioDiv.className = "divCambiar elemento"
+
+            //contenido del div col
+            var nuevoPedi = document.createElement("div");
+            nuevoPedi.className = "col"
+
+            var newContent = document.createTextNode('Pedido: ' + id
+                + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
+            nuevoPedi.appendChild(newContent)
 
 
-        //boton rechazar
-        var nuevoRech = document.createElement("button");
-        nuevoRech.className = "rechazar rojo"
-        nuevoRech.innerText = "Rechazar"
+            //boton aceptar
+            var nuevoAcep = document.createElement("button");
+            nuevoAcep.className = "aceptar verde"
+            nuevoAcep.innerText = "Aceptar"
 
-        //div botones
-        var botones = document.createElement("div");
-        botones.appendChild(nuevoAcep)
-        botones.appendChild(nuevoRech)
 
-        //button acordeon
-        var accord = document.createElement("button");
-        accord.innerText = "Listado de platos"
-        accord.className = "accordion"
-        var panel = document.createElement("div")
-        panel.className = "panel"
-        var parrafo = document.createElement("p")
-        parrafo.innerText = platos;
-        panel.appendChild(parrafo);
-        panel.appendChild(pTotal);
-        accord.appendChild(panel);
+            //boton rechazar
+            var nuevoRech = document.createElement("button");
+            nuevoRech.className = "rechazar rojo"
+            nuevoRech.innerText = "Rechazar"
 
-        //añadir el div a la tabla de pedidos pendientes
-        nuevoPedi.appendChild(botones)
+            //div botones
+            var botones = document.createElement("div");
+            botones.appendChild(nuevoAcep)
+            botones.appendChild(nuevoRech)
 
-        cambioDiv.append(nuevoPedi)
-        cambioDiv.append(accord);
-        pedidosPendientes.append(cambioDiv);
-        console.log("mensaje webSocket llegado");
+            //button acordeon
+            var accord = document.createElement("button");
+            accord.innerText = "Listado de platos"
+            accord.className = "accordion"
+            var panel = document.createElement("div")
+            panel.className = "panel"
+            var parrafo = document.createElement("p")
+            parrafo.innerText = platos;
+            panel.appendChild(parrafo);
+            panel.appendChild(pTotal);
+            accord.appendChild(panel);
 
-        //listener acordeon
-        document.querySelector(".accordion")
-        accord.addEventListener("click", l => {
+            //añadir el div a la tabla de pedidos pendientes
+            nuevoPedi.appendChild(botones)
 
-            accord.classList.toggle("active");
-            var panel2 = accord.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
+            cambioDiv.append(nuevoPedi)
+            cambioDiv.append(accord);
+            pedidosPendientes.append(cambioDiv);
+            console.log("mensaje webSocket llegado");
 
-        })
+            //listener acordeon
+            document.querySelector(".accordion")
+            accord.addEventListener("click", l => {
 
-        //listener aceptar
-        document.querySelector(".divCambiar")
-        let params = { "idPed": id };
-        const enCurso = document.querySelector(".pedEnCurso");
-        nuevoAcep.addEventListener("click", l => {
-            aceptarPedido(nuevoAcep, id, cambioDiv, enCurso, params)
-        })
+                accord.classList.toggle("active");
+                var panel2 = accord.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                } 
 
-        //listener rechazar
-        cambioDiv.querySelector(".rechazar").addEventListener("click", k => {
-            console.log("Rechazando elemento id", id)
-            let confirmAction = confirm("¿Quiere eliminar este pedido?");
-            if (confirmAction) {
-                eliminar(k, params)
-                nuevoPedi.remove()
-            }
-        })
+            })
 
+            //listener aceptar
+            document.querySelector(".divCambiar")
+            let params = { "idPed": id };
+            const enCurso = document.querySelector(".pedEnCurso");
+            nuevoAcep.addEventListener("click", l => {
+                aceptarPedido(nuevoAcep, id, cambioDiv, enCurso, params)
+            })
+
+            //listener rechazar
+            cambioDiv.querySelector(".rechazar").addEventListener("click", k => {
+                console.log("Rechazando elemento id", id)
+                let confirmAction = confirm("¿Quiere eliminar este pedido?");
+                if (confirmAction) {
+                    eliminar(k, params)
+                    nuevoPedi.remove()
+                }
+            })
+
+        }
     }
-}
+
+});
 
 
 
@@ -267,14 +305,20 @@ function aceptarPedido(e, id, div, enCurso, params) {
             //de pedidos en curso
 
             if (d['estado'] == "ACEPTADO") {
+
+                var b = div.querySelector('.aceptar');
+                b.remove();
+
+                console.log("select " + div.querySelector('select').classList);
+                div.querySelector('select').classList.remove("oculto");
                 //eliminamos el boton aceptar para reemplazarlo por
                 //el boton modificar
-                var botonAcep = div.querySelector(".aceptar")
+                /* var botonAcep = div.querySelector(".aceptar")
                 botonAcep.setAttribute('data-bs-toggle', 'modal');
                 botonAcep.setAttribute('data-bs-target', '#modalModPed');
                 botonAcep.className = "modify"
                 botonAcep.innerText = "Modificar"
-                botonAcep.style = "float: left; width: 100px; margin-right: 5px;background-color: #849974"
+                botonAcep.style = "float: left; width: 100px; margin-right: 5px;background-color: #849974" */
 
                 //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                 var rech = div.querySelector(".rechazar")
@@ -285,7 +329,7 @@ function aceptarPedido(e, id, div, enCurso, params) {
                 //creamos un nuevo formulario con los botones de
                 //eliminar y modificar, incluyendo el modal
 
-                const tr = document.createElement('div')
+               /*  const tr = document.createElement('div')
                 const Content = `
                 <!-- Modal -->
                 <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
@@ -330,7 +374,7 @@ function aceptarPedido(e, id, div, enCurso, params) {
            
                  `
                 tr.innerHTML = Content
-                div.append(tr)
+                div.append(tr) */
                 //lo cambiamos a la tabla de pedidos en curso
                 enCurso.append(div);
 

@@ -761,6 +761,41 @@ public class RootController {
         return "{\"isok\": \"todobien\"}";// devuelve un json como un string
     }
 
+    @PostMapping("/actualizarEstPed")
+    @ResponseBody
+    @Transactional
+    public String actualizarEstPed(@RequestParam("idPedido") long idPedido, @RequestParam("estado") String estado) {
+
+        log.info("peticion de cambio del pedido "+ idPedido + "a estado "+ estado);
+        //String jsonAEnviar = "{\"isok\": \"llegado de un websocket\"}";
+        Pedido p = saGeneral.actualizarEstadoPedido(em, idPedido, estado);
+        
+            log.info("pedido y estado: "+ p.getEstadoAsString());
+
+            String notificar= "/ver/misPedidos" + p.getCliente().getId();
+            log.info("notificar a: " + notificar);
+
+            String jsonAEnviar = "{";
+            jsonAEnviar += "\"idPedido\": \"" + idPedido + "\",";
+            jsonAEnviar += "\"estado\": \"" + estado + "\"";
+            jsonAEnviar += "}";
+
+
+            messagingTemplate.convertAndSend(notificar, jsonAEnviar);
+
+            return "{\"result\": \"ok\"}";
+        
+        
+           // return "{\"result\": \"mal\"}";
+        
+        //log.info("en funcion de websocket");
+        //log.info("datos llegados: " + dato);
+
+
+       // messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
+        //return "{\"result\": \"conseguido\"}";
+    }
+
     @PostMapping("/web")
     @ResponseBody
     @Transactional
@@ -858,8 +893,12 @@ public class RootController {
                 log.info(ped.isEnCurso());
             }
             model.addAttribute("listaPedidos", listaPedidos);
+
+            model.addAttribute("listaEstados", Pedido.getListaEstadosEditablesString());
             return "pedidosEmpleado";
         } else {
+
+            model.addAttribute("idUs", u.getId());
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 

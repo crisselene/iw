@@ -133,3 +133,22 @@ float: left;
     background-color: white;
     overflow: hidden;
   }
+
+
+  .accordion p{
+     /*  display: inline-block;
+    margin-left: 20em; */
+    margin: 0;
+    float: right;
+  text-align: right;
+  font-size: 1.2em;
+
+/*   display:none;  oculta cosas*/
+  }
+  .oculto{
+      display: none;
+  }
+
+  .desplegable{
+    display: inline-block;
+  }

@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -32,12 +33,14 @@ public class Pedido {
     
     public enum Estado {
         PENDIENTE,			 
-        ACEPTADO,          
-        REPARTO
+        ACEPTADO,
+        COCINAS,          
+        REPARTO,
+        ENTREGADO
     }
 
     private Estado estado; 
-    private boolean enCurso;
+   // private boolean enCurso;
     private boolean activo;
     @OneToMany (mappedBy = "pedido")
     private List<LineaPlatoPedido> platos; //Lista de platos
@@ -66,8 +69,87 @@ public class Pedido {
     }
 
     public Boolean isEnCurso() {
-        if(this.estado==Estado.ACEPTADO || this.estado==Estado.REPARTO) 
+        if(this.estado !=Estado.PENDIENTE) 
             return true;
         else return false;
+    }
+
+    public static List<String> getListaEstadosString()
+    {
+        List<String> list = new ArrayList<String>();
+        list.add("PENDIENTE");	
+        list.add("ACEPTADO");	
+        list.add("COCINAS");	
+        list.add("REPARTO");	
+        list.add("ENTREGADO");			 
+        return list;
+    }
+    public static List<String> getListaEstadosEditablesString()
+    {
+        List<String> list = new ArrayList<String>();	
+        list.add("ACEPTADO");	
+        list.add("COCINAS");	
+        list.add("REPARTO");	
+        list.add("ENTREGADO");			 
+        return list;
+    }
+
+    public static String parseEstado(Estado estado)
+    {
+       if(estado == Estado.PENDIENTE)
+       {
+            return "PENDIENTE";
+       }
+       else if(estado == Estado.ACEPTADO)
+       {
+        return "ACEPTADO";
+       }
+       else if(estado == Estado.COCINAS)
+       {
+        return "COCINAS";
+       }
+       else if(estado == Estado.REPARTO)
+       {
+        return "REPARTO";
+       }
+       else if(estado == Estado.ENTREGADO)
+       {
+        return "ENTREGADO";
+       }
+
+       return null;
+    }
+
+    public String getEstadoAsString()
+    {
+        return parseEstado(this.estado);
+    }
+
+    public static Estado estadoStringToEnum(String est)
+    {
+        if(est.equals("PENDIENTE"))
+       {
+            return Estado.PENDIENTE;
+       }
+       else if(est.equals("ACEPTADO"))
+       {
+        return Estado.ACEPTADO;
+       }
+       else if(est.equals("COCINAS"))
+       {
+        return  Estado.COCINAS;
+       }
+       else if(est.equals("REPARTO"))
+       {
+        return  Estado.REPARTO;
+       }
+       else if(est.equals("ENTREGADO"))
+       {
+        return Estado.ENTREGADO;
+       }
+
+       return null;
+
+       
     }
 }

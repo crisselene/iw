@@ -1,7 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
-        let subs = ["/user/misPedidos/updates"]
-        ws.initialize(config.socketUrl, subs);
+       // let subs = ["/user/misPedidos/updates"]
+      
+       let idUs = document.getElementById("idUs").value
+
+       let subs = ["/ver/misPedidos" + +idUs]
+       console.log("nueva url a suscribirse" + subs)
+       ws.initialize(config.socketUrl, subs);
         console.log("suscribiendose desde pedidosUsuario");
     } else {
         console.log("Not opening websocket: missing config", config)
@@ -12,11 +17,17 @@ document.addEventListener("DOMContentLoaded", () => {
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
 });
 
+
+document.addEventListener("DOMContentLoaded", () => {
 if (ws.receive) {
     const oldFn = ws.receive; // guarda referencia a manejador anterior
     ws.receive = (m) => {//reescribe lo que hace la funcion receive
         oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
         /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
-        console.log("mensaje webSocket llegado a pedidosUsuario");
+       // console.log("mensaje webSocket llegado a pedidosUsuario con contenido " + m);
+       console.log("modificado el estado del pedido con id: " + m["idPedido"] + " a estado: " + m["estado"])
     }
 }
+
+});
+
