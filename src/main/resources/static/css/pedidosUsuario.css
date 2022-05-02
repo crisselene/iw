@@ -1,6 +1,16 @@
 *{
     box-sizing: border-box;
 }
+.filaPedido{
+    background-color: rgba(180, 138, 138, 0.479);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border: 1px solid; 
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 10%;
+    margin-top: 5%;
+}
 body{
     background:url(../img/home-bg.jpg) no-repeat;
     display: flex;

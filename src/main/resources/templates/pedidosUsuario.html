@@ -11,7 +11,9 @@
         <div class="container">
             <h3 class="mt-5">Pagina pedidos desde punto de vista ususario</h3>
         </div>
+
         <input id ="idUs"type="hidden" th:value="${idUs}">
+
         <!--Tabla PEDIDOS NUEVOS, float left para que esté a la izquierda-->
         <div class="container">
                 <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
@@ -22,16 +24,14 @@
                        
                     
 
-                <div class="row filaPedido" th:each="ped,i: ${listaPedidos}" style="background-color: rgba(180, 138, 138, 0.479);
-                border-top-left-radius: 5px; border-top-right-radius: 5px; border: 1px solid; 
-                padding-top: 2%; padding-bottom: 2%; padding-left: 10%; margin-top: 5%;"> 
+                <div class="row filaPedido" th:each="ped,i: ${listaPedidos}" > 
                     <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}" style="margin: auto;">
                     <!-- <div class="col" th:text="${ped.getId}" style="margin: auto;"></div> -->
                         
                     </div>
 
                     <div class="col">
-                        <p th:text="${ped.getEstado}">estado</p>
+                        <p th:class="'State'+${ped.getId}" th:text="${ped.getEstado}">estado</p>
                     </div>
 
                     <div class="col">   
