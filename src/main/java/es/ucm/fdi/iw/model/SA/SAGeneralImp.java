@@ -317,6 +317,18 @@ public class SAGeneralImp{
         return correcto;
     }
 
+    public boolean modificarPedido(EntityManager em, long id, String direccion){ //Cabmia el valor de enCurso a true
+        boolean correcto = false;
+        Pedido p = em.find(Pedido.class, id);
+            if(p!=null){
+                if(p.isActivo()){
+                    p.setDireccion(direccion);
+                    correcto = true;
+                }
+            }
+        return correcto;
+    }
+
     public void estadoPedido(EntityManager em, long id, Estado estado) {
         Pedido p = em.find(Pedido.class, id);
         if(p!=null){
