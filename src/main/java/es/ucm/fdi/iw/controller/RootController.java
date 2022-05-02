@@ -39,6 +39,7 @@ import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Valoracion;
+import es.ucm.fdi.iw.model.Pedido.Estado;
 import es.ucm.fdi.iw.model.Reserva.Transfer;
 import es.ucm.fdi.iw.model.SA.SAGeneralImp;
 import es.ucm.fdi.iw.model.User.Role;
@@ -83,8 +84,10 @@ public class RootController {
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        boolean encur = saGeneral.pedidoEnCurso(em, id);
-        return "{\"encurso\":" + encur + "}";
+        /* boolean encur = saGeneral.pedidoEnCurso(em, id);
+        return "{\"encurso\":" + encur + "}"; */
+        saGeneral.estadoPedido(em, id, Estado.ACEPTADO);
+        return "{\"estado\":" + "\"ACEPTADO\"" + "}";
     }
 
     @PostMapping(path = "/eliminarPed", produces = "application/json")
@@ -381,6 +384,51 @@ public class RootController {
         return "verPlato";
     }
 
+    @PostMapping(path = "/hacerComentario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String hacerComentario(Model model, @RequestParam("idPlato") long idPlato,
+                                                @RequestParam("descCom") String descCom,
+                                                @RequestParam("rateCom") int rateCom,
+                                                HttpSession session ) {
+        long idU = ((User)session.getAttribute("u")).getId();
+        User u = saGeneral.getUsuario(em, idU);
+        Plato p = saGeneral.buscarPlato(em, idPlato);
+        Valoracion v = saGeneral.crearValoracion(em, p, u, descCom, rateCom);
+        log.info("nuevo comentario del plato" + idPlato);
+        
+        String rol = "Usuario";
+
+        if(u.hasRole(Role.ADMIN))
+        {
+            rol = "Admin";
+        }
+
+        return "{\"isok\": \"true\","+
+        "\"NombreUs\": \""+ u.getUsername() + "\","+
+        "\"idCom\": \""+ v.getId() + "\","+
+        "\"rol\": \""+ rol + "\"}";//devuelve un json como un string
+    }
+
+    @PostMapping(path = "/borrarComentario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String borrarComentario(Model model, @RequestParam("idCom") long idCom,  HttpSession session) {
+        saGeneral.borrarValoracion(em, idCom);
+        long idU = ((User)session.getAttribute("u")).getId();
+        User u = saGeneral.getUsuario(em, idU);
+        String rol = "Usuario";
+
+        if(u.hasRole(Role.ADMIN))
+        {
+            rol = "Admin";
+        }
+
+        return "{\"isok\": \"true\","+
+        "\"rol\": \""+ rol + "\"}";//devuelve un json como un string
+    }
+
+
     /*
      * @GetMapping("verReservas")
      * public String verReservas(Model model) {
@@ -580,7 +628,7 @@ public class RootController {
 
         // diccionario id, cantidad diccionario[ID]=cantidad
         //
-        log.info("HE LLEGADO PERRO");
+
         Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); // entitymanager, jsonnode y user
 
         // tratamiento de json:
@@ -593,11 +641,13 @@ public class RootController {
             if (cont == fini) {
                 log.info("cont = fini");
                 jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
-                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() +  "\"}]" ;
+                    "\"cantidadPlato\": \"" + pl.getCantidad() + "\"," +
+                    "\"precioPlato\": \"" + pl.getPlato().getPrecio() +  "\"}]" ;
             } else {
                 log.info("cont NO = fini");
                 jsonPlatos += "{\"nombrePlato\": \"" + pl.getPlato().getNombre() + "\"," +
-                        "\"cantidadPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
+                    "\"cantidadPlato\": \"" + pl.getCantidad() + "\"," +
+                     "\"precioPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
             }
             cont++;               
         }
@@ -701,8 +751,9 @@ public class RootController {
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
             listaPedidos = saGeneral.listarPedidos(em);
-
+            log.info("@@@@@@@@@@@@---------@@");
             for (Pedido ped : listaPedidos) {
+                log.info("---------@@");
                 log.info(ped.getDireccion());
                 for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
@@ -718,7 +769,9 @@ public class RootController {
             listaPedidos = saGeneral.listarPedidosUsuario(em, u);
 
             for (Pedido ped : listaPedidos) {
+                log.info("@@@@@---");
                 log.info(ped.getDireccion());
+                log.info(ped.getEstado());
                 for (LineaPlatoPedido p : ped.getPlatos())
                     log.info("-" + p.getPlato().getNombre());
             }

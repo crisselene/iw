@@ -11,10 +11,12 @@
 }
 
 .btn-primary{
+    border-color: transparent;
     margin-top: 5px;
     background-color: var(--main);
 }
 .btn:hover{
+    border-color: transparent;
     background-color:#965666;
 }
 .nav-link{

@@ -11,9 +11,11 @@
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
 
+    <button type="button" id="prueba1">Prueba1</button>
+
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">Pagina pedidos desde punto de vista usuario</h1>
+            <h1 class="mt-5">Pedidos</h1>
 
         </div>
 
@@ -41,8 +43,16 @@
                             <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
                             <button type="button" class="rechazar rojo">Rechazar</button>
                         </form>
+            
+                    <button class="accordion">Listado de platos</button>
+                        <div class="panel">
+                            <p> </p>
+                             <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
+                             ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
+                             ">Lechuga</p>
+                             <p style="font-weight: bold;" th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' ">Total</p>
+                        </div>
                     </div>
-
                 </th:block>
             </div>
 
@@ -60,9 +70,9 @@
                         <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.getCliente.username}"></div>
                         <form>
-                            <button class="rechazar rojo" type="button">Eliminar</button>
                             <button class="modify verde" type="button" data-bs-toggle="modal"
                                 data-bs-target="#modalModPed">Modificar</button>
+                            <button class="rechazar rojo" type="button">Eliminar</button>
 
                             <!-------------------------- MODAL -------------------->
                             <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -106,6 +116,14 @@
                             <!------------------------ACABAMOS MODAL ------------------------->
 
                         </form>
+                        <button class="accordion">Listado de platos</button>
+                        <div class="panel">
+                            <p> </p>
+                             <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
+                             ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
+                             ">Lechuga</p>
+                             <p style="font-weight: bold;" th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' ">Total</p>
+                        </div>
                     </div>
 
                 </th:block>
@@ -117,6 +135,7 @@
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/pedidosEmpleado.js}" src="js/pedidosEmpleado.js"></script>
+    <script th:src="@{/js/pedidosEmpleadoPrueba.js}" src="js/pedidosEmpleadoPrueba.js"></script>
 </body>
 
 </html>

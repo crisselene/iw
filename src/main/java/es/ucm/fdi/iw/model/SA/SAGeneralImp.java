@@ -23,6 +23,7 @@ import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Valoracion;
+import es.ucm.fdi.iw.model.Pedido.Estado;
 import lombok.Data;
 
 @Data
@@ -45,6 +46,13 @@ public class SAGeneralImp{
         pedidos = em.createQuery("SELECT p FROM Pedido p").getResultList();
         return pedidos;
     }
+
+    public List<Pedido> listarPedidosPendientes(EntityManager em) {
+        List<Pedido> pedidos = null;
+        pedidos = em.createNamedQuery("Pedido.pedidosByEstado", Pedido.class).setParameter("estado", Estado.PENDIENTE).getResultList();
+        return pedidos;
+    }
+
     public List<Pedido> listarPedidosUsuario(EntityManager em, User cliente) {
         List<Pedido> pedidos = null;
         try{
@@ -63,6 +71,12 @@ public class SAGeneralImp{
         List<User> lu = em.createNamedQuery("User.existsUsername", User.class).setParameter("username", nombreUsuario).getResultList();
         if(lu.size() == 0) return false;
         else return true;
+    }
+
+    public User getUsuario(EntityManager em, long idUsuario)
+    {
+        User u = em.find(User.class, idUsuario);
+        return u;
     }
 
     public Boolean existeCategoria(EntityManager em, String categoria) {
@@ -197,6 +211,24 @@ public class SAGeneralImp{
         return true;
     }
 
+    public Valoracion crearValoracion(EntityManager em, Plato p, User u, String descCom, int rate)
+    {
+        Valoracion v = new Valoracion(p, u, descCom, rate);
+        v.setActivo(true);
+        em.persist(v);
+        em.flush();
+        return v;
+    }
+
+    public boolean borrarValoracion(EntityManager em, long idVal)
+    {
+        Valoracion v = em.find(Valoracion.class, idVal);
+
+        v.setActivo(false);
+        return true;
+    }
+
+
     public List<Valoracion> listarValoracionesPlato(EntityManager em, long idPlato){
         Plato p = em.find(Plato.class, idPlato);
         return p.getValoraciones();
@@ -238,7 +270,7 @@ public class SAGeneralImp{
 
     public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
 
-        Pedido ped = new Pedido(cliente,cliente.getDireccion());
+        Pedido ped = new Pedido(cliente,cliente.getDireccion(),Estado.PENDIENTE);
         em.persist(ped);
 
         //sacar id pedido
@@ -283,6 +315,15 @@ public class SAGeneralImp{
             }
         
         return correcto;
+    }
+
+    public void estadoPedido(EntityManager em, long id, Estado estado) {
+        Pedido p = em.find(Pedido.class, id);
+        if(p!=null){
+            if(p.isActivo()){
+                p.setEstado(estado);
+            }
+        }
     }
 
     public boolean realizarReserva(EntityManager em, LocalDateTime fecha, int personas, User cliente){

@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Not opening websocket: missing config", config)
     }
 
+    //Acordeenos de pedidos ya hechos una vez cargada la pagina
+    const Pedacc = document.querySelectorAll('.accordion') //Lista de acordeones
+    Pedacc.forEach(acc => {
+        acc.addEventListener('click', loadAccordion) //Le añadimos el action listener a los botones compra
+    })
+
+
     // add your after-page-loaded JS code here; or even better, call 
     // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
     //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
@@ -45,11 +52,37 @@ if (ws.receive) {
         y el boton rechazar*/
 
         var pedidosPendientes = document.querySelector(".rowNuevosPed")
-        
+
         //constante id del pedido
         const id = m["idPedido"];
 
+        //string con los platos del pedido
+        var platos = "";
+
+        //vamos sumando los precios de los platos y los guardamos en total
+        var totalPedido = new Number(0);
+        //necesito un objeto json porque estoy sacando información de 
+        //un json que está dentor de otro json
+        m["platos"].forEach(pla => {
+            console.log(pla["nombrePlato"]);
+
+            platos += pla["nombrePlato"] + " x" + pla["cantidadPlato"] +
+                " (" + pla["precioPlato"] + "€/ud)" + "\n";
+
+            var PrecioUnitario = Number(pla["precioPlato"]) * Number(pla["cantidadPlato"]);
+            totalPedido += PrecioUnitario;
+        });
+
+        //creamos un parrafo para el total y lo ponemos en negrita
+        var pTotal = document.createElement("p");
+        pTotal.innerText = 'Total: ' + totalPedido + '€';
+        pTotal.style = "font-weight:bold"
+
+        console.log("platos: ", platos);
+        console.log("TOTAL", totalPedido);
+
         console.log("pendientes ", pedidosPendientes)
+
         //divCambiar
         var cambioDiv = document.createElement("div");
         cambioDiv.className = "divCambiar elemento"
@@ -57,7 +90,7 @@ if (ws.receive) {
         //contenido del div col
         var nuevoPedi = document.createElement("div");
         nuevoPedi.className = "col"
-        
+
         var newContent = document.createTextNode('Pedido: ' + id
             + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
         nuevoPedi.appendChild(newContent)
@@ -74,20 +107,51 @@ if (ws.receive) {
         nuevoRech.className = "rechazar rojo"
         nuevoRech.innerText = "Rechazar"
 
+        //div botones
+        var botones = document.createElement("div");
+        botones.appendChild(nuevoAcep)
+        botones.appendChild(nuevoRech)
+
+        //button acordeon
+        var accord = document.createElement("button");
+        accord.innerText = "Listado de platos"
+        accord.className = "accordion"
+        var panel = document.createElement("div")
+        panel.className = "panel"
+        var parrafo = document.createElement("p")
+        parrafo.innerText = platos;
+        panel.appendChild(parrafo);
+        panel.appendChild(pTotal);
+        accord.appendChild(panel);
 
         //añadir el div a la tabla de pedidos pendientes
-        nuevoPedi.appendChild(nuevoAcep)
-        nuevoPedi.appendChild(nuevoRech)
+        nuevoPedi.appendChild(botones)
+
         cambioDiv.append(nuevoPedi)
+        cambioDiv.append(accord);
         pedidosPendientes.append(cambioDiv);
         console.log("mensaje webSocket llegado");
+
+        //listener acordeon
+        document.querySelector(".accordion")
+        accord.addEventListener("click", l => {
+
+            accord.classList.toggle("active");
+            var panel2 = accord.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+
+        })
 
         //listener aceptar
         document.querySelector(".divCambiar")
         let params = { "idPed": id };
         const enCurso = document.querySelector(".pedEnCurso");
         nuevoAcep.addEventListener("click", l => {
-            aceptarPedido(nuevoAcep,id,nuevoPedi,enCurso,params)
+            aceptarPedido(nuevoAcep, id, cambioDiv, enCurso, params)
         })
 
         //listener rechazar
@@ -174,6 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
+
 //Función para cuando se le da al botón modificar
 function modify(e) {
     e.preventDefault()
@@ -200,31 +265,28 @@ function aceptarPedido(e, id, div, enCurso, params) {
             console.log("en curso: ", d['encurso'])
             //si enCurso=true entonces podemos cambiarlo a la tabla
             //de pedidos en curso
-            var botonAcep = div.querySelector(".aceptar")
-            if (d['encurso'] == true) {
+
+            if (d['estado'] == "ACEPTADO") {
                 //eliminamos el boton aceptar para reemplazarlo por
                 //el boton modificar
-                botonAcep.remove()
+                var botonAcep = div.querySelector(".aceptar")
+                botonAcep.setAttribute('data-bs-toggle', 'modal');
+                botonAcep.setAttribute('data-bs-target', '#modalModPed');
+                botonAcep.className = "modify"
+                botonAcep.innerText = "Modificar"
+                botonAcep.style = "float: left; width: 100px; margin-right: 5px;background-color: #849974"
 
                 //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                 var rech = div.querySelector(".rechazar")
                 rech.innerHTML = "Eliminar"
 
 
-                //console.log("SE PUEDE CAMBIAR")
-
-                //lo cambiamos a la tabla de pedidos en curso
-                enCurso.append(div);
                 console.log("vamos a apendarlo a ", enCurso)
                 //creamos un nuevo formulario con los botones de
                 //eliminar y modificar, incluyendo el modal
-                const tr = document.createElement('form')
-                const Content = `<form>
-               <button class="modify" type="button" data-bs-toggle="modal" data-bs-target="#modalModPed"
-                    style="float: left; width: 100px; margin-right: 5px;background-color: #849974">Modificar</button>
-                
 
-                
+                const tr = document.createElement('div')
+                const Content = `
                 <!-- Modal -->
                 <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
                     data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel"
@@ -265,13 +327,36 @@ function aceptarPedido(e, id, div, enCurso, params) {
                         </div>
                     </div>
                 </div>
-            </form>
+           
                  `
                 tr.innerHTML = Content
-                div.append(tr);
+                div.append(tr)
+                //lo cambiamos a la tabla de pedidos en curso
+                enCurso.append(div);
+
             }
         })
 }
+
+//Update accordeones en el momento de carga
+function loadAccordion(e) {
+    /* Toggle between adding and removing the "active" class,
+    to highlight the button that controls the panel /
+    this.classList.toggle("active");
+    
+    / Toggle between hiding and showing the active panel */
+
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+        panel.style.display = "none";
+    } else {
+        panel.style.display = "block";
+    }
+
+}
+
+
+
 
 
 

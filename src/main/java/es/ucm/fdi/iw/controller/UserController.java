@@ -4,6 +4,7 @@ import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Pedido.Estado;
 import es.ucm.fdi.iw.model.User.Role;
 
 import org.apache.logging.log4j.LogManager;
@@ -308,4 +309,33 @@ public class UserController {
 		messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 		return "{\"result\": \"message sent.\"}";
 	}	
+
+
+	@PostMapping(path = "/actualizarPedido", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String prueba(Model model, @RequestBody JsonNode o, HttpSession session) {
+        log.info("----PRUEBA----");
+        
+        log.info("@@@@@---");
+        log.info(o);
+
+        long idCliente = o.get("idCliente").asLong();
+		long idPedido = o.get("idPedido").asLong();
+		String username = o.get("username").asText();
+		int estado = o.get("estado").asInt();
+        log.info("idCliente: "+ idCliente);
+        
+        String json = "{\"idPedido\": " + idPedido + "," +
+                "\"estado\": " + estado + "}";
+
+
+		log.info(json);
+
+        // url a la que te has subscrito en js y los datos a enviar (json)
+        messagingTemplate.convertAndSend("/user/"+username+"/misPedidos/updates", json);
+        return "{\"isok\": \"todobien\"}";// devuelve un json como un string
+    }
+
+
 }

@@ -21,6 +21,16 @@ public class Valoracion {
 
     private int rate;
 
+    public Valoracion(){};
+    public Valoracion(Plato p, User u, String desc, int rate)
+    {
+        this.plato = p;
+        this.cliente = u;
+        this.descripcion = desc;
+        this.rate = rate;
+
+    }
+
     //Una valoracion tiene un cliente, y un cliente muchas valoraciones
     @ManyToOne
     private User cliente;//Responsable de la critica
