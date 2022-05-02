@@ -1,11 +1,14 @@
 package es.ucm.fdi.iw.controller;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
@@ -330,22 +333,105 @@ public class RootController {
         return "reservarMesaSimple";
     }
 
+    @PostMapping("realizarReserva")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String realizarReserva(@RequestParam("fecha") String fecha,
+     @RequestParam("personas") int personas, HttpSession session) {
+        User u= (User) session.getAttribute("u");
+        String dataToReturn = "";
+        if(saGeneral.realizarReserva(em, LocalDateTime.parse(fecha), personas, u)){
+            dataToReturn = "{isOk}";
+        }
+        else {
+            dataToReturn = "{isNotOk}";
+        }
+        
+        log.info("fecha: " + fecha);
+
+       return dataToReturn;
+    }
+
+
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
     @Transactional
-    public List<Reserva> reservaMesaFecha(Model model, @RequestParam String info) {
-        String[] parts = info.split("_");
+    public List<LocalTime> reservaMesaFecha(Model model, @RequestParam String inf){
+        String[] parts = inf.split("_");
         String date = parts[0];
-        Integer personas = Integer.parseInt(parts[1]);
+        Integer personas = Integer.parseInt(parts[1]);        
+        ConfiguracionRestaurante c = saGeneral.getConfiguracion(em);
+        int capacidad = c.getPersonasMesa();         
+        int mesasNecesarias = personas / capacidad; 
+        if(personas % capacidad != 0)
+            mesasNecesarias++;
+        int maxReservas = c.getMaxReservas() - mesasNecesarias;  
 
-        List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
-        String js = null;
-        if (reservas != null) {
-            log.info("Probandoooo");
-            log.info(reservas.stream().map(Transferable::toTransfer).collect(Collectors.toList()));
-            return reservas;
-        } else
-            return null;
+        if(maxReservas > 0){//si no quiere reservar mas de lo posible
+            List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
+            reservas.sort((d1,d2) -> d1.getFecha().compareTo(d2.getFecha()));
+    
+            // List<String> horasdisp = new ArrayList();
+            // List<LocalDateTime> noValidas = new ArrayList();
+    
+    
+            Map<LocalDateTime, Integer> cantidades = new TreeMap<LocalDateTime, Integer>(
+                (LocalDateTime d1, LocalDateTime d2) -> d1.compareTo(d2)
+            );
+
+            int horaIni = c.getHoraIni();
+            int horaFin = c.getHoraFin();
+            LocalDateTime inicio = null;
+            LocalDateTime fin = null;
+
+            if(horaIni > 10){
+                inicio = LocalDateTime.parse(date+"T"+ horaIni + ":00:00.000000");
+            }
+            else {
+                inicio = LocalDateTime.parse(date+"T0"+ horaIni + ":00:00.000000");
+            }
+            if(horaFin > 10){
+                fin= LocalDateTime.parse(date+"T"+ horaFin + ":00:00.000000");
+            }
+            else {
+                fin = LocalDateTime.parse(date+"T0"+ horaFin + ":00:00.000000");
+            }
+
+            log.info("inicio: " + inicio + " fin: " + fin);
+    
+            for(LocalDateTime i = inicio; ! i.isEqual(fin) ;i = i.plusHours(1)){
+                cantidades.put(i, 0);
+            }
+
+            for(Reserva r : reservas){
+                LocalDateTime fecha = r.getFecha();
+                cantidades.put(fecha, cantidades.get(fecha) + r.getMesas());
+            }           
+    
+            List<LocalDateTime> horasABorrar = new ArrayList();            
+            for(Map.Entry<LocalDateTime, Integer> entry : cantidades.entrySet()){
+                if(entry.getValue() > maxReservas){
+                    horasABorrar.add(entry.getKey());
+                }
+            }
+
+            for(LocalDateTime h : horasABorrar){
+                cantidades.remove(h);
+            }
+    
+            //List<LocalDateTime> horas = new ArrayList<>(cantidades.keySet());
+
+            List<LocalTime> horas = new ArrayList();
+
+            for(LocalDateTime i : cantidades.keySet()){
+                horas.add(i.toLocalTime());
+            }
+    
+            return horas.stream().collect(Collectors.toList());
+        }
+        else return null; 
+
+        
     }
 
     @GetMapping("verPlato") // por ahora se pasa por parametro el nombre del plato elegido, pero quizas mas
