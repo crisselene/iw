@@ -48,6 +48,7 @@ function cargarHoras(e) {
     go(config.rootUrl + "/reservarMesa/fecha?inf=" + date, 'GET')
         .then(d => {
             d.forEach(f => {
+                console.log("LLEGO")
                 fechas.push(f.slice(0, 5))
             });
             reloadHoras(fechas)
