@@ -338,8 +338,10 @@ public class RootController {
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
     public String realizarReserva(@RequestParam("fecha") String fecha,
      @RequestParam("personas") int personas, HttpSession session) {
+         //Sacamos el usuario
         User u= (User) session.getAttribute("u");
         String dataToReturn = "";
+        //Llamamos a la funcion de reserva del sa con los datos que nos pide
         if(saGeneral.realizarReserva(em, LocalDateTime.parse(fecha), personas, u)){
             dataToReturn = "{isOk}";
         }
@@ -357,9 +359,12 @@ public class RootController {
     @ResponseBody
     @Transactional
     public List<LocalTime> reservaMesaFecha(Model model, @RequestParam String inf){
+        //Lo primero que hago es parsear la fecha que me llega y las personas para que esten separados
         String[] parts = inf.split("_");
         String date = parts[0];
-        Integer personas = Integer.parseInt(parts[1]);        
+        Integer personas = Integer.parseInt(parts[1]);  
+        
+        //Ahora sacamos la configuracion del restaurante para comprobar las mesas necesarias para esta reserva y si hay mesas disponibles
         ConfiguracionRestaurante c = saGeneral.getConfiguracion(em);
         int capacidad = c.getPersonasMesa();         
         int mesasNecesarias = personas / capacidad; 
@@ -368,21 +373,24 @@ public class RootController {
         int maxReservas = c.getMaxReservas() - mesasNecesarias;  
 
         if(maxReservas > 0){//si no quiere reservar mas de lo posible
+            //Pedimos al sa todas las fechas que hay en ese dia
             List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
-            reservas.sort((d1,d2) -> d1.getFecha().compareTo(d2.getFecha()));
+            reservas.sort((d1,d2) -> d1.getFecha().compareTo(d2.getFecha()));//Las ordenamos de menor a mayor
     
-            // List<String> horasdisp = new ArrayList();
-            // List<LocalDateTime> noValidas = new ArrayList();
+            
     
-    
-            Map<LocalDateTime, Integer> cantidades = new TreeMap<LocalDateTime, Integer>(
+            //Creamos el treemap donde iran todas las fechas ordenado de menor a mayor
+            Map<LocalDateTime, Integer> horas = new TreeMap<LocalDateTime, Integer>(
                 (LocalDateTime d1, LocalDateTime d2) -> d1.compareTo(d2)
             );
 
+            //Ahora calculamos las horas a la que se realizaran esas reservas
             int horaIni = c.getHoraIni();
             int horaFin = c.getHoraFin();
             LocalDateTime inicio = null;
             LocalDateTime fin = null;
+
+            //Para sacar el LocalDateTime con el int, lo que hago es crear un string con la forma del local date time
 
             if(horaIni > 10){
                 inicio = LocalDateTime.parse(date+"T"+ horaIni + ":00:00.000000");
@@ -397,37 +405,40 @@ public class RootController {
                 fin = LocalDateTime.parse(date+"T0"+ horaFin + ":00:00.000000");
             }
 
-            log.info("inicio: " + inicio + " fin: " + fin);
+            //Anadimos cada una de las horas que hay desde el inicio hasta el fin
     
             for(LocalDateTime i = inicio; ! i.isEqual(fin) ;i = i.plusHours(1)){
-                cantidades.put(i, 0);
+                horas.put(i, 0);
             }
 
+            //Ahora recorremos las reservas que hay en ese dia y las metemos en el treemap, aumentando las mesas usadas en esa fecha
             for(Reserva r : reservas){
                 LocalDateTime fecha = r.getFecha();
-                cantidades.put(fecha, cantidades.get(fecha) + r.getMesas());
+                horas.put(fecha, horas.get(fecha) + r.getMesas());
             }           
-    
+            
+            //Si una hora no tiene mesas libres, la borramos del treemap
             List<LocalDateTime> horasABorrar = new ArrayList();            
-            for(Map.Entry<LocalDateTime, Integer> entry : cantidades.entrySet()){
+            for(Map.Entry<LocalDateTime, Integer> entry : horas.entrySet()){
                 if(entry.getValue() > maxReservas){
                     horasABorrar.add(entry.getKey());
                 }
             }
 
             for(LocalDateTime h : horasABorrar){
-                cantidades.remove(h);
+                horas.remove(h);
             }
     
-            //List<LocalDateTime> horas = new ArrayList<>(cantidades.keySet());
+            
+            //Las horas disponibles las pasamos a LocalTime para pasar solo la hora
+            List<LocalTime> horasDisp = new ArrayList();
 
-            List<LocalTime> horas = new ArrayList();
-
-            for(LocalDateTime i : cantidades.keySet()){
-                horas.add(i.toLocalTime());
+            for(LocalDateTime i : horas.keySet()){
+                horasDisp.add(i.toLocalTime());
             }
     
-            return horas.stream().collect(Collectors.toList());
+            //Devolvemos la lista de horas con formato para el front
+            return horasDisp.stream().collect(Collectors.toList());
         }
         else return null; 
 

@@ -14,15 +14,20 @@ window.onload = function () {
 
 
 function elegirHora(e){
+    //Primero tenmos que buscar el radio button que queremos
     let opciones = document.querySelectorAll('input[type="radio"]');
+    //Para cada una de las opciones que hay en el, lo que hacemos es mirar si esta seleccionada, si lo esta entonces parseamos la fecha y las personas
+    //y las mandamos al back para hacer la reserva
     opciones.forEach(opcion => {
         if(opcion.checked){
             let fecha=fechaReserva.value+"T"+opcion.value
-            console.log(fecha)
+
+            //Damos formato a los datos para que pasen al back
             let data = new FormData()
             data.append('fecha', fecha)
             data.append('personas', personas.value)
 
+            //Hacemos el go, con el metodo post, y le pasamos la url, y el data, importante tambine pasar el token {} vacio
             go("/realizarReserva", 'POST', data , {})
             .then(d => {console.log("todo ok")
                         console.log("mensaje recibido: ", d);//json recibido
@@ -36,22 +41,23 @@ function elegirHora(e){
 }
 
 function cargarHoras(e) {
+    //Lo primero sera ver quien fue el que cargo las horas
     const input = e.target
     let date = ""
-    date = date + fechaReserva.value + "_" + personas.value
+    date = date + fechaReserva.value + "_" + personas.value //Aqui le damos el formato que le pasaremos a la URL 
     let numFechas = 0
-    let fechas = []
+    let fechas = [] //Creamos el array vacio de fechas para luego mostrar cada hora
 
     console.log("Entro")
 
-
+    //Enviamos la peticion al back, al ser un metodo get es diferente al post
     go(config.rootUrl + "/reservarMesa/fecha?inf=" + date, 'GET')
         .then(d => {
             d.forEach(f => {
-                console.log("LLEGO")
+                //El slice lo que hace es dejar unicamente la hora quitando los segundos y el dia
                 fechas.push(f.slice(0, 5))
             });
-            reloadHoras(fechas)
+            reloadHoras(fechas)//Recargamos las horas que se ven en pantalla
 
         })
         .catch(() => "Fecha fallo")
@@ -60,17 +66,21 @@ function cargarHoras(e) {
 
 
 function reloadHoras(horas) {
-    console.log(horas)
+    //Creamos una variable para que nos de el numero de vueltas que daremos al bucle
+    //IMPORTANTE, tenemos que asignar 3 horas cada div por la clase de bootstrap que utilizamos
     let vueltas = Number.parseInt(horas.length / 3)
     let modulo = horas.length % 3
-    let padre = document.getElementById('horasBody')
+
+    let padre = document.getElementById('horasBody') //El padre es el que tiene que mostrar las horas
     padre.innerHTML = ""
-    console.log(padre)
+    //Usamos una variable posicion para saber que hora es la que nos toca
     let pos = 0;
-    for (let i = 0; i < vueltas +1; i++) {
+    for (let i = 0; i < vueltas +1; i++) {//El bucle solo da las vueltas necesarias para colocar las fechas de 3 en 3
 
         let contenido = ""
-        console.log(vueltas + " " + i)
+        
+        //Aqui, si estamos en la ultima vuelta puede pasar que el modulo sea 1 o 2, lo que significa que no son 3 fechas exactas
+        //por ese motivo lo que hago es crear los div para cada una de las posibilidades
         if (i === vueltas) {
             console.log("entro")
             if (modulo === 1) {
@@ -112,14 +122,14 @@ function reloadHoras(horas) {
         }
 
 
-
+        //Ahora simplemente anadimos el div al documento
         const tr = document.createElement('div')
 
         tr.innerHTML = contenido
 
         padre.append(tr)
         console.log(padre)
-        pos = pos + 3
+        pos = pos + 3 //Sumamos las 3 posiciones que colocamos en cada iteracion
 
     }
 }
