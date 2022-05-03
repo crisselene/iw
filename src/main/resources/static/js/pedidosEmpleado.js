@@ -1,4 +1,7 @@
 "use strict"
+//Nota. (Posible idea) Cuando los pedidos pasen a entregados no se quitan de la lista para poder seguir viendolos por si hubiera algun
+//problema con el pedidos, pero la proxima vez que se carge la pagina ya no saldran en la lista
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -7,9 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
             cambiarEstado(e.target.dataset.estpedid, e.target.value) //IMPORTANTE (Los data deben ir en minusculas)    
         });
     }); 
+    document.querySelectorAll('.botonEstado').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
+        boton.addEventListener("click", e => {
+            cambiarEstado(e.target.dataset.estidped, e.target.value, e.target) //IMPORTANTE (Los data deben ir en minusculas)    
+        });
+    });
 
-
-    function cambiarEstado(idPedido, nuevoEstado)
+    function cambiarEstado(idPedido, nuevoEstado, boton)
     {
         console.log("cambiado estado del pedido con id")
         console.log(idPedido + " id del pedido a cambiar")
@@ -26,6 +33,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else{
                 console.log("todo ok")
+
+                console.log(document.querySelectorAll("button[data-estidped='"+idPedido+"']"));
+
+                document.querySelectorAll("button[data-estidped='"+idPedido+"']").forEach(boton =>{
+                    if(boton.value == nuevoEstado)
+                    {
+                        boton.classList.add("actual")
+                    }
+                    else{
+                        boton.classList.remove("actual")
+                        boton.classList.add("noActual")
+                    }
+
+                    
+                })
+
+/* 
+                console.log(boton)
+                console.log(boton.previousElementSibling) */
+               /*  document.querySelectorAll('.botonEstado').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
+                    boton
+                }); */
+
             }
             }).catch(() => console.log("fallo"));
 
@@ -308,74 +338,17 @@ function aceptarPedido(e, id, div, enCurso, params) {
 
                 var b = div.querySelector('.aceptar');
                 b.remove();
+                //los botones ya venian puestos, solo que ocultos, y ahora se muestran quitandole la clase ocultos
+                div.querySelectorAll(".botonEstado").forEach(boton => {
+                    boton.classList.remove("oculto")
+                })
 
-                console.log("select " + div.querySelector('select').classList);
-                div.querySelector('select').classList.remove("oculto");
-                //eliminamos el boton aceptar para reemplazarlo por
-                //el boton modificar
-                /* var botonAcep = div.querySelector(".aceptar")
-                botonAcep.setAttribute('data-bs-toggle', 'modal');
-                botonAcep.setAttribute('data-bs-target', '#modalModPed');
-                botonAcep.className = "modify"
-                botonAcep.innerText = "Modificar"
-                botonAcep.style = "float: left; width: 100px; margin-right: 5px;background-color: #849974" */
-
-                //el boton eliminar será el mismo que rechazar pero con el nombre de eliminar
                 var rech = div.querySelector(".rechazar")
                 rech.innerHTML = "Eliminar"
 
 
                 console.log("vamos a apendarlo a ", enCurso)
-                //creamos un nuevo formulario con los botones de
-                //eliminar y modificar, incluyendo el modal
-
-               /*  const tr = document.createElement('div')
-                const Content = `
-                <!-- Modal -->
-                <div class="modal fade" id="modalModPed" data-bs-backdrop="static"
-                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalModPedLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
-                                <!-- El boton es la crucecita de arriba a la derecha para cerrar -->
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" style="text-align: left;">
-                                <!-- IMPORTANTE -->
-                                <!-- Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)-->
-                                <form id="formModPed" th:action="@{/}" onsubmit="return false;">
-                                    <label for="nombrePedido" style="display: block;">Número de
-                                        pedido</label>
-                                    <input type="text" id="nombrePedido" required>
-
-                                    <label for="nombrePedido" style="display: block;">Dirección</label>
-                                    <input type="text" id="nombrePedido" required>
-
-                                    <label for="nombrePedido" style="display: block;">Cliente</label>
-                                    <input type="text" id="nombrePedido" required>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" id="anadirEmpleadoButton"
-                                            class="btn btn-primary">Guardar cambios</button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-           
-                 `
-                tr.innerHTML = Content
-                div.append(tr) */
-                //lo cambiamos a la tabla de pedidos en curso
+               
                 enCurso.append(div);
 
             }

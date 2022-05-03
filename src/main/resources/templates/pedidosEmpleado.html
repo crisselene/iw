@@ -38,19 +38,21 @@
                         <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
                             poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
                             cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
-                        <form>
+                        <!-- <form> -->
                             <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
-                            <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}">
+                           <!--  <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}"> -->
                                 <th:block th:each="est,iter: ${listaEstados}">
+                                    <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
+                                    <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>
                                    <!--<option th:if="${iter.index} == 0" selected th:text="${cat}">opcion</option>
                                     <option th:unless="${iter.index} == 0" th:text="${cat}">opcion</option> -->
-                                    <option th:value="${est}" th:text="${est}">opcion</option> <!-- th:attr="data-posEstado=${est}" -->
+                                   
                                 </th:block>
-                              </select>
+                            <!--   </select> -->
 
                             <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
                             <button type="button" class="rechazar rojo">Rechazar</button>
-                        </form>
+                       <!--  </form> -->
             
                     <button class="accordion">Listado de platos <p> 🔽</p></button>
                         <div class="panel">
@@ -77,60 +79,18 @@
                     <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
                         <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.getCliente.username}"></div>
-                        <form>
-                            <select class="selectEstado" name="estado" th:attr="data-estPedId=${ped.id}">
+
                                 <th:block th:each="est,iter: ${listaEstados}">
-                                   <option th:if="${est} == ${ped.getEstadoAsString()}" selected th:value="${est}" th:text="${est}">opcion</option>
-                                    <option th:unless="${est} == ${ped.getEstadoAsString()}" th:value="${est}" th:text="${est}">opcion</option> -->
-                                    <!-- <option th:value="${est}" th:text="${est}">opcion</option>  --><!-- th:attr="data-posEstado=${est}" -->
+
+                                    <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
+                                    <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>
                                 </th:block>
-                              </select>
+                              <!-- </select> -->
                             <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
                                 data-bs-target="#modalModPed">Modificar</button> -->
                             <button class="rechazar rojo" type="button">Eliminar</button>
 
-                            <!-------------------------- MODAL -------------------->
-                            <!-- <div class="modal fade" id="modalModPed" data-bs-backdrop="static" data-bs-keyboard="false"
-                                tabindex="-1" aria-labelledby="modalModPedLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalModPedTitle">Añadir empleado</h5>
-                                             El boton es la crucecita de arriba a la derecha para cerrar
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body" style="text-align: left;">
-                                             IMPORTANTE
-                                             Da error, pero es problema de Visual Code, el codigo si funciona, (de hecho, en el portatil no me daba error)
-                                            <form id="formModPed" th:action="@{/}" onsubmit="return false;">
-                                                <label for="nombrePedido" style="display: block;">Número de
-                                                    pedido</label>
-                                                <input type="text" id="nombrePedido" required>
-
-                                                <label for="nombrePedido" style="display: block;">Dirección</label>
-                                                <input type="text" id="nombrePedido" required>
-
-                                                <label for="nombrePedido" style="display: block;">Cliente</label>
-                                                <input type="text" id="nombrePedido" required>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cerrar</button>
-                                                    <button type="submit" id="anadirEmpleadoButton"
-                                                        class="btn btn-primary">Guardar cambios</button>
-                                                </div>
-
-                                            </form>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!------------------------ACABAMOS MODAL ------------------------->
-
-                        </form>
+                           
                         <button class="accordion">Listado de platos <p> 🔽</p></button>
                         <div class="panel">
                             <p> </p>

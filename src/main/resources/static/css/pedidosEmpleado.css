@@ -145,10 +145,36 @@ float: left;
 
 /*   display:none;  oculta cosas*/
   }
-  .oculto{
-      display: none;
-  }
+  
 
   .desplegable{
     display: inline-block;
   }
+
+
+
+.botonEstado
+{
+    display: inline-block;
+    width: auto;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
+}
+
+.botonEstado:first-of-type{
+    margin-left: 2em;
+}
+
+.noActual{
+    background-color: #797979;
+}
+
+.actual{
+    background-color: #6ece80;
+}
+
+
+/*Al final para sobreescribir al resto de clases*/
+.oculto{
+    display: none;
+}
