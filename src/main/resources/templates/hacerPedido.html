@@ -30,9 +30,9 @@
                         <th:block th:each="cat,iter: ${categorias}"><!-- Se recorre la lista de categorias -->
                             <h3 th:text="${cat.nombre}">Entrantes</h3>
 
-                            <div th:each="plato: ${cat.platos}" class="row">
+                            <div th:each="plato: ${cat.platos}" class="row cartita">
                                 <div class="col-md-2">
-                                    <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="80" height="80">
+                                    <img class="img caratula" th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/logo.png" alt="carta IW" width="80" height="80">
                                     </div>
                                     <div class="col">
                                     <div class="titulo-plato"  th:text="${plato.nombre}" >Ensalada</div>

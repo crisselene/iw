@@ -30,8 +30,16 @@
     border-bottom-right-radius: 10px;
     overflow: auto;
     height: 500px;
+
 }
 
+.cartita{
+    margin-bottom: 0.8em;
+    margin-top: 0.8em;
+    border-bottom-style: solid;
+    border-bottom-color: #dbbdc5;
+    padding-bottom: 0.5em;
+}
 .titulo-plato{
     font-size: 20px;
     font-weight: bold;
@@ -59,4 +67,14 @@
 .btn-Second{
     margin-top: 3%;
     background-color:#613A43;
+}
+
+.caratula{
+    border: 1px solid var(--main);
+    padding: 0px;
+    border-radius: 50px;
+
+    width: 6em; /* You can set the dimensions to whatever you want */
+    height: 6em;
+    object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */
 }
