@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -62,4 +63,12 @@ public class Reserva implements Transferable<Reserva.Transfer> {
     public Transfer toTransfer() {
 		return new Transfer(id, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(fecha));
 	}
+
+    public String formatedDate(){
+//         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//TO DO
+// String dateString = format.format( this.fecha  );  
+// return dateString;
+return "Hola";
+    }
 }

@@ -28,8 +28,11 @@ if (ws.receive) {
        // console.log("mensaje webSocket llegado a pedidosUsuario con contenido " + m);
  
         const estadopedido = document.querySelector('.State'+m["idPedido"]);
-        console.log("Pedido "+m["idPedido"]+" pasa de "+estadopedido.innerText+ " a "+m["estado"]);
-        estadopedido.innerText = m["estado"];
+        let div = estadopedido.closest("div");
+        console.log(div)
+        div.innerHTML='';
+        div.innerHTML='<p class="State'+m["idPedido"]+'" style="animation-duration: 3s; animation-name: slidein;" >'+m["estado"]+'</p>';
+
     }
 }
 

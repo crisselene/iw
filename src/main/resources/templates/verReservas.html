@@ -12,7 +12,7 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <h1 class="mt-5">Reservas</h1>
+            <h1 class="mt-5"></h1>
         </div>
     </main>
 
@@ -24,13 +24,28 @@
         </div>
         <div class="row contenido">
             <div id="mostrarReservas">
+                <!-- Cabeceras -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2>Personas</h2>
+                    </div>
+                    <div class="col">
+                        <h2>Fecha</h2>               
+                    </div>
+                    <div class="col">
+                        <div style="text-align: right; margin-bottom: 10%;">
+                            <h2>Cancelar</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contenido -->
                 <div class="row" th:each="r:${listaReservas}">
                     <div class="col-md-6">
                         <p th:text="${r.personas}">Sustituir numPersonas</p>
                         <!-- <p>Sustituir numPersonas</p> -->
                     </div>
                     <div class="col">
-                        <p th:text="${r.id}">Sustituir id</p> 
+                        <p th:text="${r.formatedDate()}">Sustituir id</p> 
 
                         <!-- <p>Sustituir id</p>  -->                  
                     </div>
