@@ -58,7 +58,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Modificar perfil</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form role="form" id="modificarForm" onsubmit="return false;"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                <form role="form" id="modificarPerfilForm" onsubmit="return false;"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
                     <div class="modal-body">
                         <label for="username" style="display: block;">Username</label>
                         <input type="text" id="username" th:value="${user.username}" required>
@@ -99,7 +99,9 @@
                             </div>
                         </div>
                             
-                            
+                        <input type="hidden" id="idUsuario" th:value="${user.id}">
+                        <input type="hidden" id="rol" th:value="${user.roles}">
+
                     </div>
                     <div class="modal-footer">
                         <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->

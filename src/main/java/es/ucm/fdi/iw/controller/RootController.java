@@ -603,17 +603,17 @@ public class RootController {
         return "configuracion";
     }
 
-    @PostMapping(path = "/anadirEmpleado", produces = "application/json")
+    @PostMapping(path = "/anadirUsuario", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
-        log.info("----------- dentro de anadirEmpleado -------------");
+    public String anadirUsuario(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de anadirUsuario -------------");
 
         String username = o.get("username").asText();
         long idUsuario;
 
         if (saGeneral.existeUsuario(em, username)) {
-            log.info("usuario ya existe (rootController anadirEmpleado)");
+            log.info("usuario ya existe (rootController anadirUsuario)");
             return null;
         } else {
             log.info("------------------------------");
@@ -624,15 +624,46 @@ public class RootController {
             log.info(o.get("direccion").asText());
             log.info(o.get("contrasena1Empleado").asText());
             log.info(o.get("contrasena2Empleado").asText());
+            log.info(o.get("rol").asText());
 
             String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
 
             idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
                     o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
-                    password, "EMPLEADO", o.get("telefono").asText(), username, true);
+                    password, o.get("rol").asText(), o.get("telefono").asText(), username, true);
             if (idUsuario == -1)
                 return null;
         }
+
+        return "{\"isok\": \"true\", \"idUsuario\": " + idUsuario + "}";// devuelve un json como un string
+    }
+
+    @PostMapping(path = "/modificarUsuario", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String modificarUsuario(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de modificarUsuario -------------");
+
+        String username = o.get("username").asText();
+        long idUsuario;
+
+        log.info("------------------------------");
+        log.info(o.get("nombreEmpleado").asText());
+        log.info(o.get("apellidoEmpleado").asText());
+        log.info(o.get("email").asText());
+        log.info(o.get("telefono").asText());
+        log.info(o.get("direccion").asText());
+        log.info(o.get("contrasena1Empleado").asText());
+        log.info(o.get("contrasena2Empleado").asText());
+        log.info(o.get("rol").asText());
+
+        String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
+
+        idUsuario = saGeneral.modificarUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
+                o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
+                password, o.get("rol").asText(), o.get("telefono").asText(), username, true, o.get("id").asLong());
+        
+        if (idUsuario == -1) return null;
 
         return "{\"isok\": \"true\", \"idUsuario\": " + idUsuario + "}";// devuelve un json como un string
     }
