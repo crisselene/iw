@@ -15,15 +15,30 @@ guardarParamsButton.addEventListener("click", actualizarParams);
 
 function nuevoEmpleado()
 {
+
     console.log("--- en validate user ---");
     const myForm = document.getElementById("formAnadirEmpleado");
+
+    let uName = document.getElementById("username")
+    uName.setCustomValidity("");
+
+    if (/^\s+$/.test( String(uName.value)))
+    {
+        //string contains only whitespace
+        uName.setCustomValidity("El nombre no puede ser solo espacios");
+        console.log("solo espacios")
+    }
+
     if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
     {
         //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
         myForm.reportValidity();
     }
+    else{
 
     let username = document.getElementById("username");
+
+    
 
     //validateUser();
     
@@ -43,6 +58,8 @@ function nuevoEmpleado()
                 "direccion" : dir.value,
                 "telefono" : tel.value,
                 "email" : email.value};
+
+               
 
     go(config.rootUrl + "/anadirEmpleado", 'POST', params)
     .then(d => {console.log("todo ok") // va ok si el username no existe
@@ -75,6 +92,7 @@ function nuevoEmpleado()
                 username.setCustomValidity("El usuario ya existe, escoja otro, por favor");
                 username.reportValidity();
     })
+}
 }
 
 /* function validateUser(){
@@ -109,8 +127,11 @@ function validatePassword(){
     console.log("--- en validate password ---");
 
     if(password.value != confirm_password.value) {
-        confirm_password.setCustomValidity("Passwords don't match");
+       
+       console.log("no iguales")
+        confirm_password.setCustomValidity("Las contraseñas no coinciden");
     } else {
+        console.log("iguales")
         confirm_password.setCustomValidity('');
     }
 }
