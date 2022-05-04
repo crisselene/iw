@@ -26,32 +26,30 @@
             <div id="mostrarReservas">
                 <!-- Cabeceras -->
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 columna">
                         <h2>Personas</h2>
                     </div>
-                    <div class="col">
+                    <div class="col columna">
                         <h2>Fecha</h2>               
                     </div>
-                    <div class="col">
-                        <div style="text-align: right; margin-bottom: 10%;">
-                            <h2>Cancelar</h2>
-                        </div>
+                    <div class="col columna">
+                        <h2>Cancelar</h2>
                     </div>
                 </div>
                 <!-- Contenido -->
                 <div class="row" th:each="r:${listaReservas}">
-                    <div class="col-md-6">
-                        <p th:text="${r.personas}">Sustituir numPersonas</p>
+                    <div class="col-md-6 columna">
+                        <h4 th:text="${r.personas}">numPersonas</h4>
                         <!-- <p>Sustituir numPersonas</p> -->
                     </div>
-                    <div class="col">
-                        <p th:text="${r.formatedDate()}">Sustituir id</p> 
+                    <div class="col columna">
+                        <p th:text="${r.formatedDate()}">Fecha</p> 
 
                         <!-- <p>Sustituir id</p>  -->                  
                     </div>
-                    <div class="col">
-                        <div style="text-align: right; margin-bottom: 10%;">
-                            <button type="button" class="btn btn-outline-danger btn-sm cancel">❌</button>
+                    <div class="col columna">
+                        <div class="borrarx">
+                            <button type="button" class="btn btn-outline-danger btn-sm cancel">>>❌<<</button>
                         </div>
                     </div>
                 </div>

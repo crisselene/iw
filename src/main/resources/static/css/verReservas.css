@@ -19,6 +19,16 @@
     margin: 0.5%;
     text-align: right;
 }
+
+.borrarx{
+    margin-bottom: 3%;
+    margin-top: 3%;
+}
+.columna{
+    text-align: center;
+    border-radius: 0.5em;
+    border: 1px solid #733646;
+}
 #textDia{
     padding-top: 0.6%;
     text-align: right;
