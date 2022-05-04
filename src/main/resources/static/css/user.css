@@ -1,1 +1,19 @@
+:root{
+    --main:#783848;
+    --second: #36384C;
+    --background: #E9DCCD;
+}
 
+#infoPerfil{
+    background-color: var(--main);
+}
+
+.inlineElement{
+    display: inline;
+}
+
+#avatar{
+    height: 15em;
+    width: 12em;
+    object-fit: cover;
+}

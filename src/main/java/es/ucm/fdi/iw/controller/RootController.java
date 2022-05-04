@@ -61,7 +61,7 @@ public class RootController {
     private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    private PasswordEncoder PasswordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     private SAGeneralImp saGeneral = new SAGeneralImp();
     private static final Logger log = LogManager.getLogger(RootController.class);
@@ -625,9 +625,11 @@ public class RootController {
             log.info(o.get("contrasena1Empleado").asText());
             log.info(o.get("contrasena2Empleado").asText());
 
+            String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
+
             idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
                     o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
-                    o.get("contrasena1Empleado").asText(), "EMPLEADO", o.get("telefono").asText(), username, true);
+                    password, "EMPLEADO", o.get("telefono").asText(), username, true);
             if (idUsuario == -1)
                 return null;
         }

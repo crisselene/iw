@@ -19,13 +19,14 @@ function nuevoEmpleado()
     console.log("--- en validate user ---");
     const myForm = document.getElementById("formAnadirEmpleado");
 
-    let uName = document.getElementById("username")
-    uName.setCustomValidity("");
+    /* let uName = document.getElementById("username") */
+    let username = document.getElementById("username");
+    username.setCustomValidity("");
 
-    if (/^\s+$/.test( String(uName.value)))
+    if (/^\s+$/.test( String(username.value)))
     {
         //string contains only whitespace
-        uName.setCustomValidity("El nombre no puede ser solo espacios");
+        username.setCustomValidity("El nombre no puede ser solo espacios");
         console.log("solo espacios")
     }
 

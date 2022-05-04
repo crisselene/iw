@@ -50,9 +50,6 @@
                                     <h2 style="margin-bottom: 2%;">Categorías</h2>
                                 </div>
                                 <div class="col" style="text-align: right;">
-                                    <!-- <form id="anadirCategoria" th:action="@{/}">
-                                        <button type="submit" class="btn btn-primary" style="margin-top:3%">Crear</button>
-                                    </form> --> 
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#anadirCategoriaModal">
                                         Crear
                                     </button>   
@@ -70,17 +67,7 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- <div class="row categoriarow" th:each="cat: ${listaCategorias}">
-                            <div class="col" style="padding-top: 1%;">
-                                <p th:text="${cat.nombre}">sustituirCategoria</p>
-                            </div>
-                            <div class="col" style="text-align: right; margin-right: 5%; margin-top: 1%; margin-bottom: 1%;">
-                                <form id="eliminarEmp" th:action="@{/}">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">❌</button>
-                                </form>
-                            </div>
-                        </div> -->
+
                     </div> 
                 </div>
                 
@@ -204,6 +191,7 @@
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/configuracion.js}" src="js/configuracion.js"></script>
+    <!-- <script th:src="@{/js/comun.js}" src="js/comun.js"></script> -->
 </body>
 
 </html>
