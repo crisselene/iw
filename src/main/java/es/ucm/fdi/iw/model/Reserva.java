@@ -65,10 +65,11 @@ public class Reserva implements Transferable<Reserva.Transfer> {
 	}
 
     public String formatedDate(){
-//         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//TO DO
-// String dateString = format.format( this.fecha  );  
+        String dateString = fecha.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); 
+        String[] parts = dateString.split("T");
+        String date = parts[0]; 
+        String time = parts[1];
 // return dateString;
-return "Hola";
+        return date + " " + time;
     }
 }
