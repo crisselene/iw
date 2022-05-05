@@ -11,39 +11,29 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     
     <main class="flex-shrink-0">
-        <div id="profile" class="border border-2 border-tertiary rounded">
-            <input type="file" id="f_avatar" accept="image/jpeg,image/png">
-            <img id="avatar" alt="careto a subir" />
-            <form th:action="@{/user/__${user.id}__/pic}">
-                <button id="postAvatar">Subir poster al servidor</button>
-            </form>
-        </div>
-
+        
         <div class="container">
-            <h1 class="mt-5 inlineElement">Perfil de <span th:text="${user.username}">Paco</span></h1>
-            <!-- <button id="modalModificar">✏️</button> -->
-            <button type="button" id="abrirModalModificar"  data-bs-toggle="modal" data-bs-target="#modalModificarPerfil">
-                ✏️
-            </button>
-
-            <div>
-                <img class="profilepic" style=" width: 205px; height: 205px;overflow: hidden;
-                border-radius: 100%;margin: 0 auto 34px auto; background: #59363F;padding: 10px;" th:src="@{/user/{id}/pic(id=${session.u.id})}">
-            </div>
-
-            <div id="infoPerfil">
-                <p class="mt-5">Direccion: <span th:text="${user.direccion}">Calle null</span></p>
-                <p class="mt-5">E-mail: <span th:text="${user.email}">user@ucm.es</span></p>
-                <p class="mt-5">Teléfono: <span th:text="${user.telefono}">728654782</span></p>
-                <th:block th:if="${user.firstName} != null">
-                    <p class="mt-5">Nombre: <span th:text="${user.firstName}"></span></p>
-                </th:block>
-                <th:block th:if="${user.lastName} != null">
-                    <p class="mt-5">Apellido: <span th:text="${user.lastName}"></span></p>
-                </th:block>
+            <div id="centeredDiv">
+                <div class="cabecera">
+                    <h1 class="inlineElement">¡Bienvenido <span id="mostrarUsername" th:text="${user.username} ">Paco</span>!</h1>
+                    <button type="button" id="abrirModalModificar"  data-bs-toggle="modal" data-bs-target="#modalModificarPerfil">
+                        ✏️
+                    </button>
+                </div>
+                
+                <div id="infoPerfil">
+                    <p class="mt-5 info">Direccion: <span id="mostrarDireccion" th:text="${user.direccion}">Calle null</span></p>
+                    <p class="mt-5 info">E-mail: <span id="mostrarEmail" th:text="${user.email}">user@ucm.es</span></p>
+                    <p class="mt-5 info">Teléfono: <span id="mostrarTelefono" th:text="${user.telefono}">728654782</span></p>
+                    <th:block th:if="${user.firstName} != null">
+                        <p class="mt-5 info">Nombre: <span id="mostrarNombre" th:text="${user.firstName}"></span></p>
+                    </th:block>
+                    <th:block th:if="${user.lastName} != null">
+                        <p class="mt-5 info">Apellido: <span id="mostrarApellido" th:text="${user.lastName}"></span></p>
+                    </th:block>
+                </div>
             </div>
             
-
         </div>
     </main>
 

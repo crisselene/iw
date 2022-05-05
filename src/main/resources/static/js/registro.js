@@ -48,13 +48,9 @@ function registro() {
                     console.log("------" + d["idUsuario"]);
 
                     myForm.reset();
-                    var url = "/user/" + d["idUsuario"];
-                    //intento de que al registrarse correctamente se haga login directamente
-                    go(config.rootUrl + "/user/"+d["idUsuario"], 'POST', params)
-                    .then(d => {console.log("todo ok desde intento login registro") // va ok si el username no existe       
-                    })
-                    .catch(() => {console.log("Error en catch intento login desde registro");//si el username ya existia
-                    })
+
+                    // si el registro ha ido bien, te redirige a login para que inicie sesion con la nueva cuenta
+                    window.location.href = "http://localhost:8080/login";
         })
         .catch(() => {console.log("Error en catch anadir empleado");//si el username ya existia
                     username.setCustomValidity("El usuario ya existe, escoja otro, por favor");

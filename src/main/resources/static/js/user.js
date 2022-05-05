@@ -1,36 +1,3 @@
-// refresca previsualizacion cuando cambias imagen
-document.querySelector("#f_avatar").onchange = e => {
-    let img = document.querySelector("#avatar");
-    let fileInput = document.querySelector("#f_avatar");
-    console.log(img, fileInput);
-    readImageFileData(fileInput.files[0], img);
-};
-
-// click en boton de enviar avatar
-document.querySelector("#postAvatar").onclick = e => {
-    e.preventDefault();
-    let url = document.querySelector("#postAvatar").parentNode.action;
-    let img = document.querySelector("#avatar");
-    let file = document.querySelector("#f_avatar");
-    postImage(img, url, "photo").then(() => {
-        let cacheBuster = "?" + new Date().getTime();
-        document.querySelector("a.nav-link>img.iwthumb").src = url + cacheBuster;
-    });
-};
-
-function validatePassword(){
-    var password = document.getElementById("contrasena1Empleado");
-    var confirm_password = document.getElementById("contrasena2Empleado");
-
-    console.log("--- en validate password ---");
-
-    if(password.value != confirm_password.value) {
-        confirm_password.setCustomValidity("Passwords don't match");
-    } else {
-        confirm_password.setCustomValidity('');
-    }
-}
-
 let guardarPerfilButton = document.getElementById("guardarPerfilButton");
 guardarPerfilButton.addEventListener("click", guardarPerfil);
 
@@ -86,14 +53,31 @@ function guardarPerfil() {
         go(config.rootUrl + "/modificarUsuario", 'POST', params)
         .then(d => {console.log("todo ok") // va ok si el username no existe
                     username.setCustomValidity("");
-                    console.log("------" + d["idUsuario"]);
 
-                    myForm.reset();
                     modalModificarPerfil.hide();
+
+                    if(d["username"]) document.getElementById("mostrarUsername").innerHTML = d["username"];
+                    if(d["direccion"]) document.getElementById("mostrarDireccion").innerHTML = d["direccion"];
+                    if(d["telefono"]) document.getElementById("mostrarTelefono").innerHTML = d["telefono"];
+                    if(d["nombre"]) document.getElementById("mostrarNombre").innerHTML = d["nombre"];
+                    if(d["apellido"]) document.getElementById("mostrarApellido").innerHTML = d["apellido"];
         })
         .catch(() => {console.log("Error en catch anadir empleado");//si el username ya existia
                     username.setCustomValidity("El usuario ya existe, escoja otro, por favor");
                     username.reportValidity();
         })
+    }
+}
+
+function validatePassword(){
+    var password = document.getElementById("contrasena1Empleado");
+    var confirm_password = document.getElementById("contrasena2Empleado");
+
+    console.log("--- en validate password ---");
+
+    if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords don't match");
+    } else {
+        confirm_password.setCustomValidity('');
     }
 }

@@ -5,15 +5,38 @@
 }
 
 #infoPerfil{
-    background-color: var(--main);
+    margin-top: 2em;
+    background-color:#783848b5;
+    padding-top: 1em;
+    padding-bottom: 2em;
+}
+
+.info{
+    margin-left: 3em;
+    font-size: 1.5em;
 }
 
 .inlineElement{
     display: inline;
 }
 
-#avatar{
-    height: 15em;
-    width: 12em;
-    object-fit: cover;
+button#abrirModalModificar{
+    border: 0;
+    border-radius: 0.5em;
+    background-color: #783848b3;
+    height: 1.5em;
+    width: 1.5em;
+    font-size: 2em;
+    margin-left: 0.5em;
+}
+
+/* esta con id pq habia confrontaciones con otros elementos como body */
+#centeredDiv{
+    width: 60%;
+    margin-top: 3em  !important;
+    margin: auto;
+}
+
+.cabecera{
+    text-align: center;
 }

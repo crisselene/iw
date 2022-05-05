@@ -676,11 +676,13 @@ public class RootController {
     @PostMapping(path = "/modificarUsuario", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String modificarUsuario(Model model, @RequestBody JsonNode o) {
+    public String modificarUsuario(Model model, @RequestBody JsonNode o,  HttpSession session) {
         log.info("----------- dentro de modificarUsuario -------------");
 
+        Long idUser;
         String username = o.get("username").asText();
-        long idUsuario;
+        User u;
+        User userLogeado = em.find(User.class, ((User) session.getAttribute("u")).getId());
 
         log.info("------------------------------");
         log.info(o.get("nombreEmpleado").asText());
@@ -692,15 +694,51 @@ public class RootController {
         log.info(o.get("contrasena2Empleado").asText());
         log.info(o.get("rol").asText());
 
-        String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
+        log.info("----@ " + userLogeado.getUsername());
+        log.info("----@ username: " + username);
 
-        idUsuario = saGeneral.modificarUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
-                o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
-                password, o.get("rol").asText(), o.get("telefono").asText(), username, true, o.get("id").asLong());
+        if(userLogeado.getUsername().equals(username)) {
+            log.info("usernames iguales");
+        }
         
-        if (idUsuario == -1) return null;
+        // hay q comprobar que si el usuario se quiere cambiar el username, sea verdaderamente el suyo y no el de otro user
+        if(saGeneral.existeUsuario(em, username) && !userLogeado.getUsername().equals(username)) {
+            log.info("----@ antes de return null");
+            return null;
+        } else {
+            String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
 
-        return "{\"isok\": \"true\", \"idUsuario\": " + idUsuario + "}";// devuelve un json como un string
+            log.info("----@ antes de modificarUsuario");
+
+            u = saGeneral.modificarUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
+                    o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
+                    password, o.get("rol").asText(), o.get("telefono").asText(), username, true, o.get("id").asLong());
+
+            log.info("----@ despues de modificarUsuario");
+            
+            if (u == null) {
+                log.info("----@@ dentro de u==null");
+                return null;
+            }
+
+            log.info("username: " + u.getUsername());
+            log.info("id: " + u.getId());
+            log.info("username: " + u.getUsername());
+            log.info("username: " + u.getDireccion());
+            log.info("username: " + u.getEmail());
+            log.info("username: " + u.getFirstName());
+            log.info("username: " + u.getLastName());
+            log.info("username: " + u.getTelefono());
+
+            //return "{\"isok\": \"true\", \"username\": " + u.getUsername() + "}";
+            //return "{\"isok\": \"true\", \"username\": " + "\"" + u.getUsername() + "\"" + "}";
+
+            return "{\"isok\": \"true\", \"idUsuario\": " + u.getId() + ", \"username\":\"" + u.getUsername() + 
+            "\", \"direccion\":\"" + u.getDireccion() + "\", \"email\":\"" + u.getEmail() + 
+            "\", \"telefono\":\"" + u.getTelefono() + "\", \"nombre\":\"" + u.getFirstName() + 
+            "\", \"apellido\":\"" + u.getLastName() +"\"}";
+        }
+        
     }
 
     @PostMapping(path = "/anadirCategoria", produces = "application/json")

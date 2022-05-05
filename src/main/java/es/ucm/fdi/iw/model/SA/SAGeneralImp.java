@@ -121,7 +121,7 @@ public class SAGeneralImp{
         return idDevolver;
     }
 
-    public long modificarUsuario(EntityManager em, String direccion, String email, String firstName, 
+    public User modificarUsuario(EntityManager em, String direccion, String email, String firstName, 
     String lastName, String password, String roles, String telf, String username, Boolean enabled, Long idUsuario){
         long idDevolver = -1;
 
@@ -136,8 +136,7 @@ public class SAGeneralImp{
         u.setTelefono(telf);
         u.setUsername(username);
 
-        idDevolver = u.getId();
-        return idDevolver;
+        return u;
     }
 
     public void borrarUsuario(EntityManager em, long idUsuario){
