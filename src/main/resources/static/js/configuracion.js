@@ -53,8 +53,7 @@ function nuevoEmpleado() {
                     "contrasena2Empleado" : contrasena2Empleado.value,
                     "direccion" : dir.value,
                     "telefono" : tel.value,
-                    "email" : email.value,
-                    "rol" : "EMPLEADO"};
+                    "email" : email.value};
 
                     
 

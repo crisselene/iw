@@ -611,26 +611,26 @@ public class RootController {
 
         String username = o.get("username").asText();
         long idUsuario;
+        String rol = "EMPLEADO";
 
         if (saGeneral.existeUsuario(em, username)) {
             log.info("usuario ya existe (rootController anadirUsuario)");
             return null;
         } else {
-            log.info("------------------------------");
+            /* log.info("------------------------------");
             log.info(o.get("nombreEmpleado").asText());
             log.info(o.get("apellidoEmpleado").asText());
             log.info(o.get("email").asText());
             log.info(o.get("telefono").asText());
             log.info(o.get("direccion").asText());
             log.info(o.get("contrasena1Empleado").asText());
-            log.info(o.get("contrasena2Empleado").asText());
-            log.info(o.get("rol").asText());
+            log.info(o.get("contrasena2Empleado").asText()); */
 
             String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
 
             idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
                     o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
-                    password, o.get("rol").asText(), o.get("telefono").asText(), username, true);
+                    password, rol, o.get("telefono").asText(), username, true);
             if (idUsuario == -1)
                 return null;
         }
@@ -683,55 +683,22 @@ public class RootController {
         String username = o.get("username").asText();
         User u;
         User userLogeado = em.find(User.class, ((User) session.getAttribute("u")).getId());
+        String roles = userLogeado.getRoles();
+        Long id = userLogeado.getId();
 
-        log.info("------------------------------");
-        log.info(o.get("nombreEmpleado").asText());
-        log.info(o.get("apellidoEmpleado").asText());
-        log.info(o.get("email").asText());
-        log.info(o.get("telefono").asText());
-        log.info(o.get("direccion").asText());
-        log.info(o.get("contrasena1Empleado").asText());
-        log.info(o.get("contrasena2Empleado").asText());
-        log.info(o.get("rol").asText());
+        log.info("----@ " + roles);
 
-        log.info("----@ " + userLogeado.getUsername());
-        log.info("----@ username: " + username);
-
-        if(userLogeado.getUsername().equals(username)) {
-            log.info("usernames iguales");
-        }
-        
         // hay q comprobar que si el usuario se quiere cambiar el username, sea verdaderamente el suyo y no el de otro user
         if(saGeneral.existeUsuario(em, username) && !userLogeado.getUsername().equals(username)) {
-            log.info("----@ antes de return null");
             return null;
         } else {
             String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
 
-            log.info("----@ antes de modificarUsuario");
-
             u = saGeneral.modificarUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
                     o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
-                    password, o.get("rol").asText(), o.get("telefono").asText(), username, true, o.get("id").asLong());
-
-            log.info("----@ despues de modificarUsuario");
+                    password, roles, o.get("telefono").asText(), username, true, id);
             
-            if (u == null) {
-                log.info("----@@ dentro de u==null");
-                return null;
-            }
-
-            log.info("username: " + u.getUsername());
-            log.info("id: " + u.getId());
-            log.info("username: " + u.getUsername());
-            log.info("username: " + u.getDireccion());
-            log.info("username: " + u.getEmail());
-            log.info("username: " + u.getFirstName());
-            log.info("username: " + u.getLastName());
-            log.info("username: " + u.getTelefono());
-
-            //return "{\"isok\": \"true\", \"username\": " + u.getUsername() + "}";
-            //return "{\"isok\": \"true\", \"username\": " + "\"" + u.getUsername() + "\"" + "}";
+            if (u == null) return null;
 
             return "{\"isok\": \"true\", \"idUsuario\": " + u.getId() + ", \"username\":\"" + u.getUsername() + 
             "\", \"direccion\":\"" + u.getDireccion() + "\", \"email\":\"" + u.getEmail() + 

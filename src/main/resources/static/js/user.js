@@ -43,9 +43,7 @@ function guardarPerfil() {
                     "contrasena2Empleado" : contrasena2Empleado.value,
                     "direccion" : dir.value,
                     "telefono" : tel.value,
-                    "email" : email.value,
-                    "rol" : rol.value,
-                    "id" : idUsuario.value};
+                    "email" : email.value};
 
         console.log("---" + idUsuario.value);      
         console.log("---" + rol.value);       
