@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Restaurant.es: Registro</title>
+
+    <link rel="stylesheet" th:href="@{/css/registro.css}" />
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="centeredDiv">
+                <h1>¡Crea tu cuenta!</h1>
+                <form role="form" id="modificarPerfilForm" onsubmit="return false;"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                
+                    <label for="username" class="firstLabel">Username</label>
+                    <input type="text" id="username" class="inputForm" required>
+    
+                    <label for="email" class="inputLabel">Email</label>
+                    <input type="email" id="email" class="inputForm" required>
+    
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombreEmpleado" class="inputLabel">Nombre</label>
+                            <input type="text" id="nombreEmpleado" class="inputForm">
+                        </div>
+                        <div class="col">
+                            <label for="apellidoEmpleado"  class="inputLabel">Apellido</label>
+                            <input type="text" id="apellidoEmpleado" class="inputForm">
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col">
+                            <label for="contrasena1Empleado"  class="inputLabel">Contraseña</label>
+                            <input type="password" id="contrasena1Empleado" class="inputForm" onchange="validatePassword()" required>
+                        </div>
+                        <div class="col">
+                            <label for="contrasena2Empleado"  class="inputLabel">Repite la contraseña</label>
+                            <input type="password" id="contrasena2Empleado" class="inputForm" onkeyup="validatePassword()" required>
+                        </div>
+                    </div>
+    
+                    <div class="row">
+                        <div class="col">
+                            <label for="direccion"  class="inputLabel">Direccion</label>
+                            <input type="input" id="direccion" class="inputForm" required>
+                        </div>
+                        <div class="col">
+                            <label for="telefono"  class="inputLabel">Telefono</label>
+                            <input type="tel" id="telefono" class="inputForm" required>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id ="crearButton" class="btn btn-primary">Crear cuenta</button>
+                    
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script th:src="@{/js/registro.js}" src="js/registro.js"></script>
+</body>
+<th:block th:replace="fragments/footer.html :: footer" />
+</html>

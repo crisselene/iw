@@ -603,10 +603,10 @@ public class RootController {
         return "configuracion";
     }
 
-    @PostMapping(path = "/anadirUsuario", produces = "application/json")
+    @PostMapping(path = "/anadirEmpleado", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String anadirUsuario(Model model, @RequestBody JsonNode o) {
+    public String anadirEmpleado(Model model, @RequestBody JsonNode o) {
         log.info("----------- dentro de anadirUsuario -------------");
 
         String username = o.get("username").asText();
@@ -631,6 +631,41 @@ public class RootController {
             idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
                     o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
                     password, o.get("rol").asText(), o.get("telefono").asText(), username, true);
+            if (idUsuario == -1)
+                return null;
+        }
+
+        return "{\"isok\": \"true\", \"idUsuario\": " + idUsuario + "}";// devuelve un json como un string
+    }
+
+    @PostMapping(path = "/registro", produces = "application/json")
+    @Transactional // para no recibir resultados inconsistentes
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String registro(Model model, @RequestBody JsonNode o) {
+        log.info("----------- dentro de registro -------------");
+
+        String username = o.get("username").asText();
+        long idUsuario;
+        String rol = "USER";
+
+        if (saGeneral.existeUsuario(em, username)) {
+            log.info("usuario ya existe (rootController anadirUsuario)");
+            return null;
+        } else {
+            log.info("------------------------------");
+            log.info(o.get("nombreEmpleado").asText());
+            log.info(o.get("apellidoEmpleado").asText());
+            log.info(o.get("email").asText());
+            log.info(o.get("telefono").asText());
+            log.info(o.get("direccion").asText());
+            log.info(o.get("contrasena1Empleado").asText());
+            log.info(o.get("contrasena2Empleado").asText());
+
+            String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
+
+            idUsuario = saGeneral.crearUsuario(em, o.get("direccion").asText(), o.get("email").asText(),
+                    o.get("nombreEmpleado").asText(), o.get("apellidoEmpleado").asText(),
+                    password, rol, o.get("telefono").asText(), username, true);
             if (idUsuario == -1)
                 return null;
         }
@@ -951,6 +986,12 @@ public class RootController {
             return "pedidosUsuario";
         }
 
+    }
+
+    @GetMapping("registro")
+    public String registro(Model model, HttpSession session) {
+
+        return "registro";
     }
 
 }

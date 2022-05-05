@@ -110,6 +110,7 @@ public class UserController {
      */
 	@GetMapping("{id}")
     public String index(@PathVariable long id, Model model, HttpSession session) {
+		log.info("------en id --------@@");
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
         return "user";
@@ -126,6 +127,8 @@ public class UserController {
 			@ModelAttribute User edited, 
 			@RequestParam(required=false) String pass2,
 			Model model, HttpSession session) throws IOException {
+
+		log.info("------en /id --------@@");
 
         User requester = (User)session.getAttribute("u");
         User target = null;

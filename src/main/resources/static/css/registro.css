@@ -1,0 +1,26 @@
+.centeredDiv{
+    width: 70%;
+    margin: auto;
+    font-size: 1.2em;
+    margin-top: 2em;
+}
+
+#crearButton{
+    margin-top: 3em;
+    font-size: 1.2em;
+}
+
+.inputLabel{
+    margin-top: 2em;
+    display: block;
+}
+
+.firstLabel{
+    margin-top: 2em;
+    display: block;
+}
+
+.inputForm{
+    width: 18em;
+    height: 2em;
+}

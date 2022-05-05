@@ -58,7 +58,7 @@ function nuevoEmpleado() {
 
                     
 
-        go(config.rootUrl + "/anadirUsuario", 'POST', params)
+        go(config.rootUrl + "/anadirEmpleado", 'POST', params)
         .then(d => {console.log("todo ok") // va ok si el username no existe
                     username.setCustomValidity("");
                     console.log("------" + d["idUsuario"]);
