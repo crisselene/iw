@@ -22,14 +22,14 @@
                 </div>
                 
                 <div id="infoPerfil">
-                    <p class="mt-5 info">Direccion: <span id="mostrarDireccion" th:text="${user.direccion}">Calle null</span></p>
-                    <p class="mt-5 info">E-mail: <span id="mostrarEmail" th:text="${user.email}">user@ucm.es</span></p>
-                    <p class="mt-5 info">Teléfono: <span id="mostrarTelefono" th:text="${user.telefono}">728654782</span></p>
+                    <p class="mt-5 info">📍 Direccion: <span id="mostrarDireccion" th:text="${user.direccion}">Calle null</span></p>
+                    <p class="mt-5 info">✉ E-mail: <span id="mostrarEmail" th:text="${user.email}">user@ucm.es</span></p>
+                    <p class="mt-5 info">📞 Teléfono: <span id="mostrarTelefono" th:text="${user.telefono}">728654782</span></p>
                     <th:block th:if="${user.firstName} != null">
-                        <p class="mt-5 info">Nombre: <span id="mostrarNombre" th:text="${user.firstName}"></span></p>
+                        <p class="mt-5 info">👤 Nombre: <span id="mostrarNombre" th:text="${user.firstName}"></span></p>
                     </th:block>
                     <th:block th:if="${user.lastName} != null">
-                        <p class="mt-5 info">Apellido: <span id="mostrarApellido" th:text="${user.lastName}"></span></p>
+                        <p class="mt-5 info">👤 Apellido: <span id="mostrarApellido" th:text="${user.lastName}"></span></p>
                     </th:block>
                 </div>
             </div>
