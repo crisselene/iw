@@ -1,7 +1,6 @@
 
 # Restaurant.es 
 
-
 Aplicación desarrollada para la asignatura de Ingeniería Web en la Universidad Complutense de Madrid.
 
 :hamburger: :apple: :beers: :cookie: :spaghetti: :bread: :egg: :tomato: :cocktail: :coffee: :cake: :grapes: :ramen: :doughnut: :meat_on_bone: :pineapple: :fork_and_knife: :tea: :strawberry: :ice_cream: :stew: :cherries: :corn: :pizza: :poultry_leg: :pear: :dango: :curry: :honey_pot:
@@ -38,8 +37,32 @@ La aplicación consta de varias vistas que dependiendo de si el usuario es admin
 
 ---------------------------------------------------------------------------
 Para ver más detalles consultar [el documento de diseño](https://docs.google.com/document/d/1iVk3umk8pwtbZNK6Pcu2w0QPkd7d9rRnA66oTugvYqo/edit?usp=sharing)
+## Interfaz
+La paleta de colores que hemos utilizado es la siguiente:
+![](https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/Paleta.PNG)
 
+El color más claro es el que utilizó para los fondos.
 
+<img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/home-bg.jpg" width="508"> 
+
+Para resaltar los títulos y los botones de rechazar usamos el rojo oscuro. Es el color representativo de la aplicación, por ejemplo es el que se usa para el icono de la aplicación.
+
+<img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/logo.png" width="108">
+
+En cambio para los botones de aceptar utilizamos un tono verde (#849974) y para otros elementos como la animación de carga.
+
+![](https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/carga.gif)
+
+Además se dispone de una navbar para navegar por las distintas vistas y ventanas.
+
+## Fuentes utilizadas en el código
+- Crear un div nuevo, añadirle clase y contenido: 
+  - https://developer.mozilla.org/es/docs/Web/API/Document/createElement
+  - https://www.w3schools.com/jsref/met_document_createelement.asp  
+- Ejemplos de bootstrap:
+  -  https://getbootstrap.com/docs/5.0/examples/sticky-footer-navbar/
+- Tratamiento de json:
+  - https://www.delftstack.com/es/howto/javascript/javascript-json-array-of-objects/
 
 ### Reference Documentation
 For further reference, please consider the following sections:
