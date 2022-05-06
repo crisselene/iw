@@ -108,17 +108,35 @@ public class SAGeneralImp{
     } */
 
     public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
-    String lastName, String pass, String roles, String telf, String username, Boolean enabled){
+    String lastName, String password, String roles, String telf, String username, Boolean enabled){
         long idDevolver = -1;
 
         if(!existeUsuario(em, username)){
-            User u = new User(username, pass, firstName, lastName, email, direccion, telf, roles, enabled);
+            User u = new User(username, password, firstName, lastName, email, direccion, telf, roles, enabled);
             em.persist(u);
             em.flush();
             idDevolver = u.getId();
         }
 
         return idDevolver;
+    }
+
+    public User modificarUsuario(EntityManager em, String direccion, String email, String firstName, 
+    String lastName, String password, String roles, String telf, String username, Boolean enabled, Long idUsuario){
+        long idDevolver = -1;
+
+        User u = em.find(User.class, idUsuario);
+
+        u.setDireccion(direccion);
+        u.setEmail(email);
+        u.setFirstName(firstName);
+        u.setLastName(lastName);
+        u.setPassword(password);
+        u.setRoles(roles);
+        u.setTelefono(telf);
+        u.setUsername(username);
+
+        return u;
     }
 
     public void borrarUsuario(EntityManager em, long idUsuario){

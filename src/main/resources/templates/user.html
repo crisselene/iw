@@ -4,162 +4,109 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Perfil</title>
-    <link rel="stylesheet" href="css/user.css" />
+    <link rel="stylesheet" th:href="@{/css/user.css}" />
 </head>
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
     
     <main class="flex-shrink-0">
-        <div id="books" class="border border-2 border-primary rounded">
-            <label for="isbn">ISBN</label><input id="isbn" value="9780140328721" />
-            <button id="fetchBook">Buscar datos online</button>
-            <img id="portada" alt="portada del libro" />
-            <form th:action="@{/user/__${user.id}__/pic}">
-                <button id="postPortada">Subir portada al servidor</button>
-            </form>
-        </div>
-        <div id="movies" class="border border-2 border-secondary rounded">
-            <label for="imdb">IMDB</label><input id="imdb" value="tt11286314" />
-            <button id="fetchMovie">Buscar datos online</button>
-            <img id="poster" alt="poster de la pelicula" />
-            <form th:action="@{/user/__${user.id}__/pic}">
-                <button id="postPoster">Subir poster al servidor</button>
-            </form>
-        </div>
-        <div id="profile" class="border border-2 border-tertiary rounded">
-            <input type="file" id="f_avatar" accept="image/jpeg,image/png">
-            <img id="avatar" alt="careto a subir" />
-            <form th:action="@{/user/__${user.id}__/pic}">
-                <button id="postAvatar">Subir poster al servidor</button>
-            </form>
-        </div>
-
+        
         <div class="container">
-            <h1 class="mt-5">Perfil de <span th:text="${user.username}">Paco</span></h1>
-            <img class="profilepic" style=" width: 205px; height: 205px;overflow: hidden;
-            border-radius: 100%;margin: 0 auto 34px auto; background: #59363F;padding: 10px;" th:src="@{/user/{id}/pic(id=${session.u.id})}">
-             <p class="mt-5">Direccion <span th:text="${user.direccion}">Calle null</span></p>
-             <p class="mt-5">E-mail <span th:text="${user.email}">user@ucm.es</span></p>
-             <p class="mt-5">Teléfono <span th:text="${user.telefono}">728654782</span></p>
-             <h1 class="mt-5">¿Una rica hamburguesa🍔, <span th:text="${user.username}">Paco</span>?</h1>
-             <a class="button" th:href = "@{/hacerPedido}">¡Hacer un pedido!</a>
-             <h1 class="mt-5">🍟🍕 Tú decides 🥗🥞 </h1>
-
-            <!-- para enviar mensajes; algo feo -->
-            <div class="py-5 position-absolute bottom-0 row ">
-            <!-- recepción de mensajes -->
-            <div class="py-5 row" id="mensajes">
+            <div id="centeredDiv">
+                <div class="cabecera">
+                    <h1 class="inlineElement">¡Bienvenido <span id="mostrarUsername" th:text="${user.username} ">Paco</span>!</h1>
+                    <button type="button" id="abrirModalModificar"  data-bs-toggle="modal" data-bs-target="#modalModificarPerfil">
+                        ✏️
+                    </button>
+                </div>
+                
+                <div id="infoPerfil">
+                    <p class="mt-5 info">📍 Direccion: <span id="mostrarDireccion" th:text="${user.direccion}">Calle null</span></p>
+                    <p class="mt-5 info">✉ E-mail: <span id="mostrarEmail" th:text="${user.email}">user@ucm.es</span></p>
+                    <p class="mt-5 info">📞 Teléfono: <span id="mostrarTelefono" th:text="${user.telefono}">728654782</span></p>
+                    <th:block th:if="${user.firstName} != null">
+                        <p class="mt-5 info">👤 Nombre: <span id="mostrarNombre" th:text="${user.firstName}"></span></p>
+                    </th:block>
+                    <th:block th:if="${user.lastName} != null">
+                        <p class="mt-5 info">👤 Apellido: <span id="mostrarApellido" th:text="${user.lastName}"></span></p>
+                    </th:block>
+                </div>
             </div>
-            <!-- envío de mensajes -->
-            <div class="py-5 row ">
-                <form th:action="@{/user/__${user.id}__/msg}" method="POST">
-                    <input type="text" id="message" placeholder="escribe a este usuario" />
-                    <button id="sendmsg" class="btn btn-secondary" type="submit">Enviar</button>
-                </form>
-            </div>
+            
         </div>
     </main>
 
+
+
+
+
+    <div class="modal fade" id="modalModificarPerfil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modificar perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form role="form" id="modificarPerfilForm" onsubmit="return false;"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                    <div class="modal-body">
+                        <label for="username" style="display: block;">Username</label>
+                        <input type="text" id="username" th:value="${user.username}" required>
+
+                        <label for="email" style="display: block;" class="modalLabel">Email</label>
+                        <input type="email" id="email" th:value="${user.email}" required>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="nombreEmpleado" style="display: block;" class="modalLabel">Nombre</label>
+                                <input type="text" id="nombreEmpleado" th:value="${user.firstName}">
+                            </div>
+                            <div class="col">
+                                <label for="apellidoEmpleado" style="display: block;" class="modalLabel">Apellido</label>
+                                <input type="text" id="apellidoEmpleado" th:value="${user.lastName}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="contrasena1Empleado" style="display: block;" class="modalLabel">Contraseña</label>
+                                <input type="password" id="contrasena1Empleado" onchange="validatePassword()" required>
+                            </div>
+                            <div class="col">
+                                <label for="contrasena2Empleado" style="display: block;" class="modalLabel">Repite la contraseña</label>
+                                <input type="password" id="contrasena2Empleado" onkeyup="validatePassword()" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="direccion" style="display: block;" class="modalLabel">Direccion</label>
+                                <input type="input" id="direccion" th:value="${user.direccion}" required>
+                            </div>
+                            <div class="col">
+                                <label for="telefono" style="display: block;" class="modalLabel">Telefono</label>
+                                <input type="tel" id="telefono" th:value="${user.telefono}" required>
+                            </div>
+                        </div>
+                            
+                        <input type="hidden" id="idUsuario" th:value="${user.id}">
+                        <input type="hidden" id="rol" th:value="${user.roles}">
+
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id ="guardarPerfilButton" class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <th:block th:replace="fragments/footer.html :: footer" />
-    <script>
-        // envio de mensajes con AJAX
-        let b = document.getElementById("sendmsg");
-        b.onclick = (e) => {
-            e.preventDefault();
-            go(b.parentNode.action, 'POST', {
-                    message: document.getElementById("message").value
-                })
-                .then(d => console.log("happy", d))
-                .catch(e => console.log("sad", e))
-        }
-
-        // cómo pintar 1 mensaje (devuelve html que se puede insertar en un div)
-        function renderMsg(msg) {
-            console.log("rendering: ", msg);
-            return `<div>${msg.from} @${msg.sent}: ${msg.text}</div>`;
-        }
-
-        // pinta mensajes viejos al cargarse, via AJAX
-        let messageDiv = document.getElementById("mensajes");
-        go(config.rootUrl + "/user/received", "GET").then(ms =>
-            ms.forEach(m => messageDiv.insertAdjacentHTML("beforeend", renderMsg(m))));
-
-        // y aquí pinta mensajes según van llegando
-        if (ws.receive) {
-            const oldFn = ws.receive; // guarda referencia a manejador anterior
-            ws.receive = (m) => {
-                oldFn(m); // llama al manejador anterior
-                messageDiv.insertAdjacentHTML("beforeend", renderMsg(m));
-            }
-        }
-
-        // ver https://openlibrary.org/dev/docs/api/books
-        // no requieren "api key", pero necesitas 1 consulta adicional por autor
-        function fetchBookData(isbn, targetImg) {
-            go(`https://openlibrary.org/isbn/${isbn}.json`, "GET", {}, {}).then(bookInfo => {
-                authorLookups = bookInfo.authors.map(a =>
-                    go(`https://openlibrary.org${a.key}.json`, "GET", {}, {}));
-                console.log(`title: ${bookInfo.title}`);
-                //targetImg.src = `https://covers.openlibrary.org/b/id/${bookInfo.covers[0]}-M.jpg`;
-                readImageUrlData(`https://covers.openlibrary.org/b/id/${bookInfo.covers[0]}-M.jpg`, targetImg);
-                Promise.all(authorLookups).then(authorInfos => {
-                    for (let a of authorInfos) {
-                        console.log(`Author: ${a.name}`);
-                    }
-                });
-            })
-        }
-
-        // ver https://www.omdbapi.com/
-        // requieren API key, pero se puede conseguir de forma gratuita
-        // (no uses mucho la que hay ahí abajo, por favor!)
-        function fetchMovieData(imdb, targetImg) {
-            go(`http://www.omdbapi.com/?i=${imdb}&apikey=174a19fd`, "GET", {}, {}).then(movieInfo => {
-                console.log(`title: ${movieInfo.Title}`);
-                // targetImg.src = movieInfo.Poster;
-                readImageUrlData(movieInfo.Poster, targetImg)
-            })
-        }
-
-        // click en boton de cargar datos libro
-        document.querySelector("#fetchBook").onclick = e => {
-            let isbn = document.querySelector("#isbn").value;
-            console.log("fetching ", isbn);
-            fetchBookData(isbn, document.querySelector("#portada"));
-        };
-        // click en boton de cargar datos peli
-        document.querySelector("#fetchMovie").onclick = e => {
-            let imdb = document.querySelector("#imdb").value;
-            console.log("fetching ", imdb);
-            fetchMovieData(imdb, document.querySelector("#poster"));
-        };
-        // click en boton de enviar portada
-        document.querySelector("#postPortada").onclick = e => {
-            e.preventDefault();
-            let url = document.querySelector("#postPortada").parentNode.action;
-            let img = document.querySelector("#portada");
-            postImage(img, url, "photo");
-        };
-        // refresca previsualizacion cuando cambias imagen
-        document.querySelector("#f_avatar").onchange = e => {
-            let img = document.querySelector("#avatar");
-            let fileInput = document.querySelector("#f_avatar");
-            console.log(img, fileInput);
-            readImageFileData(fileInput.files[0], img);
-        };
-        // click en boton de enviar avatar
-        document.querySelector("#postAvatar").onclick = e => {
-            e.preventDefault();
-            let url = document.querySelector("#postAvatar").parentNode.action;
-            let img = document.querySelector("#avatar");
-            let file = document.querySelector("#f_avatar");
-            postImage(img, url, "photo").then(() => {
-                let cacheBuster = "?" + new Date().getTime();
-                document.querySelector("a.nav-link>img.iwthumb").src = url + cacheBuster;
-            });
-        };
-    </script>
+    <script th:src="@{/js/user.js}" src="js/user.js"></script>
 </body>
 
 </html>

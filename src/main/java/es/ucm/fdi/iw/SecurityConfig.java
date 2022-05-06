@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.ignoringAntMatchers("/api/**")
 				.and()
 	        .authorizeRequests()
-			.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/carta", "/verPlato", "/web").permitAll()
+			.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error", "/carta", "/verPlato", "/web", "/registro").permitAll()
 				.antMatchers("/api/**").permitAll()            // <-- public api access
 				.antMatchers("/admin/**", "/nuevoPlato","/aceptarPed", "/existeUsuario", "/anadirEmpleado").hasRole("ADMIN")	   // <-- administration
 	           // .antMatchers("method").hasAnyRole("USER", "EMPLEADO")	   // <-- logged-in users
@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/hacerPedido").hasRole("USER")
 				.antMatchers("/verReservas", "/hacerComentario").hasAnyRole("ADMIN", "EMPLEADO", "USER")
 				.antMatchers("/pedidos").hasAnyRole("USER", "ADMIN", "EMPLEADO")
-				.antMatchers("/configuracion", "/borrarComentario").hasRole("ADMIN")
+				.antMatchers("/configuracion", "/borrarComentario", "anadirUsuario").hasRole("ADMIN")
 	            .anyRequest().authenticated()
 	            .and()
 			.formLogin()
