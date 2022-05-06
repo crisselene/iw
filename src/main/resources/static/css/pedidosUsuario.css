@@ -19,14 +19,6 @@
     padding-left: 10%;
     margin-top: 5%;
 }
-body{
-    background:url(../img/home-bg.jpg) no-repeat;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    margin: 0;
-  }
 
 
 h1{
