@@ -32,7 +32,7 @@
                     <div class="divCambiar elemento" th:attr="data-id=${ped.id}">
 
                         <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.cliente.username}">
+                            + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFecha}">
 
                         </div>
                         <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
@@ -78,7 +78,7 @@
 
                     <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
                         <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.getCliente.username}"></div>
+                            + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFecha}"></div>
 
                                 <th:block th:each="est,iter: ${listaEstados}">
 

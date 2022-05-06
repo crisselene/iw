@@ -343,7 +343,7 @@ public class RootController {
         String dataToReturn = "";
         //Llamamos a la funcion de reserva del sa con los datos que nos pide
         if(saGeneral.realizarReserva(em, LocalDateTime.parse(fecha), personas, u)){
-            dataToReturn = "{isOk}";
+            dataToReturn = "{\"isok\": \"todobien\"}";
         }
         else {
             dataToReturn = "{isNotOk}";

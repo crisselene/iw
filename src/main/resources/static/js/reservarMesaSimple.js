@@ -32,6 +32,9 @@ function elegirHora(e){
             .then(d => {console.log("todo ok")
                         console.log("mensaje recibido: ", d);//json recibido
                         console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+                        reloadHoras([])//Recargamos las horas que se ven en pantalla
+                        alert("Reserva realizada")
+
             })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
         }

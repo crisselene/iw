@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,5 +157,14 @@ public class Pedido {
        return null;
 
        
+    }
+
+    public String getFecha(){
+        String dateString = fecha.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); 
+        String[] parts = dateString.split("T");
+        String date = parts[0]; 
+        String time = parts[1];
+// return dateString;
+        return date + " " + time;
     }
 }
