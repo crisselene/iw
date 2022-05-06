@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,15 +50,18 @@ public class Pedido {
     private User cliente; //Quien compro el pedido
 
     private String direccion;
+    private LocalDateTime fecha;
 
     public Pedido(String direccion, List<LineaPlatoPedido> platos, User u){
         this.direccion = direccion;
         this.platos = platos;
         this.cliente = u;
+        this.fecha = LocalDateTime.now();
     }
     public Pedido(String direccion, List<LineaPlatoPedido> platos){
         this.direccion = direccion;
         this.platos = platos;
+        this.fecha = LocalDateTime.now();
     }
     public Pedido(){}
     
@@ -66,6 +70,7 @@ public class Pedido {
         this.direccion = direccion;
         this.estado = estado;
         this.activo=true;
+        this.fecha = LocalDateTime.now();
     }
 
     public Boolean isEnCurso() {
