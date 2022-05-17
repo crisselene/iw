@@ -9,7 +9,8 @@ const modalDeletePlato = new bootstrap.Modal(document.querySelector('#modalDelet
 
 
 
- document.addEventListener("DOMContentLoaded", () => {
+ /*//ejemplo uso websockets (recibir mensajes)
+  document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
         let subs = ["/paginaSuscrita"];
         ws.initialize(config.socketUrl, subs);
@@ -29,10 +30,10 @@ if (ws.receive) {
     const oldFn = ws.receive; // guarda referencia a manejador anterior
     ws.receive = (m) => {//reescribe lo que hace la funcion receive
         oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
-        /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+       //messageDiv.insertAdjacentHTML("beforeend", renderMsg(m));
         console.log("mensaje webSocket llegado");
     }
-}
+} */
 
 
 //-----------------------------------------------------------------------------------
