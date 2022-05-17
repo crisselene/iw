@@ -198,8 +198,6 @@ public class SAGeneralImp{
         em.flush();
         idDevuelta = p.getId();
 
-       
-
 
         return idDevuelta;
     }
