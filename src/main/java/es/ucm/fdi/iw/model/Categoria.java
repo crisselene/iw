@@ -19,7 +19,7 @@ import lombok.Data;
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findById", query = "select obj from Categoria obj where  :id = obj.id"),
-    @NamedQuery(name = "Categoria.findByNombre", query = "select c from Categoria c where :nombre = c.nombre AND c.activo = TRUE"),
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Categoria.findByNombre", query = "select c from Categoria c where :nombre = c.nombre AND c.activo = TRUE"),
     @NamedQuery(name = "Categoria.list", query = "select c from Categoria c where c.activo = TRUE")
 })
 @AllArgsConstructor

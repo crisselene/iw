@@ -64,10 +64,14 @@ function deletePlato()
         console.log("todo ok")
 
         modalDeletePlato.hide();//escondemos el modal
+        console.log(1);
         //seleccionamos en el html el div con un data-plato='id' siendo id la id del plato que se ha borrado
         let divABorrar =document.querySelector("div[data-plato='"+idPlato+"']"); //¡Cuidado: el valor (en este caso idPlato) debe ir entre ''
-        divABorrar.remove();
+        console.log(2);
         console.log("div a borrar: " + divABorrar);
+        divABorrar.remove();
+        console.log(3);
+       
 
         }).catch(() => console.log("fallo"));
 
