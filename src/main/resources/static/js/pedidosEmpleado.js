@@ -182,6 +182,11 @@ document.addEventListener("DOMContentLoaded", () => {
             var accord = document.createElement("button");
             accord.innerText = "Listado de platos"
             accord.className = "accordion"
+
+            var iconoDesp = document.createElement("p")//icono del acordeon
+            iconoDesp.innerText = "🔽"
+            accord.appendChild(iconoDesp)
+
             var panel = document.createElement("div")
             panel.className = "panel"
             var parrafo = document.createElement("p")

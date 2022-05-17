@@ -89,7 +89,21 @@ public class RootController {
         log.info(id);
         /* boolean encur = saGeneral.pedidoEnCurso(em, id);
         return "{\"encurso\":" + encur + "}"; */
-        saGeneral.estadoPedido(em, id, Estado.ACEPTADO);
+
+        Pedido p = saGeneral.actualizarEstadoPedido(em, id, Estado.ACEPTADO);
+       // saGeneral.estadoPedido(em, id, Estado.ACEPTADO);
+
+
+        String notificar= "/ver/misPedidos" + p.getCliente().getId();
+        String jsonAEnviar = "{";
+        jsonAEnviar += "\"idPedido\": \"" + id + "\",";
+        jsonAEnviar += "\"estado\": \"" + p.getEstadoAsString() + "\"";
+        jsonAEnviar += "}";
+
+
+        messagingTemplate.convertAndSend(notificar, jsonAEnviar);
+
+        
         return "{\"estado\":" + "\"ACEPTADO\"" + "}";
     }
 

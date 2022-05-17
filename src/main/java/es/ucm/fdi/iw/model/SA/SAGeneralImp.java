@@ -342,13 +342,15 @@ public class SAGeneralImp{
         { */
             Estado e = Pedido.estadoStringToEnum(estado);
             p.setEstado(e);
-            //p.actualizarEstado(estado);
-
-
             return p;
-       /*  } */
-
-        /* return false; */
+    }
+    public Pedido actualizarEstadoPedido(EntityManager em, long idPedido, Estado estado)
+    {
+        Pedido p = em.find(Pedido.class, idPedido);
+       /*  if(p != null)
+        { */
+            p.setEstado(estado);
+            return p;
     }
 
     /* public boolean modificarPedido(EntityManager em, long id, String direccion){ //Cabmia el valor de enCurso a true
