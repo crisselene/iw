@@ -5,12 +5,19 @@ Feature: flujo principal
 # delays logins q no funcionan siempre
 # como coger el num de pedido de un post al hacer pedido para comprobar que esta en pedidos
 
+# Se ejecuta desde ExternalRunner
+
+#documentacion: https://karatelabs.github.io/karate/karate-core/
+
 Scenario: ver carta sin iniciar sesion
     Given driver baseUrl
+    # hacer click en carta de la navBar y ver si te lleva a la pag de carta
     When submit().click(".cartaLink")
     And waitForUrl(baseUrl + '/carta')
+    # existe un primer botón que contenga la palabra "Entrantes", para que solo contenga es palabra es sin "^"
     * exists("{^button}Entrantes")
     * exists("{^button}Croquetas")
+    # hace una captura de pantalla q se muestra en el informe
     And driver.screenshot()
 
 Scenario: ver carta iniciando sesion
@@ -30,6 +37,7 @@ Scenario: hacer pedido
     * driver baseUrl + '/hacerPedido'
     * exists("{^h3}Entrantes")
     * exists("{^div}Croquetas")
+    # pone un 3 en el input, pero como ya había un 1, el resultado es 31
     * input('.cantidad-plato', '3')
     * exists("{^button}Comprar")
     * exists("{^h2}Carrito")
@@ -39,12 +47,6 @@ Scenario: hacer pedido
     * click("{^button}Comprar")
     * exists("{^div}ItemCarrito")
     And driver.screenshot()
-
-# Hacerlo justo despues de Scenario: hacer pedido para que sea el mismo usuario y no haya que rehacer login
-Scenario: comprobar que se ha hecho el pedido
-    * driver baseUrl + '/pedidos'
-    #* exists("{^.filaPedido:last-child}")
-
 
 Scenario: acceso a configuracion
     * driver baseUrl

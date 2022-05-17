@@ -38,7 +38,7 @@ Feature: login en servidor
     And input('#password', 'aa')
     And delay(100)
     When submit().click(".form-signin button")
-    Then waitForUrl(baseUrl + '/admin')
+    Then waitForUrl(baseUrl + '/configuracion')
 
   Scenario: logout after login
     Given driver baseUrl + '/login'

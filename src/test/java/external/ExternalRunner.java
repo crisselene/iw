@@ -19,3 +19,5 @@ class ExternalRunner {
         return Karate.run("flujoPrincipal").relativeTo(getClass());
     } 
 }
+
+//para mirar el informe: target->karate-reports->external.flujoPrincipal.html (copiar path y pegarlo en internet)
