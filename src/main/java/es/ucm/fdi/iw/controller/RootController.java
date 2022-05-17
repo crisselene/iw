@@ -839,6 +839,7 @@ public class RootController {
 
         String jsonForWebSocket = "{\"idPedido\": \"" + ped.getId() + "\"," +
                 "\"dirPedido\": \"" + ped.getDireccion() + "\"," +
+                "\"fechaPedido\": \"" + ped.getFecha() + "\"," +
                 "\"nombreCliente\": \"" + ped.getCliente().getUsername() + "\"," +
                 "\"platos\": " + jsonPlatos + "}";
 

@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nuevoPedi.className = "col"
 
             var newContent = document.createTextNode('Pedido: ' + id
-                + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"]);
+                + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] + ', Fecha: ' + m["fechaPedido"]);
             nuevoPedi.appendChild(newContent)
 
 
