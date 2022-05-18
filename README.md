@@ -53,7 +53,7 @@ En cambio para los botones de aceptar utilizamos un tono verde (#849974) y para 
 
 ![](https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/carga.gif)
 
-Además se dispone de una navbar para navegar por las distintas vistas y ventanas.
+Además se dispone de una navbar para navegar por las distintas vistas y ventanas. 
 
 ## Fuentes utilizadas en el código
 - Crear un div nuevo, añadirle clase y contenido: 
@@ -90,3 +90,7 @@ The following guides illustrate how to use some features concretely:
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
 -------------------------------------------------------
 <img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/logo.png" width="48">ESTAURANT.es 
+
+## Fallos y mejoras pendientes
+- El formato de fecha da un warning al iniciar la aplicación, pero funciona correctamente.
+- No se dispone de fotografía de perfil para el usuario.
