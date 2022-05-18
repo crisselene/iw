@@ -91,6 +91,22 @@ The following guides illustrate how to use some features concretely:
 -------------------------------------------------------
 <img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/logo.png" width="48">ESTAURANT.es 
 
+## Pruebas
+Los usuarios de pruebas son los siguientes:
+
+- **Usuario administrador :**
+
+   User: a
+
+   Pasword: aa
+
+
+- **Usuario cliente :** 
+
+  User: b
+
+  Pasword: aa
+
 ## Fallos y mejoras pendientes
 - El formato de fecha da un warning al iniciar la aplicación, pero funciona correctamente.
 - Sería conveniente mejorar la interfaz gráfica de la aplicación.
