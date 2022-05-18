@@ -88,8 +88,6 @@ The following guides illustrate how to use some features concretely:
 * [Spring Boot and OAuth2](https://spring.io/guides/tutorials/spring-boot-oauth2/)
 * [Authenticating a User with LDAP](https://spring.io/guides/gs/authenticating-ldap/)
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
--------------------------------------------------------
-<img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/logo.png" width="48">ESTAURANT.es 
 
 ## Pruebas
 Los usuarios de pruebas son los siguientes:
@@ -110,3 +108,6 @@ Los usuarios de pruebas son los siguientes:
 ## Fallos y mejoras pendientes
 - El formato de fecha da un warning al iniciar la aplicación, pero funciona correctamente.
 - Sería conveniente mejorar la interfaz gráfica de la aplicación.
+
+-------------------------------------------------------
+<img src="https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/logo.png" width="48">ESTAURANT.es 
