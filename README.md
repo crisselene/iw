@@ -93,4 +93,4 @@ The following guides illustrate how to use some features concretely:
 
 ## Fallos y mejoras pendientes
 - El formato de fecha da un warning al iniciar la aplicación, pero funciona correctamente.
-- No se dispone de fotografía de perfil para el usuario.
+- Sería conveniente mejorar la interfaz gráfica de la aplicación.
