@@ -337,9 +337,10 @@ public class RootController {
         int mesasNecesarias = personas / capacidad; 
         if(personas % capacidad != 0)
             mesasNecesarias++;
-        int maxReservas = c.getMaxReservas() - mesasNecesarias;  
+        int maxReservas = c.getMaxReservas() - mesasNecesarias;
+        log.info("mesas necesarias" + mesasNecesarias);  
 
-        if(maxReservas > 0){//si no quiere reservar mas de lo posible
+        if(maxReservas >= 0){//si no quiere reservar mas de lo posible
             //Pedimos al sa todas las fechas que hay en ese dia
             List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
             reservas.sort((d1,d2) -> d1.getFecha().compareTo(d2.getFecha()));//Las ordenamos de menor a mayor
@@ -359,7 +360,7 @@ public class RootController {
 
             //Para sacar el LocalDateTime con el int, lo que hago es crear un string con la forma del local date time
 
-            if(horaIni > 10){
+            if(horaIni >= 10){
                 inicio = LocalDateTime.parse(date+"T"+ horaIni + ":00:00.000000");
             }
             else {
@@ -382,7 +383,8 @@ public class RootController {
             for(Reserva r : reservas){
                 LocalDateTime fecha = r.getFecha();
                 horas.put(fecha, horas.get(fecha) + r.getMesas());
-            }           
+            }
+            log.info("treemap: "+ horas.toString());           
             
             //Si una hora no tiene mesas libres, la borramos del treemap
             List<LocalDateTime> horasABorrar = new ArrayList();            

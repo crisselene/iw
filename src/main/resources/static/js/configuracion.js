@@ -217,7 +217,7 @@ function actualizarParams() {
     const myForm = document.getElementById("paramsRestauranteForm");
 
     // comprobamos que el intervalo de hora de inicio de reservas y de fin tenga sentido
-    if(finalReservas.value <= inicioReservas.value) {
+    if(parseInt(finalReservas.value) <= parseInt(inicioReservas.value)) {
         inicioReservas.setCustomValidity("La hora de inicio ha de ser menor que la de fin");
     } else {
         inicioReservas.setCustomValidity("");

@@ -56,6 +56,7 @@ function cargarHoras(e) {
     //Enviamos la peticion al back, al ser un metodo get es diferente al post
     go(config.rootUrl + "/reservarMesa/fecha?inf=" + date, 'GET')
         .then(d => {
+            console.log("dentro del then")
             d.forEach(f => {
                 //El slice lo que hace es dejar unicamente la hora quitando los segundos y el dia
                 fechas.push(f.slice(0, 5))
@@ -63,7 +64,12 @@ function cargarHoras(e) {
             reloadHoras(fechas)//Recargamos las horas que se ven en pantalla
 
         })
-        .catch(() => "Fecha fallo")
+        .catch(() => {
+        console.log("fallo")
+        var array1 = []
+        reloadHoras(array1)
+        }
+        )
 
 }
 

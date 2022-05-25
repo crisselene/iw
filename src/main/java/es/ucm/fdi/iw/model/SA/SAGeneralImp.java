@@ -374,10 +374,13 @@ public class SAGeneralImp{
 
     public boolean realizarReserva(EntityManager em, LocalDateTime fecha, int personas, User cliente){
         ConfiguracionRestaurante c = em.find(ConfiguracionRestaurante.class, (long)1);
-        int mesas;
-        mesas = c.getPersonasMesa() / personas;
-        if(c.getPersonasMesa() % personas != 0) mesas++;
-        Reserva r = new Reserva(fecha, personas, mesas, cliente);
+        //int mesas;
+        int mesasNecesarias = personas / c.getPersonasMesa(); 
+        if(personas % c.getPersonasMesa() != 0)
+            mesasNecesarias++;
+       // mesas = c.getPersonasMesa() / personas;
+      //  if(c.getPersonasMesa() % personas != 0) mesas++;
+        Reserva r = new Reserva(fecha, personas, mesasNecesarias, cliente);
         em.persist(r);
         em.flush();
 
