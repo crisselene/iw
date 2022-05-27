@@ -40,9 +40,9 @@
                           </div>
                         </th:block>
                       </th:block>
-                    <p class ="desc-plato" id="descPlato" th:text="${plato.descripcion}">Descripción de la comida</p>
+                    <p class ="desc-plato" id="descPlato" th:text="'Popularidad: '+ ${plato.popularidad}+' Descripcion: ' + ${plato.descripcion}">Descripción de la comida</p>
                     
-              
+                      
                     <h2 th:text="${plato.precio}+' €'" id="precioPlato">precio€</h2>
                 
                

@@ -35,7 +35,7 @@ public class Plato {
     private String descripcion;
     private float precio;
     private boolean activo;
-    //public String categoria;
+    private int popularidad;
     public Plato()
     {}
 
@@ -48,7 +48,9 @@ public class Plato {
 
     }
 
-
+    public void AumentarPopularidad(int cantidad){
+        popularidad+=cantidad;
+    }
     public Plato(String n, String c)
     {
         nombre = n;

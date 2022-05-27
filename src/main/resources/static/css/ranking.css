@@ -1,0 +1,234 @@
+/* loader Eros */
+.loader-container{
+  position: fixed;
+  top:0; left:0;
+  z-index: 10000;
+  background: #fff;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.loader-container.fade-out{
+top:-120%;
+}
+/*Fin loader */
+/* Eros prueba css para index */
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,600&display=swap');
+:root{
+  /* Variables de los colores */
+  --main:#783848;
+  --second: #36384C;
+  --background: #E9DCCD;
+}
+*{
+    font-family: 'Josefin Sans', sans-serif;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    outline: none; border:none;
+    text-decoration: none;
+    transition:all .2s linear;
+  }
+
+
+section{
+  padding:2rem 6%;
+}
+  .heading{
+    text-align: center;
+    font-size: 3.5rem;
+    padding:1rem;
+    color: var(--second);
+  }
+  
+  .heading span{
+    color:var(--main);
+  }
+  
+  .button{
+    display: inline-block;
+    padding:.8rem 3rem;
+    border:.2rem solid var(--second);
+    color:#F2E4D8;
+    background-color: #59363F;
+    cursor: pointer;
+    font-size: 1.7rem;
+    border-radius: .5rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    margin-top: 1rem;
+  }
+  
+  .button::before{
+    content: '';
+    position: absolute;
+    top:0; right: 0;
+    width:0%;
+    height:100%;
+    background:var(--main);
+    transition: .3s linear;
+    z-index: -1;
+  }
+  
+  .button:hover::before{
+    width:100%;
+    left: 0;
+  }
+  
+  .button:hover{
+    color:#D9B1AD;
+  }
+  header{
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
+  }
+
+  html{
+    font-size: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body{
+    background: var(--background);
+  }
+
+.home{
+  display: flex;
+  flex-wrap: wrap;
+  gap:1.5rem;
+  min-height: 100vh;
+  align-items: center;
+  background:url(../img/home-bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.home .content{
+  flex:1 1 40rem;
+  padding-top: 6.5rem;
+}
+
+.home .content h3{
+  font-size: 5rem;
+  color:var(--second);
+}
+
+.home .content p{
+  font-size: 1.7rem;
+  color:var(--second);
+  padding:1rem 0;
+}
+.home .image{
+  flex:1 1 40rem;
+}
+
+.home .image img{
+  width:50%;
+  padding:1rem;
+  animation:float 3s linear infinite;
+}
+
+@keyframes float{
+  0%, 100%{
+    transform: translateY(0rem);
+  }
+  50%{
+    transform: translateY(1rem);
+  }
+}
+
+#top1 {
+  color: #FFD700;
+  -webkit-text-stroke: 0.5px #783848;
+  background: radial-gradient( 100% 100% at 100% 0%, #dd8f09 0%, #e5ea88 100% );
+  width: 180px;
+  padding: 12px;
+  border: 1px solid #FFD700;
+  -webkit-animation: breathing 5s ease-out infinite normal;
+  animation: breathing 5s ease-out infinite normal;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+  text-align: center;    
+  }
+
+
+#top2 {
+  color: #c0c0c0;
+  -webkit-text-stroke: 0.5px #783848;
+  background: radial-gradient( 100% 100% at 100% 0%, #7d6fd1 0%, #5a7983 100% );
+  width: 180px;
+  padding: 12px;
+  border: 1px solid #c0c0c0;
+  -webkit-animation: breathing 5s ease-out infinite normal;
+  animation: breathing 5s ease-out infinite normal;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+  text-align: center;  
+}
+
+#top3 {
+  color: #bf8970;
+  -webkit-text-stroke: 0.5px #783848;
+  background: radial-gradient( 100% 100% at 100% 0%, #98532baf 0%, #c3c946 100% );
+  width: 180px;
+  padding: 12px;
+  border: 1px solid #bf8970;
+  -webkit-animation: breathing 5s ease-out infinite normal;
+  animation: breathing 5s ease-out infinite normal;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+  text-align: center;  
+}
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  }
+  
+  @keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+  
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  }

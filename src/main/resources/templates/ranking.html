@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Restaurant.es</title>
+    <link rel="stylesheet" href="css/ranking.css" />
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+
+<!-- Erosito empieza el home  -->
+
+<section class="home" id="home">
+
+    <div class="content">
+        <h3>Ranking</h3>
+        <p id="top1" class="top1" th:text="'TOP 1: '+${top1.nombre}">TOP1</p>
+        <p id="top2" class="top2" th:text="'TOP 2: '+${top2.nombre}">TOP1</p>
+        <p id="top3" class="top3" th:text="'TOP 3: '+${top3.nombre}">TOP1</p>
+    </div>
+
+    <div class="image">
+        <img src="img/index-img.png" alt="">
+    </div>
+
+</section>
+
+<!-- Erosito termina el home -->
+
+
+
+    <!-- Pie de pagina -->
+    <th:block th:replace="fragments/footer.html :: footer" />
+
+
+
+    
+    
+    <!-- custom js Eros  -->
+    <script src="js/ranking.js"></script>
+
+    
+</body>
+</html>

@@ -299,6 +299,33 @@ public class RootController {
     public String reservarMesa(Model model) {
         return "reservarMesaSimple";
     }
+    @GetMapping("ranking")
+    public String ranking(Model model) {
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        Plato top1=null,top2=null,top3=null;
+        listaCategorias = saGeneral.listarCategorias(em);
+
+        for (Categoria cat : listaCategorias) {
+            for (Plato p : cat.getPlatos()){
+                if(top1 == null || top1.getPopularidad() < p.getPopularidad()){
+                    top3 = top2;
+                    top2=top1;
+                    top1 = p;
+                }else if(top2 == null || top2.getPopularidad() < p.getPopularidad()){
+                    top3=top2;
+                    top2 = p;
+                }else if(top3==null || top3.getPopularidad() < p.getPopularidad()){
+                    top3 = p;
+                }
+            }
+
+        }
+        
+        model.addAttribute("top1", top1);
+        model.addAttribute("top2", top2);
+        model.addAttribute("top3", top3);
+        return "ranking";
+    }
 
     @PostMapping("realizarReserva")
     @Transactional
@@ -787,6 +814,7 @@ public class RootController {
                     "\"cantidadPlato\": \"" + pl.getCantidad() + "\"," +
                      "\"precioPlato\": \"" + pl.getPlato().getPrecio() + "\"},";
             }
+            pl.getPlato().AumentarPopularidad(pl.getCantidad());
             cont++;               
         }
 
@@ -800,6 +828,37 @@ public class RootController {
 
         // url a la que te has subscrito en js y los datos a enviar (json)
         messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
+
+        List<Categoria> listaCategorias = new ArrayList<Categoria>();
+        Plato top1=null,top2=null,top3=null;
+        listaCategorias = saGeneral.listarCategorias(em);
+
+        for (Categoria cat : listaCategorias) {
+            for (Plato p : cat.getPlatos()){
+                if(top1 == null || top1.getPopularidad() < p.getPopularidad()){
+                    top3 = top2;
+                    top2=top1;
+                    top1 = p;
+                }else if(top2 == null || top2.getPopularidad() < p.getPopularidad()){
+                    top3=top2;
+                    top2 = p;
+                }else if(top3==null || top3.getPopularidad() < p.getPopularidad()){
+                    top3 = p;
+                }
+            }
+
+        }
+        String jsonAEnviar = "{";
+        jsonAEnviar += "\"top1\": \"" + top1.nombre + "\",";
+        jsonAEnviar += "\"top2\": \"" + top2.nombre + "\",";
+        jsonAEnviar += "\"top3\": \"" + top3.nombre + "\",";
+        jsonAEnviar += "\"top1c\": \"" + top1.getPopularidad() + "\",";
+        jsonAEnviar += "\"top2c\": \"" + top2.getPopularidad() + "\",";
+        jsonAEnviar += "\"top3c\": \"" + top3.getPopularidad() + "\"";
+        jsonAEnviar += "}";
+
+
+        messagingTemplate.convertAndSend("/ver/ranking", jsonAEnviar);
         return "{\"isok\": \"todobien\"}";// devuelve un json como un string
     }
 
@@ -832,32 +891,6 @@ public class RootController {
     @GetMapping("pedidos")
     public String pedidos(Model model, HttpSession session) {
 
-        // System.out.println(model.toString());
-        // model.addAttribute("demo", "valor");
-        // User u= (User) model.getAttribute("u");
-
-        // -------------------PRUEBAS
-        /*
-         * Plato plat = new Plato("Arroz", "xxxxx");
-         * Plato platito = new Plato("Calamares", "yyyyyy");
-         * Plato plat1 = new Plato("Pechuga", "zzzzzzzz");
-         * 
-         * LineaPlatoPedido lin = new LineaPlatoPedido(plat);
-         * LineaPlatoPedido lin1 = new LineaPlatoPedido(plat1);
-         * LineaPlatoPedido lin2 = new LineaPlatoPedido(platito);
-         * 
-         * List<LineaPlatoPedido> platos = new ArrayList<LineaPlatoPedido>();
-         * platos.add(lin);
-         * platos.add(lin2);
-         * 
-         * List<LineaPlatoPedido> platos1 = new ArrayList<LineaPlatoPedido>();
-         * platos1.add(lin1);
-         * 
-         * List<Pedido> pedidos = new ArrayList<Pedido>();
-         * pedidos.add(new Pedido("La avenida de la piruleta", platos));
-         * pedidos.add(new Pedido("Calle antequilla", platos1));
-         * //------------------PRUEBAS
-         */
 
         User u = (User) session.getAttribute("u");
         if (u.hasAnyRole(Role.ADMIN, Role.EMPLEADO)) {
