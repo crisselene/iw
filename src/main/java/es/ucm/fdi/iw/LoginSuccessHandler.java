@@ -82,6 +82,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		log.info("LOG IN: {} (id {}) -- session is {}, websocket is {} -- redirected to {}",
 			u.getUsername(), u.getId(), session.getId(), ws, nextUrl);
 
+			boolean notificacion = false;
+			session.setAttribute("notificacion", notificacion);
+
 		// note that this is a 302, and will result in a new request
 		response.sendRedirect(nextUrl);
 	}

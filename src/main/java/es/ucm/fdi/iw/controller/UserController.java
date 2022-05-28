@@ -113,6 +113,7 @@ public class UserController {
 		log.info("------en id --------@@");
         User target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
+		model.addAttribute("idUs", target.getId());
         return "user";
     }
 
@@ -167,6 +168,9 @@ public class UserController {
         if (requester.getId() == target.getId()) {
             session.setAttribute("u", target);
         }
+
+		model.addAttribute("idUs", target.getId());
+	
 
 		return "user";
 	}	

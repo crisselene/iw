@@ -15,6 +15,23 @@ const ws = {
      */
     receive: (text) => {
         console.log(text);
+
+        if(text["idPedido"])
+        {
+            console.log("el pedido que ha cambiado es : " + text["idPedido"])
+            let contenedorNotificacion = document.getElementById("contNot");
+            console.log(contenedorNotificacion);
+            try
+               { contenedorNotificacion.classList.remove("oculto");}
+               catch{}
+            if(document.getElementById("pagPed") == null)//no estamos en la pagina pedidos
+            {
+                go("/notificacionPendiente", 'GET').then(); 
+            }
+           
+        }
+        
+
         let p = document.querySelector("#nav-unread");
         if (p) {
             p.textContent = +p.textContent + 1;
@@ -227,7 +244,18 @@ function toBlobGeneral(dataurl) {
  */
 document.addEventListener("DOMContentLoaded", () => {
     if (config.socketUrl) {
-        let subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
+
+        let subs =[];
+        try{
+            
+        let idUs = document.getElementById("idUs").value
+        console.log("idus: " + idUs)
+        subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates", "/ver/misPedidos" + idUs]
+        console.log("try iw correcto")
+        }
+        catch{
+            subs = config.admin ? ["/topic/admin", "/user/queue/updates"] : ["/user/queue/updates"]
+        }
         ws.initialize(config.socketUrl, subs);
 
         let p = document.querySelector("#nav-unread");

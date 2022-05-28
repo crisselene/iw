@@ -77,8 +77,10 @@
                           </th:block> -->  
                          <!--  <th:block th:unless="${plato.id} == 12"> -->
                             <!-- @{/user/{id}/pic(id=${session.u.id})} -->
+                            <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}">
                           <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
-                        <!-- </th:block><br> -->
+                           </a>
+                          <!-- </th:block><br> -->
                             <form th:action = "@{/verPlato}"><!--Por ahora se pasa por get el nombre del plato, pero quizas mas adleante deberia de ser su id-->
                               <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.getNombre()}"style="margin-top: 10px;">Patatas bravas</button> 
                             </form>
@@ -103,7 +105,9 @@
                     <div class="row"> 
                         <div class="col-md-3 text-center divPlato" th:each="plato: ${cat.platos}" th:attr="data-plato=${plato.id}"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <!-- <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> -->
+                            <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}">
                             <img th:src="@{/img/platos/{id}.jpg(id=${plato.id})}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> 
+                            </a>
                             <br>
                             <form th:action = "@{/verPlato}">  <!-- antes value="${plato.debugGetName()}"  con lombock se puede acceder directamente a la variable como si fuera public-->
                             <button type="submit" class="btn btn-primary" name="platoElegidoId" th:value="${plato.id}" th:text="${plato.getNombre()}"style="margin-top: 10px;">Patatas bravas</button> 

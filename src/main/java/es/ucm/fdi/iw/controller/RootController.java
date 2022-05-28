@@ -72,7 +72,8 @@ public class RootController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
+        putComundDataInModel(model, session);
         return "index";
     }
 
@@ -124,8 +125,8 @@ public class RootController {
 
     @GetMapping("carta") // al final no se ha utilizado el parametro del get, pero se deja como
                          // refernecia para saber hacerlo en un futuro
-    public String cartaPlatosCategoria(Model model/* , @RequestParam(required = false) String catElegida */) {
-
+    public String cartaPlatosCategoria(Model model, HttpSession session/* , @RequestParam(required = false) String catElegida */) {
+        putComundDataInModel(model, session);
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
         listaCategorias = saGeneral.listarCategorias(em);
@@ -279,7 +280,8 @@ public class RootController {
     }
 
     @GetMapping("hacerPedido")
-    public String hacerPedido(Model model) {
+    public String hacerPedido(Model model,HttpSession session) {
+        putComundDataInModel(model, session);
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
         listaCategorias = saGeneral.listarCategorias(em);
@@ -296,7 +298,8 @@ public class RootController {
     }
 
     @GetMapping("reservarMesa")
-    public String reservarMesa(Model model) {
+    public String reservarMesa(Model model, HttpSession session) {
+        putComundDataInModel(model, session);
         return "reservarMesaSimple";
     }
     @GetMapping("ranking")
@@ -442,7 +445,9 @@ public class RootController {
     }
 
     @GetMapping("verPlato")
-    public String verPlato(Model model, @RequestParam(required = true) Long platoElegidoId) {
+    public String verPlato(Model model, HttpSession session, @RequestParam(required = true) Long platoElegidoId) {
+        putComundDataInModel(model, session);
+
         Plato p = saGeneral.buscarPlato(em, platoElegidoId);
 
         List<Valoracion> valoraciones = saGeneral.listarValoracionesPlato(em, p.getId());
@@ -530,6 +535,8 @@ public class RootController {
 
     @GetMapping("verReservas")
     public String verReservas(Model model, HttpSession session) {
+        putComundDataInModel(model, session);
+
         User u = (User) session.getAttribute("u");
 
         List<Reserva> listaReservas = new ArrayList<Reserva>();
@@ -582,7 +589,9 @@ public class RootController {
     }
 
     @GetMapping("configuracion")
-    public String configuracion(Model model) {
+    public String configuracion(Model model, HttpSession session) {
+
+        putComundDataInModel(model, session);
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
         List<User> listaEmpleados = new ArrayList<User>();
         ConfiguracionRestaurante config = null;
@@ -881,6 +890,8 @@ public class RootController {
             jsonAEnviar += "\"estado\": \"" + estado + "\"";
             jsonAEnviar += "}";
 
+            
+
 
             messagingTemplate.convertAndSend(notificar, jsonAEnviar);
 
@@ -891,6 +902,10 @@ public class RootController {
     @GetMapping("pedidos")
     public String pedidos(Model model, HttpSession session) {
 
+        boolean notificacion = false;
+        session.setAttribute("notificacion", notificacion);
+
+        putComundDataInModel(model, session);
 
         User u = (User) session.getAttribute("u");
         if (u.hasAnyRole(Role.ADMIN, Role.EMPLEADO)) {
@@ -913,7 +928,7 @@ public class RootController {
             return "pedidosEmpleado";
         } else {
 
-            model.addAttribute("idUs", u.getId());
+            /* model.addAttribute("idUs", u.getId()); */
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
@@ -940,6 +955,28 @@ public class RootController {
 
         return "registro";
     }
+
+    @GetMapping("notificacionPendiente")
+    @ResponseBody
+    public String notificacionPendiente(Model model, HttpSession session) {
+
+        boolean notificacion = true;
+        session.setAttribute("notificacion", notificacion);
+        return "{\"result\": \"ok\"}";
+    }
+
+    private void putComundDataInModel(Model model, HttpSession session)
+    {
+        User u = (User) session.getAttribute("u");
+        if(u != null)
+        {
+            log.info("id del usuario:" + u.getId());
+            model.addAttribute("idUs", u.getId());
+        }
+
+    }
+
+
 
     /*  @PostMapping("/web")
     @ResponseBody
@@ -987,5 +1024,7 @@ public class RootController {
         messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
         return "{\"result\": \"conseguido\"}";
     } */
+
+
 
 }

@@ -7,8 +7,14 @@
 
 <body class="d-flex flex-column h-100">
 
+    
+    
     <!-- barra de navegación bootstrap 5 -->
     <header th:fragment="nav">
+        <th:block th:if="${session.u}">
+        <input id ="idUs"type="hidden" th:value="${idUs}">
+    </th:block>
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
@@ -46,8 +52,28 @@
                             </li>
 
                             <li class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/pedidos}">Pedidos🛒
-                                </a>
+                                <span  class="cont">
+                                    <a class="nav-link" th:href="@{/pedidos}">Pedidos🛒
+                                    </a>
+                                    <th:block th:if="${session.notificacion == true}">
+                                        <span id ="contNot" class="contExt"> 
+                                            <div class="parent">
+                                                <span ></span>
+                                            </div>
+                                        </span>
+                                    </th:block>
+                                    <th:block th:if="${session.notificacion == false}">
+                                        <span id ="contNot" class="contExt oculto"> 
+                                            <div class="parent">
+                                                <span ></span>
+                                            </div>
+                                        </span>
+                                    </th:block>
+                                    
+                                </span>
+                               
+                                
+                               
                             </li>
 
                             <li th:if="${session.u.hasRole('ADMIN')}" class="nav-item mx-2">
