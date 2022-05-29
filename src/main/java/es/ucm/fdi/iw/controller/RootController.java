@@ -892,7 +892,7 @@ public class RootController {
                 "\"express\": \"" + express + "\"," +
                 "\"platos\": " + jsonPlatos + "}";
 
-        log.info("jsonWeb" + jsonForWebSocket);
+        log.info("jsonWeb" +jsonForWebSocket);
 
         // url a la que te has subscrito en js y los datos a enviar (json)
         messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
