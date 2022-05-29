@@ -20,6 +20,15 @@
     <div class="container">
         <div class="row" style="margin-top: 2%; ">
             
+            <div class="row">
+                <div>
+                    <button type="button" class="btn btn-primary" style="margin-bottom: 2%;"
+                     data-bs-toggle="modal" data-bs-target="#logoModal">
+                        Cambiar logo empresa
+                    </button> 
+                </div>
+            </div>
+
             <div class="col-md-5">
 
                 <div class="row paramsrow">
@@ -38,9 +47,13 @@
                         <label for="personasMesa">Número de personas por mesa:&nbsp;</label>
                         <input type="number" id="personasMesa" min="0" th:value="${params.personasMesa}" style="width:15%; margin-top: 5%;">
                         <br>
+                        <label for="nombreRestaurante">Nombre Restaurante:&nbsp;</label>
+                        <input type="text" id="nombreEmpresa" min="00" max="23" th:value="${params.nombreEmpresa}" style="width:30%; margin-top: 5%;">
+                        <br>
                         <button type="submit" id="guardarParams" class="btn btn-primary" style="margin-top:5%">Guardar</button>
                     </form>
                 </div>
+
 
                 <div class="row paramsCategorias">
                     <div class="col" style="overflow: auto; height: 325px;">
@@ -73,7 +86,7 @@
                 
             </div>
 
-            <div class="col-md-6 offset-1 emplist" >
+            <div class="col-md-6 offset-1 emplist" >    
                 <div class="row">
                     <div class="col">
                         <h2 style="margin-top: 1%; margin-bottom: 2%;">Lista de empleados</h2>
@@ -187,6 +200,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal logo -->
+  <div class="modal fade" id="logoModal" tabindex="-1" aria-labelledby="logoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoModalLabel">Cambiar logo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form role="form" id="myForm">
+            <label for="nombreRes" class="form-label">Nombre del restaurante</label>
+            <input type="text" class="form-control" name="nombreRes" id="nombreRes" value="" required> 
+           <label for="fLogo" class="form-label">Imagen del logo</label>
+           <img id="imgNueLogo" alt="Imagen nuevo logo" class="img-thumbnail mw-100 miClase">
+            <input type="file" id="fLogo" accept="image/jpeg,image/png" required>
+            <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" id ="botonForm" class="btn btn-primary">Confirmar</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
 
     <th:block th:replace="fragments/footer.html :: footer" />

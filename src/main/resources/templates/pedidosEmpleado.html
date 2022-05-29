@@ -31,8 +31,9 @@
 
                         <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFecha}">
-
+                       
                         </div>
+                        <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
                         <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
                             poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
                             cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
@@ -77,6 +78,8 @@
                     <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
                         <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
                             + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFecha}"></div>
+                            
+                            <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
 
                                 <th:block th:each="est,iter: ${listaEstados}">
 

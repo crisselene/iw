@@ -273,7 +273,8 @@ public class SAGeneralImp{
         return c;
     }
     
-    public void actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas){
+    public void actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, 
+    int maxReservas,String nombreEmpresa){
         Long id = (long) 1;
         
         ConfiguracionRestaurante config = em.find(ConfiguracionRestaurante.class, id); // id 1 para sobrescribir siempre lo mismo
@@ -282,11 +283,12 @@ public class SAGeneralImp{
         config.setMaxPedidosHora(maxPedidosHora);
         config.setMaxReservas(maxReservas);
         config.setPersonasMesa(personasMesa);
+        config.setNombreEmpresa(nombreEmpresa);
     }
 
-    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente){
+    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente, boolean express){
 
-        Pedido ped = new Pedido(cliente,cliente.getDireccion(),Estado.PENDIENTE);
+        Pedido ped = new Pedido(cliente,cliente.getDireccion(),Estado.PENDIENTE,express);
         em.persist(ped);
 
         //sacar id pedido

@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Despues al divCambiar(cambioDiv) le añadiremos el action listener sobre su boton aceptar 
             y el boton rechazar*/
 
-             var pedidosPendientes = document.querySelector(".rowNuevosPed")
+            var pedidosPendientes = document.querySelector(".rowNuevosPed")
 
             //constante id del pedido
             const id = m["idPedido"];
@@ -161,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] + ', Fecha: ' + m["fechaPedido"]);
             nuevoPedi.appendChild(newContent)
 
-
             //boton aceptar
             var nuevoAcep = document.createElement("button");
             nuevoAcep.className = "aceptar verde"
@@ -194,6 +193,14 @@ document.addEventListener("DOMContentLoaded", () => {
             panel.appendChild(parrafo);
             panel.appendChild(pTotal);
             accord.appendChild(panel);
+
+            if(m["express"] == "true"){
+                console.log("soy express")
+                var newExpress = document.createElement("p");
+                newExpress.innerText = "Express"
+                newExpress.style="color: red;"
+                nuevoPedi.appendChild(newExpress);
+            }
 
             //añadir el div a la tabla de pedidos pendientes
             nuevoPedi.appendChild(botones)

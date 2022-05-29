@@ -44,6 +44,7 @@ public class Pedido {
     private Estado estado; 
    // private boolean enCurso;
     private boolean activo;
+    private boolean express;
     @OneToMany (mappedBy = "pedido")
     private List<LineaPlatoPedido> platos; //Lista de platos
     
@@ -53,12 +54,20 @@ public class Pedido {
     private String direccion;
     private LocalDateTime fecha;
 
+    public Pedido(String direccion, List<LineaPlatoPedido> platos, User u, boolean express){
+        this.direccion = direccion;
+        this.platos = platos;
+        this.cliente = u;
+        this.fecha = LocalDateTime.now();
+        this.express = express;
+    }
     public Pedido(String direccion, List<LineaPlatoPedido> platos, User u){
         this.direccion = direccion;
         this.platos = platos;
         this.cliente = u;
         this.fecha = LocalDateTime.now();
     }
+
     public Pedido(String direccion, List<LineaPlatoPedido> platos){
         this.direccion = direccion;
         this.platos = platos;
@@ -72,6 +81,15 @@ public class Pedido {
         this.estado = estado;
         this.activo=true;
         this.fecha = LocalDateTime.now();
+    }
+
+    public Pedido(User u, String direccion, Estado estado, boolean express){
+        this.cliente = u;
+        this.direccion = direccion;
+        this.estado = estado;
+        this.activo=true;
+        this.fecha = LocalDateTime.now();
+        this.express = express;
     }
 
     public Boolean isEnCurso() {

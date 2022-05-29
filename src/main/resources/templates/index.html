@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Restaurant.es</title>
+    <title >Restaurant.es</title>
     <link rel="stylesheet" href="css/index.css" />
 </head>
 
@@ -16,7 +16,7 @@
 <section class="home" id="home">
 
     <div class="content">
-        <h3>RESTAURANT.ES</h3>
+        <h3 th:text="${nombreEmpresa}">RESTAURANT.ES</h3>
         <p>Todo lo que necesitas para disfrutar la gastronomía</p>
         <a th:href = "@{/carta}" class="button">Empezar</a>
     </div>

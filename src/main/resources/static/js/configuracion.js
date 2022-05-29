@@ -13,6 +13,10 @@ const anadirCategoriaModal = new bootstrap.Modal(document.querySelector('#anadir
 const guardarParamsButton = document.getElementById("guardarParams");
 guardarParamsButton.addEventListener("click", actualizarParams);
 
+const element = document.getElementById("botonForm");
+element.addEventListener("click", nuevoLogo);
+
+
 function nuevoEmpleado() {
     console.log("--- en validate user ---");
     const myForm = document.getElementById("formAnadirEmpleado");
@@ -110,6 +114,15 @@ function validatePassword(){
 "use strict"
 document.addEventListener("DOMContentLoaded", ()=>{
 
+    if (config.socketUrl) {
+        let subs = ["/nombreResSocket"];
+        ws.initialize(config.socketUrl, subs);
+        console.log("suscribiendose a nuestra cosa /nombreResSocket");
+
+    } else {
+        console.log("Not opening websocket: missing config", config)
+    }
+
     document.querySelectorAll(".emprow").forEach(d => {
         //OJO como hemos puesto th:attr="data-id=${ped.id}" en el html
         //de divCambiar entonces para coger el dato de ped.id, que es
@@ -127,6 +140,32 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
         ajaxBorrarCategoria(div, id);
     })
+})
+
+document.addEventListener("DOMContentLoaded", () => {
+    // recibiendo los mensajes de webSockets
+        if (ws.receive) {
+            const oldFn = ws.receive; // guarda referencia a manejador anterior
+    
+            ws.receive = (m) => {//reescribe lo que hace la funcion receive
+    
+                oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
+                /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
+                //se accede como a un json , vamos, como se accede a un array xd
+    
+                console.log("el nombre de la empresa es: " + m["nombreEmpresa"]);
+
+                let logoYNombre = document.getElementById("barTtitulo");
+
+                console.log(logoYNombre);
+
+                //nombreEmpresa.textContent = m["nombreEmpresa"];
+
+                logoYNombre.innerHTML = '<img id="logoImg" th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="32" '+
+                +' height="32" class="d-inline-block align-text-top" > '+ m["nombreEmpresa"];
+
+            }
+        }
 })
 
 function ajaxBorrarUsuario(div, id){
@@ -211,6 +250,7 @@ function actualizarParams() {
     let finalReservas = document.getElementById("finalReservas");
     let maxReservas = document.getElementById("maxReservas");
     let personasMesa = document.getElementById("personasMesa");
+    let nombreEmpresa = document.getElementById("nombreEmpresa")
 
     console.log("atualizar params");
 
@@ -226,7 +266,8 @@ function actualizarParams() {
                 "horaIni" : inicioReservas.value,
                 "horaFin" : finalReservas.value,
                 "maxReservas" : maxReservas.value,
-                "personasMesa" : personasMesa.value }
+                "personasMesa" : personasMesa.value,
+                "nombreEmpresa": nombreEmpresa.value }
 
         console.log("maxPedidosHora" + maxPedidosHora.value)
         console.log("horaIni" + inicioReservas.value)
@@ -251,4 +292,45 @@ function actualizarParams() {
     {
         myForm.reportValidity();
     }
+}
+
+//nuevo listener al selector de ficheros del formulario de nuevo plato, que muestra la imagen seleccionada por el usuario
+document.querySelector("#fLogo").onchange = e => {
+    console.log("imagen suida");
+    let img = document.querySelector("#imgNueLogo");
+    let fileInput = document.querySelector("#fLogo");
+    console.log(img, fileInput);
+    readImageFileData(fileInput.files[0], img);
+};
+
+function nuevoLogo() {
+
+    const myForm = document.getElementById("myForm");
+    if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
+    {
+        //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
+        myForm.reportValidity();
+        return null;
+    }
+    
+    const navBarLogo = document.getElementById("logoImg"); //LOGO QUE TENEMOS
+    //cambiar la imagen de logo por la imagen subida
+   // navBarLogo.src=img;
+   let formData = new FormData();
+   let img = document.querySelector("#imgNueLogo");//EL QUE QUEREMOS
+   formData = appendImageToFomData(formData, img, "imgLogo");
+
+   const nombrePagina = document.getElementById("nombreRes").value;
+   const bar= document.getElementById("barTtitulo");
+
+   console.log(bar);
+   console.log(nombrePagina);
+
+   bar.textContent=nombrePagina;
+
+    go("/nuevoLogo", "POST", formData, {}).then(d => {
+        console.log("todo ok")
+       
+    })
+   
 }

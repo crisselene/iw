@@ -2,8 +2,33 @@ const Clickbutton = document.querySelectorAll('.button') //Buscamos los botones 
 const carritobody = document.querySelector('.mostrarCarrito') //El cuerpo del carrito de la derecha
 let carrito = [] //array del carrito en local
 const finalizarbutton = document.querySelector('.botonfinalizar') //Botón de finalizar 
+const expressCheck= document.querySelector('.servExpress');
 
-finalizarbutton.addEventListener('click', finalizar) //Cuando se le haga click llama a la función finalizar()
+finalizarbutton.addEventListener('click', finalizar) ;//Cuando se le haga click llama a la función finalizar()
+
+expressCheck.addEventListener('change', e => {
+  let costeExpress = 1.99;
+
+  if(e.target.checked){
+  
+    if(expressCheck.checked ==true){
+        let Total = 1.99;
+    
+        const itemCartTotal = document.querySelector('.totalCarrito')
+    
+        carrito.forEach((item) => {
+          const precio = Number(item.precio.replace("€", ''))
+          Total = Total + precio*item.cantidad
+        })
+    
+        Total = Total.toFixed(2);
+        itemCartTotal.innerHTML = `Total: ${Total}€`
+      }
+    }else{
+      TotalPedido();
+    }
+});
+
 
 Clickbutton.forEach(btn => { //Por cada boton encontrado de tipo compra
    // btn.addEventListener('click', () => console.log('button')) //  Para que cada boton diga algo al pulsarlo por consola :) 
@@ -21,6 +46,13 @@ function finalizar(e){
     //Mapa clave valor, [ID]=Cantidad del producto ID
   })
 
+  if(document.querySelector(".servExpress").checked){
+    console.log("SOY EXPRESS")
+    params["express"]=true;
+  }else{
+    console.log("NOO SOY EXPRESS")
+    params["express"]=false;
+  }
   console.log(params) //Mostramos por consola
 
   //Si el carrito no está vacío lo procesamos, en caso contrario, nada.
@@ -92,7 +124,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
 
   function reloadCarrito(){ //Recargar el carrito sin webSockets
    carritobody.innerHTML = '' //Vaciamos y empezamos
-
+    document.querySelector(".servExpress").checked=false;
 
     carrito.map(item => { //Por cada item en el carrito
 
@@ -132,7 +164,10 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
 
   //Calcula el total del pedido
   function TotalPedido(){
-    let Total = 0;
+    let Total;
+    if(expressCheck.checked ==true){
+      Total = 1.99;
+    }else Total = 0;
 
     const itemCartTotal = document.querySelector('.totalCarrito')
 
@@ -145,6 +180,7 @@ function addToCarritoItem(e){ //Le entra el invocador, el evento de la funcion
     itemCartTotal.innerHTML = `Total: ${Total}€`
   }
 
+ 
   //En caso de que se cambie la cantidad, se actualiza el total
   function ChangeChantidad(e){
     const sumaInput  = e.target //El input

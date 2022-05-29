@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.websocket.Decoder.Text;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -68,6 +69,7 @@ public class RootController {
 
     @GetMapping("/login")
     public String login(Model model) {
+       
         return "login";
     }
 
@@ -141,6 +143,50 @@ public class RootController {
 
         return "carta";
     }
+
+    @PostMapping("nuevoLogo")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String nuevoLogo(@RequestParam("imgLogo") MultipartFile photo
+    /*
+     * @PathVariable long id,
+     * HttpServletResponse response ,
+     */ /* HttpSession session , *//* Model model */) {
+       
+       
+        log.info("cambiando imagen");
+
+        // se crea el fichero en ese directorio, y el nombre de las imagenes se
+        // correspondera con su id
+        String idP="logo";
+
+        File img = new File("src/main/resources/static/img", idP + ".png");
+
+        // log.info("dir pics:" + myimg);
+        /* File f = localData.getFile("user", "pic.jpg"); */
+        // File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
+        // File f2 = localData.getFile("/img/platos", "p13.jpg");
+        // log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
+
+        if (photo.isEmpty()) {
+            log.info("failed to upload photo: emtpy file?");
+            return null;
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(img))) {
+                byte[] bytes = photo.getBytes();
+                stream.write(bytes);
+                log.info("la ruta es: " + img.getAbsolutePath());
+            } catch (Exception e) {
+                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                // log.warn("Error uploading " + id + " ", e);
+                return null;
+            }
+        }
+
+
+        return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+    }
+
 
     @PostMapping("nuevoPlato2")
     @Transactional
@@ -396,7 +442,7 @@ public class RootController {
             else {
                 inicio = LocalDateTime.parse(date+"T0"+ horaIni + ":00:00.000000");
             }
-            if(horaFin > 10){
+            if(horaFin >= 10){
                 fin= LocalDateTime.parse(date+"T"+ horaFin + ":00:00.000000");
             }
             else {
@@ -603,6 +649,7 @@ public class RootController {
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);
         model.addAttribute("params", config);
+        model.addAttribute("nombreEmpresa", saGeneral.getConfiguracion(em).getNombreEmpresa());
 
         return "configuracion";
     }
@@ -779,12 +826,17 @@ public class RootController {
         int horaIni = o.get("horaIni").asInt();
         int horaFin = o.get("horaFin").asInt();
         int maxReservas = o.get("maxReservas").asInt();
+        String nombreEmpresa = o.get("nombreEmpresa").asText();
 
-        saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas);
+        saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas,nombreEmpresa);
+
+        String jsonForWebSocket = "{\"nombreEmpresa\": \"" + nombreEmpresa + "\"" + "}";
+
+        messagingTemplate.convertAndSend("/nombreResSocket", jsonForWebSocket);
 
         return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
-
+    boolean express = false;
     @PostMapping(path = "/nuevoPedido", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
@@ -792,18 +844,24 @@ public class RootController {
         log.info("nuevoPedido");
         User u = em.find(User.class, ((User) session.getAttribute("u")).getId());
         Map<Long, Integer> cantidades = new HashMap<>();
+        
         Iterator<String> iterator = o.fieldNames();
         iterator.forEachRemaining(e -> {
-            int cantidad = o.get(e).asInt();
-            cantidades.put(Long.parseLong(e), o.get(e).asInt());
-            log.info(" Has pedido: " + e + " x" + cantidad);
-            log.info(e.toString());
+            if(e!="express"){
+                log.info("ekkk" + e);
+                int cantidad = o.get(e).asInt();
+                cantidades.put(Long.parseLong(e), o.get(e).asInt());
+                log.info(" Has pedido: " + e + " x" + cantidad);
+                log.info(e.toString());
+            }else{
+                log.info("ekkk express " + e);
+                express = o.get(e).asBoolean();
+                log.info("aqui "+ express);
+            }
         });
 
         // diccionario id, cantidad diccionario[ID]=cantidad
-        //
-
-        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u); // entitymanager, jsonnode y user
+        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u, express); // entitymanager, jsonnode y user
 
         // tratamiento de json:
         // https://www.delftstack.com/es/howto/javascript/javascript-json-array-of-objects/
@@ -831,9 +889,10 @@ public class RootController {
                 "\"dirPedido\": \"" + ped.getDireccion() + "\"," +
                 "\"fechaPedido\": \"" + ped.getFecha() + "\"," +
                 "\"nombreCliente\": \"" + ped.getCliente().getUsername() + "\"," +
+                "\"express\": \"" + express + "\"," +
                 "\"platos\": " + jsonPlatos + "}";
 
-        log.info(jsonForWebSocket);
+        log.info("jsonWeb" + jsonForWebSocket);
 
         // url a la que te has subscrito en js y los datos a enviar (json)
         messagingTemplate.convertAndSend("/nuevoPedidoWebSocket", jsonForWebSocket);
