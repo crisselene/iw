@@ -37,6 +37,21 @@ La aplicación consta de varias vistas que dependiendo de si el usuario es admin
 
 ---------------------------------------------------------------------------
 Para ver más detalles consultar [el documento de diseño](https://docs.google.com/document/d/1iVk3umk8pwtbZNK6Pcu2w0QPkd7d9rRnA66oTugvYqo/edit?usp=sharing)
+## Entrega extra
+Hemos realizado algunas mejoras y nuevas funcionalidades para la entrega para subir nota. A continuación se detallan según quién lo ha implementado:
+
+### 1. Alberto
+
+### 2. Andrés
+
+### 3. Cristina
+Se ha añadido un servicio express a los pedidos. A la hora de hacer un pedido, el usuario puede seleccionar un checkbox donde se le indica que por 1,99€ extra puede hacer un pedido express. Este precio extra se suma al precio de su pedido. Cuando confirma el pedido, llega a la página de visualización de pedidos en tiempo real y se remarca en rojo la palabra "Express" en los pedidos que son express.
+
+### 4. Eros
+
+### 5. Samuel
+
+
 ## Interfaz
 La paleta de colores que hemos utilizado es la siguiente:
 ![](https://github.com/crisselene/iw/blob/main/src/main/resources/static/img/Paleta.PNG)
