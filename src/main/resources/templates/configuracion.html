@@ -104,15 +104,15 @@
                             <div class="col">Categoria</div>
                             <div class="col popu">Veces pedido</div>
                         </div>
-                      
-                        <div class="row contentTablaPlatos" th:each="plato: ${top}">
-                            
-                            <div class="col" >
-                                <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}" th:text="${plato.nombre}"></a>
-                            </div>
-                             
-                            <div class="col" th:text="${plato.categoria.nombre}"></div>
-                            <div class="col popu" th:text="${plato.popularidad}"></div>
+                     
+                        <div class="row contentTablaPlatos" th:each="plato: ${top}" th:if="${plato.activo} == true">
+                           
+                                <div class="col" >
+                                    <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}" th:text="${plato.nombre}"></a>
+                                </div>
+                                 
+                                <div class="col" th:text="${plato.categoria.nombre}"></div>
+                                <div class="col popu" th:text="${plato.popularidad}"></div>
                         </div>
                         
                     </div>
