@@ -10,6 +10,10 @@ window.onload = function () {
     fechaReserva.addEventListener('change', cargarHoras)
     personas.addEventListener('change', cargarHoras)
     elegirMesa.addEventListener('click', elegirHora)
+
+    //fuerza a ejecutar el evento on change para que se carguen las horas disponibles al inicio
+    var event = new Event('change');
+    fechaReserva.dispatchEvent(event);
 }
 
 
@@ -35,6 +39,8 @@ function elegirHora(e){
                         reloadHoras([])//Recargamos las horas que se ven en pantalla
                         alert("Reserva realizada")
 
+                        window.location.href = '/verReservas'
+
             })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
         }
@@ -51,23 +57,36 @@ function cargarHoras(e) {
     let numFechas = 0
     let fechas = [] //Creamos el array vacio de fechas para luego mostrar cada hora
 
+    
+
     console.log("Entro")
 
     //Enviamos la peticion al back, al ser un metodo get es diferente al post
     go(config.rootUrl + "/reservarMesa/fecha?inf=" + date, 'GET')
         .then(d => {
-            console.log("dentro del then")
-            d.forEach(f => {
+           /*  d.forEach(f => {
                 //El slice lo que hace es dejar unicamente la hora quitando los segundos y el dia
                 fechas.push(f.slice(0, 5))
             });
-            reloadHoras(fechas)//Recargamos las horas que se ven en pantalla
-
+            reloadHoras(fechas)//Recargamos las horas que se ven en pantalla */
+            console.log(d);
+            console.log("ahora el foreach")
+           /*  console.log(Object.entries(d)) */
+            /* d.map(key => {
+                console.log(key)
+            }); */
+            for (const [key, value] of Object.entries(d)) {
+                console.log(key, value);
+              }
+              reloadHoras(d)
         })
         .catch(() => {
-        console.log("fallo")
-        var array1 = []
-        reloadHoras(array1)
+            console.log("Fecha fallo")
+            //si no habia mesas disponibles y se devolvio null,
+            //limpiamos las horas disponibles para que no salga ninguna
+            var array1 = {}
+            reloadHoras(array1)
+
         }
         )
 
@@ -77,14 +96,29 @@ function cargarHoras(e) {
 function reloadHoras(horas) {
     //Creamos una variable para que nos de el numero de vueltas que daremos al bucle
     //IMPORTANTE, tenemos que asignar 3 horas cada div por la clase de bootstrap que utilizamos
-    let vueltas = Number.parseInt(horas.length / 3)
-    let modulo = horas.length % 3
+   /*  let vueltas = Number.parseInt(horas.length / 3)
+    
+    let modulo = horas.length % 3 */
 
     let padre = document.getElementById('horasBody') //El padre es el que tiene que mostrar las horas
     padre.innerHTML = ""
     //Usamos una variable posicion para saber que hora es la que nos toca
     let pos = 0;
-    for (let i = 0; i < vueltas +1; i++) {//El bucle solo da las vueltas necesarias para colocar las fechas de 3 en 3
+    let contenido = ""
+    //recorremos todas las horas
+
+    for (const [key, value] of Object.entries(horas)) {
+        console.log(key, value);
+        contenido += `
+        <div class="col-3 divHora">
+            <input type="radio" class="btn-check" name="horas" id="hora${key}" autocomplete="off" value="${key}">
+            <label class="btn btn-outline-success" for="hora${key}">${key}</label>
+            <p>Mesas libres: ${value} </p>
+        </div>`
+      }
+      padre.innerHTML = contenido;
+
+   /*  for (let i = 0; i < vueltas +1; i++) {//El bucle solo da las vueltas necesarias para colocar las fechas de 3 en 3
 
         let contenido = ""
         
@@ -140,5 +174,5 @@ function reloadHoras(horas) {
         console.log(padre)
         pos = pos + 3 //Sumamos las 3 posiciones que colocamos en cada iteracion
 
-    }
+    } */
 }

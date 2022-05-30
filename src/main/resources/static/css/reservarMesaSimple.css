@@ -41,3 +41,8 @@ button{
 #aceptar{
     border-top: 1px solid #733646;;
 }
+
+.divHora{
+    margin: 0.5em;
+    text-align: center;
+}

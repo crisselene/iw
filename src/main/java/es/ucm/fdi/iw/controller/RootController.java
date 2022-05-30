@@ -400,7 +400,7 @@ public class RootController {
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
     @Transactional
-    public List<LocalTime> reservaMesaFecha(Model model, @RequestParam String inf){
+    public Map<LocalTime, Integer> reservaMesaFecha(Model model, @RequestParam String inf){
         //Lo primero que hago es parsear la fecha que me llega y las personas para que esten separados
         String[] parts = inf.split("_");
         String date = parts[0];
@@ -412,9 +412,9 @@ public class RootController {
         int mesasNecesarias = personas / capacidad; 
         if(personas % capacidad != 0)
             mesasNecesarias++;
-        int maxReservas = c.getMaxReservas() - mesasNecesarias;
-        log.info("mesas necesarias" + mesasNecesarias);  
+        int maxReservas = c.getMaxReservas() - mesasNecesarias;  
 
+        //el 0 se debe incluir, porque seria que se quieren reservas todas las mesas disponibles
         if(maxReservas >= 0){//si no quiere reservar mas de lo posible
             //Pedimos al sa todas las fechas que hay en ese dia
             List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
@@ -458,8 +458,7 @@ public class RootController {
             for(Reserva r : reservas){
                 LocalDateTime fecha = r.getFecha();
                 horas.put(fecha, horas.get(fecha) + r.getMesas());
-            }
-            log.info("treemap: "+ horas.toString());           
+            }           
             
             //Si una hora no tiene mesas libres, la borramos del treemap
             List<LocalDateTime> horasABorrar = new ArrayList();            
@@ -477,12 +476,21 @@ public class RootController {
             //Las horas disponibles las pasamos a LocalTime para pasar solo la hora
             List<LocalTime> horasDisp = new ArrayList();
 
+            Map<LocalTime, Integer> aMandar = new TreeMap<LocalTime, Integer>(
+                (LocalTime d1, LocalTime d2) -> d1.compareTo(d2)
+            );
+
+            //El anterior treemap tenia las mesas ocupadas, pero ahora queremos las disponibles,
+            //las cuales son mesas totales(c.getMaxReservas()) - ocupadas
             for(LocalDateTime i : horas.keySet()){
                 horasDisp.add(i.toLocalTime());
+                aMandar.put(i.toLocalTime(), c.getMaxReservas() - horas.get(i));
             }
     
             //Devolvemos la lista de horas con formato para el front
-            return horasDisp.stream().collect(Collectors.toList());
+            //return horasDisp.stream().collect(Collectors.toList());
+           // return horasDisp.stream().collect(Collectors.toList());
+            return aMandar;
         }
         else return null; 
 
