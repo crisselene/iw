@@ -62,7 +62,10 @@ function finalizar(e){
             .then(d => {console.log("todo ok")
                         console.log("mensaje recibido: ", d);//json recibido
                         console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
-            })
+                        alert("Pedido realizado con exito. A continuacion podras ver el estado de tu pedido, el cual se ira actualizando a tiempo real")
+                        window.location.href = '/pedidos'
+           
+                      })
             .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
 
   
