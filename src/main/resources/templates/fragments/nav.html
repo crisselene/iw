@@ -42,10 +42,6 @@
                                 <a class="nav-link" th:href="@{/reservarMesa}">Reservar Mesa🗓️
                                 </a>
                             </li>
-                            <li th:if="${session.u.hasAnyRole('USER', 'EMPLEADO', 'ADMIN')}" class="nav-item mx-2">
-                                <a class="nav-link" th:href="@{/ranking}">Ranking🥇
-                                </a>
-                            </li>
                             <li th:if="${session.u.hasRole('USER')}" class="nav-item mx-2">
                                 <a class="nav-link"  id="hacerPedidoLink" th:href="@{/hacerPedido}">Hacer pedido🛍️
                                 </a>

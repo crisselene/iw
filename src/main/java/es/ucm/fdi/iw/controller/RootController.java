@@ -373,33 +373,7 @@ public class RootController {
         putComundDataInModel(model, session);
         return "reservarMesaSimple";
     }
-    @GetMapping("ranking")
-    public String ranking(Model model) {
-        List<Categoria> listaCategorias = new ArrayList<Categoria>();
-        Plato top1=null,top2=null,top3=null;
-        listaCategorias = saGeneral.listarCategorias(em);
-
-        for (Categoria cat : listaCategorias) {
-            for (Plato p : cat.getPlatos()){
-                if(top1 == null || top1.getPopularidad() < p.getPopularidad()){
-                    top3 = top2;
-                    top2=top1;
-                    top1 = p;
-                }else if(top2 == null || top2.getPopularidad() < p.getPopularidad()){
-                    top3=top2;
-                    top2 = p;
-                }else if(top3==null || top3.getPopularidad() < p.getPopularidad()){
-                    top3 = p;
-                }
-            }
-
-        }
-        
-        model.addAttribute("top1", top1);
-        model.addAttribute("top2", top2);
-        model.addAttribute("top3", top3);
-        return "ranking";
-    }
+    
 
     @PostMapping("realizarReserva")
     @Transactional
@@ -670,6 +644,9 @@ public class RootController {
         listaCategorias = saGeneral.listarCategorias(em);
         listaEmpleados = saGeneral.listarEmpleados(em);
         config = saGeneral.getConfiguracion(em);
+
+        List<Plato> top = saGeneral.platosOrdenadosPopu(em);
+        model.addAttribute("top", top);
 
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);

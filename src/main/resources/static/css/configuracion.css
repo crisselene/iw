@@ -97,3 +97,37 @@
     color:#F2E4D8;
     margin-top: 0.2em;
 }
+
+.listPlatos{
+    margin-top:1em;
+    height: 300px;
+    background-color:#783848;
+    border-radius: 10px;
+    overflow-y: scroll;
+
+    margin-bottom: 3em;
+}
+
+.popu{
+    text-align: center;
+}
+
+.headerTablaPlatos div{
+    color:#F2E4D8;
+    font-size: x-large;
+}
+
+.contentTablaPlatos div{
+    color:#F2E4D8;
+    margin-top: 0.5em;
+    margin-bottom: 0.5;
+    padding-bottom: 0.2em;
+    border-bottom: #502630;
+    border-bottom-style: solid;
+    border-bottom-width: 0.1em;
+}
+
+.contentTablaPlatos a{
+    color:#F2E4D8;
+    text-decoration: none;
+}

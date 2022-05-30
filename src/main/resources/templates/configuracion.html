@@ -95,8 +95,32 @@
 
                     </div> 
                 </div>
+
+                <div class="row listPlatos">
+                    <div class="col">
+
+                        <div class="row headerTablaPlatos">
+                            <div class="col">Plato</div>
+                            <div class="col">Categoria</div>
+                            <div class="col popu">Veces pedido</div>
+                        </div>
+                      
+                        <div class="row contentTablaPlatos" th:each="plato: ${top}">
+                            
+                            <div class="col" >
+                                <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}" th:text="${plato.nombre}"></a>
+                            </div>
+                             
+                            <div class="col" th:text="${plato.categoria.nombre}"></div>
+                            <div class="col popu" th:text="${plato.popularidad}"></div>
+                        </div>
+                        
+                    </div>
+                </div>
                 
-            </div>
+            </div><!-- final primera columna -->
+
+            
 
             <div class="col-md-6 offset-1 emplist" >    
                 <div class="row">
