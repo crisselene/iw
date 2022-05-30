@@ -20,19 +20,23 @@
     <div class="container">
         <div class="row" style="margin-top: 2%; ">
             
-            <div class="row">
+          <!--   <div class="row">
                 <div>
                     <button type="button" class="btn btn-primary" style="margin-bottom: 2%;"
                      data-bs-toggle="modal" data-bs-target="#logoModal">
                         Cambiar logo empresa
                     </button> 
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-md-5">
 
                 <div class="row paramsrow">
                     <form id="paramsRestauranteForm" th:method="POST" onsubmit="return false;" style="margin-top: 4%; margin-left: 2%;">
+                        <label for="nombreSitioInput">Nombre del sitio:&nbsp;&nbsp;&nbsp;</label>
+                        <input type="text" id="nombreSitioInput" style="width:50%" th:value="${nombreSitio}"> <!-- creo q el 15% es respecto al padre?-->
+                        <br>
+                        
                         <label for="maxPedidosHora">Número máximo de pedidos por hora:&nbsp;&nbsp;&nbsp;</label>
                         <input type="number" id="maxPedidosHora" min="0" max="999" style="width:15%" th:value="${params.maxPedidosHora}"> <!-- creo q el 15% es respecto al padre?-->
                         <br>
@@ -47,11 +51,19 @@
                         <label for="personasMesa">Número de personas por mesa:&nbsp;</label>
                         <input type="number" id="personasMesa" min="0" th:value="${params.personasMesa}" style="width:15%; margin-top: 5%;">
                         <br>
-                         <label for="nombreRestaurante">Nombre Restaurante:&nbsp;</label>
-                        <input type="text" id="nombreEmpresa" min="00" max="23" th:value="${params.nombreEmpresa}" style="width:30%; margin-top: 5%;">
-                        <br> 
+         
                         <button type="submit" id="guardarParams" class="btn btn-primary" style="margin-top:5%">Guardar</button>
                     </form>
+                </div>
+
+                <div class="row divImg">
+                    <form id="formImg"></form>
+                    <h3 class="subTitle">Cambiar logo del sitio</h3>
+                    <img id="imgRest" alt="Imagen nuevo logo" class="img-thumbnail mw-100 miClase">
+                    <input type="file" id="fImgRest" accept="image/jpeg,image/png" required>
+                    <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
+                      <button type="button" id ="botonImgRest" class="btn btn-primary">Confirmar</button>
+                  </form>
                 </div>
 
 

@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
@@ -15,6 +17,9 @@ import lombok.Data;
 
 @Entity
 @Data
+@NamedQueries({
+    @NamedQuery(name = "Categoria.platosOrdenados", query = "select p from Plato p where p.activo = TRUE ORDER BY popularidad DESC")
+})
 @AllArgsConstructor
 public class Plato {
     @Id

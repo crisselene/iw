@@ -40,6 +40,7 @@ import es.ucm.fdi.iw.model.LineaPlatoPedido;
 import es.ucm.fdi.iw.model.Pedido;
 import es.ucm.fdi.iw.model.Plato;
 import es.ucm.fdi.iw.model.Reserva;
+import es.ucm.fdi.iw.model.TopPedidos;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.Valoracion;
@@ -68,8 +69,8 @@ public class RootController {
     private static final Logger log = LogManager.getLogger(RootController.class);
 
     @GetMapping("/login")
-    public String login(Model model) {
-       
+    public String login(Model model, HttpSession session) {
+        putComundDataInModel(model, session);
         return "login";
     }
 
@@ -132,6 +133,30 @@ public class RootController {
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
 
         listaCategorias = saGeneral.listarCategorias(em);
+        List<Plato> platosOrdenados = new ArrayList<Plato>();
+        platosOrdenados = saGeneral.platosOrdenadosPopu(em);
+
+
+        TopPedidos top = new TopPedidos();
+        top.createTop(platosOrdenados);
+        HashMap<Long, List<Long>> tops = top.getTop();
+
+        log.info("ordenados por categoria");
+        for (Long key : tops.keySet()) {
+            log.info("cat: " + key);
+            List<Long> plat = tops.get(key);
+            for(Long p: plat)
+            {
+                log.info("plat: " + p);
+            }
+        }
+
+        model.addAttribute("top", top);
+
+        for(Plato p :platosOrdenados)
+        {
+            log.info("plato "+ p.getId() + " popu: "+ p.getPopularidad());
+        }
 
         for (Categoria cat : listaCategorias) {
             log.info(cat.getNombre());
@@ -649,7 +674,7 @@ public class RootController {
         model.addAttribute("listaCategorias", listaCategorias);
         model.addAttribute("listaEmpleados", listaEmpleados);
         model.addAttribute("params", config);
-        model.addAttribute("nombreEmpresa", saGeneral.getConfiguracion(em).getNombreEmpresa());
+       
 
         return "configuracion";
     }
@@ -826,13 +851,9 @@ public class RootController {
         int horaIni = o.get("horaIni").asInt();
         int horaFin = o.get("horaFin").asInt();
         int maxReservas = o.get("maxReservas").asInt();
-        String nombreEmpresa = o.get("nombreEmpresa").asText();
+        String nombreSitio = o.get("nombreSitio").asText();
 
-        saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas,nombreEmpresa);
-
-        String jsonForWebSocket = "{\"nombreEmpresa\": \"" + nombreEmpresa + "\"" + "}";
-
-        messagingTemplate.convertAndSend("/nombreResSocket", jsonForWebSocket);
+        saGeneral.actualizarConfiguracion(em, personasMesa, maxPedidosHora, horaIni, horaFin, maxReservas, nombreSitio);
 
         return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
@@ -1011,7 +1032,7 @@ public class RootController {
 
     @GetMapping("registro")
     public String registro(Model model, HttpSession session) {
-
+        putComundDataInModel(model, session);
         return "registro";
     }
 
@@ -1024,9 +1045,49 @@ public class RootController {
         return "{\"result\": \"ok\"}";
     }
 
+    @PostMapping("cambiarImgRest")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String cambiarImgRest(@RequestParam("imgRest") MultipartFile photo) {
+       
+       
+        log.info("cambiando img restaurante");
+
+       
+        File img = new File("src/main/resources/static/img", "logo.png");
+
+        if (photo.isEmpty()) {
+            log.info("failed to upload photo: emtpy file?");
+            return null;
+        } else {
+            try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(img))) {
+                byte[] bytes = photo.getBytes();
+                stream.write(bytes);
+                log.info("la ruta es: " + img.getAbsolutePath());
+            } catch (Exception e) {
+                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                // log.warn("Error uploading " + id + " ", e);
+                return null;
+            }
+        }
+
+        String dataToReturn = "{";
+        dataToReturn += "\"isok\": \"" + "todoOk" + "\"";
+        dataToReturn += "}";
+
+
+        // return "{\"isok\": \"todobien\"}";//devuelve un json como un string
+        return dataToReturn;
+    }
+
     private void putComundDataInModel(Model model, HttpSession session)
     {
         User u = (User) session.getAttribute("u");
+
+        ConfiguracionRestaurante conf = saGeneral.getConfiguracion(em);
+       /*  log.info("nombreSitio: "+ conf.getNombreSitio());
+ */
+        model.addAttribute("nombreSitio", conf.getNombreSitio());
         if(u != null)
         {
             log.info("id del usuario:" + u.getId());

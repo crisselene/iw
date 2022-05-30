@@ -1,5 +1,34 @@
 "use strict"
 
+
+document.querySelector("#fImgRest").onchange = e => {
+    console.log("imagen suida");
+    let img = document.querySelector("#imgRest");
+    let fileInput = document.querySelector("#fImgRest");
+    console.log(img, fileInput);
+    readImageFileData(fileInput.files[0], img);
+};
+
+document.getElementById("botonImgRest").addEventListener("click", cambiarImg);
+
+function cambiarImg(e)
+{
+    let img = document.getElementById("imgRest");
+    let formData = new FormData();
+    formData = appendImageToFomData(formData, img, "imgRest")
+
+    go("/cambiarImgRest", "POST", formData, {}).then(d => {
+        console.log("todo ok")
+        //console.log(document.getElementById("logoImgRest").outerHTML)
+         let logo =  document.getElementById("logoImgRest");
+     /*   logo.outerHTML = img.outerHTML;
+        logo.classList.remove */
+        let fileInput = document.querySelector("#fImgRest");
+        readImageFileData(fileInput.files[0], logo);
+
+        }).catch(() => console.log("fallo"));
+}
+
 const anadirEmpleadoButton = document.getElementById("anadirEmpleadoButton");
 anadirEmpleadoButton.addEventListener("click", nuevoEmpleado);
 
@@ -250,7 +279,7 @@ function actualizarParams() {
     let finalReservas = document.getElementById("finalReservas");
     let maxReservas = document.getElementById("maxReservas");
     let personasMesa = document.getElementById("personasMesa");
-    let nombreEmpresa = document.getElementById("nombreEmpresa")
+    let nombreSitio = document.getElementById("nombreSitioInput")
 
     console.log("atualizar params");
 
@@ -267,7 +296,7 @@ function actualizarParams() {
                 "horaFin" : finalReservas.value,
                 "maxReservas" : maxReservas.value,
                 "personasMesa" : personasMesa.value,
-                "nombreEmpresa": nombreEmpresa.value }
+                "nombreSitio": nombreSitio.value }
 
         console.log("maxPedidosHora" + maxPedidosHora.value)
         console.log("horaIni" + inicioReservas.value)
@@ -280,6 +309,7 @@ function actualizarParams() {
         go(config.rootUrl + "/actualizarParametrosRestaurante", 'POST', params)
         .then(d => {console.log("todo ok") // va ok si el username no existe
                     // categoria.setCustomValidity("");
+                    document.getElementById("nombreSitioNavbar").innerHTML = nombreSitio.value;
                     
         })
         .catch(() => {console.log("Error en catch actualizar params");//si el username ya existia

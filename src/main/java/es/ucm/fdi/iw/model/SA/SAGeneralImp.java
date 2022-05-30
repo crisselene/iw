@@ -175,6 +175,13 @@ public class SAGeneralImp{
         
     }
 
+    public List<Plato> platosOrdenadosPopu(EntityManager em) {
+        List<Plato> platos = null;
+       // categorias = em.createQuery("SELECT * FROM Categoria").getResultList(); //no entiende el *
+        platos = em.createNamedQuery("Categoria.platosOrdenados", Plato.class).getResultList();
+        return platos;
+    }
+
     public Plato buscarPlato(EntityManager em, long id){
         Plato p = null;
         p = em.find(Plato.class, id);
@@ -274,7 +281,7 @@ public class SAGeneralImp{
     }
     
     public void actualizarConfiguracion(EntityManager em, int personasMesa, int maxPedidosHora, int horaIni, int horaFin, 
-    int maxReservas,String nombreEmpresa){
+    int maxReservas,String nombreSitio){
         Long id = (long) 1;
         
         ConfiguracionRestaurante config = em.find(ConfiguracionRestaurante.class, id); // id 1 para sobrescribir siempre lo mismo
@@ -283,7 +290,7 @@ public class SAGeneralImp{
         config.setMaxPedidosHora(maxPedidosHora);
         config.setMaxReservas(maxReservas);
         config.setPersonasMesa(personasMesa);
-        config.setNombreEmpresa(nombreEmpresa);
+        config.setNombreSitio(nombreSitio);
     }
 
     public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente, boolean express){

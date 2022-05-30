@@ -23,17 +23,17 @@ public class ConfiguracionRestaurante {
     int horaIni;
     int horaFin;
     int maxReservas;
-    String nombreEmpresa;
+    String nombreSitio;
 
     public ConfiguracionRestaurante()
     {}
-    public ConfiguracionRestaurante(int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas, String nombreEmpresa) {
+    public ConfiguracionRestaurante(int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas, String nombreSitio) {
         this.personasMesa = personasMesa;
         this.maxPedidosHora = maxPedidosHora;
         this.horaIni = horaIni;
         this.horaFin = horaFin;
         this.maxReservas = maxReservas;
-        this.nombreEmpresa = nombreEmpresa;
+        this.nombreSitio = nombreSitio;
     }
 
     public ConfiguracionRestaurante(int personasMesa, int maxPedidosHora, int horaIni, int horaFin, int maxReservas) {

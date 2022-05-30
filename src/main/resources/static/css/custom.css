@@ -28,6 +28,10 @@ body{
   color: #E9DCCD
 }
 
+#logoImgRest{
+  object-fit: cover
+}
+
 
 
 

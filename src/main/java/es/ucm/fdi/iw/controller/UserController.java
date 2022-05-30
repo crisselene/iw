@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.ConfiguracionRestaurante;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
@@ -69,6 +70,8 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	
+
     /**
      * Exception to use when denying access to unauthorized users.
      * 
@@ -112,6 +115,12 @@ public class UserController {
     public String index(@PathVariable long id, Model model, HttpSession session) {
 		log.info("------en id --------@@");
         User target = entityManager.find(User.class, id);
+
+		long idConf = 1;
+		ConfiguracionRestaurante c = null;
+        c = entityManager.find(ConfiguracionRestaurante.class, idConf);
+        model.addAttribute("nombreSitio", c.getNombreSitio());
+
         model.addAttribute("user", target);
 		model.addAttribute("idUs", target.getId());
         return "user";
@@ -194,8 +203,9 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("{id}/pic")
-    public StreamingResponseBody getPic(@PathVariable long id) throws IOException {
+    public StreamingResponseBody getPic(Model model, @PathVariable long id) throws IOException {
         File f = localData.getFile("user", ""+id+".jpg");
+
         InputStream in = new BufferedInputStream(f.exists() ?
             new FileInputStream(f) : UserController.defaultPic());
         return os -> FileCopyUtils.copy(in, os);
