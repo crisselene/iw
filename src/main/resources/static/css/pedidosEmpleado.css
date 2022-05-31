@@ -170,3 +170,7 @@ float: left;
 .oculto{
     display: none;
 }
+
+.divEstados{
+    margin-bottom: 1em;
+}

@@ -40,13 +40,19 @@
                         <!-- <form> -->
                             <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
                            <!--  <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}"> -->
-                                <th:block th:each="est,iter: ${listaEstados}">
+                               <div th:if="${ped.isTakeAway} == true" class="divEstados">
+                                    <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                                        <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
+                                        <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
+                                        </th:block>
+                                </div>
+                               <div th:unless="${ped.isTakeAway} == true" class="divEstados">
+                                    <th:block th:each="est,iter: ${listaEstadosADomicilio}">
                                     <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
-                                    <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>
-                                   <!--<option th:if="${iter.index} == 0" selected th:text="${cat}">opcion</option>
-                                    <option th:unless="${iter.index} == 0" th:text="${cat}">opcion</option> -->
-                                   
-                                </th:block>
+                                    <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
+                                    </th:block>
+                                </div>
+                                
                             <!--   </select> -->
 
                             <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
@@ -81,11 +87,18 @@
                             
                             <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
 
-                                <th:block th:each="est,iter: ${listaEstados}">
-
+                            <div th:if="${ped.isTakeAway} == true" class="divEstados">
+                                <th:block th:each="est,iter: ${listaEstadosTakeAway}">
                                     <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
-                                    <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>
+                                    <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
+                                    </th:block>
+                            </div>
+                            <div th:unless="${ped.isTakeAway} == true" class="divEstados">
+                                <th:block th:each="est,iter: ${listaEstadosADomicilio}">
+                                <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
+                                <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
                                 </th:block>
+                            </div>
                               <!-- </select> -->
                             <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
                                 data-bs-target="#modalModPed">Modificar</button> -->
@@ -108,6 +121,21 @@
         </div>
 
     </main>
+
+    <!-- bloques para duplicar y reutilizar cuando llega un pedido por websockets (que antes no aparecian los estados) -->
+    <!-- desde el js hay q añadir lo de th:data-estidped="${ped.id} -->
+    <div id="divEstadosTakeAway" class="divEstados">
+        <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                <button  th:if="${iter.index} == 0" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
+                <button th:unless="${iter.index} == 0" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
+        </th:block>
+    </div>
+    <div id="divEstadosDomicilio" class="divEstados">
+        <th:block th:each="est,iter: ${listaEstadosADomicilio}">
+            <button  th:if="${iter.index} == 0" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
+            <button th:unless="${iter.index} == 0" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
+        </th:block>
+    </div>
 
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/pedidosEmpleado.js}" src="js/pedidosEmpleado.js"></script>

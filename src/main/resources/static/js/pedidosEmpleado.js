@@ -16,52 +16,52 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    function cambiarEstado(idPedido, nuevoEstado, boton)
-    {
-        console.log("cambiado estado del pedido con id")
-        console.log(idPedido + " id del pedido a cambiar")
-        let formData = new FormData();
-        formData.append("idPedido", idPedido)
-        formData.append("estado", nuevoEstado)
-
-        go("/actualizarEstPed", "POST", formData, {}).then(d => {
-            
-
-            if(d["result"] != "ok")
-            {
-                alert("Error al actualizar el estado del pedido " + idPedido)
-            }
-            else{
-                console.log("todo ok")
-
-                console.log(document.querySelectorAll("button[data-estidped='"+idPedido+"']"));
-
-                document.querySelectorAll("button[data-estidped='"+idPedido+"']").forEach(boton =>{
-                    if(boton.value == nuevoEstado)
-                    {
-                        boton.classList.add("actual")
-                    }
-                    else{
-                        boton.classList.remove("actual")
-                        boton.classList.add("noActual")
-                    }
-
-                    
-                })
-
-/* 
-                console.log(boton)
-                console.log(boton.previousElementSibling) */
-               /*  document.querySelectorAll('.botonEstado').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
-                    boton
-                }); */
-
-            }
-            }).catch(() => console.log("fallo"));
-
-    } 
+     
 
 });
+
+function cambiarEstado(idPedido, nuevoEstado, boton)
+{
+    console.log("cambiado estado del pedido con id")
+    console.log(idPedido + " id del pedido a cambiar")
+    let formData = new FormData();
+    formData.append("idPedido", idPedido)
+    formData.append("estado", nuevoEstado)
+
+    console.log("--@@" + nuevoEstado)
+
+    go("/actualizarEstPed", "POST", formData, {}).then(d => {
+        
+
+        if(d["result"] != "ok")
+        {
+            alert("Error al actualizar el estado del pedido " + idPedido)
+        }
+        else{
+            console.log("todo ok")
+
+            console.log(document.querySelectorAll("button[data-estidped='"+idPedido+"']"));
+
+            console.log("todo ok2")
+
+            document.querySelectorAll("button[data-estidped='"+idPedido+"']").forEach(boton =>{
+                console.log("todo ok3")
+                if(boton.value == nuevoEstado)
+                {
+                    boton.classList.add("actual")
+                }
+                else{
+                    boton.classList.remove("actual")
+                    boton.classList.add("noActual")
+                }
+
+                
+            })
+
+        }
+        }).catch(() => console.log("fallo"));
+
+}
 
 
 //copiar y pegar esto cambiando los subs (si quieres subscribirte a web sockets)
@@ -202,10 +202,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 nuevoPedi.appendChild(newExpress);
             }
 
+            var htmlEstados = "";
+            if(m["isTakeAway"] == "true") {
+                console.log("soy take away");
+                var htmlDivEstados = document.getElementById("divEstadosTakeAway")
+                var clone = htmlDivEstados.cloneNode(true);
+                htmlEstados = clone;
+                //htmlEstados.setAttribute("data-estidped", m["idPedido"]);
+                console.log("-----@@");
+                console.log(htmlEstados);
+            } else {
+                console.log("soy a domicilio");
+                var htmlDivEstados = document.getElementById("divEstadosDomicilio")
+                var clone = htmlDivEstados.cloneNode(true);
+                htmlEstados = clone;
+                //var idPed = "" + m["idPedido"]
+                //htmlEstados.setAttribute("data-estidped", m["idPedido"]);
+                console.log("-----@@");
+                console.log(htmlEstados);
+            }
+
+            
+
+            htmlEstados.querySelectorAll('.botonEstado').forEach(boton => {
+                boton.setAttribute("data-estidped", m["idPedido"])
+                boton.addEventListener("click", e => {
+                    cambiarEstado(m["idPedido"], e.target.value, e.target) //IMPORTANTE (Los data deben ir en minusculas)    
+                });
+            });
+
             //añadir el div a la tabla de pedidos pendientes
+            nuevoPedi.append(htmlEstados)
             nuevoPedi.appendChild(botones)
 
             cambioDiv.append(nuevoPedi)
+            
             cambioDiv.append(accord);
             pedidosPendientes.append(cambioDiv);
             console.log("mensaje webSocket llegado");

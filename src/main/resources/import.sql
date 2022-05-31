@@ -62,20 +62,20 @@ VALUES(4, true, 5, 2, '2022-02-21T10:00:00');
 INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
 VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
 
- INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express)
- VALUES(1, true, 'Calle Antilla', 0, 2, '2022-02-20T10:00:00',true);
- INSERT INTO PEDIDO(id, activo, direccion,  estado, cliente_id, fecha, express)
- VALUES(2, true, 'Calle Holanda', 0, 2, '2022-02-20T11:00:00', true);
- INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express)
- VALUES(3, true, 'Calle Eros', 0, 2,'2022-02-20T13:00:00',false);
- INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_idv)
- VALUES(4, true, 'Calle Cristina', 0, 2, '2022-02-22T10:00:00');
-  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha)
- VALUES(5, true, 'Calle A',  0, 2, '2022-02-25T10:00:00');
-  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha)
- VALUES(6, true, 'Calle B', 2, 2, '2022-02-27T10:00:00');
-  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha)
- VALUES(7, true, 'Calle C', 3, 2, '2022-02-29T10:00:00');
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(1, true, 'Calle Antilla', 0, 2, '2022-02-20T10:00:00',true, true);
+ INSERT INTO PEDIDO(id, activo, direccion,  estado, cliente_id, fecha, express, is_take_away)
+ VALUES(2, true, 'Calle Holanda', 0, 2, '2022-02-20T11:00:00', true, false);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(3, true, 'Calle Eros', 0, 2,'2022-02-20T13:00:00',false, false);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(4, true, 'Calle Cristina', 0, 2, '2022-02-22T10:00:00',false, false);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(5, true, 'Calle A',  0, 2, '2022-02-25T10:00:00', false, false);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(6, true, 'Calle B', 2, 2, '2022-02-27T10:00:00', false, false);
+  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(7, true, 'Calle C', 3, 2, '2022-02-29T10:00:00', false, false);
 
 
 INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)

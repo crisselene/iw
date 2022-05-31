@@ -53,6 +53,15 @@ function finalizar(e){
     console.log("NOO SOY EXPRESS")
     params["express"]=false;
   }
+
+  if(document.querySelector("#isTakeAwayCheckbox").checked){
+    console.log("para recoger en tienda")
+    params["isTakeAway"]=true;
+  }else{
+    console.log("a domicilio")
+    params["isTakeAway"]=false;
+  }
+
   console.log(params) //Mostramos por consola
 
   //Si el carrito no está vacío lo procesamos, en caso contrario, nada.

@@ -842,7 +842,9 @@ public class RootController {
 
         return "{\"isok\": \"true\"}";// devuelve un json como un string
     }
-    boolean express = false;
+    
+    Boolean isTakeAway = false;
+    Boolean express = false;
     @PostMapping(path = "/nuevoPedido", produces = "application/json")
     @Transactional // para no recibir resultados inconsistentes
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
@@ -853,21 +855,23 @@ public class RootController {
         
         Iterator<String> iterator = o.fieldNames();
         iterator.forEachRemaining(e -> {
-            if(e!="express"){
+            if(e!="express" && !e.equals("isTakeAway")){
                 log.info("ekkk" + e);
                 int cantidad = o.get(e).asInt();
                 cantidades.put(Long.parseLong(e), o.get(e).asInt());
                 log.info(" Has pedido: " + e + " x" + cantidad);
                 log.info(e.toString());
-            }else{
+            }else if (e.equals("express")){
                 log.info("ekkk express " + e);
                 express = o.get(e).asBoolean();
                 log.info("aqui "+ express);
+            } else {
+                isTakeAway = o.get("isTakeAway").asBoolean();
             }
         });
 
         // diccionario id, cantidad diccionario[ID]=cantidad
-        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u, express); // entitymanager, jsonnode y user
+        Pedido ped = saGeneral.nuevoPedido(em, cantidades, u, express, isTakeAway); // entitymanager, jsonnode y user
 
         // tratamiento de json:
         // https://www.delftstack.com/es/howto/javascript/javascript-json-array-of-objects/
@@ -896,6 +900,7 @@ public class RootController {
                 "\"fechaPedido\": \"" + ped.getFecha() + "\"," +
                 "\"nombreCliente\": \"" + ped.getCliente().getUsername() + "\"," +
                 "\"express\": \"" + express + "\"," +
+                "\"isTakeAway\": \"" + isTakeAway + "\"," +
                 "\"platos\": " + jsonPlatos + "}";
 
         log.info("jsonWeb" +jsonForWebSocket);
@@ -989,7 +994,8 @@ public class RootController {
             }
             model.addAttribute("listaPedidos", listaPedidos);
 
-            model.addAttribute("listaEstados", Pedido.getListaEstadosEditablesString());
+            model.addAttribute("listaEstadosADomicilio", Pedido.getListaEstadosEditablesDomicilioString());
+            model.addAttribute("listaEstadosTakeAway", Pedido.getListaEstadosEditablesTakeAwayString());
             return "pedidosEmpleado";
         } else {
 

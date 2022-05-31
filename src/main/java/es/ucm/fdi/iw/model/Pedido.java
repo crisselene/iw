@@ -38,7 +38,8 @@ public class Pedido {
         ACEPTADO,
         COCINAS,          
         REPARTO,
-        ENTREGADO
+        ENTREGADO,
+        PARA_RECOGER
     }
 
     private Estado estado; 
@@ -53,6 +54,7 @@ public class Pedido {
 
     private String direccion;
     private LocalDateTime fecha;
+    private Boolean isTakeAway;
 
     public Pedido(String direccion, List<LineaPlatoPedido> platos, User u, boolean express){
         this.direccion = direccion;
@@ -83,13 +85,14 @@ public class Pedido {
         this.fecha = LocalDateTime.now();
     }
 
-    public Pedido(User u, String direccion, Estado estado, boolean express){
+    public Pedido(User u, String direccion, Estado estado, boolean express, boolean isTakeAway){
         this.cliente = u;
         this.direccion = direccion;
         this.estado = estado;
         this.activo=true;
         this.fecha = LocalDateTime.now();
         this.express = express;
+        this.isTakeAway = isTakeAway;
     }
 
     public Boolean isEnCurso() {
@@ -108,12 +111,23 @@ public class Pedido {
         list.add("ENTREGADO");			 
         return list;
     }
-    public static List<String> getListaEstadosEditablesString()
+
+    public static List<String> getListaEstadosEditablesDomicilioString()
     {
         List<String> list = new ArrayList<String>();	
         list.add("ACEPTADO");	
         list.add("COCINAS");	
         list.add("REPARTO");	
+        list.add("ENTREGADO");			 
+        return list;
+    }
+
+    public static List<String> getListaEstadosEditablesTakeAwayString()
+    {
+        List<String> list = new ArrayList<String>();	
+        list.add("ACEPTADO");	
+        list.add("COCINAS");	
+        list.add("PARA RECOGER");	
         list.add("ENTREGADO");			 
         return list;
     }
@@ -139,6 +153,10 @@ public class Pedido {
        else if(estado == Estado.ENTREGADO)
        {
         return "ENTREGADO";
+       } 
+       else if(estado == Estado.PARA_RECOGER)
+       {
+        return "PARA RECOGER";
        }
 
        return null;
@@ -170,6 +188,10 @@ public class Pedido {
        else if(est.equals("ENTREGADO"))
        {
         return Estado.ENTREGADO;
+       }
+       else if(est.equals("PARA RECOGER"))
+       {
+        return Estado.PARA_RECOGER;
        }
 
        return null;

@@ -192,7 +192,7 @@ public class SAGeneralImp{
     public Long crearPlato(EntityManager em, String nombre, String descripcion, String categoria, float precio)
     {
         long idDevuelta = -1;
-        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Categoria.findByNombre", Categoria.class);
+        Query q = em.createNamedQuery("Categoria.findByNombre", Categoria.class);
         q.setParameter("nombre",categoria);
         Categoria c = (Categoria) q.getSingleResult( );
         
@@ -212,7 +212,7 @@ public class SAGeneralImp{
     public Long updatePlato(EntityManager em, String nombre, String descripcion, String categoria, float precio, long id)
     {
         
-        Query q = em.createNamedQuery("es.ucm.fdi.iw.model.Categoria.findByNombre", Categoria.class);
+        Query q = em.createNamedQuery("Categoria.findByNombre", Categoria.class);
         q.setParameter("nombre",categoria);
         Categoria c = (Categoria) q.getSingleResult( );
 
@@ -293,9 +293,9 @@ public class SAGeneralImp{
         config.setNombreSitio(nombreSitio);
     }
 
-    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente, boolean express){
+    public Pedido nuevoPedido(EntityManager em, Map<Long, Integer> cantidades, User cliente, boolean express, boolean isTakeAway){
 
-        Pedido ped = new Pedido(cliente,cliente.getDireccion(),Estado.PENDIENTE,express);
+        Pedido ped = new Pedido(cliente, cliente.getDireccion(), Estado.PENDIENTE, express, isTakeAway);
         em.persist(ped);
 
         //sacar id pedido

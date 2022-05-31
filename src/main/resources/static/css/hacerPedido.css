@@ -78,3 +78,8 @@
     height: 6em;
     object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */
 }
+
+.divOpciones{
+    margin-top: 1em;
+}
+
