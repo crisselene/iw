@@ -26,7 +26,6 @@
     border: 1px solid var(--main);
     padding: 5px;
     border-radius: 50px;
-
     width: 20em; /* You can set the dimensions to whatever you want */
     height: 20em;
     object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */
@@ -36,11 +35,20 @@ img:hover {
     box-shadow: 0 0 3px 2px var(--second);
   }
 
+.panelPlatos{
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+}
+
 .divPlato{
+    max-width: fit-content;
+    max-height: fit-content;
+    
     margin-top: 1rem;
     margin-bottom: 1rem;
     position: relative;
 }
+
 
 .top{
     background-color: rgba(122, 14, 14, 0.453);/* el cuarto parametro es la opcidad */

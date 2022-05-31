@@ -67,7 +67,7 @@
                    
                 <!--la primera categoria se marca como activa para que se muestre por defecto-->
                 <div th:if="${iter.index} == 0" class="tab-pane fade show active" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <div class="row"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
+                    <div class="row panelPlatos"> <!-- Estructura: Cada pane tendra una fila con columnas indefinidas, de manera que si no entran las columnas, se ponen en varias filas automaticamente-->
                          <!-- Dentro de cada pane, recorremos todos los platos de dicha categoria y los metemos (solo los que esten activos)--> 
                         
                          <div class="col-md-3 text-center divPlato" th:each="plato: ${cat.platos}" th:if="${plato.activo} == true" th:attr="data-plato=${plato.id}"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
@@ -107,7 +107,7 @@
 
                 </div><!-- a partir de aqui cada vuelta del each generara un panel con sus respectivos platos-->
                 <div th:unless="${iter.index} == 0" class="tab-pane fade" th:id="${cat.nombre}" role="tabpanel" aria-labelledby="nav-home-tab">
-                    <div class="row"> 
+                    <div class="row panelPlatos"> 
                         <div class="col-md-3 text-center divPlato" th:each="plato: ${cat.platos}" th:attr="data-plato=${plato.id}"> <!-- Tras procesarlo seria algo del tipo plato: ${Entrantes}   siendo Entrantes una variable de tipo lista del modelo-->
                             <!-- <img th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="logo IW" class="img-thumbnail mw-100 miClase"> -->
                             <a th:href="@{/verPlato?platoElegidoId={id} (id=${plato.id})}">
