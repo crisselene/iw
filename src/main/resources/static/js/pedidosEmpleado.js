@@ -289,10 +289,11 @@ document.addEventListener("DOMContentLoaded", () => {
             //listener rechazar
             cambioDiv.querySelector(".rechazar").addEventListener("click", k => {
                 console.log("Rechazando elemento id", id)
+                console.log("div rece" + cambioDiv)
                 let confirmAction = confirm("¿Quiere eliminar este pedido?");
                 if (confirmAction) {
                     eliminar(k, params)
-                    nuevoPedi.remove()
+                    cambioDiv.remove()
                 }
             })
 
@@ -333,6 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //**********************BOTON RECHAZAR******************* */
         d.querySelector(".rechazar").addEventListener("click", e => {
             console.log("Rechazando elemento id", id)
+            console.log("div "+ div)
             let confirmAction = confirm("¿Quiere eliminar este pedido?");
             if (confirmAction) {
                 eliminar(e, params)
