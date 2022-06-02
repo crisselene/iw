@@ -81,18 +81,30 @@
                         <div class="row">
                             <div class="col totalCarrito">Total: 0€</div>
                             
-                            <div class="col">
+                            <div class="col-9">
                                 <div style="text-align: right;">
                                         <button type="button" class="btn btn-primary btn-sm botonfinalizar btn-Second" >Finalizar</button>
                                 </div>
-                                <div style="text-align: left" class="divOpciones">
-                                    <div>
+                                <div style="text-align: right" class="divOpciones">
+                                    <div class="row align-items-center divExpress justify-content-end">
+                                        <div class="check">
                                         <input type="checkbox" class="servExpress" id="expressCheckbox">
                                         <label for="expressCheckbox"> Pedido express: 1.99€ </label>
                                     </div>
-                                    <div>
+                                        <div class="masInfo" data-toggle="tooltip" id="tooltipdiv" data-placement="top" title="Marca tu pedido como express e intentaremos dar prioridad a tu pedido a la hora de prepararlo">
+                                            ❔
+                                            <div>Mas Info</div>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center divExpress justify-content-end">
+                                        <div class="check">
                                         <input type="checkbox" class="isTakeAway" id="isTakeAwayCheckbox">
                                         <label for="isTakeAwayCheckbox" > Recoger en tienda </label>
+                                        </div>
+                                        <div class="masInfo" data-toggle="tooltip" id="tooltipdiv" data-placement="top" title="Marca tu pedido para recoger y podras venir a recogerlo. Te avisaremos en su estado en cuanto este listo para recoger">
+                                            ❔
+                                            <div>Mas Info</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

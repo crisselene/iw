@@ -47,6 +47,18 @@ public class SAGeneralImp{
         return pedidos;
     }
 
+    public List<Pedido> listarPedidosNoEntregados(EntityManager em) {
+        List<Pedido> pedidos = null;
+        pedidos = em.createNamedQuery("Pedido.pedidosSinXEstado", Pedido.class).setParameter("estado", Estado.ENTREGADO).getResultList();
+        return pedidos;
+    }
+
+    public List<Pedido> listarPedidosEntregados(EntityManager em) {
+        List<Pedido> pedidos = null;
+        pedidos = em.createNamedQuery("Pedido.pedidosByEstado", Pedido.class).setParameter("estado", Estado.ENTREGADO).getResultList();
+        return pedidos;
+    }
+
     public List<Pedido> listarPedidosPendientes(EntityManager em) {
         List<Pedido> pedidos = null;
         pedidos = em.createNamedQuery("Pedido.pedidosByEstado", Pedido.class).setParameter("estado", Estado.PENDIENTE).getResultList();

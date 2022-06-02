@@ -83,3 +83,38 @@
     margin-top: 1em;
 }
 
+
+
+.masInfo{
+    cursor:help;
+    padding: 0px;
+    display: inline-block;
+    max-width: fit-content;
+    text-align: center;
+    margin-left: 0.2em;
+    margin-right: 0.5em;
+
+}
+.masInfo div{
+   
+   /*  display: inline-block; */
+   font-size: x-small;
+}
+
+.divExpress{
+    text-align: right;
+}
+
+.divExpress .col{
+    /* text-align: right;
+    vertical-align: middle */
+    padding: 0px;
+}
+.divExpress label{
+  
+}
+.check{
+    display: inline-block;
+    max-width: fit-content;
+}
+

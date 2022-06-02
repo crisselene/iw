@@ -2,6 +2,16 @@
     box-sizing: border-box;
 }
 
+.sepVert{
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.contGlob{
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
 
 h1 {
     color: #593643;
@@ -60,7 +70,7 @@ small {
 /*contenedores de pedidos*/
 .container{
     width: 45%;
-    max-height:500px;
+    max-height:510px;
     overflow: auto;
 }
 
@@ -153,6 +163,10 @@ float: left;
     margin-right: 0.2em;
 }
 
+.noActual:hover{
+    background-color: rgb(34, 35, 43);
+}
+
 .botonEstado:first-of-type{
     margin-left: 2em;
 }
@@ -173,4 +187,25 @@ float: left;
 
 .divEstados{
     margin-bottom: 1em;
+}
+
+
+.titleCol2 div:first-child{
+    display: inline-block;
+    width:65%;
+}
+
+.titleCol2 div:last-child{
+    display: inline-block;
+    width:34%;
+}
+
+
+.botHist{
+   
+   text-align: right;
+}
+
+.botHist form button{
+    width: fit-content;
 }

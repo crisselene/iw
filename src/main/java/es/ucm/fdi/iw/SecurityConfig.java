@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**", "/nuevoPlato","/aceptarPed", "/existeUsuario", "/anadirEmpleado").hasRole("ADMIN")	   // <-- administration
 	           // .antMatchers("method").hasAnyRole("USER", "EMPLEADO")	   // <-- logged-in users
 			   .antMatchers("/user/**").hasAnyRole("USER", "EMPLEADO")	
-				.antMatchers("/empleado/**", "/actualizarEstPed").hasAnyRole("EMPLEADO", "ADMIN")	   
+				.antMatchers("/empleado/**", "/actualizarEstPed", "/historicoPedidos").hasAnyRole("EMPLEADO", "ADMIN")	   
 				.antMatchers("/reservarMesa/**", "/realizarReserva").hasAnyRole("USER", "ADMIN", "EMPLEADO")
 				.antMatchers("/hacerPedido", "/notificacionPendiente").hasRole("USER")
 				.antMatchers("/verReservas", "/hacerComentario").hasAnyRole("ADMIN", "EMPLEADO", "USER")

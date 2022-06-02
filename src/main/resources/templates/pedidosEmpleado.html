@@ -12,112 +12,125 @@
     <header th:replace="fragments/nav.html :: nav"></header>
 
     <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Pedidos</h1>
+        <div class="sepVert"></div>
+        <div class="contGlob">
+            <div class="container containerLeft contenedorpeds">
+                <h2>Nuevos pedidos</h2>
 
-        </div>
+                <div class="row rowNuevosPed">
+                    <th:block th:if=" ${ped.isEnCurso}==FALSE and ${ped.isActivo}==TRUE" th:each="ped,i: ${listaPedidos}">
+                        <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                                lo mismo pasa con el ultimo elemento y los del medio-->
 
-        <div class="container containerLeft contenedorpeds">
-            <h2>Nuevos pedidos</h2>
+                        <!--esto es para llamar en javascript
+                                th:attr="data-id=${ped.id}"-->
+                        <div class="divCambiar elemento" th:attr="data-id=${ped.id}">
 
-            <div class="row rowNuevosPed">
-                <th:block th:if=" ${ped.isEnCurso}==FALSE and ${ped.isActivo}==TRUE" th:each="ped,i: ${listaPedidos}">
-                    <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
-                            lo mismo pasa con el ultimo elemento y los del medio-->
-
-                    <!--esto es para llamar en javascript
-                             th:attr="data-id=${ped.id}"-->
-                    <div class="divCambiar elemento" th:attr="data-id=${ped.id}">
-
-                        <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFecha}">
-                       
-                        </div>
-                        <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
-                        <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
-                            poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
-                            cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
-                        <!-- <form> -->
-                            <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
-                           <!--  <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}"> -->
-                               <div th:if="${ped.isTakeAway} == true" class="divEstados">
-                                    <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                            <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
+                                + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFecha} + ', Total: ' + ${ped.getTotalAsString() + '€'}">
+                        
+                            </div>
+                            <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
+                            <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
+                                poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
+                                cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
+                            <!-- <form> -->
+                                <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
+                            <!--  <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}"> -->
+                                <div th:if="${ped.isTakeAway} == true" class="divEstados">
+                                        <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                                            <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
+                                            <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
+                                            </th:block>
+                                    </div>
+                                <div th:unless="${ped.isTakeAway} == true" class="divEstados">
+                                        <th:block th:each="est,iter: ${listaEstadosADomicilio}">
                                         <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
                                         <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
                                         </th:block>
-                                </div>
-                               <div th:unless="${ped.isTakeAway} == true" class="divEstados">
-                                    <th:block th:each="est,iter: ${listaEstadosADomicilio}">
-                                    <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
-                                    <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
-                                    </th:block>
-                                </div>
-                                
-                            <!--   </select> -->
+                                    </div>
+                                    
+                                <!--   </select> -->
 
-                            <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
-                            <button type="button" class="rechazar rojo">Rechazar</button>
-                       <!--  </form> -->
-            
-                    <button class="accordion">Listado de platos <p> 🔽</p></button>
-                        <div class="panel">
-                            <p> </p>
-                             <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
-                             ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
-                             ">Lechuga</p>
-                             <p style="font-weight: bold;" th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' ">Total</p>
+                                <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
+                                <button type="button" class="rechazar rojo">Rechazar</button>
+                        <!--  </form> -->
+                
+                        <button class="accordion">Listado de platos <p> 🔽</p></button>
+                            <div class="panel">
+                                <p> </p>
+                                <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
+                                ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
+                                ">Lechuga</p>
+                                <p th:if=" ${ped.express}==TRUE">Express x1 (1,99€)</p><!-- th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' " -->
+                                <p style="font-weight: bold;" th:text=" 'Total: '+${ped.getTotalAsString()} +' €' ">Total</p>
+                            </div>
                         </div>
-                    </div>
-                </th:block>
+                    </th:block>
+                </div>
+
             </div>
 
-        </div>
+            <div class="container containerRight">
+                <div class="titleCol2">
+                    <div>
+                        <h2>Pedidos actuales</h2>
+                    </div>
+                    <div class="botHist">
+                        <form method="get" action="/historicoPedidos">
+                            <button type="submit">Historico Pedidos</button>
+                        </form>
+                    </div>
+                    
+                </div>
+                
 
-        <div class="container containerRight">
-            <h2>Pedidos actuales</h2>
 
-            <div class="row pedEnCurso">
-                <th:block th:if=" ${ped.isEnCurso}==true and ${ped.isActivo}==TRUE" th:each="ped,i: ${listaPedidos}">
-                    <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
-                            lo mismo pasa con el ultimo elemento y los del medio-->
 
-                    <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
-                        <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
-                            + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFecha}"></div>
-                            
-                            <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
+                <div class="row pedEnCurso">
+                    <th:block th:if=" ${ped.isEnCurso}==true and ${ped.isActivo}==TRUE" th:each="ped,i: ${listaPedidos}">
+                        <!-- Si el el primer elemento tiene q tener un css diferente para que queden bonitos los bordes,
+                                lo mismo pasa con el ultimo elemento y los del medio-->
 
-                            <div th:if="${ped.isTakeAway} == true" class="divEstados">
-                                <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                        <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
+                            <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
+                                + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFecha} + ', Total: ' + ${ped.getTotalAsString() + '€'}"></div>
+                                
+                                <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
+
+                                <div th:if="${ped.isTakeAway} == true" class="divEstados">
+                                    <th:block th:each="est,iter: ${listaEstadosTakeAway}">
+                                        <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
+                                        <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
+                                        </th:block>
+                                </div>
+                                <div th:unless="${ped.isTakeAway} == true" class="divEstados">
+                                    <th:block th:each="est,iter: ${listaEstadosADomicilio}">
                                     <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
                                     <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
                                     </th:block>
-                            </div>
-                            <div th:unless="${ped.isTakeAway} == true" class="divEstados">
-                                <th:block th:each="est,iter: ${listaEstadosADomicilio}">
-                                <button  th:if="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado actual" th:value="${est}" th:text="${est}"> </button>
-                                <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
-                                </th:block>
-                            </div>
-                              <!-- </select> -->
-                            <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
-                                data-bs-target="#modalModPed">Modificar</button> -->
-                            <button class="rechazar rojo" type="button">Eliminar</button>
+                                </div>
+                                <!-- </select> -->
+                                <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#modalModPed">Modificar</button> -->
+                                <button class="rechazar rojo" type="button">Eliminar</button>
 
-                           
-                        <button class="accordion">Listado de platos <p> 🔽</p></button>
-                        <div class="panel">
-                            <p> </p>
-                             <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
-                             ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
-                             ">Lechuga</p>
-                             <p style="font-weight: bold;" th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' ">Total</p>
+                            
+                            <button class="accordion">Listado de platos <p> 🔽</p></button>
+                            <div class="panel">
+                                <p> </p>
+                                <p th:each="linea: ${ped.platos}" th:text="${linea.plato.nombre} + ' x' + ${linea.cantidad} + 
+                                ' (' + ${#numbers.formatDecimal(linea.precio, 1, 'DEFAULT', 2, 'DEFAULT')} + '€/ud)'
+                                ">Lechuga</p>
+                                <p th:if=" ${ped.express}==TRUE">Express x1 (1,99€)</p><!-- th:text=" 'Total: '+${#numbers.formatDecimal(#aggregates.sum(ped.platos.![precio*cantidad]), 1, 'DEFAULT', 2, 'DEFAULT')} +' €' " -->
+                                <p style="font-weight: bold;" th:text=" 'Total: '+${ped.getTotalAsString()} +' €' ">Total</p>
+                            </div>
                         </div>
-                    </div>
 
-                </th:block>
+                    </th:block>
+                </div>
+
             </div>
-
         </div>
 
     </main>

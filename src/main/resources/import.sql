@@ -1,6 +1,6 @@
 -- insert admin (username a, password aa)
 INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono, first_name, last_name)
-VALUES (1, TRUE, 'ADMIN,USER', 'a',
+VALUES (1, TRUE, 'ADMIN', 'a',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W', 'calla jefazo', 'admin@faq.es', '123456321', 'admin', 'admin');
 
 INSERT INTO IWUser (id, enabled, roles, username, password,direccion, email, telefono, first_name, last_name)
@@ -71,11 +71,13 @@ VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
  VALUES(4, true, 'Calle Cristina', 0, 2, '2022-02-22T10:00:00',false, false);
   INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
- VALUES(5, true, 'Calle A',  0, 2, '2022-02-25T10:00:00', false, false);
+ VALUES(5, true, 'Calle A',  4, 2, '2022-02-25T10:00:00', false, false);
   INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
  VALUES(6, true, 'Calle B', 2, 2, '2022-02-27T10:00:00', false, false);
   INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
- VALUES(7, true, 'Calle C', 3, 2, '2022-02-29T10:00:00', false, false);
+ VALUES(7, true, 'Calle C', 3, 2, '2022-02-26T10:00:00', false, false);
+ INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
+ VALUES(8, true, 'Calle C', 4, 2, '2022-02-27T10:00:00', false, false);
 
 
 INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
@@ -98,6 +100,13 @@ INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
 VALUES(1, 6, 1, 7.99);
 INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
 VALUES(1, 7, 2, 7.99);
+
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(5, 8, 1, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(2, 8, 2, 5.99);
+INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad, precio)
+VALUES(8, 8, 1, 9.99);
  --INSERT INTO LINEA_PLATO_PEDIDO(plato_id, pedido_id, cantidad)
  --VALUES(1, 1, 2);
 

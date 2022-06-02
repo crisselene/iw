@@ -3,14 +3,14 @@
 <head>
     <th:block th:replace="fragments/head :: header" />
     <title>Restaurant.es: Pedidos</title>
-    <link rel="stylesheet" href="css/pedidosUsuario.css" />
+    <link rel="stylesheet" href="css/historicoPedidos.css" />
 </head>
 <body class="d-flex flex-column h-100">
     <input id ="pagPed" type="hidden">
     <header th:replace="fragments/nav.html :: nav"></header>
     <main class="flex-shrink-0">
         <div class="container">
-            <h3 class="mt-5">Tus pedidos</h3>
+            <h3 class="mt-5">Pedidos ya entregados</h3>
         </div>
 
         <input id ="idUs"type="hidden" th:value="${idUs}">
@@ -25,7 +25,7 @@
                        
                     
 
-                <div class="row filaPedido" th:each="ped,i: ${listaPedidos}" > 
+                <div class="row filaPedido" th:each="ped,i: ${listaPedidos}" th:if="${ped.activo} == true"> 
                     <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}" style="margin: auto;">
                     <!-- <div class="col" th:text="${ped.getId}" style="margin: auto;"></div> -->
                         
@@ -35,7 +35,7 @@
                         <p th:class="'State'+${ped.getId}" th:text="${ped.getEstado} + ' Fecha : ' + ${ped.getFecha}">estado</p>
                     </div>
 
-                    <div class="col"  style="margin: auto;">   
+                    <div class="col" style="margin: auto;">   
                         <ul>
                             <!--EXPLICACIOÓN DE THBLOCKS Y COMO OBTENER LOS PLATOS
                             Como el pedido tiene muchos platos (ped) tienes que generar otro block con otra
@@ -44,19 +44,21 @@
                             <li th:text="${plat.getPlato.getNombre} +' x' + ${plat.cantidad}">plato 1</li>
                             </th:block>
                         </ul>
-                    </div>
 
+                    </div>
                     <div class="col" style="margin: auto;" th:text="'Total: ' + ${ped.getTotalAsString + '€'}"> 
                     </div>
+                    <div class="col-1 divBotBorrar">
+                        <button class="botBorrar" th:value="${ped.getId}">🗑️</button>
+                    </div>
                 </div>
-        </div>
-                                
-      
+            </div>
+                                     
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script th:src="@{/js/historicoPedidos.js}" src="js/historicoPedidos.js"></script>
    
-    <script th:src="@{/js/pedidosUsuario.js}" src="js/pedidosUsuario.js"></script>
 </body>
 </html>
 

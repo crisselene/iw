@@ -982,7 +982,7 @@ public class RootController {
 
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
-            listaPedidos = saGeneral.listarPedidos(em);
+            listaPedidos = saGeneral.listarPedidosNoEntregados(em);
             log.info("@@@@@@@@@@@@---------@@");
             for (Pedido ped : listaPedidos) {
                 log.info("---------@@");
@@ -1070,6 +1070,33 @@ public class RootController {
         // return "{\"isok\": \"todobien\"}";//devuelve un json como un string
         return dataToReturn;
     }
+
+    @GetMapping("historicoPedidos")
+    public String historicoPedidos(Model model, HttpSession session) {
+
+        putComundDataInModel(model, session);
+
+            List<Pedido> listaPedidos = new ArrayList<Pedido>();
+
+            listaPedidos = saGeneral.listarPedidosEntregados(em);
+
+            log.info("pedidos entregados:");
+            for (Pedido ped : listaPedidos) {
+                log.info("@@@@@---");
+                log.info(ped.getDireccion());
+                log.info(ped.getEstado());
+                for (LineaPlatoPedido p : ped.getPlatos())
+                    log.info("-" + p.getPlato().getNombre());
+            }
+
+            // model.addAttribute("listaPedidos", pedidos);
+            model.addAttribute("listaPedidos", listaPedidos);
+
+            return "historicoPedidos";
+
+    }
+
+
 
     private void putComundDataInModel(Model model, HttpSession session)
     {

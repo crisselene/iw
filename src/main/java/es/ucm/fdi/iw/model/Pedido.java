@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ import lombok.Data;
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Pedido.findById", query = "select obj from Pedido obj where  :id = obj.id"),
     @NamedQuery(name = "es.ucm.fdi.iw.model.Pedido.findByCliente", query = "select obj from Pedido obj where  :cliente = obj.cliente AND obj.activo = TRUE"),
-    @NamedQuery(name = "Pedido.pedidosByEstado", query = "select p from Pedido p where p.estado = :estado")
+    @NamedQuery(name = "Pedido.pedidosByEstado", query = "select p from Pedido p where p.estado = :estado"),
+    @NamedQuery(name = "Pedido.pedidosSinXEstado", query = "select p from Pedido p where p.estado <> :estado")
 })
 @AllArgsConstructor
 public class Pedido {
@@ -31,6 +33,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
     
+    
+
 	private long id;
     
     public enum Estado {
@@ -206,5 +210,28 @@ public class Pedido {
         String time = parts[1];
 // return dateString;
         return date + " " + time;
+    }
+
+    public double getTotal(){
+        double total = 0;
+        for(LineaPlatoPedido l: platos)
+        {
+            total += l.getPrecio() * l.getCantidad();
+        }
+        if(isExpress())
+        total+=1.99;
+        return total;
+    }
+
+    public String getTotalAsString(){
+        double total = 0;
+        for(LineaPlatoPedido l: platos)
+        {
+            total += l.getPrecio() * l.getCantidad();
+        }
+        if(isExpress())
+        total+=1.99;
+        DecimalFormat df=new DecimalFormat("#.##");
+        return df.format(total);
     }
 }

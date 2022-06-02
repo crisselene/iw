@@ -30,6 +30,12 @@ function cambiarEstado(idPedido, nuevoEstado, boton)
 
     console.log("--@@" + nuevoEstado)
 
+    if(nuevoEstado == "ENTREGADO")
+        {
+            if(!confirm("Estas seguro que quieres marcar el pedido como entregado?\nUna vez marcado como entregado pasara al historico de pedidos y no podra volver a modificarse"))
+            return false;
+        }
+
     go("/actualizarEstPed", "POST", formData, {}).then(d => {
         
 
@@ -46,9 +52,18 @@ function cambiarEstado(idPedido, nuevoEstado, boton)
 
             document.querySelectorAll("button[data-estidped='"+idPedido+"']").forEach(boton =>{
                 console.log("todo ok3")
+
+                if(nuevoEstado == "ENTREGADO")
+                {
+                   console.log( boton.closest(".elemento"))
+                   boton.closest(".elemento").remove();
+                }
+
                 if(boton.value == nuevoEstado)
                 {
+                    
                     boton.classList.add("actual")
+                    boton.classList.remove("noActual")
                 }
                 else{
                     boton.classList.remove("actual")
@@ -129,6 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
             var totalPedido = new Number(0);
             //necesito un objeto json porque estoy sacando información de 
             //un json que está dentor de otro json
+           
             m["platos"].forEach(pla => {
                 console.log(pla["nombrePlato"]);
 
@@ -138,7 +154,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 var PrecioUnitario = Number(pla["precioPlato"]) * Number(pla["cantidadPlato"]);
                 totalPedido += PrecioUnitario;
             });
+           
 
+            if(m["express"] == "true")
+            {
+                totalPedido+=1.99;
+                platos += "Express x1 (1,99€)\n"
+            }
+                
             //creamos un parrafo para el total y lo ponemos en negrita
             var pTotal = document.createElement("p");
             pTotal.innerText = 'Total: ' + totalPedido + '€';
@@ -158,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
             nuevoPedi.className = "col"
 
             var newContent = document.createTextNode('Pedido: ' + id
-                + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] + ', Fecha: ' + m["fechaPedido"]);
+                + ', Direccion: ' + m["dirPedido"] + ', Cliente: ' + m["nombreCliente"] + ', Fecha: ' + m["fechaPedido"] + ', Total: '+ totalPedido +'€');
             nuevoPedi.appendChild(newContent)
 
             //boton aceptar
