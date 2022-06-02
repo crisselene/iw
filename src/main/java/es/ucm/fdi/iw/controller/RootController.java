@@ -101,6 +101,7 @@ public class RootController {
         String notificar= "/ver/misPedidos" + p.getCliente().getId();
         String jsonAEnviar = "{";
         jsonAEnviar += "\"idPedido\": \"" + id + "\",";
+        jsonAEnviar += "\"estadoCambiado\": \"" + true + "\",";
         jsonAEnviar += "\"estado\": \"" + p.getEstadoAsString() + "\"";
         jsonAEnviar += "}";
 
@@ -957,6 +958,7 @@ public class RootController {
 
             String jsonAEnviar = "{";
             jsonAEnviar += "\"idPedido\": \"" + idPedido + "\",";
+            jsonAEnviar += "\"estadoCambiado\": \"" + true + "\",";
             jsonAEnviar += "\"estado\": \"" + estado + "\"";
             jsonAEnviar += "}";
 

@@ -16,7 +16,7 @@ const ws = {
     receive: (text) => {
         console.log(text);
 
-        if(text["idPedido"])
+        if(text["idPedido"] && text["estadoCambiado"])
         {
             console.log("el pedido que ha cambiado es : " + text["idPedido"])
             let contenedorNotificacion = document.getElementById("contNot");
