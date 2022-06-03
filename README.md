@@ -43,8 +43,8 @@ Para ver más detalles consultar [el documento de diseño](https://docs.google.c
 <a name="item1"></a>
 ## Entrega extra
 Hemos realizado algunas mejoras y nuevas funcionalidades para la entrega para subir nota.
-A continuación se idican el total de mejoras implementadas, y en el siguiente apartado quien ha sido el responsable
-de realizar cada mejora.
+A continuación se indican el total de mejoras implementadas, y en el siguiente apartado quien ha sido el responsable
+de realizar cada mejora (ya que el reparto del trabajo no ha sido equitativo, y algunos miembros han aportado más que otros).
 ### Correcciones respecto a la entrega del examen
 - En hacer reserva ahora se muestran automáticamente las horas disponibles nada más entrar.
 - Se han arreglado además diversos
@@ -119,7 +119,7 @@ Como detalle, como el cambio al estado entregado supone ahora más consecuencias
 
 **- Se implementa que el empleado pueda modificar los estados de un pedido que acabe de llegar a la página PedidosEmpleados a través de websockets.** Antes solo se aparecían los estados cuando se refrescaba la página. Para poder usarlos, lo que se ha hecho ha sido lo siguiente. En el html se crean 2 divs que tienen los botones de estados ya cargados (un div para estados de Take away y otro div para estados de a domicilio), de forma que cuando llega un pedido por websockets se mira si es para Take Away o para A domicilio y se duplica el div del html con los estados y se añade al nuevo pedido
 
-**- Se ha implementado la funcionalidad de cancelar reservas (para la entrega del examen se nos olvidó hacerlo)** 
+**- Se ha implementado la funcionalidad de cancelar reservas** 
 
 ### 1. Alberto
 - Funcionalidad de ver mesas disponibles al hacer un pedido. (todo el grupo la realizó en el examen, pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
@@ -133,21 +133,23 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
 - Añadidas confirmaciones al realizar correctamente una reserva o un pedido, y redirirgir a la página correspondiente.
 - Añadido que si se pulsa la imagen de un plato en la carta, se accede a al información de dicho plato.
 - Mejora de la vista para pedidos de usuarios (incluyendo aprovechar más el espacio, y la nueva información sobre cantidad de platos y total del pedido)
-- Mejora de la vista de ver pedidos de empelados (para aprovechar más el espacio)
+- Mejora de la vista de ver pedidos de empleados (para aprovechar más el espacio)
 - Los dos tooltips de la página de hacer pedido del carrito para las dos nuevas opciones (incluido el css para colocarlos bien)
 - Mejora que muestra las horas disponibles directamente al cargar la página (todo el grupo la realizó en el examen,pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
 - Arreglo de errores en el sistema de reservas:
   - Arreglado error que no permitía reservar todas las mesas del restaurante aunque ese número de personas entrara
   - Arreglado error que guardaba mal en la base de datos el número de mesas necesarias para una persona
   - Arreglado error que al hacer una reserva, cogía mal la hora de inicio si esta era igual a 10 provocando un error interno del servidor
-  - Correción de que el extra del pedido express no se sumaba al importe total del pedido. Además, de la mejora de mostrar el total del pedido junto al resto de información del pedido
-  - Corregido error que no borraba bien un pedido si este había llegado por websockets en la vista de pedidos de los empleados
-  - Arreglado error en el import.sql y actualizado el rol de admin a solo admin
+- Correción de que el extra del pedido express no se sumaba al importe total del pedido. Además, de la mejora de mostrar el total del pedido junto al resto de información del pedido
+- Corregido error que no borraba bien un pedido si este había llegado por websockets en la vista de pedidos de los empleados
+- Arreglado error en el import.sql y actualizado el rol de admin a solo admin
+- Arreglado error que mostraba en la fecha de nuevos pedidos realizados, segundos y decimas de segundo. Ahora tanto en la vista de ver pedidos de empleados, como de usuarios, se muestra la fecha indicando solo hora y minutos
+- Redactada toda la informacion y explicaciones en el readme sobre las nuevas mejoras y funcionalidades implementadas
 
 ### 2. Andrés
 - Funcionalidad recoger pedido en tienda.
-- Funcionalidad de estados para pedidos llegados por websockets
-- Funcionalidad de cancelar reservas (todo, para el proyecto del examen se nos olvidó hacerlo)
+- Solucionado error en el cual los pedidos nuevos llegado por websocket en la vista de pedidos de empleados no tenian los botones para cambiar de estado
+- Funcionalidad de cancelar reservas
 - Contribuído en la revisión de errores del sistema de reservas (aunque fue alberto quien solucionó los problemas)
 - Actualizado el readme.md y erratas del mismo
 - Quitado mucho código comentado y comentarios innecesarios en todas partes (.java, .css, .html ...)
