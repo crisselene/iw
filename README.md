@@ -53,67 +53,67 @@ errores que habia en el sitema de reservas:
   - Añadido un parseint a la comparación de hora de inicio y fin en la configuración del restaurante
   - En la carta se añade que, si pulsas en la imagen, se puede acceder también al plato
   - Arreglado error en configuracion del restaurante sobre la hora de inicio y cierre.
-  - Añadidas confirmaciones a la hora de realizar una reserva y hacer un pedido. En ambos casos ademas de mostrar el mensaje
-de confirmacion, se les redirige a las paginas de ver reservas y ver pedidos respectivamente, para que asi se confirme
-que tanto la reserva como el pedido se han registrado correctamente. Ademas el mensaje de confirmacion del pedido realizado
-ahora aclara mejor que el pedido ahora estara esperando a ser aceptado.
-  - Se mejora el aspecto visual de las paginas de ver pedidos tanto de los usuarios como de los empleados, para aprovechar
+  - Añadidas confirmaciones a la hora de realizar una reserva y hacer un pedido. En ambos casos, además de mostrar el mensaje
+de confirmación, se les redirige a las páginas de ver reservas y ver pedidos respectivamente, para que así se confirme
+que tanto la reserva como el pedido se han registrado correctamente. Además, el mensaje de confirmacion del pedido realizado
+ahora aclara mejor que el pedido ahora estará esperando a ser aceptado.
+  - Se mejora el aspecto visual de las páginas de ver pedidos tanto de los usuarios como de los empleados, para aprovechar
 mejor el espacio de la pantalla.
-  - En la pagina de ver pedidos de los usuarios, se muestra ahora mas informacion, siendo esta la cantidad pedida de cada
+  - En la página de ver pedidos de los usuarios, se muestra ahora más informacion, siendo esta la cantidad pedida de cada
 plato del pedido y el importe total del pedido.
-  - En la pagina de ver pedidos de los empleados ahora se muestra tambien el importe total junto al resto de informacion del pedido
-para que sea mas facilmente accesible y no sea necesario abrir el desplegable de platos para verlo.
+  - En la página de ver pedidos de los empleados ahora se muestra tambien el importe total junto al resto de información del pedido
+para que sea más fácilmente accesible y no sea necesario abrir el desplegable de platos para verlo.
 
 ### Nuevas funcionalidades realizadas
-**- Se ha implementado que el propietario pueda cambiar el logo del sitio** desde la vista de configuracion
+**- Se ha implementado que el propietario pueda cambiar el logo del sitio** desde la vista de configuración
 
-**- Se ha implementado que el propietario pueda cambiar el nombre del sitio** desde la vista de configuracion
+**- Se ha implementado que el propietario pueda cambiar el nombre del sitio** desde la vista de configuración
 
-**- Se ha añadido la funcionalidad de ver mesas disponibles al hacer una reserva.** Se ha implementado la mejora propuesta en el examen, mostrando para cada hora las mesas disponibles. Ademas se ha limpiado el codigo javascript que cargaba las horas, para hacerlo mas corto y legible, ademas de mas facil de modificar
+**- Se ha añadido la funcionalidad de ver mesas disponibles al hacer una reserva.** Se ha implementado la mejora propuesta en el examen, mostrando para cada hora las mesas disponibles. Además, se ha limpiado el código javascript que cargaba las horas, para hacerlo mas corto y legible, además de mas fácil de modificar
 
 **- Se ha añadido la funcionalidad de rankings de platos.** *nota(La primera version solo tenia una vista nueva que mostraba 
-los tres platos mas pedidos, la version final elimino eso y se trata de lo explicado a continuacion)
+los tres platos más pedidos, la versión final elimino eso y se trata de lo explicado a continuación)
 Se almacenan cuantas veces han sido pedidos los platos.
-En base a esa informacion, en la vista de carta, para cada categoria, se muestran los platos mas pedidos de 
-dicha categoria (Para indicar dicho ranking los platos top tienen un icono de medalla que indica su puesto).
-Esto se ha implementado asi para aportar mas usabilidad, dado que si un usuario quiere
-pedirse una ensalada, le interesa cuales de todas las ensaladas son las mas pedidas, y no que el plato mas pedido del
+En base a esa información, en la vista de carta, para cada categoría, se muestran los platos más pedidos de 
+dicha categoría (Para indicar dicho ranking los platos top tienen un icono de medalla que indica su puesto).
+Esto se ha implementado así para aportar más usabilidad, dado que si un usuario quiere
+pedirse una ensalada, le interesa cuáles de todas las ensaladas son las más pedidas, y no que el plato más pedido del
 restaurante es solomillo.
 Para el administrador, al cual si le puede interesar saber exactamente las veces que ha sido pedido cada plato,
-se añade un nuevo apartado en la vista de configuracion, que muestra todos los platos ordenados por las veces
-que han sido pedidos y la categoria a la que pertenecen. Ademas para aportar mayor usabilidad, si se clicka 
-el nombre del plato se accede directamente a su pagina con toda su informacion, por si el administrador quiere
-mas informacion de ese plato para poder saber porque es mas o menos pedido.
+se añade un nuevo apartado en la vista de configuración, que muestra todos los platos ordenados por las veces
+que han sido pedidos y la categoría a la que pertenecen. Además, para aportar mayor usabilidad, si se clicka 
+el nombre del plato se accede directamente a su página con toda su información, por si el administrador quiere
+mas información de ese plato para poder saber por qué es más o menos pedido.
 
 **- Se ha añadido la funcionalidad de pedidos express.** Este es un checkbox que se añade en el carrito al hacer un pedido,
 y que si se activa, dicho pedido se marca como express. En la pagina de pedidos estos pedidos se marcan con la palabra en rojo
-Express para que los empleados puedan darle mas prioridad. Por dicho servicio se cobra un extra de 1,99 que se añade al total del 
+Express para que los empleados puedan darle más prioridad.Aparecen en tiempo real mediante websockets cuando el cliente realiza un pedido express, al igual que pasaba con los pedidos normales. Por dicho servicio se cobra un extra de 1,99 que se añade al total del 
 pedido (y se puede ver, en "formato factura" en la vista de ver pedidos de los empleados, en el desplegable de platos de cada pedido).
-Ademas se añade un tooltip en el carrito junto a esta opcion, que explica al usuario en que consiste de forma resumida.
+Además, se añade un tooltip en el carrito junto a esta opción, que explica al usuario en que consiste de forma resumida.
 
 **- Se ha añadido la funcionalidad de recoger un pedido en tienda.** Se añade otro checkbox al carrito en hacer pedido, para poder marcar
-que el pedido es para recoger. Ademas esto implica que ese pedido tiene unos estado diferentes a los de los demas pedidos, añadiendo 
-el estado "Para recoger" que indica que ya puede ser recogido. Los estados diferentes de este tipo de pedidos se cargan automaticamente
+que el pedido es para recoger. Además, esto implica que ese pedido tiene unos estado diferentes a los de los demás pedidos, añadiendo 
+el estado "Para recoger" que indica que ya puede ser recogido. Los estados diferentes de este tipo de pedidos se cargan automáticamente
 en la vista de ver pedidos de los empleados, de forma que los empleados pueden tratarlos igual que al resto de pedidos.
-Ademas al igual que el otro checkbox, se añade un tooltip que explica dicha opcion.
+Además, al igual que el otro checkbox, se añade un tooltip que explica dicha opción.
 
-**- Se añade la funcionalidad de notificacion de cambios de estado.** Anteriormente cuando un usuario habia hecho un pedido y estaba
-en la pagina de ver pedidos, y el estado de alguno cambiaba, le llegaba un mensaje por websockets que cambiaba a tiempo real el estado
-de dicho pedido usando ademas una animacion para llamar mas la atencion. Con esta nueva mejora, ya no solo se avisa al usuario de que
-un pedido ha cambiado de estado en la pagina de ver pedidos sino en culquier pagina en la que este. Para ello se ha añadido un nuevo
-webSocket que esta escuchando en todas las paginas esperando a que cambie el estado de algun pedido. Cuando eso pasa, se recibe el mensaje
-y se activa un icono de notificacion junto a la palabra "Pedidos" de la navbar, indicando que hay informacion nueva. Ademas dicho icono
-no se oculta hasta que el usaurio acceda a la pagina de pedidos.
-Un detalle mas, es que si el usuario ya estaba en la pagina de pedidos, el icono de notificacion se activa para llamar mas la atencion
-del usuario, pero a diferencia de antes no se queda ya activa siempre, por tanto si cambias de pagina no seguira mostrandose, ya que se entiende que si el usuario venia de la pagina de pedidos, ya habia visto el cambio de estado.
+**- Se añade la funcionalidad de notificacion de cambios de estado.** Anteriormente, cuando un usuario había hecho un pedido y estaba
+en la página de ver pedidos, y el estado de alguno cambiaba, le llegaba un mensaje por websockets que cambiaba a tiempo real el estado
+de dicho pedido usando una animación para llamar más la atención. Con esta nueva mejora, ya no solo se avisa al usuario de que
+un pedido ha cambiado de estado en la página de ver pedidos, sino en culaquier página en la que esté. Para ello se ha añadido un nuevo
+webSocket que está escuchando en todas las páginas esperando a que cambie el estado de algún pedido. Cuando eso pasa, se recibe el mensaje
+y se activa un icono de notificación junto a la palabra "Pedidos" de la navbar, indicando que hay información nueva. Además, dicho icono
+no se oculta hasta que el usuario acceda a la página de pedidos.
+Un detalle más es que si el usuario ya estaba en la pagina de pedidos, el icono de notificación se activa para llamar más la atención
+del usuario pero, a diferencia de antes no se queda activa siempre, por tanto si cambias de página no seguirá mostrandose, ya que se entiende que si el usuario venía de la página de pedidos, ya había visto el cambio de estado.
 
-**- Se añade la funcionalidad de historico de pedidos.** Siguiendo los consejos recibidos en algunas correciones, sobre que si un pedido se marca como entregado deberia eliminarse de la lista de pedidos actuales, se ha implementado dicha mejora. Ahora cuando un pedido se marca como entregado, se elimina de la lista de pedidos actuales. Para poder seguir viendolo, se debe acceder a la pagina nueva de historico de pedidos accesible desde el boton "historico de pedidos" ubicado en la misma vista de ver pedidos de los empleados. En dicha pagina se muestran todos los pedidos empleados, y un boton para que los empleados pueda borrar aquellos que ya consideran que no es necesario seguir almacenando.
-Como detalle, como el cambio al estado entregado supone ahora mas consecuencias, como que el estado ya no podra ser modificado, y por tanto es un cambio importante, antes de realizar el cambio de estado, se muestra un mensaje de confirmacion para el empleado por si dicho boton fue pulsado por error.
+**- Se añade la funcionalidad de historico de pedidos.** Siguiendo los consejos recibidos en algunas correciones, sobre si un pedido se marca como entregado debería eliminarse de la lista de pedidos actuales, se ha implementado dicha mejora. Ahora cuando un pedido se marca como entregado, se elimina de la lista de pedidos actuales. Para poder seguir viéndolo, se debe acceder a la página nueva de histórico de pedidos accesible desde el botón "histórico de pedidos" ubicado en la misma vista de ver pedidos de los empleados. En dicha página, se muestran todos los pedidos de empleados y un botón para que los empleados puedan borrar aquellos que ya consideran que no es necesario seguir almacenando.
+Como detalle, como el cambio al estado entregado supone ahora más consecuencias, como que el estado ya no podrá ser modificado, y por tanto es un cambio importante, antes de realizar el cambio de estado, se muestra un mensaje de confirmación para el empleado por si dicho botón fue pulsado por error.
 
-**- Se implementa un nuevo aviso a los usuarios a la hora de borrar sus pedidos.** En esta nueva version como se ha mencionado se avisa a los usuarios esten en la pagina que esten si ha cambiado el estado de alguno de sus pedidos, pero si el pedido era eliminado no se les notifcaba de ninguna manera. Se cambia por tanto la funcionalidad de eliminar un pedido. Ahora en vez de salir un mensaje de confirmacion como pasaba antes, se muestra un modal que contiene un campo de texto. Dicho campo de texto se rellena de forma opcional, y serviria para indicar el motivo por el cual el pedido ha sido eliminado (por ejemplo, tiene una direccion incorrecta). Si se confirma, se envia la informacion al servidor, el cual avisa por websocket al usuario afectado, este en la pagina que este dicho usuario, y mostrandole un mensaje notificandole que su pedido ha sido eliminado. Si no se escribio nada en el campo de texto, se le indica al usuario que para mas informacion contacte con el restaurante. Si se escribio algo en el campo de texto, se le muestra tambien dicho mensaje.
+**- Se implementa un nuevo aviso a los usuarios a la hora de borrar sus pedidos.** En esta nueva versión como se ha mencionado se avisa a los usuarios estén en la página que estén si ha cambiado el estado de alguno de sus pedidos, pero si el pedido era eliminado no se les notifcaba de ninguna manera. Se cambia por tanto la funcionalidad de eliminar un pedido. Ahora en vez de salir un mensaje de confirmación como pasaba antes, se muestra un modal que contiene un campo de texto. Dicho campo de texto se rellena de forma opcional, y serviría para indicar el motivo por el cual el pedido ha sido eliminado (por ejemplo, tiene una dirección incorrecta). Si se confirma, se envia la información al servidor, el cual avisa por websocket al usuario afectado, esté en la pagina que esté dicho usuario, y mostrándole un mensaje notificándole que su pedido ha sido eliminado. Si no se escribió nada en el campo de texto, se le indica al usuario que para más informacion contacte con el restaurante. Si se escribió algo en el campo de texto, se le muestra también dicho mensaje.
 
 ### 1. Alberto
-- Funcionalidad de ver mesas disponibles al hacer un pedido. (todo el grupo la realizo en el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
+- Funcionalidad de ver mesas disponibles al hacer un pedido. (todo el grupo la realizó en el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
 La parte de mejora del codigo javascript que carga las hora, si es solo mia.
 - Funcionalidad de cambiar el logo del sitio (todo el grupo la realizo para practicar para el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
 - Funcionalidad de cambiar el nombre del sitio (todo el grupo la realizo para practicar para el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
@@ -140,7 +140,7 @@ Funcionalidad recoger pedido en tienda.
 
 ### 3. Cristina
 - Funcionalidad pedido express.
-- Correcciones en el readme.md
+- Correcciones de erratas y formato en el readme.md
 
 ### 4. Eros
 -Funcionalidad de ranking. Eros realizo una primera version, que como se ha explicado consistia en una nueva pagina que mostraba los tres platos mas pedidos.
