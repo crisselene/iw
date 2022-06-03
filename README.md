@@ -113,27 +113,27 @@ Como detalle, como el cambio al estado entregado supone ahora más consecuencias
 **- Se implementa un nuevo aviso a los usuarios a la hora de borrar sus pedidos.** En esta nueva versión como se ha mencionado se avisa a los usuarios estén en la página que estén si ha cambiado el estado de alguno de sus pedidos, pero si el pedido era eliminado no se les notifcaba de ninguna manera. Se cambia por tanto la funcionalidad de eliminar un pedido. Ahora en vez de salir un mensaje de confirmación como pasaba antes, se muestra un modal que contiene un campo de texto. Dicho campo de texto se rellena de forma opcional, y serviría para indicar el motivo por el cual el pedido ha sido eliminado (por ejemplo, tiene una dirección incorrecta). Si se confirma, se envia la información al servidor, el cual avisa por websocket al usuario afectado, esté en la pagina que esté dicho usuario, y mostrándole un mensaje notificándole que su pedido ha sido eliminado. Si no se escribió nada en el campo de texto, se le indica al usuario que para más informacion contacte con el restaurante. Si se escribió algo en el campo de texto, se le muestra también dicho mensaje.
 
 ### 1. Alberto
-- Funcionalidad de ver mesas disponibles al hacer un pedido. (todo el grupo la realizó en el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
-La parte de mejora del codigo javascript que carga las hora, si es solo mia.
-- Funcionalidad de cambiar el logo del sitio (todo el grupo la realizo para practicar para el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
-- Funcionalidad de cambiar el nombre del sitio (todo el grupo la realizo para practicar para el examen, pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
-- Funcionalidad completa de historico de pedidos
-- Funcionalidad completa de notificacion de cambios de estado de pedidos
+- Funcionalidad de ver mesas disponibles al hacer un pedido. (todo el grupo la realizó en el examen, pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
+La parte de mejora del código javascript que carga las hora, sí es solo mía.
+- Funcionalidad de cambiar el logo del sitio (todo el grupo la realizó para practicar para el examen, pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
+- Funcionalidad de cambiar el nombre del sitio (todo el grupo la realizó para practicar para el examen, pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
+- Funcionalidad completa de histórico de pedidos
+- Funcionalidad completa de notificación de cambios de estado de pedidos
 - Funcionalidad completa de aviso a los usuarios cuando se borra su pedido
-- Funcionalidad de ranking. Eros realizo una primera version, que como se ha explicado consistia en una nueva pagina que mostraba los tres platos mas pedidos. De dicha funcionalidad he reutilizado la parte que almacena los datos en el servidor, y la parte que los actualiza cuando haces un pedido. La realizacion de procesar dicha informacion y de mostrarla en la carta de forma optima, y mostrarla en la vista de configuracion del restaurante fue realizada por mi.
-- Añadidas confirmaciones al realizar correctamente una reserva o un pedido, y redirirgir a la pagina correspondiente.
-- Añadido que si se pulsa la imagen de un plato en la carta, se accede a al informacion de dicho plato.
-- Mejora de la vista para pedidos de usuarios (incluyendo aprovechar mas el espacio, y la nueva informacion sobre cantidad de platos y total del pedido)
-- Mejora de la vista de ver pedidos de empelados (para aprovechar mas el espacio)
-- Los dos tooltips de la pagina de hacer pedido del carrito para las dos nuevas opciones (incluido el css para colocarlos bien)
-- Mejora que muestra las horas disponibles directamente al cargar la pagina (todo el grupo la realizo en el examen,pero se ha utilizado mi implementacion, la cual he sido yo el encargado de integrarla con el resto del proyecto)
+- Funcionalidad de ranking. Eros realizo una primera versión, que como se ha explicado consistía en una nueva página que mostraba los tres platos más pedidos. De dicha funcionalidad he reutilizado la parte que almacena los datos en el servidor, y la parte que los actualiza cuando haces un pedido. La realización de procesar dicha informacion y de mostrarla en la carta de forma óptima, y mostrarla en la vista de configuración del restaurante fue realizada por mí.
+- Añadidas confirmaciones al realizar correctamente una reserva o un pedido, y redirirgir a la página correspondiente.
+- Añadido que si se pulsa la imagen de un plato en la carta, se accede a al información de dicho plato.
+- Mejora de la vista para pedidos de usuarios (incluyendo aprovechar más el espacio, y la nueva información sobre cantidad de platos y total del pedido)
+- Mejora de la vista de ver pedidos de empelados (para aprovechar más el espacio)
+- Los dos tooltips de la página de hacer pedido del carrito para las dos nuevas opciones (incluido el css para colocarlos bien)
+- Mejora que muestra las horas disponibles directamente al cargar la página (todo el grupo la realizó en el examen,pero se ha utilizado mi implementación, la cual he sido yo el encargado de integrarla con el resto del proyecto)
 - Arreglo de errores en el sistema de reservas:
-- Arreglado error que no permitia reservar todas las mesas del restaurante aunque ese numero de personas entrara
-- Arreglado error que guardaba mal en la base de datos el numero de mesas necesarias para una persona
-- Arreglado error que al hacer una reserva, cogia mal la hora de inicio si esta era igual a 10 provocando un error interno del servidor
-- Correcion de que el extra del pedido express no se sumaba al importe total del pedido. Ademas de la mejora de mostrar el total del pedido junto al resto de informacion del pedido
-- Corregido error que no borraba bien un pedido si este habia llegado por websockets en la vista de pedidos de los empleados
-- Arreglado error en el import.sql y actualizado el rol de admin a solo admin
+  - Arreglado error que no permitía reservar todas las mesas del restaurante aunque ese número de personas entrara
+  - Arreglado error que guardaba mal en la base de datos el número de mesas necesarias para una persona
+  - Arreglado error que al hacer una reserva, cogía mal la hora de inicio si esta era igual a 10 provocando un error interno del servidor
+  - Correción de que el extra del pedido express no se sumaba al importe total del pedido. Además, de la mejora de mostrar el total del pedido junto al resto de información del pedido
+  - Corregido error que no borraba bien un pedido si este había llegado por websockets en la vista de pedidos de los empleados
+  - Arreglado error en el import.sql y actualizado el rol de admin a solo admin
 
 ### 2. Andrés
 Funcionalidad recoger pedido en tienda.
@@ -143,7 +143,7 @@ Funcionalidad recoger pedido en tienda.
 - Correcciones de erratas y formato en el readme.md
 
 ### 4. Eros
--Funcionalidad de ranking. Eros realizo una primera version, que como se ha explicado consistia en una nueva pagina que mostraba los tres platos mas pedidos.
+-Funcionalidad de ranking. Eros realizó una primera versión, que como se ha explicado consistía en una nueva página que mostraba los tres platos más pedidos.
 
 ### 5. Samuel
 Nada
