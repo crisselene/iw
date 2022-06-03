@@ -3,6 +3,8 @@
 //problema con el pedidos, pero la proxima vez que se carge la pagina ya no saldran en la lista
 
 
+const modalBorrar = new bootstrap.Modal(document.querySelector('#modalDelPed'));
+
 document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll('.selectEstado').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
@@ -290,10 +292,10 @@ document.addEventListener("DOMContentLoaded", () => {
             cambioDiv.querySelector(".rechazar").addEventListener("click", k => {
                 console.log("Rechazando elemento id", id)
                 console.log("div rece" + cambioDiv)
-                let confirmAction = confirm("¿Quiere eliminar este pedido?");
+                 let confirmAction = true/*confirm("¿Quiere eliminar este pedido?"); */
                 if (confirmAction) {
-                    eliminar(k, params)
-                    cambioDiv.remove()
+                    eliminar(k, params, cambioDiv)
+                    /* cambioDiv.remove() */
                 }
             })
 
@@ -330,15 +332,15 @@ document.addEventListener("DOMContentLoaded", () => {
             aceptarPedido(id, id, div, enCurso, params)
         })
         //********************FIN BOTON ACEPTAR Y RECHAZAR******************/
-
+       
         //**********************BOTON RECHAZAR******************* */
         d.querySelector(".rechazar").addEventListener("click", e => {
             console.log("Rechazando elemento id", id)
             console.log("div "+ div)
-            let confirmAction = confirm("¿Quiere eliminar este pedido?");
+            let confirmAction = true/* confirm("¿Quiere eliminar este pedido?"); */
             if (confirmAction) {
-                eliminar(e, params)
-                div.remove()
+                eliminar(e, params, div)
+                /* div.remove() */
             }
 
         })
@@ -363,10 +365,10 @@ document.addEventListener("DOMContentLoaded", () => {
         //***************BOTON ELIMINAR************************* */
         c.querySelector(".rechazar").addEventListener("click", e => {
             console.log("Rechazando elemento id", id)
-            let confirmAction = confirm("¿Quiere eliminar este pedido?");
+            let confirmAction = true;/* confirm("¿Quiere eliminar este pedido?"); */
             if (confirmAction) {
-                eliminar(e, params)
-                div.remove()
+                eliminar(e, params, div)
+                /* div.remove() */
             }
 
         })
@@ -381,10 +383,39 @@ function modify(e) {
     console.log("MODIFYYYYYYY")
 }
 
-function eliminar(e, params) {
+
+        //**********************BOTON RECHAZAR******************* */
+document.querySelector("#botonFormDelPedido").addEventListener("click", confirmarEliminar)
+
+let divABorrar;
+let paramsBorrar;
+
+function eliminar(e, params, div) {
     e.preventDefault()
-    go(config.rootUrl + "/eliminarPed", 'POST', params)
+    modalBorrar.show();
+
+    divABorrar = div;
+    paramsBorrar = params;
+
+    /* go(config.rootUrl + "/eliminarPed", 'POST', params)
         .then(d => {
+            console.log("Eliminando pedido.......")
+        }) */
+}
+
+function confirmarEliminar()
+{
+    modalBorrar.hide();
+    let coment = document.querySelector("#motivo").value;
+    console.log(coment)
+
+    paramsBorrar["coment"] = coment
+    console.log("confirmado")
+    console.log(paramsBorrar)
+    go(config.rootUrl + "/eliminarPed", 'POST', paramsBorrar)
+        .then(d => {
+            document.querySelector("#motivo").value = "";
+            divABorrar.remove();
             console.log("Eliminando pedido.......")
         })
 }

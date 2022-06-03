@@ -340,6 +340,11 @@ public class SAGeneralImp{
         return correcto;
     }
 
+    public Pedido getPedido(EntityManager em, long id)
+    {
+        return em.find(Pedido.class,id);
+    }
+
  /*    public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
         boolean correcto = false;
         Pedido p = em.find(Pedido.class, id);

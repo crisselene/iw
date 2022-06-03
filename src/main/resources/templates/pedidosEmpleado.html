@@ -150,6 +150,31 @@
         </th:block>
     </div>
 
+    <!-- Modal 2 -->
+    <div class="modal fade" id="modalDelPed" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mydialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel2">Eliminar pedido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <form role="form" id="formDelPedido"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+                <label for="motivo">(Opcional) Introduce a continuacion el motivo por el cual se elimina el pedido</label>
+                <p>(Por ejemplo, direccion de envio incorrecta)</p>
+                <textarea id="motivo"></textarea>
+                <div class="modal-footer">
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id ="botonFormDelPedido" value="" class="btn btn-primary">Confirmar</button>
+                </div>
+            </form>
+            
+            
+        </div>
+        </div>
+    </div>
+
     <th:block th:replace="fragments/footer.html :: footer" />
     <script th:src="@{/js/pedidosEmpleado.js}" src="js/pedidosEmpleado.js"></script>
     <!-- <script th:src="@{/js/pedidosEmpleadoPrueba.js}" src="js/pedidosEmpleadoPrueba.js"></script>

@@ -16,7 +16,20 @@ const ws = {
     receive: (text) => {
         console.log(text);
 
-        if(text["idPedido"] && text["estadoCambiado"])
+        if(text["eliminado"])
+        {
+            if(text["coment"].length > 0)
+                alert("Tu pedido numero "+ text["idPedido"] + " ha sido eliminado. \nEl motivo es: " + text["coment"])
+            else
+                alert("Tu pedido numero "+ text["idPedido"] + " ha sido eliminado. \nPara mas informacion contacta con nosotros")
+
+            if(document.getElementById("pagPed") != null)//estamos en la pagina pedidos
+            {
+                let divABorrar =document.querySelector("div[data-idPed='"+text["idPedido"]+"']");
+                divABorrar.remove();
+            }
+        }
+        else if(text["idPedido"] && text["estadoCambiado"])
         {
             console.log("el pedido que ha cambiado es : " + text["idPedido"])
             let contenedorNotificacion = document.getElementById("contNot");

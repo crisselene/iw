@@ -26,12 +26,15 @@ if (ws.receive) {
         oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
         /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
        // console.log("mensaje webSocket llegado a pedidosUsuario con contenido " + m);
- 
+    if(!m["eliminado"])
+    {
         const estadopedido = document.querySelector('.State'+m["idPedido"]);
         let div = estadopedido.closest("div");
         console.log(div)
         div.innerHTML='';
         div.innerHTML='<p class="State'+m["idPedido"]+'" style="animation-duration: 3s; animation-name: slidein;" >'+m["estado"]+'</p>';
+    }
+        
 
     }
 }

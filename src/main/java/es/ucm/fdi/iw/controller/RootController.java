@@ -123,7 +123,28 @@ public class RootController {
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
+
+        Pedido p = saGeneral.getPedido(em, id);
+        String coment = o.get("coment").asText();
+
+        String notificar= "/ver/misPedidos" + p.getCliente().getId();
+            log.info("notificar a: " + notificar);
+
+            String jsonAEnviar = "{";
+            jsonAEnviar += "\"idPedido\": \"" + p.getId() + "\",";
+            jsonAEnviar += "\"estadoCambiado\": \"" + true + "\",";
+            jsonAEnviar += "\"coment\": \"" + coment + "\",";
+            jsonAEnviar += "\"eliminado\": \"" + true + "\"";
+            jsonAEnviar += "}";
+
+            messagingTemplate.convertAndSend(notificar, jsonAEnviar);
+
+
         boolean elm = saGeneral.eliminarPedido(em, id);
+
+        
+
+
         return "{\"eliminado\":" + elm + "}";
     }
 
@@ -928,7 +949,7 @@ public class RootController {
             }
 
         }
-        String jsonAEnviar = "{";
+        /* String jsonAEnviar = "{";
         jsonAEnviar += "\"top1\": \"" + top1.nombre + "\",";
         jsonAEnviar += "\"top2\": \"" + top2.nombre + "\",";
         jsonAEnviar += "\"top3\": \"" + top3.nombre + "\",";
@@ -938,7 +959,7 @@ public class RootController {
         jsonAEnviar += "}";
 
 
-        messagingTemplate.convertAndSend("/ver/ranking", jsonAEnviar);
+        messagingTemplate.convertAndSend("/ver/ranking", jsonAEnviar); */
         return "{\"isok\": \"todobien\"}";// devuelve un json como un string
     }
 
