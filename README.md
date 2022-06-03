@@ -2,6 +2,7 @@
 # Restaurant.es 
 
 Aplicación desarrollada para la asignatura de Ingeniería Web en la Universidad Complutense de Madrid.
+
 Se ha implementado una mejora del proyecto post-examen. Para leer más detalles leer el apartado de [Entrega Extra](https://github.com/crisselene/iw/edit/main/README.md#entrega-extra).
 
 :hamburger: :apple: :beers: :cookie: :spaghetti: :bread: :egg: :tomato: :cocktail: :coffee: :cake: :grapes: :ramen: :doughnut: :meat_on_bone: :pineapple: :fork_and_knife: :tea: :strawberry: :ice_cream: :stew: :cherries: :corn: :pizza: :poultry_leg: :pear: :dango: :curry: :honey_pot:
