@@ -37,27 +37,28 @@
                     </div>
                 </div>
                 <!-- Contenido -->
-                <div class="row" th:each="r:${listaReservas}">
-                    <div class="col-md-6 columna">
-                        <h4 th:text="${r.personas}">numPersonas</h4>
-                        <!-- <p>Sustituir numPersonas</p> -->
-                    </div>
-                    <div class="col columna">
-                        <p th:text="${r.formatedDate()}">Fecha</p> 
-
-                        <!-- <p>Sustituir id</p>  -->                  
-                    </div>
-                    <div class="col columna">
-                        <div class="borrarx">
-                            <button type="button" class="btn btn-outline-danger btn-sm cancel">>>❌<<</button>
+                <div th:each="r:${listaReservas}">
+                    <div class="row" th:attr="data-id=${r.id}">
+                        <div class="col-md-6 columna">
+                            <h4 th:text="${r.personas}">numPersonas</h4>
                         </div>
-                    </div>
+                        <div class="col-md-3 columna">
+                            <p th:text="${r.formatedDate()}">Fecha</p> 
+                     
+                        </div>
+                        <div class="col-md-3 columna">
+                            <div class="borrarx">
+                                <button type="button" class="btn btn-outline-danger btn-sm cancel" th:value="${r.id}">>>❌<<</button>
+                            </div>
+                        </div>
+                    </th:block>
                 </div>
             </div>
             
         </div>
     </div>
 
+    <script th:src="@{/js/verReservas.js}" src="js/verReservas.js"></script>
     <th:block th:replace="fragments/footer.html :: footer" />
 </body>
 

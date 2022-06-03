@@ -1,7 +1,4 @@
 "use strict"
-//Nota. (Posible idea) Cuando los pedidos pasen a entregados no se quitan de la lista para poder seguir viendolos por si hubiera algun
-//problema con el pedidos, pero la proxima vez que se carge la pagina ya no saldran en la lista
-
 
 const modalBorrar = new bootstrap.Modal(document.querySelector('#modalDelPed'));
 
@@ -17,8 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
             cambiarEstado(e.target.dataset.estidped, e.target.value, e.target) //IMPORTANTE (Los data deben ir en minusculas)    
         });
     });
-
-     
 
 });
 
@@ -98,10 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
         acc.addEventListener('click', loadAccordion) //Le añadimos el action listener a los botones compra
     })
 
-
-    // add your after-page-loaded JS code here; or even better, call 
-    // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
-    //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
 });
 
 
@@ -113,8 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ws.receive = (m) => {//reescribe lo que hace la funcion receive
 
             oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostrar por consola el objeto recibido
-            /*messageDiv.insertAdjacentHTML("beforeend", renderMsg(m)); */
-            //se accede como a un json , vamos, como se accede a un array xd
 
             console.log("el id es: " + m["idPedido"]);
             console.log("M: ", m);//mensaje que muestra el objeto
@@ -315,10 +304,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //TABLA DE NUEVOS PEDIDOS
     document.querySelectorAll(".divCambiar").forEach(d => {
-        //OJO como hemos puesto th:attr="data-id=${ped.id}" en el html
-        //de divCambiar entonces para coger el dato de ped.id, que es
-        //el id del pedido que queremos manejar, entonces hay que 
-        //poner dataset:
         const id = d.dataset.id;
         const div = d;
         const enCurso = document.querySelector(".pedEnCurso");
@@ -397,10 +382,6 @@ function eliminar(e, params, div) {
     divABorrar = div;
     paramsBorrar = params;
 
-    /* go(config.rootUrl + "/eliminarPed", 'POST', params)
-        .then(d => {
-            console.log("Eliminando pedido.......")
-        }) */
 }
 
 function confirmarEliminar()

@@ -91,12 +91,8 @@ public class RootController {
         long id = o.get("idPed").asLong();
         log.info("devuelve: ");
         log.info(id);
-        /* boolean encur = saGeneral.pedidoEnCurso(em, id);
-        return "{\"encurso\":" + encur + "}"; */
-
+        
         Pedido p = saGeneral.actualizarEstadoPedido(em, id, Estado.ACEPTADO);
-       // saGeneral.estadoPedido(em, id, Estado.ACEPTADO);
-
 
         String notificar= "/ver/misPedidos" + p.getCliente().getId();
         String jsonAEnviar = "{";
@@ -105,10 +101,8 @@ public class RootController {
         jsonAEnviar += "\"estado\": \"" + p.getEstadoAsString() + "\"";
         jsonAEnviar += "}";
 
-
         messagingTemplate.convertAndSend(notificar, jsonAEnviar);
 
-        
         return "{\"estado\":" + "\"ACEPTADO\"" + "}";
     }
 
@@ -139,11 +133,7 @@ public class RootController {
 
             messagingTemplate.convertAndSend(notificar, jsonAEnviar);
 
-
         boolean elm = saGeneral.eliminarPedido(em, id);
-
-        
-
 
         return "{\"eliminado\":" + elm + "}";
     }
@@ -194,12 +184,7 @@ public class RootController {
     @PostMapping("nuevoLogo")
     @Transactional
     @ResponseBody // no devuelve nombre de vista, sino objeto JSON
-    public String nuevoLogo(@RequestParam("imgLogo") MultipartFile photo
-    /*
-     * @PathVariable long id,
-     * HttpServletResponse response ,
-     */ /* HttpSession session , *//* Model model */) {
-       
+    public String nuevoLogo(@RequestParam("imgLogo") MultipartFile photo) {
        
         log.info("cambiando imagen");
 
@@ -209,12 +194,6 @@ public class RootController {
 
         File img = new File("src/main/resources/static/img", idP + ".png");
 
-        // log.info("dir pics:" + myimg);
-        /* File f = localData.getFile("user", "pic.jpg"); */
-        // File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
-        // File f2 = localData.getFile("/img/platos", "p13.jpg");
-        // log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
-
         if (photo.isEmpty()) {
             log.info("failed to upload photo: emtpy file?");
             return null;
@@ -224,16 +203,12 @@ public class RootController {
                 stream.write(bytes);
                 log.info("la ruta es: " + img.getAbsolutePath());
             } catch (Exception e) {
-                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                // log.warn("Error uploading " + id + " ", e);
                 return null;
             }
         }
 
-
         return "{\"isok\": \"todobien\"}";//devuelve un json como un string
     }
-
 
     @PostMapping("nuevoPlato2")
     @Transactional
@@ -242,33 +217,15 @@ public class RootController {
             @RequestParam("nombrePlato") String nombre,
             @RequestParam("categoriaPlato") String categoria,
             @RequestParam("precioPlato") Float precio,
-            @RequestParam("descripcionPlato") String desc
-    /*
-     * @PathVariable long id,
-     * HttpServletResponse response ,
-     */ /* HttpSession session , *//* Model model */) {
-       
-       
+            @RequestParam("descripcionPlato") String desc) {
+
         log.info("creando plato");
 
-        /*
-         * long idAsignada = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
-         */
         Long idP = saGeneral.crearPlato(em, nombre, desc, categoria, precio);
-
-        // localdata == /temp/iwdata
-        // String myimg = new
-        // File("src/main/resources/static/img/platos").getAbsolutePath();
 
         // se crea el fichero en ese directorio, y el nombre de las imagenes se
         // correspondera con su id
         File img = new File("src/main/resources/static/img/platos", idP + ".jpg");
-
-        // log.info("dir pics:" + myimg);
-        /* File f = localData.getFile("user", "pic.jpg"); */
-        // File f = localData.getFile("platos", "p" + p.getId() + ".jpg");
-        // File f2 = localData.getFile("/img/platos", "p13.jpg");
-        // log.info("dir base:" + f2.getAbsolutePath() + "o tambien: " );
 
         if (photo.isEmpty()) {
             log.info("failed to upload photo: emtpy file?");
@@ -279,17 +236,10 @@ public class RootController {
                 stream.write(bytes);
                 log.info("la ruta es: " + img.getAbsolutePath());
             } catch (Exception e) {
-                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                // log.warn("Error uploading " + id + " ", e);
                 return null;
             }
         }
 
-        /*
-         * saGeneral.crearPlato(em, nombre, desc, categoria, precio,
-         * f.getAbsolutePath());
-         */
-        // saGeneral.updatePlatoRutaImg(em, p, dirImg.getAbsolutePath());
         String dataToReturn = "{";
         dataToReturn += "\"idPlato\": \"" + idP + "\"";
         dataToReturn += "}";
@@ -299,9 +249,7 @@ public class RootController {
         log.info("categoria: " + categoria);
         log.info("precio: " + precio.toString());
         log.info("descripcion: " + desc);
-        // log.info("ruta imagen: " + f.getAbsolutePath());
 
-        // return "{\"isok\": \"todobien\"}";//devuelve un json como un string
         return dataToReturn;
     }
 
@@ -356,8 +304,6 @@ public class RootController {
                 stream.write(bytes);
                 log.info("la ruta es: " + img.getAbsolutePath());
             } catch (Exception e) {
-                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                // log.warn("Error uploading " + id + " ", e);
                 return null;
             }
         }
@@ -418,6 +364,14 @@ public class RootController {
        return dataToReturn;
     }
 
+    @PostMapping(path = "/borrarReserva", produces = "application/json")
+    @Transactional
+    @ResponseBody // no devuelve nombre de vista, sino objeto JSON
+    public String borrarReserva(@RequestBody JsonNode o) {
+
+        saGeneral.borrarReserva(em, o.get("id").asLong());
+        return "{\"isok\": \"true\"}";
+    }
 
     @GetMapping(path = "/reservarMesa/fecha", produces = "application/json")
     @ResponseBody
@@ -441,8 +395,6 @@ public class RootController {
             //Pedimos al sa todas las fechas que hay en ese dia
             List<Reserva> reservas = saGeneral.listarReservasFecha(em, date);
             reservas.sort((d1,d2) -> d1.getFecha().compareTo(d2.getFecha()));//Las ordenamos de menor a mayor
-    
-            
     
             //Creamos el treemap donde iran todas las fechas ordenado de menor a mayor
             Map<LocalDateTime, Integer> horas = new TreeMap<LocalDateTime, Integer>(
@@ -493,7 +445,6 @@ public class RootController {
             for(LocalDateTime h : horasABorrar){
                 horas.remove(h);
             }
-    
             
             //Las horas disponibles las pasamos a LocalTime para pasar solo la hora
             List<LocalTime> horasDisp = new ArrayList();
@@ -509,9 +460,6 @@ public class RootController {
                 aMandar.put(i.toLocalTime(), c.getMaxReservas() - horas.get(i));
             }
     
-            //Devolvemos la lista de horas con formato para el front
-            //return horasDisp.stream().collect(Collectors.toList());
-           // return horasDisp.stream().collect(Collectors.toList());
             return aMandar;
         }
         else return null; 
@@ -541,15 +489,6 @@ public class RootController {
 
         List<Categoria> listaCategorias = new ArrayList<Categoria>();
         listaCategorias = saGeneral.listarCategorias(em);
-
-        /*
-         * for(Categoria cat : listaCategorias)
-         * {
-         * log.info(cat.getNombre());
-         * for(Plato p : cat.getPlatos())
-         * log.info("-" + p.getNombre());
-         * }
-         */
 
         model.addAttribute("categorias", listaCategorias);
 
@@ -600,14 +539,6 @@ public class RootController {
         "\"rol\": \""+ rol + "\"}";//devuelve un json como un string
     }
 
-
-    /*
-     * @GetMapping("verReservas")
-     * public String verReservas(Model model) {
-     * return "verReservas";
-     * }
-     */
-
     @GetMapping("verReservas")
     public String verReservas(Model model, HttpSession session) {
         putComundDataInModel(model, session);
@@ -624,38 +555,11 @@ public class RootController {
         if (u.hasAnyRole(Role.ADMIN, Role.EMPLEADO)) {
             listaReservas = saGeneral.listarReservas(em);
 
-            // Reserva re = new Reserva(1, null, 7, true, u);
-            /* listaReservas.add(re); */
-            log.info("@@@@@@1");
-            // log.info(re.getPersonas());
-
-            /*
-             * for(Reserva r : listaReservas){
-             * log.info(r.getPersonas());
-             * }
-             */
             model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
         } else {
-            /*
-             * listaReservas = em.createNamedQuery("Reserva.reservasUsuario", Reserva.class)
-             * .setParameter("iduser", u.getId())
-             * .getResultList();
-             */
-            listaReservas = saGeneral.listarReservasUsuario(em, u);
 
-            /*
-             * listaReservas =
-             * em.createQuery("SELECT r FROM Reserva r WHERE r.cliente.id LIKE '1'").
-             * getResultList();
-             */
-            log.info("@@@@@@@4");
-            /*
-             * for(Reserva r: listaReservas)
-             * {
-             * log.info(r.getCliente().getId());
-             * }
-             */
+            listaReservas = saGeneral.listarReservasUsuario(em, u);
 
             model.addAttribute("listaReservas", listaReservas);
             return "verReservas";
@@ -700,14 +604,6 @@ public class RootController {
             log.info("usuario ya existe (rootController anadirUsuario)");
             return null;
         } else {
-            /* log.info("------------------------------");
-            log.info(o.get("nombreEmpleado").asText());
-            log.info(o.get("apellidoEmpleado").asText());
-            log.info(o.get("email").asText());
-            log.info(o.get("telefono").asText());
-            log.info(o.get("direccion").asText());
-            log.info(o.get("contrasena1Empleado").asText());
-            log.info(o.get("contrasena2Empleado").asText()); */
 
             String password = passwordEncoder.encode(o.get("contrasena1Empleado").asText());
 
@@ -822,9 +718,6 @@ public class RootController {
         long idUsuario = o.get("idUsuario").asLong();
         log.info("-----------" + idUsuario);
 
-        // long id = Long.parseLong(idUsuario);
-        // log.info(idUsuario);
-
         saGeneral.borrarUsuario(em, idUsuario);
 
         return "{\"isok\": \"true\"}";// devuelve un json como un string
@@ -838,9 +731,6 @@ public class RootController {
 
         long idCategoria = o.get("idCategoria").asLong();
         log.info("-----------" + idCategoria);
-
-        // long id = Long.parseLong(idUsuario);
-        // log.info(idUsuario);
 
         saGeneral.borrarCategoria(em, idCategoria);
 
@@ -949,17 +839,7 @@ public class RootController {
             }
 
         }
-        /* String jsonAEnviar = "{";
-        jsonAEnviar += "\"top1\": \"" + top1.nombre + "\",";
-        jsonAEnviar += "\"top2\": \"" + top2.nombre + "\",";
-        jsonAEnviar += "\"top3\": \"" + top3.nombre + "\",";
-        jsonAEnviar += "\"top1c\": \"" + top1.getPopularidad() + "\",";
-        jsonAEnviar += "\"top2c\": \"" + top2.getPopularidad() + "\",";
-        jsonAEnviar += "\"top3c\": \"" + top3.getPopularidad() + "\"";
-        jsonAEnviar += "}";
-
-
-        messagingTemplate.convertAndSend("/ver/ranking", jsonAEnviar); */
+        
         return "{\"isok\": \"todobien\"}";// devuelve un json como un string
     }
 
@@ -969,7 +849,7 @@ public class RootController {
     public String actualizarEstPed(@RequestParam("idPedido") long idPedido, @RequestParam("estado") String estado) {
 
         log.info("peticion de cambio del pedido "+ idPedido + "a estado "+ estado);
-        //String jsonAEnviar = "{\"isok\": \"llegado de un websocket\"}";
+
         Pedido p = saGeneral.actualizarEstadoPedido(em, idPedido, estado);
         
             log.info("pedido y estado: "+ p.getEstadoAsString());
@@ -982,9 +862,6 @@ public class RootController {
             jsonAEnviar += "\"estadoCambiado\": \"" + true + "\",";
             jsonAEnviar += "\"estado\": \"" + estado + "\"";
             jsonAEnviar += "}";
-
-            
-
 
             messagingTemplate.convertAndSend(notificar, jsonAEnviar);
 
@@ -1022,8 +899,6 @@ public class RootController {
             return "pedidosEmpleado";
         } else {
 
-            /* model.addAttribute("idUs", u.getId()); */
-
             List<Pedido> listaPedidos = new ArrayList<Pedido>();
 
             listaPedidos = saGeneral.listarPedidosUsuario(em, u);
@@ -1036,7 +911,6 @@ public class RootController {
                     log.info("-" + p.getPlato().getNombre());
             }
 
-            // model.addAttribute("listaPedidos", pedidos);
             model.addAttribute("listaPedidos", listaPedidos);
 
             return "pedidosUsuario";
@@ -1079,8 +953,6 @@ public class RootController {
                 stream.write(bytes);
                 log.info("la ruta es: " + img.getAbsolutePath());
             } catch (Exception e) {
-                // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                // log.warn("Error uploading " + id + " ", e);
                 return null;
             }
         }
@@ -1089,8 +961,6 @@ public class RootController {
         dataToReturn += "\"isok\": \"" + "todoOk" + "\"";
         dataToReturn += "}";
 
-
-        // return "{\"isok\": \"todobien\"}";//devuelve un json como un string
         return dataToReturn;
     }
 
@@ -1112,22 +982,18 @@ public class RootController {
                     log.info("-" + p.getPlato().getNombre());
             }
 
-            // model.addAttribute("listaPedidos", pedidos);
             model.addAttribute("listaPedidos", listaPedidos);
 
             return "historicoPedidos";
 
     }
 
-
-
     private void putComundDataInModel(Model model, HttpSession session)
     {
         User u = (User) session.getAttribute("u");
 
         ConfiguracionRestaurante conf = saGeneral.getConfiguracion(em);
-       /*  log.info("nombreSitio: "+ conf.getNombreSitio());
- */
+    
         model.addAttribute("nombreSitio", conf.getNombreSitio());
         if(u != null)
         {
@@ -1136,56 +1002,6 @@ public class RootController {
         }
 
     }
-
-
-
-    /*  @PostMapping("/web")
-    @ResponseBody
-    @Transactional
-    public String postMsg(@RequestParam("dato") String dato) {
-
-        String jsonAEnviar = "{\"isok\": \"llegado de un websocket\"}"; */
-        /*
-         * String text = o.get("message").asText();
-         * User u = entityManager.find(User.class, id);
-         * User sender = entityManager.find(
-         * User.class, ((User)session.getAttribute("u")).getId());
-         * model.addAttribute("user", u);
-         * 
-         * // construye mensaje, lo guarda en BD
-         * Message m = new Message();
-         * m.setRecipient(u);
-         * m.setSender(sender);
-         * m.setDateSent(LocalDateTime.now());
-         * m.setText(text);
-         * entityManager.persist(m);
-         * entityManager.flush(); // to get Id before commit
-         * 
-         * // construye json
-         * ObjectMapper mapper = new ObjectMapper();
-         */
-        /*
-         * // construye json: método manual
-         * ObjectNode rootNode = mapper.createObjectNode();
-         * rootNode.put("from", sender.getUsername());
-         * rootNode.put("to", u.getUsername());
-         * rootNode.put("text", text);
-         * rootNode.put("id", m.getId());
-         * String json = mapper.writeValueAsString(rootNode);
-         */
-        // persiste objeto a json usando Jackson
-      
-        /*
-         * String json = mapper.writeValueAsString(m.toTransfer());
-         * 
-         * log.info("Sending a message to {} with contents '{}'", id, json);
-         */
-  /*       log.info("en funcion de websocket");
-        log.info("datos llegados: " + dato);
-        messagingTemplate.convertAndSend("/paginaSuscrita", jsonAEnviar);
-        return "{\"result\": \"conseguido\"}";
-    } */
-
 
 
 }

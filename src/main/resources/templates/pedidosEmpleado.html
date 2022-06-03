@@ -34,9 +34,7 @@
                             <!-- El valor sirve para pasarlo al javaScript (aceptarPed) para saber qué id tiene el pedido que quiero
                                 poner en curso y el name tiene que ser el mismo de la columna de la base de datos para el campo que quiero
                                 cambiar. En este caso quiero cambiar que el pedido esté en curso= true-->
-                            <!-- <form> -->
                                 <!--PONER TH:VALUE Y TODO CON TH: QUE SI NO NO LO LEE!!!-->
-                            <!--  <select class="oculto selectEstado" name="estado" th:attr="data-estPedId=${ped.id}"> -->
                                 <div th:if="${ped.isTakeAway} == true" class="divEstados">
                                         <th:block th:each="est,iter: ${listaEstadosTakeAway}">
                                             <button  th:if="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado actual oculto" th:value="${est}" th:text="${est}"> </button>
@@ -49,13 +47,10 @@
                                         <button th:unless="${iter.index} == 0" th:data-estidped="${ped.id}" class="botonEstado noActual oculto" th:value="${est}" th:text="${est}"> </button>                          
                                         </th:block>
                                     </div>
-                                    
-                                <!--   </select> -->
 
                                 <button type="button" class="aceptar verde" th:value="${ped.id}">Aceptar</button>
                                 <button type="button" class="rechazar rojo">Rechazar</button>
-                        <!--  </form> -->
-                
+
                         <button class="accordion">Listado de platos <p> 🔽</p></button>
                             <div class="panel">
                                 <p> </p>
@@ -83,9 +78,6 @@
                     </div>
                     
                 </div>
-                
-
-
 
                 <div class="row pedEnCurso">
                     <th:block th:if=" ${ped.isEnCurso}==true and ${ped.isActivo}==TRUE" th:each="ped,i: ${listaPedidos}">
@@ -110,11 +102,7 @@
                                     <button th:unless="${est} == ${ped.getEstadoAsString()}" th:data-estidped="${ped.id}" class="botonEstado noActual" th:value="${est}" th:text="${est}"> </button>                          
                                     </th:block>
                                 </div>
-                                <!-- </select> -->
-                                <!-- <button class="modify verde" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#modalModPed">Modificar</button> -->
                                 <button class="rechazar rojo" type="button">Eliminar</button>
-
                             
                             <button class="accordion">Listado de platos <p> 🔽</p></button>
                             <div class="panel">
@@ -159,7 +147,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
-            <form role="form" id="formDelPedido"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+            <form role="form" id="formDelPedido">
                 <label for="motivo">(Opcional) Introduce a continuacion el motivo por el cual se elimina el pedido</label>
                 <p>(Por ejemplo, direccion de envio incorrecta)</p>
                 <textarea id="motivo"></textarea>

@@ -8,34 +8,6 @@ const modalDeletePlato = new bootstrap.Modal(document.querySelector('#modalDelet
 "use strict"
 
 
-
- /*//ejemplo uso websockets (recibir mensajes)
-  document.addEventListener("DOMContentLoaded", () => {
-    if (config.socketUrl) {
-        let subs = ["/paginaSuscrita"];
-        ws.initialize(config.socketUrl, subs);
-        console.log("suscribiendose desde mi nueva funcion");
-     
-    } else {
-        console.log("Not opening websocket: missing config", config)
-    }
-
-    // add your after-page-loaded JS code here; or even better, call 
-    // 	 document.addEventListener("DOMContentLoaded", () => {  your-code-here });
-    //   (assuming you do not care about order-of-execution, all such handlers will be called correctly)
-}); 
-
-// recibiendo los mensajes de webSockets
-if (ws.receive) {
-    const oldFn = ws.receive; // guarda referencia a manejador anterior
-    ws.receive = (m) => {//reescribe lo que hace la funcion receive
-        oldFn(m); // llama al manejador anterior En principio esto lo unico que hace es mostar por consola el objeto recibido
-       //messageDiv.insertAdjacentHTML("beforeend", renderMsg(m));
-        console.log("mensaje webSocket llegado");
-    }
-} */
-
-
 //-----------------------------------------------------------------------------------
 //importante: for each solo funciona con querySelectorAll y no getElements
 //este no funcionaria:  document.getElementsByClassName("botonDeletePlato").forEach(element => console.log(element));
@@ -74,23 +46,10 @@ function deletePlato()
        
 
         }).catch(() => console.log("fallo"));
-
-
 }
 
 const element = document.getElementById("botonForm");
 element.addEventListener("click", nuevoPlato2);
-
-
-
-//para pruebas
-/* document.querySelector("#f_avatar").onchange = e => {
-    let img = document.querySelector("#avatar");
-    let fileInput = document.querySelector("#f_avatar");
-    console.log(img, fileInput);
-    readImageFileData(fileInput.files[0], img);
-}; */
-//console.log(document.querySelector("#fPlato"));
 
 //nuevo listener al selector de ficheros del formulario de nuevo plato, que muestra la imagen seleccionada por el usuario
 document.querySelector("#fPlato").onchange = e => {
@@ -135,9 +94,7 @@ function nuevoPlato2() {
         document.getElementById("myForm").reset();//vaciamos los campos del formulario
         document.querySelector("#imgNuePlato").src=""; //vaciamos tambien el input de la imagen
 
-  // document.getElementById("Entrantes").append(simple);
         let idPlato = d["idPlato"]; //recogemos la respuesta con el id generado para el plato
-
 
         console.log("idplato: "+idPlato);
         //cuerpo html de un plato, al cual le metemos los datos introducidos por el usuario
@@ -159,60 +116,38 @@ function nuevoPlato2() {
 
 
 function nuevoPlato() { 
+    const myForm = document.getElementById("myForm");
+    if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
+    {
+        //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
+        myForm.reportValidity();
+    }
+    else{//condiciones de los campos del formulario validas
+        //preparamos el objeto a enviar
+        let params = {"nombrePlato" : document.getElementById("campoNombrePlato").value,
+        "precioPlato" : document.getElementById("campoPrecioPlato").value,
+        "categoriaPlato" : document.getElementById("campoCategoriaPlato").value,
+        "descripcionPlato" : document.getElementById("campoDescripcionPlato").value};
+
+        /*          Recorrer array clave valor
+        Object.keys(params).forEach(key => {console.log(key + ": " + params[key])};
+        }); */
+        
+        go(config.rootUrl + "/nuevoPlato", 'POST', params)
+        .then(d => {console.log("todo ok")
+        console.log("mensaje recibido: ", d);//json recibido
+        console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+        /* document.getElementById("exampleModal").; */
+        })
+        .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
 
 
-               const myForm = document.getElementById("myForm");
-               if(!myForm.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
-               {
-                   //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
-                   myForm.reportValidity();
-               }
-               else{//condiciones de los campos del formulario validas
-                   //preparamos el objeto a enviar
-                   let params = {"nombrePlato" : document.getElementById("campoNombrePlato").value,
-               "precioPlato" : document.getElementById("campoPrecioPlato").value,
-               "categoriaPlato" : document.getElementById("campoCategoriaPlato").value,
-               "descripcionPlato" : document.getElementById("campoDescripcionPlato").value};
+        console.log(document.getElementById("campoNombrePlato").value);
+        console.log(document.getElementById("campoPrecioPlato").value);
+        console.log(document.getElementById("campoDescripcionPlato").value);
+        console.log(document.getElementById("campoCategoriaPlato").value);
 
-/*          Recorrer array clave valor
-            Object.keys(params).forEach(key => {console.log(key + ": " + params[key])};
-               }); */
-
-
-
-               go(config.rootUrl + "/nuevoPlato", 'POST', params)
-               .then(d => {console.log("todo ok")
-               console.log("mensaje recibido: ", d);//json recibido
-               console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
-               /* document.getElementById("exampleModal").; */
-               })
-               .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
-
-            /*  ej de como seria con un get
-            go(config.rootUrl + "/nuevoPlato?miParam=12", 'GET')
-            .then(d => {console.log("todo ok")}
-               console.log("mensaje recibido: ", d);//json recibido
-               console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
-               })
-               .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null) */
-
-
-        /* Otra forma de pasar los datos, creando el "json" en el parametro datos
-
-            go(config.rootUrl + "/demoajax", 'POST', {nombrePlato}: document.getElementById("campoNombrePlato").value,
-               precioPlato: document.getElementById("campoPrecioPlato").value,
-               categoriaPlato: document.getElementById("campoCategoriaPlato").value,
-               descripcionPlato: document.getElementById("campoDescripcionPlato").value} )*/
-               console.log(document.getElementById("campoNombrePlato").value);
-               console.log(document.getElementById("campoPrecioPlato").value);
-               console.log(document.getElementById("campoDescripcionPlato").value);
-               console.log(document.getElementById("campoCategoriaPlato").value);
-
-        }
-
-
-
-
+    }
 
 }
 

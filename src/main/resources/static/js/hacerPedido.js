@@ -29,9 +29,7 @@ expressCheck.addEventListener('change', e => {
     }
 });
 
-
 Clickbutton.forEach(btn => { //Por cada boton encontrado de tipo compra
-   // btn.addEventListener('click', () => console.log('button')) //  Para que cada boton diga algo al pulsarlo por consola :) 
     btn.addEventListener('click', addToCarritoItem) //Le añadimos el action listener a los botones compra
 })
 

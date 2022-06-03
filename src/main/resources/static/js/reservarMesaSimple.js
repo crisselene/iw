@@ -16,7 +16,6 @@ window.onload = function () {
     fechaReserva.dispatchEvent(event);
 }
 
-
 function elegirHora(e){
     //Primero tenmos que buscar el radio button que queremos
     let opciones = document.querySelectorAll('input[type="radio"]');
@@ -31,18 +30,38 @@ function elegirHora(e){
             data.append('fecha', fecha)
             data.append('personas', personas.value)
 
-            //Hacemos el go, con el metodo post, y le pasamos la url, y el data, importante tambine pasar el token {} vacio
-            go("/realizarReserva", 'POST', data , {})
-            .then(d => {console.log("todo ok")
-                        console.log("mensaje recibido: ", d);//json recibido
-                        console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
-                        reloadHoras([])//Recargamos las horas que se ven en pantalla
-                        alert("Reserva realizada")
+            var inputComensales = document.getElementById("comensales")
+            var formComensales = document.getElementById("formComensales")
 
-                        window.location.href = '/verReservas'
+            inputComensales.setCustomValidity("")
 
-            })
-            .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
+            var nComensales = parseInt(document.getElementById("comensales").value)
+            var max = parseInt(document.getElementById("comensales").max)
+            if(nComensales > max) {
+                inputComensales.setCustomValidity("No se pueden más de 15 comensales por reserva")
+            }
+
+            
+            if(!formComensales.checkValidity())//comprueba si se cumplen las condiciones html (required, longitud maxima, formato, etc)
+            {
+                //si alguna condicion no se cumplia, llamamos a la funcion que muestra automaticamente un mensaje donde estuviera el primer error
+                formComensales.reportValidity();
+            }
+            else{
+                //Hacemos el go, con el metodo post, y le pasamos la url, y el data, importante tambine pasar el token {} vacio
+                go("/realizarReserva", 'POST', data , {})
+                .then(d => {console.log("todo ok")
+                            console.log("mensaje recibido: ", d);//json recibido
+                            console.log("valor isok: ", d["isok"]);//accede al valor del json con la clave isok
+                            reloadHoras([])//Recargamos las horas que se ven en pantalla
+                            alert("Reserva realizada")
+
+                            window.location.href = '/verReservas'
+
+                })
+                .catch(() => console.log("fallo"));//si el valor devuelto no es valido (por ejemplo null)
+            }
+            
         }
 
     })
@@ -55,40 +74,30 @@ function cargarHoras(e) {
     let date = ""
     date = date + fechaReserva.value + "_" + personas.value //Aqui le damos el formato que le pasaremos a la URL 
     let numFechas = 0
-    let fechas = [] //Creamos el array vacio de fechas para luego mostrar cada hora
-
-    
+    let fechas = [] //Creamos el array vacio de fechas para luego mostrar cada hora 
 
     console.log("Entro")
 
     //Enviamos la peticion al back, al ser un metodo get es diferente al post
     go(config.rootUrl + "/reservarMesa/fecha?inf=" + date, 'GET')
-        .then(d => {
-           /*  d.forEach(f => {
-                //El slice lo que hace es dejar unicamente la hora quitando los segundos y el dia
-                fechas.push(f.slice(0, 5))
-            });
-            reloadHoras(fechas)//Recargamos las horas que se ven en pantalla */
-            console.log(d);
-            console.log("ahora el foreach")
-           /*  console.log(Object.entries(d)) */
-            /* d.map(key => {
-                console.log(key)
-            }); */
-            for (const [key, value] of Object.entries(d)) {
-                console.log(key, value);
-              }
-              reloadHoras(d)
-        })
-        .catch(() => {
-            console.log("Fecha fallo")
-            //si no habia mesas disponibles y se devolvio null,
-            //limpiamos las horas disponibles para que no salga ninguna
-            var array1 = {}
-            reloadHoras(array1)
+    .then(d => {
+        console.log(d);
+        console.log("ahora el foreach")
+        
+        for (const [key, value] of Object.entries(d)) {
+            console.log(key, value);
+            }
+            reloadHoras(d)
+    })
+    .catch(() => {
+        console.log("Fecha fallo")
+        //si no habia mesas disponibles y se devolvio null,
+        //limpiamos las horas disponibles para que no salga ninguna
+        var array1 = {}
+        reloadHoras(array1)
 
-        }
-        )
+    }
+    )
 
 }
 
@@ -118,61 +127,4 @@ function reloadHoras(horas) {
       }
       padre.innerHTML = contenido;
 
-   /*  for (let i = 0; i < vueltas +1; i++) {//El bucle solo da las vueltas necesarias para colocar las fechas de 3 en 3
-
-        let contenido = ""
-        
-        //Aqui, si estamos en la ultima vuelta puede pasar que el modulo sea 1 o 2, lo que significa que no son 3 fechas exactas
-        //por ese motivo lo que hago es crear los div para cada una de las posibilidades
-        if (i === vueltas) {
-            console.log("entro")
-            if (modulo === 1) {
-                contenido = `<div class="p-2 d-flex justify-content-sm-around">
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora${pos}" autocomplete="off" value="${horas[pos]}">
-                    <label class="btn btn-outline-success" for="hora${pos}">${horas[pos]}</label>
-                </div>
-            </div>`
-            }
-            else if (modulo === 2) {
-                contenido = `<div class="p-2 d-flex justify-content-around">
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora${pos}" autocomplete="off" value="${horas[pos]}">
-                    <label class="btn btn-outline-success" for="hora${pos}">${horas[pos]}</label>
-                </div>
-                <div class="p-2">
-                    <input type="radio" class="btn-check" name="horas" id="hora${pos + 1}" autocomplete="off" value="${horas[pos + 1]}">
-                    <label class="btn btn-outline-success" for="hora${pos + 1}">${horas[pos + 1]}</label>
-                </div>                
-            </div>`
-            }
-        }
-        else {
-            contenido = `<div class="p-2 d-flex justify-content-around">
-            <div class="p-2">
-                <input type="radio" class="btn-check" name="horas" id="hora${pos}" autocomplete="off" value="${horas[pos]}">
-                <label class="btn btn-outline-success" for="hora${pos}">${horas[pos]}</label>
-            </div>
-            <div class="p-2">
-                <input type="radio" class="btn-check" name="horas" id="hora${pos + 1}" autocomplete="off" value="${horas[pos + 1]}">
-                <label class="btn btn-outline-success" for="hora${pos + 1}">${horas[pos + 1]}</label>
-            </div>
-            <div class="p-2">
-                <input type="radio" class="btn-check" name="horas" id="hora${pos + 2}" autocomplete="off" value="${horas[pos + 2]}">
-                <label class="btn btn-outline-success" for="hora${pos + 2}">${horas[pos + 2]}</label>
-            </div>
-        </div>`
-        }
-
-
-        //Ahora simplemente anadimos el div al documento
-        const tr = document.createElement('div')
-
-        tr.innerHTML = contenido
-
-        padre.append(tr)
-        console.log(padre)
-        pos = pos + 3 //Sumamos las 3 posiciones que colocamos en cada iteracion
-
-    } */
 }

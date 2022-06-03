@@ -50,7 +50,6 @@ function nuevoEmpleado() {
     console.log("--- en validate user ---");
     const myForm = document.getElementById("formAnadirEmpleado");
 
-    /* let uName = document.getElementById("username") */
     let username = document.getElementById("username");
     username.setCustomValidity("");
 
@@ -68,8 +67,6 @@ function nuevoEmpleado() {
         myForm.reportValidity();
     }
     else{
-
-        //let username = document.getElementById("username");
 
         let nombreEmpleado = document.getElementById("nombreEmpleado");
         let apellidoEmpleado = document.getElementById("apellidoEmpleado");
@@ -153,10 +150,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
 
     document.querySelectorAll(".emprow").forEach(d => {
-        //OJO como hemos puesto th:attr="data-id=${ped.id}" en el html
-        //de divCambiar entonces para coger el dato de ped.id, que es
-        //el id del pedido que queremos manejar, entonces hay que 
-        //poner dataset:
         const id = d.dataset.id; 
         var div = d;
         //********************BOTON ELIMINAR************************
@@ -203,12 +196,9 @@ function ajaxBorrarUsuario(div, id){
         console.log("eliminando elemento id", id);
         go(config.rootUrl + "/borrarUsuario", 'POST', {"idUsuario" : id})
         .then(d => {console.log("todo ok en ajax borrar usuario") // va ok si el username no existe
-                    /* username.setCustomValidity(""); */
                     div.innerHTML = "";
         })
         .catch(() => {console.log("Error en ajax borrar usuario");//si el username ya existia
-                    /* username.setCustomValidity("Error al borrar usuario");
-                    username.reportValidity(); */
         }) 
     });
 }
@@ -218,12 +208,9 @@ function ajaxBorrarCategoria(div, id) {
         console.log("Borrando elemento: " + id);
         go(config.rootUrl + "/borrarCategoria", 'POST', {"idCategoria" : id})
         .then(d => {console.log("todo ok en ajax borrar categoria") // va ok si el username no existe
-                    /* categoria.setCustomValidity(""); */
                     div.innerHTML = "";
         })
         .catch(() => {console.log("Error en ajax borrar categoria");//si el username ya existia
-                    /* username.setCustomValidity("Error al borrar categoria");
-                    username.reportValidity(); */
         }) 
     });
 }
@@ -308,13 +295,10 @@ function actualizarParams() {
 
         go(config.rootUrl + "/actualizarParametrosRestaurante", 'POST', params)
         .then(d => {console.log("todo ok") // va ok si el username no existe
-                    // categoria.setCustomValidity("");
                     document.getElementById("nombreSitioNavbar").innerHTML = nombreSitio.value;
                     
         })
         .catch(() => {console.log("Error en catch actualizar params");//si el username ya existia
-                    // categoria.setCustomValidity("La categoria ya existe, escoja otro nombre por favor");
-                    // categoria.reportValidity();
         })
     }
     
@@ -344,8 +328,7 @@ function nuevoLogo() {
     }
     
     const navBarLogo = document.getElementById("logoImg"); //LOGO QUE TENEMOS
-    //cambiar la imagen de logo por la imagen subida
-   // navBarLogo.src=img;
+
    let formData = new FormData();
    let img = document.querySelector("#imgNueLogo");//EL QUE QUEREMOS
    formData = appendImageToFomData(formData, img, "imgLogo");

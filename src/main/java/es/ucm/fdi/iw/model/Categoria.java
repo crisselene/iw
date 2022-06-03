@@ -44,24 +44,4 @@ public class Categoria {
         this.activo = activo;
     }
 
-
-    /* public void debugSetNombre(String n)
-    {
-        nombre = n;
-    }
-    public String debugGetNombre()
-    {
-       return nombre;
-    }
-
-    public List<Plato> debugGetListaPlatos()
-    {
- 
-       return platos;
-    }
-
-    public void debugSetListaPlatos(List<Plato> lp)
-    {
-        platos = lp;
-    } */
 }

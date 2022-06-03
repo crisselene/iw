@@ -49,14 +49,6 @@
             </div> 
         <div class="reset"></div>
 
-       <!--  <div>
-            <h2>Ingredientes</h2>
-            <ul>
-                <li>Albahaca</li>
-                <li>Aceite de oliva</li>
-                <li>Spaguettis</li>
-            </ul>
-        </div> -->
         <div>
           <div class="row">
             <h2 class="col-md-9">Comentarios</h2>
@@ -79,12 +71,9 @@
                     
                     <h3 class="nombreUs" th:text="${val.getCliente().getUsername()} + ' dice:'"></h3>
                     <div class="ContenedorEstrellas">
-                      <p class="star" th:each="i : ${#numbers.sequence(1, val.rate, 1)}">⭐</p> <!--th:text="${i}"-->
+                      <p class="star" th:each="i : ${#numbers.sequence(1, val.rate, 1)}">⭐</p> 
                     </div>
-                     <!--  <img src="img/default-pic.jpg"  class="usuario" > -->
-                     <!--  <aside>comentario</aside> -->
-                      <p th:text="${val.descripcion}"></p><!-- th:value="@{/img/platos/{id}.jpg(id=${plato.id})}" -->
-                      <!-- <img src="img/valoracion.png"  class="valorar" > -->
+                      <p th:text="${val.descripcion}"></p>
                   </div>
                 </li>
 
@@ -104,7 +93,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form role="form" id="myForm"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+          <form role="form" id="myForm"> 
             <label for="campoNombrePlato" class="form-label">Nombre del plato</label>
             <input type="text" class="form-control" name="nombrePlato" id="campoNombrePlato" th:value="${plato.nombre}" required> 
 
@@ -116,11 +105,8 @@
                 <th:block th:each="cat,iter: ${categorias}">
                    <option th:if="${cat.nombre} == ${plato.categoria.nombre}" selected  th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
                    <option th:unless="${cat.nombre} == ${plato.categoria.nombre}" th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
-                   <!-- <option th:unless="${cat.nombre} == ${plato.categoria.nombre}" th:text="${cat}">opcion</option>  -->
-                   <!--  <option th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option> -->
                 </th:block>
               </select>
-
 
             <label for="campoDescripcionPlato" class="form-label">Descripcion del plato</label>
             <textarea class="form-control" id="campoDescripcionPlato" name="descripcionPlato" th:text="${plato.descripcion}" rows="4" cols="60" required></textarea>
@@ -145,13 +131,11 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form role="form" id="formImg"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
+              <form role="form" id="formImg"> 
                 
                 <label for="fImg" class="form-label">Imagen del plato</label>
-                <!-- <img id="imgNuePlato" th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase"> -->
                 <img id="imgNuePlato" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase">
                 <input type="file" id="fImg" accept="image/jpeg,image/png" th:value="@{/img/platos/{id}.jpg(id=${plato.id})}" required>
-                <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                   <button type="button" id ="botonFormImg" th:value="${plato.id}" class="btn btn-primary">Confirmar</button>
@@ -172,8 +156,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form role="form" id="formCom"> <!-- onsubmit="false;"   truco para validacion de requiered no necesario ya -->
-                
+              <form role="form" id="formCom"> 
                 <label for="campoCategoriaPlato" class="form-label">Puntuacion</label>
                 <select class="form-select" name="rateCom" id="campoRateCom">
                     
@@ -201,18 +184,6 @@
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
-  <!--   <script>
-        // envio de mensajes con AJAX
-        let b = document.getElementById("sendmsg");
-        b.onclick = (e) => {
-            e.preventDefault();
-            go(b.parentNode.action, 'POST', {
-                    message: document.getElementById("message").value
-                })
-                .then(d => console.log("happy", d))
-                .catch(e => console.log("sad", e))
-        }
-    </script> -->
 
 <script th:src="@{/js/verPlato.js}" src="js/carta.js"></script>
 </body>

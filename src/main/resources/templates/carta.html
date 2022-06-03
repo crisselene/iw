@@ -9,12 +9,7 @@
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
-   <!--   <style type="text/css">
-      .miClase{ 
-        width: 20em; /* You can set the dimensions to whatever you want */
-    height: 20em;
-    object-fit: cover /* hace que las imagenes no se deformen, sino que se recortan (como si se vieran a traves de una ventana) */}
-     </style> -->
+
     <main class="flex-shrink-0">
         
         <th:block th:if="0==1">
@@ -42,13 +37,6 @@
                 </th:block>
             </div>
           </nav>
-
-          <!-- <form th:action="@{/subirImagen}" method="POST">
-            <input type="file" name ="img" accept="image/jpeg,image/png">
-            <input type="file" id="f_avatar" accept="image/jpeg,image/png">
-            <img id="avatar" alt="careto a subir">
-            <button type="button" id="buttonSubir">  mandar </button>
-          </form> -->
 
           <th:block th:if="${session.u}">
             <th:block th:if="${session.u.hasRole('ADMIN')}">
@@ -164,8 +152,6 @@
             <label for="campoCategoriaPlato" class="form-label">Categoria del plato</label>
             <select class="form-select" name="categoriaPlato" id="campoCategoriaPlato">
                 <th:block th:each="cat,iter: ${categorias}">
-                   <!--<option th:if="${iter.index} == 0" selected th:text="${cat}">opcion</option>
-                    <option th:unless="${iter.index} == 0" th:text="${cat}">opcion</option> -->
                     <option th:value="${cat.nombre}" th:text="${cat.nombre}">opcion</option>
                 </th:block>
               </select>
@@ -175,10 +161,8 @@
             <textarea class="form-control" id="campoDescripcionPlato" name="descripcionPlato" rows="4" cols="60" required></textarea>
             
             <label for="fPlato" class="form-label">Imagen del plato</label>
-            <!-- <img id="imgNuePlato" th:src="@{/img/PlatoDefault.jpg}" src="/img/PlatoDefault.jpg" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase"> -->
             <img id="imgNuePlato" alt="Imagen nuevo Plato" class="img-thumbnail mw-100 miClase">
             <input type="file" id="fPlato" accept="image/jpeg,image/png" required>
-            <!-- Los botones deben estar dentro del form para que el mensaje por el required de html funcione (ya no necesario, gestionado via js) -->
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
               <button type="button" id ="botonForm" class="btn btn-primary">Confirmar</button>
@@ -215,7 +199,6 @@
     <th:block th:replace="fragments/footer.html :: footer" />
     
     <script th:src="@{/js/carta.js}" src="js/carta.js"></script>
-    <!-- <script th:src="@{/js/gestionPlato.js}" src="js/gestionPlato.js"></script> -->
 </body>
 
 </html>

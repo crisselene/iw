@@ -51,16 +51,16 @@ VALUES (10, 'Nuestra ensalada mas afrodisiaca', 'Waikiki', 9.99, 2, 1, 2);
 INSERT INTO PLATO(id, descripcion, nombre, precio, categoria_id, activo, popularidad)
 VALUES (11, 'El sabor de Italia en una ensalada', 'Toscana', 8.99, 2, 1, 0);
 
-INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
-VALUES(1, true, 8, 1, '2022-02-20T10:00:00');
-INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
-VALUES(2, true, 5, 1, '2022-02-20T16:00:00');
-INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
-VALUES(3, true, 5, 2, '2022-02-21T10:00:00');
-INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
-VALUES(4, true, 5, 2, '2022-02-21T10:00:00');
-INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha) 
-VALUES(5, true, 5, 2, '2022-02-21T10:00:00');
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha, mesas) 
+VALUES(1, true, 8, 1, '2022-02-20T10:00:00', 2);
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha, mesas) 
+VALUES(2, true, 5, 1, '2022-02-20T16:00:00', 2);
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha, mesas) 
+VALUES(3, true, 5, 2, '2022-02-21T10:00:00', 2);
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha, mesas) 
+VALUES(4, true, 5, 2, '2022-02-21T10:00:00', 2);
+INSERT INTO RESERVA(id, activo, personas, cliente_id, fecha, mesas) 
+VALUES(5, false, 5, 2, '2022-02-21T10:00:00', 2);
 
  INSERT INTO PEDIDO(id, activo, direccion, estado, cliente_id, fecha, express, is_take_away)
  VALUES(1, true, 'Calle Antilla', 0, 2, '2022-02-20T10:00:00',true, true);
@@ -111,7 +111,7 @@ VALUES(8, 8, 1, 9.99);
  --VALUES(1, 1, 2);
 
 INSERT INTO CONFIGURACION_RESTAURANTE(ID,HORA_FIN,HORA_INI,MAX_PEDIDOS_HORA,MAX_RESERVAS,NOMBRE_SITIO,PERSONAS_MESA)
-VALUES(1,22,9,20,10,'Tu Nombre del sitio',4);
+VALUES(1,22,9,20,10,'Restaurant.es',4);
 
 
 INSERT INTO VALORACION(id, descripcion, rate, cliente_id, plato_id, activo)

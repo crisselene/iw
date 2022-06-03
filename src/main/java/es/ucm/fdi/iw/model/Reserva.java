@@ -21,8 +21,8 @@ import lombok.Getter;
 @Data
 @NamedQueries({
     @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findById", query = "select obj from Reserva obj where  :id = obj.id"),
-    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha2 >= obj.fecha and :fecha <= obj.fecha"),
-    @NamedQuery(name="Reserva.reservasUsuario", query="SELECT r FROM Reserva r " + "WHERE r.cliente.id = :iduser")
+    @NamedQuery(name = "es.ucm.fdi.iw.model.Reserva.findByFecha", query = "select obj from Reserva obj where  :fecha2 >= obj.fecha and :fecha <= obj.fecha  AND obj.activo = TRUE"),
+    @NamedQuery(name="Reserva.reservasUsuario", query="SELECT r FROM Reserva r WHERE r.cliente.id = :iduser AND r.activo = TRUE")
 })
 
 @AllArgsConstructor                  

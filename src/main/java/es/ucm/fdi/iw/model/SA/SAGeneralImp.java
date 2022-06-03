@@ -92,9 +92,6 @@ public class SAGeneralImp{
     }
 
     public Boolean existeCategoria(EntityManager em, String categoria) {
-        /* Categoria c = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getSingleResult();
-        if(c != null) return true;
-        else return false; */
         List<Categoria> lc = em.createNamedQuery("Categoria.findByNombre", Categoria.class).setParameter("nombre", categoria).getResultList();
         if(lc.size() == 0) return false;
         else return true;
@@ -112,12 +109,6 @@ public class SAGeneralImp{
 
         return idDevolver;
     }
-
-/*     public User getUsuario(EntityManager em, long idUsuario)
-    {
-        User u = em.find(User.class, idUsuario);
-        return u;
-    } */
 
     public long crearUsuario(EntityManager em, String direccion, String email, String firstName, 
     String lastName, String password, String roles, String telf, String username, Boolean enabled){
@@ -156,6 +147,11 @@ public class SAGeneralImp{
         u.setEnabled(false);
         em.persist(u);
         em.flush();
+    }
+
+    public void borrarReserva(EntityManager em, long id) {
+        Reserva r = em.find(Reserva.class, id);
+        r.setActivo(false);
     }
 
     public void borrarCategoria(EntityManager em, long id) {
@@ -267,9 +263,6 @@ public class SAGeneralImp{
     public List<Valoracion> listarValoracionesPlato(EntityManager em, long idPlato){
         Plato p = em.find(Plato.class, idPlato);
         return p.getValoraciones();
-       /*  List<Plato> platos = null;
-        platos = em.createQuery("SELECT p FROM Plato p").getResultList();        
-        return platos; */
         
     }
 
@@ -345,49 +338,21 @@ public class SAGeneralImp{
         return em.find(Pedido.class,id);
     }
 
- /*    public boolean pedidoEnCurso(EntityManager em, long id){ //Cabmia el valor de enCurso a true
-        boolean correcto = false;
-        Pedido p = em.find(Pedido.class, id);
-            if(p!=null){
-                if(p.isActivo() && !p.isEnCurso()){
-                    p.setEnCurso(true);
-                    
-                    correcto = true;
-                }
-            }
-        
-        return correcto;
-    } */
-
     public Pedido actualizarEstadoPedido(EntityManager em, long idPedido, String estado)
     {
         Pedido p = em.find(Pedido.class, idPedido);
-       /*  if(p != null)
-        { */
-            Estado e = Pedido.estadoStringToEnum(estado);
-            p.setEstado(e);
-            return p;
+       
+        Estado e = Pedido.estadoStringToEnum(estado);
+        p.setEstado(e);
+        return p;
     }
     public Pedido actualizarEstadoPedido(EntityManager em, long idPedido, Estado estado)
     {
         Pedido p = em.find(Pedido.class, idPedido);
-       /*  if(p != null)
-        { */
-            p.setEstado(estado);
-            return p;
+       
+        p.setEstado(estado);
+        return p;
     }
-
-    /* public boolean modificarPedido(EntityManager em, long id, String direccion){ //Cabmia el valor de enCurso a true
-        boolean correcto = false;
-        Pedido p = em.find(Pedido.class, id);
-            if(p!=null){
-                if(p.isActivo()){
-                    p.setDireccion(direccion);
-                    correcto = true;
-                }
-            }
-        return correcto;
-    } */
 
     public void estadoPedido(EntityManager em, long id, Estado estado) {
         Pedido p = em.find(Pedido.class, id);
@@ -400,12 +365,11 @@ public class SAGeneralImp{
 
     public boolean realizarReserva(EntityManager em, LocalDateTime fecha, int personas, User cliente){
         ConfiguracionRestaurante c = em.find(ConfiguracionRestaurante.class, (long)1);
-        //int mesas;
+        
         int mesasNecesarias = personas / c.getPersonasMesa(); 
         if(personas % c.getPersonasMesa() != 0)
             mesasNecesarias++;
-       // mesas = c.getPersonasMesa() / personas;
-      //  if(c.getPersonasMesa() % personas != 0) mesas++;
+       
         Reserva r = new Reserva(fecha, personas, mesasNecesarias, cliente);
         em.persist(r);
         em.flush();

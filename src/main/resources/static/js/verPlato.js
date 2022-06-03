@@ -1,8 +1,3 @@
-/* "use strict" */
-/* 
-$('document').ready(function ()
-{ */
-
 const modalUpdatePlato = new bootstrap.Modal(document.querySelector('#modalUpdatePlato'));
 
 const modalUpdateImg = new bootstrap.Modal(document.querySelector('#modalUpdateImg'));
@@ -24,21 +19,7 @@ element3.addEventListener("click", hacerComentario);
 
 //botones de borrar comentarios
 document.querySelectorAll('.botonBorrPlat').forEach(boton => {//aplica listeners a todos los botones de borrar, el cual muestra el modal y le asigna al boton del modal en el valor la id del plato
-    boton.addEventListener("click", borrarComentario);/*  {
-        formData = new FormData();
-        formData.append("idCom", e.target.value);
-        //document.getElementById("botonFormDeletePlato").value = e.target.value;
-        go("/borrarComentario", "POST", formData, {}).then(d => {
-            console.log("todo ok")
-            let com = e.target.closest("li");//coge el comentario
-            com.remove();
-            //document.getElementById("imgPlato").src = document.querySelector("#imgNuePlato").src;
-    
-           // modalUpdateImg.hide();//escondemos el modal
-    
-            }).catch(() => console.log("fallo"));
-    
-    }); */
+    boton.addEventListener("click", borrarComentario);       
 });
 
 
@@ -52,27 +33,15 @@ function borrarLineaComentario(botonPulsado)
     console.log("borrando linea")
     formData = new FormData();
         formData.append("idCom", botonPulsado.value);
-        //document.getElementById("botonFormDeletePlato").value = e.target.value;
-        go("/borrarComentario", "POST", formData, {}).then(d => {
+ 
+        go("/borrarComentario", "POST", formData, {})
+        .then(d => {
             console.log("todo ok")
             let com = botonPulsado.closest("li");//coge el comentario
             com.remove();
-            //document.getElementById("imgPlato").src = document.querySelector("#imgNuePlato").src;
     
-           // modalUpdateImg.hide();//escondemos el modal
-    
-            }).catch(() => console.log("fallo"));
+        }).catch(() => console.log("fallo"));
 }
-
-
-//para pruebas
-/* document.querySelector("#f_avatar").onchange = e => {
-    let img = document.querySelector("#avatar");
-    let fileInput = document.querySelector("#f_avatar");
-    console.log(img, fileInput);
-    readImageFileData(fileInput.files[0], img);
-}; */
-//console.log(document.querySelector("#fPlato"));
 
 //nuevo listener al selector de ficheros del formulario de nuevo plato, que muestra la imagen seleccionada por el usuario
 document.querySelector("#fImg").onchange = e => {
@@ -151,9 +120,6 @@ function hacerComentario(e)
         modalComentario.hide();
         console.log(document.getElementById("formCom"));
         document.getElementById("formCom").reset();
-        
-
-       // let button = document.createElement("button")
 
         let contenido = `<li>
         <div class="comentario">`;
@@ -166,9 +132,7 @@ function hacerComentario(e)
             `;
             
         }
-
-
-          
+   
        contenido += ` <h3 class="nombreUs"> ${d["NombreUs"]} </h3>
           <div class="ContenedorEstrellas">`;
           for(let i = 0; i < rateCom; i++)
@@ -183,29 +147,18 @@ function hacerComentario(e)
       let listaCom = document.getElementById("listcomentario");
       
       listaCom.insertAdjacentHTML("beforeend", contenido);
-      //listaCom.innerHTML += contenido;
 
-      if(d["rol"] == "Admin")
-      {
-        console.log("aqui ");
-        let nuevoBoton = document.querySelector("button[data-idCom='"+d["idCom"]+"']");
-        console.log("listener nuevo para " + nuevoBoton.value);
+        if(d["rol"] == "Admin") {
+            console.log("aqui ");
+            let nuevoBoton = document.querySelector("button[data-idCom='"+d["idCom"]+"']");
+            console.log("listener nuevo para " + nuevoBoton.value);
 
-        nuevoBoton.addEventListener("click", e => {
-            borrarLineaComentario(e.target);
-        //console.log("intentando borrar linea " + e.target.dataset.idbotonborrar);
-        });
-       // nuevoBoton.addEventListener("click", borrarComentario);
-        
+            nuevoBoton.addEventListener("click", e => {
+                borrarLineaComentario(e.target);
+            });
         }
-/* 
-        modalUpdatePlato.hide();//escondemos el modal
-
-        document.getElementById("nombrePlato").innerHTML = nombrePlato;
-        document.getElementById("descPlato").innerHTML = desc;
-        document.getElementById("precioPlato").innerHTML = precio; */
-        })/* .catch(() => console.log("fallo")) */;
-
+        
+    });
 
 }
 

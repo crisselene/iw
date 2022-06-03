@@ -30,7 +30,9 @@
                     <p>Número de personas: </p>                    
                 </div>
                 <div class="p-2">
-                    <input id="comensales" type="number" min="1" max="15" value="1">
+                    <form onsubmit="return false;" id="formComensales">
+                        <input id="comensales" type="number" min="1" max="15" value="1">
+                    </form>
                 </div>
                 <div class="p-2">
                     <p>Dia: </p>
@@ -40,11 +42,7 @@
                 </div>               
             </div>
 
-            <!-- Aqui va el thymeleaf -->
-
             <div class="row justify-content-center" id="horasBody"></div>
-
-            
 
             <!-- Creo una fila con otro d-flex que ponga su contenido al final para poner el boton -->
             <div class="d-flex p-2 justify-content-end" id="aceptar">
@@ -55,16 +53,12 @@
             
         </div>
         
-
-            
-        
     </div>
-
 
     <th:block th:replace="fragments/footer.html :: footer" />
 
-        <!-- custom js Eros  -->
-        <script src="js/reservarMesaSimple.js"></script>
+    <!-- custom js Eros  -->
+    <script src="js/reservarMesaSimple.js"></script>
 </body>
 
 </html>
