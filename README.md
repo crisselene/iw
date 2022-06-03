@@ -152,7 +152,7 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
 - Actualizado el readme.md y erratas del mismo
 - Quitado mucho código comentado y comentarios innecesarios en todas partes (.java, .css, .html ...)
 - Eliminada toda la funcionalidad de mensajes ya que no se usa (en UserController, User...)
-- Realizadas muchas pruebas antes de la entrega en las que se han detectado y arreglado unos cuantos bugs
+- Realizadas muchas pruebas antes de la entrega en las que se han detectado y arreglado unos cuantos bugs (espero que no se me haya pasado nada...)
 - Arreglados errores: 
   - Arreglado bug que dejaba reservar mesa para más de 15 personas (máximo permitido por la app) si se metía el número manualmente en el input
   - Arreglado error que en la comparación de horaInicio y horaFin se comparaban strings en vez de ints (antes del examen)
