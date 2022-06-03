@@ -43,7 +43,7 @@ Para ver más detalles consultar [el documento de diseño](https://docs.google.c
 <a name="item1"></a>
 ## Entrega extra
 Hemos realizado algunas mejoras y nuevas funcionalidades para la entrega para subir nota.
-A continuacion se idican el total de mejoras implementadas, y en el siguiente apartado quien ha sido el responsable
+A continuación se idican el total de mejoras implementadas, y en el siguiente apartado quien ha sido el responsable
 de realizar cada mejora.
 ### Correcciones respecto a la entrega del examen
 - En hacer reserva ahora se muestran automáticamente las horas disponibles nada más entrar.
@@ -55,14 +55,14 @@ errores que había en el sitema de reservas:
   - Arreglado error que al hacer una reserva, cogía mal la hora de inicio si esta era igual a 10 provocando un error interno del servidor
   - Añadido un parseint a la comparación de hora de inicio y fin en la configuración del restaurante
   - En la carta se añade que, si pulsas en la imagen, se puede acceder también al plato
-  - Arreglado error en configuracion del restaurante sobre la hora de inicio y cierre.
+  - Arreglado error en configuración del restaurante sobre la hora de inicio y cierre.
   - Añadidas confirmaciones a la hora de realizar una reserva y hacer un pedido. En ambos casos, además de mostrar el mensaje
 de confirmación, se les redirige a las páginas de ver reservas y ver pedidos respectivamente, para que así se confirme
-que tanto la reserva como el pedido se han registrado correctamente. Además, el mensaje de confirmacion del pedido realizado
+que tanto la reserva como el pedido se han registrado correctamente. Además, el mensaje de confirmación del pedido realizado
 ahora aclara mejor que el pedido ahora estará esperando a ser aceptado.
   - Se mejora el aspecto visual de las páginas de ver pedidos tanto de los usuarios como de los empleados, para aprovechar
 mejor el espacio de la pantalla.
-  - En la página de ver pedidos de los usuarios, se muestra ahora más informacion, siendo esta la cantidad pedida de cada
+  - En la página de ver pedidos de los usuarios, se muestra ahora más información, siendo esta la cantidad pedida de cada
 plato del pedido y el importe total del pedido.
   - En la página de ver pedidos de los empleados ahora se muestra también el importe total junto al resto de información del pedido
 para que sea más fácilmente accesible y no sea necesario abrir el desplegable de platos para verlo.
@@ -91,7 +91,7 @@ el nombre del plato se accede directamente a su página con toda su información
 mas información de ese plato para poder saber por qué es más o menos pedido.
 
 **- Se ha añadido la funcionalidad de pedidos express.** Este es un checkbox que se añade en el carrito al hacer un pedido,
-y que si se activa, dicho pedido se marca como express. En la pagina de pedidos estos pedidos se marcan con la palabra en rojo
+y que si se activa, dicho pedido se marca como express. En la página de pedidos estos pedidos se marcan con la palabra en rojo
 Express para que los empleados puedan darle más prioridad.Aparecen en tiempo real mediante websockets cuando el cliente realiza un pedido express, al igual que pasaba con los pedidos normales. Por dicho servicio se cobra un extra de 1,99 que se añade al total del 
 pedido (y se puede ver, en "formato factura" en la vista de ver pedidos de los empleados, en el desplegable de platos de cada pedido).
 Además, se añade un tooltip en el carrito junto a esta opción, que explica al usuario en que consiste de forma resumida.
@@ -102,7 +102,7 @@ el estado "Para recoger" que indica que ya puede ser recogido. Los estados difer
 en la vista de ver pedidos de los empleados, de forma que los empleados pueden tratarlos igual que al resto de pedidos.
 Además, al igual que el otro checkbox, se añade un tooltip que explica dicha opción.
 
-**- Se añade la funcionalidad de notificacion de cambios de estado.** Anteriormente, cuando un usuario había hecho un pedido y estaba
+**- Se añade la funcionalidad de notificación de cambios de estado.** Anteriormente, cuando un usuario había hecho un pedido y estaba
 en la página de ver pedidos, y el estado de alguno cambiaba, le llegaba un mensaje por websockets que cambiaba a tiempo real el estado
 de dicho pedido usando una animación para llamar más la atención. Con esta nueva mejora, ya no solo se avisa al usuario de que
 un pedido ha cambiado de estado en la página de ver pedidos, sino en culaquier página en la que esté. Para ello se ha añadido un nuevo
@@ -162,6 +162,7 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
   - Arreglado import.sql en cuanto a que en el insert de configuración se ponía "tu nombre del sitio" en vez de "Restaurant.es"
   - Arreglados errores de consultas del SAGeneral que utilizaban una NamedQuery que no funcionaba, lo cual impedía añadir categoría, añadir plato y actualizar plato (creo que en la versión que entregamos en el examen esto si que funcionaba, pero posteriormente un compañero la sobrescribió con una que no funcionaba)
   - Arreglado que los empleados puedan aceptar pedidos
+  - Cambiado para que el nombre por defecto de la app sea "Restaurant.es" y no "Aqui el nombre de tu sitio" (o algo así)
 
 ### 3. Cristina
 - Funcionalidad pedido express.
