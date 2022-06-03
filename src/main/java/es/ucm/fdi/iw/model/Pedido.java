@@ -203,14 +203,33 @@ public class Pedido {
        
     }
 
+    public String getFechaFormated(){
+
+        String dateString = fecha.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); 
+        String[] parts = dateString.split("T");
+        String date = parts[0]; 
+        String time = parts[1];
+        String str = time.substring(0,5);
+
+
+// return dateString;
+        return date + " " + str;
+    }
+
+    
+
     public String getFecha(){
         String dateString = fecha.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME); 
         String[] parts = dateString.split("T");
         String date = parts[0]; 
         String time = parts[1];
+
+
 // return dateString;
         return date + " " + time;
+        /* return date + " " + time; */
     }
+    
 
     public double getTotal(){
         double total = 0;

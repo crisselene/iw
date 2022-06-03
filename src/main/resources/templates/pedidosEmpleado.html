@@ -27,7 +27,7 @@
                         <div class="divCambiar elemento" th:attr="data-id=${ped.id}">
 
                             <div class="col" th:text="'Pedido: ' + ${ped.id} + ', Direccion: ' + ${ped.getDireccion}
-                                + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFecha} + ', Total: ' + ${ped.getTotalAsString() + '€'}">
+                                + ', Cliente: ' + ${ped.cliente.username} + ', Fecha : ' + ${ped.getFechaFormated()} + ', Total: ' + ${ped.getTotalAsString() + '€'}">
                         
                             </div>
                             <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
@@ -94,7 +94,7 @@
 
                         <div class="divCambiados elemento" th:attr="data-id=${ped.id}">
                             <div class="col" th:text="'Pedido: ' + ${ped.getId} + ', Direccion: ' + ${ped.getDireccion}
-                                + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFecha} + ', Total: ' + ${ped.getTotalAsString() + '€'}"></div>
+                                + ', Cliente: ' + ${ped.getCliente.username} + ', Fecha : ' + ${ped.getFechaFormated()} + ', Total: ' + ${ped.getTotalAsString() + '€'}"></div>
                                 
                                 <p th:if=" ${ped.express}==TRUE" th:text="Express" style="color: red;"></p>
 
