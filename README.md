@@ -49,7 +49,6 @@ de realizar cada mejora.
 - En hacer reserva ahora se muestran automáticamente las horas disponibles nada más entrar.
 - Se han arreglado además diversos
 errores que había en el sitema de reservas:
-  - Arreglados inserts de datos de prueba en el import.sql que estaban dando errores
   - Arreglado bug que dejaba reservar mesa para más de 15 personas (máximo permitido por la app) si se metía el número manualmente en el input
   - Arreglado error que no permitía reservar todas las mesas del restaurante aunque ese número de personas entrara
   - Arreglado error que guardaba mal en la base de datos el número de mesas necesarias para una persona
@@ -67,6 +66,8 @@ mejor el espacio de la pantalla.
 plato del pedido y el importe total del pedido.
   - En la página de ver pedidos de los empleados ahora se muestra también el importe total junto al resto de información del pedido
 para que sea más fácilmente accesible y no sea necesario abrir el desplegable de platos para verlo.
+  - Arreglados inserts de datos de prueba en el import.sql que estaban dando errores
+  - Ahora los empleados también pueden aceptar pedidos (antes no podían porque no tenían permisos en securityConfig)
 
 ### Nuevas funcionalidades realizadas
 **- Se ha implementado que el propietario pueda cambiar el logo del sitio** desde la vista de configuración
@@ -151,6 +152,7 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
 - Actualizado el readme.md y erratas del mismo
 - Quitado mucho código comentado y comentarios innecesarios en todas partes (.java, .css, .html ...)
 - Eliminada toda la funcionalidad de mensajes ya que no se usa (en UserController, User...)
+- Realizadas muchas pruebas antes de la entrega en las que se han detectado y arreglado unos cuantos bugs
 - Arreglados errores: 
   - Arreglado bug que dejaba reservar mesa para más de 15 personas (máximo permitido por la app) si se metía el número manualmente en el input
   - Arreglado error que en la comparación de horaInicio y horaFin se comparaban strings en vez de ints (antes del examen)
@@ -159,6 +161,7 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
   - Arreglado import.sql en cuanto a que había inserts de reservas que no cumplían los requisitos, por lo que daban error y no se creaban
   - Arreglado import.sql en cuanto a que en el insert de configuración se ponía "tu nombre del sitio" en vez de "Restaurant.es"
   - Arreglados errores de consultas del SAGeneral que utilizaban una NamedQuery que no funcionaba, lo cual impedía añadir categoría, añadir plato y actualizar plato (creo que en la versión que entregamos en el examen esto si que funcionaba, pero posteriormente un compañero la sobrescribió con una que no funcionaba)
+  - Arreglado que los empleados puedan aceptar pedidos
 
 ### 3. Cristina
 - Funcionalidad pedido express.
