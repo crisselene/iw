@@ -144,6 +144,7 @@ La parte de mejora del código javascript que carga las horas, sí es solo mía.
 - Corregido error que no borraba bien un pedido si este había llegado por websockets en la vista de pedidos de los empleados
 - Arreglado error en el import.sql y actualizado el rol de admin a solo admin
 - Arreglado error que mostraba en la fecha de nuevos pedidos realizados, segundos y decimas de segundo. Ahora tanto en la vista de ver pedidos de empleados, como de usuarios, se muestra la fecha indicando solo hora y minutos
+- Se eliminan los archivos innecesarios mencionados en la entrega del examen .log y .temp
 - Redactada toda la informacion y explicaciones en el readme sobre las nuevas mejoras y funcionalidades implementadas
 
 ### 2. Andrés
