@@ -65,10 +65,10 @@ para que sea mas facilmente accesible y no sea necesario abrir el desplegable de
 # Nuevas funcionalidades realizadas
 **-Se ha implementado que el propietario pueda cambiar el logo del sitio** desde la vista de configuracion
 **-Se ha implementado que el propietario pueda cambiar el nombre del sitio** desde la vista de configuracion
-**-Se ha añadido la funcionalidad de ver mesas disponibles al hacer un pedido.** Se ha implementado la mejora propuesta en el examen, mostrando para cada hora las mesas disponibles. Ademas se ha limpiado el codigo javascript que cargaba las horas, para hacerlo mas corto y legible, ademas de mas facil de modificar
+**-Se ha añadido la funcionalidad de ver mesas disponibles al hacer una reserva.** Se ha implementado la mejora propuesta en el examen, mostrando para cada hora las mesas disponibles. Ademas se ha limpiado el codigo javascript que cargaba las horas, para hacerlo mas corto y legible, ademas de mas facil de modificar
 **-Se ha añadido la funcionalidad de rankings de platos.** *nota(La primera version solo tenia una vista nueva que mostraba 
 los tres platos mas pedidos, la version final elimino eso y se trata de lo explicado a continuacion)
-Se alamacenan cuantas veces han sido pedidos los platos.
+Se almacenan cuantas veces han sido pedidos los platos.
 En base a esa informacion, en la vista de carta, para cada categoria, se muestran los platos mas pedidos de 
 dicha categoria (Para indicar dicho ranking los platos top tienen un icono de medalla que indica su puesto).
 Esto se ha implementado asi para aportar mas usabilidad, dado que si un usuario quiere
@@ -131,9 +131,10 @@ La parte de mejora del codigo javascript que carga las hora, si es solo mia.
 -Arreglado error en el import.sql y actualizado el rol de admin a solo admin
 
 ### 2. Andrés
+Funcionalidad recoger pedido en tienda.
 
 ### 3. Cristina
-Se ha añadido un servicio express a los pedidos. A la hora de hacer un pedido, el usuario puede seleccionar un checkbox donde se le indica que por 1,99€ extra puede hacer un pedido express. Este precio extra se suma al precio de su pedido. Cuando confirma el pedido, llega a la página de visualización de pedidos en tiempo real y se remarca en rojo la palabra "Express" en los pedidos que son express.
+Funcionalidad pedido express.
 
 ### 4. Eros
 -Funcionalidad de ranking. Eros realizo una primera version, que como se ha explicado consistia en una nueva pagina que mostraba los tres platos mas pedidos.
