@@ -3,7 +3,7 @@
 
 Aplicación desarrollada para la asignatura de Ingeniería Web en la Universidad Complutense de Madrid.
 
-Se ha implementado una mejora del proyecto post-examen. Para leer más detalles leer el apartado de [Entrega Extra](https://github.com/crisselene/iw/edit/main/README.md#entrega-extra).
+Se ha implementado una mejora del proyecto post-examen. Para leer más detalles leer el apartado de [Entrega Extra](#item1).
 
 :hamburger: :apple: :beers: :cookie: :spaghetti: :bread: :egg: :tomato: :cocktail: :coffee: :cake: :grapes: :ramen: :doughnut: :meat_on_bone: :pineapple: :fork_and_knife: :tea: :strawberry: :ice_cream: :stew: :cherries: :corn: :pizza: :poultry_leg: :pear: :dango: :curry: :honey_pot:
 ## Integrantes
@@ -40,6 +40,7 @@ La aplicación consta de varias vistas que dependiendo de si el usuario es admin
 ---------------------------------------------------------------------------
 Para ver más detalles consultar [el documento de diseño](https://docs.google.com/document/d/1iVk3umk8pwtbZNK6Pcu2w0QPkd7d9rRnA66oTugvYqo/edit?usp=sharing)
 
+<a name="item1"></a>
 ## Entrega extra
 Hemos realizado algunas mejoras y nuevas funcionalidades para la entrega para subir nota.
 A continuacion se idican el total de mejoras implementadas, y en el siguiente apartado quien ha sido el responsable
